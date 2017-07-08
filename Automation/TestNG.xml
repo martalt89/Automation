@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="6" name="Critical Path" parallel="tests" >
+    <listeners>
+        <listener class-name="utilities.WebDriverListener"></listener>
+    </listeners>
+    <!--<parameter name="browserName" value="chrome" />-->
+    <test name="Login Chrome">
+        <parameter name="browserName" value="sauce" />
+        <parameter name="platform" value="macOS 10.12" />
+        <parameter name="version" value="10" />
+        <parameter name="url" value="https://patient.qa.heal.com/login" />
+        <classes>
+            <!--<class napwa.testsepwa.tests.Test1est1"/>-->
+            <class name="patient.tests.LoginTest"/>
+            <!--<class name="Test3"/>-->
+            <!--<class name="Test4"/>-->
+            <!--<class name="Test5"/>-->
+            <!--<class name="Test6"/>-->
+        </classes>
+    </test>
+    <!--<test naLoginPageogin Firefox">-->
+        <!--<parameter name="browserName" value="firefox" />-->
+        <!--<parameter name="url" value="https://patient.qa.heal.loginPageogin" />-->
+        <!--<classes>-->
+            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
+            <!--<class napatient.tests.LoginPageTestTestTest"/>-->
+            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test naLoginPageogin Safari">-->
+        <!--<parameter name="browserName" value="safari" />-->
+        <!--<parameter name="url" value="https://patient.qa.heal.loginPageogin" />-->
+        <!--<classes>-->
+            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
+            <!--<class napatient.tests.LoginPageTestTestTest"/>-->
+            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="LoginTest3">-->
+        <!--&lt;!&ndash;<parameter name="browserName" value="safari" />&ndash;&gt;-->
+        <!--<parameter name="url" value="https://patient.qa.heal.loginPageogin" />-->
+        <!--<classes>-->
+            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
+            <!--<class napatient.tests.LoginPageTestTestTest"/>-->
+            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="LoginTest4">-->
+        <!--&lt;!&ndash;<parameter name="browserName" value="firefox" />&ndash;&gt;-->
+        <!--<parameter name="url" value="https://patient.qa.heal.loginPageogin" />-->
+        <!--<classes>-->
+            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
+            <!--<class napatient.tests.LoginPageTestTestTest"/>-->
+            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
+        <!--</classes>-->
+    <!--</test>-->
+</suite> <!-- Suite -->

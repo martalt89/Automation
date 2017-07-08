@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="3" guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="patient.tests">
+  <listeners>
+    <listener class-name="utilities.WebDriverListener"/>
+  </listeners>
+  <test name="Test1(failed)" parallel="patient.tests">
+    <parameter name="browserName" value="chrome"/>
+    <classes>
+      <class name="Test1">
+        <methods>
+          <include name="invokeBrowser"/>
+        </methods>
+      </class> <pwa.tests.Test1est1 -->
+    </classes>
+  </test> <pwa.tests.Test1est1(failed) -->
+</suite> <!-- Failed suite [Suite] -->
