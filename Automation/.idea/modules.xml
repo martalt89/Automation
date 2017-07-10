@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HealAutomation.iml" filepath="$PROJECT_DIR$/HealAutomation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Automation.iml" filepath="$PROJECT_DIR$/Automation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Automation.iml" filepath="$PROJECT_DIR$/Automation.iml" />
     </modules>
   </component>
 </project>
