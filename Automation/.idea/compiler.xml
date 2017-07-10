@@ -6,13 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="HealAutomation" />
-        <module name="TestNGParallel" />
+        <module name="Automation" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="HealAutomation" target="1.8" />
-      <module name="TestNGParallel" target="1.8" />
+    <bytecodeTargetLevel>
+      <module name="Automation" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
