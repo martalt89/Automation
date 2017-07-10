@@ -40,32 +40,32 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
     }
 
     @Override
-    public String getScreenshot()
-    {
-        String screenshot = "";
-
-        if (bTakeShots && oHealWebElement != null && oHealWebElement.getWebElement() != null)
-        {
-            try
-            {
-                oHealWebElement.highlightMe();
-                SysTools.sleepFor(1);
-                screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
-                oHealWebElement.unHighlightMe();
-                oHealWebElement = null;
-            }
-            catch(Exception ex)
-            {
-                screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
-            }
-        }
-        else if (bTakeShots)
-        {
-            screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
-        }
-
-        return screenshot;
-    }
+//    public String getScreenshot()
+//    {
+//        String screenshot = "";
+//
+//        if (bTakeShots && oHealWebElement != null && oHealWebElement.getWebElement() != null)
+//        {
+//            try
+//            {
+//                oHealWebElement.highlightMe();
+//                SysTools.sleepFor(1);
+//                screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
+//                oHealWebElement.unHighlightMe();
+//                oHealWebElement = null;
+//            }
+//            catch(Exception ex)
+//            {
+//                screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
+//            }
+//        }
+//        else if (bTakeShots)
+//        {
+//            screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
+//        }
+//
+//        return screenshot;
+//    }
 
     /**
      * Verifies a page object is visible.
@@ -76,30 +76,30 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @param oTarget
      * (HealWebElement) - Web element to check for visibility.
      */
-    public boolean verifyVisible(String sComment, HealWebElement oTarget)
-    {
-        iVerificationsExecuted++;
-        oHealWebElement = oTarget;
-
-        try
-        {
-            org.testng.Assert.assertEquals(oTarget.isDisplayed(), true);
-            logger.info("{} - verifyVisible(\"{}\") success!", sComment, oTarget.getElementName());
-            return true;
-        }
-        catch(AssertionError ex)
-        {
-            logger.error("{} - verifyVisible(\"{}\") failed!", sComment, oTarget.getElementName());
-            vFailures.add(sComment + " - verifyVisible(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
-            return false;
-        }
-        catch(ATFException ex)
-        {
-            logger.error("{} - verifyVisible() failed! Target element not found!");
-            vFailures.add(sComment + " - verifyVisible() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
-            return false;
-        }
-    }
+//    public boolean verifyVisible(String sComment, HealWebElement oTarget)
+//    {
+//        iVerificationsExecuted++;
+//        oHealWebElement = oTarget;
+//
+//        try
+//        {
+//            org.testng.Assert.assertEquals(oTarget.isDisplayed(), true);
+//            logger.info("{} - verifyVisible(\"{}\") success!", sComment, oTarget.getElementName());
+//            return true;
+//        }
+//        catch(AssertionError ex)
+//        {
+//            logger.error("{} - verifyVisible(\"{}\") failed!", sComment, oTarget.getElementName());
+//            vFailures.add(sComment + " - verifyVisible(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
+//            return false;
+//        }
+//        catch(ATFException ex)
+//        {
+//            logger.error("{} - verifyVisible() failed! Target element not found!");
+//            vFailures.add(sComment + " - verifyVisible() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
+//            return false;
+//        }
+//    }
 
     /**
      * Verifies a page object is invisible.
@@ -138,30 +138,30 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @param oTarget
      * (HealWebElement) - Web element to check for.
      */
-    public boolean verifyViewable(String sComment, HealWebElement oTarget)
-    {
-        iVerificationsExecuted++;
-        oHealWebElement = oTarget;
-
-        try
-        {
-            org.testng.Assert.assertEquals(oTarget.isViewable(), true);
-            logger.info("{} - verifyViewable(\"{}\") success!", sComment, oTarget.getElementName());
-            return true;
-        }
-        catch(AssertionError ex)
-        {
-            logger.error("{} - verifyViewable(\"{}\") failed!", sComment, oTarget.getElementName());
-            vFailures.add(sComment + " - verifyViewable(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
-            return false;
-        }
-        catch(ATFException ex)
-        {
-            logger.error("{} - verifyViewable() failed! Target element not found!");
-            vFailures.add(sComment + " - verifyViewable() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
-            return false;
-        }
-    }
+//    public boolean verifyViewable(String sComment, HealWebElement oTarget)
+//    {
+//        iVerificationsExecuted++;
+//        oHealWebElement = oTarget;
+//
+//        try
+//        {
+//            org.testng.Assert.assertEquals(oTarget.isViewable(), true);
+//            logger.info("{} - verifyViewable(\"{}\") success!", sComment, oTarget.getElementName());
+//            return true;
+//        }
+//        catch(AssertionError ex)
+//        {
+//            logger.error("{} - verifyViewable(\"{}\") failed!", sComment, oTarget.getElementName());
+//            vFailures.add(sComment + " - verifyViewable(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
+//            return false;
+//        }
+//        catch(ATFException ex)
+//        {
+//            logger.error("{} - verifyViewable() failed! Target element not found!");
+//            vFailures.add(sComment + " - verifyViewable() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
+//            return false;
+//        }
+//    }
 
     /**
      * Verifies a page link navigates successful to new page with the expected URL within the same window/tab.
@@ -178,34 +178,34 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @param sExpectedURL
      * (String) - Expected URL of the new page.
      */
-    public boolean verifyLinkNavigation(String sComment, WebBase oStartPage, HealWebElement oLink, String sExpectedURL)
-    {
-        iVerificationsExecuted++;
-        oHealWebElement = oLink;
-        String sActualURL = "";
-
-        try
-        {
-            oLink.click();
-            oStartPage.waitForPageLoad();
-            sActualURL = oStartPage.getCurrentUrl();
-            org.testng.Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
-            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
-            return true;
-        }
-        catch(AssertionError ex)
-        {
-            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
-            vFailures.add(sComment + " - verifyLink failed! Actual: \"" + sActualURL + "\"  Expected: \"" + sExpectedURL + "\"   [Screenshot:  " + getScreenshot() + "]");
-            return false;
-        }
-        catch(ATFException ex)
-        {
-            logger.error("{} - verifyLinkNavigation() failed! Target element not found!");
-            vFailures.add(sComment + " - verifyLinkNavigation() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
-            return false;
-        }
-    }
+//    public boolean verifyLinkNavigation(String sComment, WebBase oStartPage, HealWebElement oLink, String sExpectedURL)
+//    {
+//        iVerificationsExecuted++;
+//        oHealWebElement = oLink;
+//        String sActualURL = "";
+//
+//        try
+//        {
+//            oLink.click();
+//            oStartPage.waitForPageLoad();
+//            sActualURL = oStartPage.getCurrentUrl();
+//            org.testng.Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
+//            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
+//            return true;
+//        }
+//        catch(AssertionError ex)
+//        {
+//            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
+//            vFailures.add(sComment + " - verifyLink failed! Actual: \"" + sActualURL + "\"  Expected: \"" + sExpectedURL + "\"   [Screenshot:  " + getScreenshot() + "]");
+//            return false;
+//        }
+//        catch(ATFException ex)
+//        {
+//            logger.error("{} - verifyLinkNavigation() failed! Target element not found!");
+//            vFailures.add(sComment + " - verifyLinkNavigation() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
+//            return false;
+//        }
+//    }
 
     /**
      * Verifies a page link opens a new window/tab/popup with the expected URL.
