@@ -55,7 +55,6 @@
         <classes>
             <!--<class napwa.testsepwa.tests.Test1est1"/>-->
             <class name="patient.tests.LoginTest"/>
-            <!--<class name="Test3"/>-->
             <!--<class name="Test4"/>-->
             <!--<class name="Test5"/>-->
             <!--<class name="Test6"/>-->
