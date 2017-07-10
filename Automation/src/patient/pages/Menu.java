@@ -10,36 +10,41 @@ import com.heal.framework.web.WebBase;
  */
 public class Menu extends WebBase{
 
-    public static final String URL = "https://patient.qa.heal.com/login";
+
     ///////////////////
     // Page Elements //
     ///////////////////
-    public HealWebElement oUserNameInput = new HealWebElement("oUserNameInput", "name=username",oWebDriver);
-    public HealWebElement oPasswordInput = new HealWebElement("oPasswordInput", "name=password", oWebDriver);
-    public HealWebElement oLoginBtn = new HealWebElement("oLoginBtn", "xpath=//*[text()='Log In']", oWebDriver);
-    public HealWebElement oRememberMe = new HealWebElement("oRememberMe", "className=md-icon", oWebDriver);
-    public HealWebElement oForgotYourPasswordLnk = new HealWebElement("oForgotYourPasswordLnk", "linkText=Forgot Password", oWebDriver);
-    public HealWebElement oWarningMsg = new HealWebElement("oWarningMsg","className=error-messages",oWebDriver);
-    public HealWebElement oRegisterBtn = new HealWebElement("oRegisterNtm", "xpath=//*[text()='Register']", oWebDriver);
+    public HealWebElement oHomeLnk = new HealWebElement("oHomeLnk", "xpath=//*[@ui-sref='main.body.home']",oWebDriver);
+    public HealWebElement oBookVisitLnk = new HealWebElement("oBookVisitLnk", "xpath=//*[@ui-sref='main.body.bookVisit.emergency']",oWebDriver);
+    public HealWebElement oVisitsLnk = new HealWebElement("oVisitsLnk", "xpath=//*[@ui-sref='main.body.visits']",oWebDriver);
+    public HealWebElement oProfilesLnk = new HealWebElement("oProfilesLnk", "xpath=//*[@ui-sref='main.body.profiles.chooseProfile']",oWebDriver);
+    public HealWebElement oPamentMethodLnk = new HealWebElement("oPamentMethodLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
+    public HealWebElement oSignOutLnk = new HealWebElement("oSignOutLnk", "xpath=//*[@ui-sref='unauthenticate']",oWebDriver);
+    public HealWebElement oMenuBtn = new HealWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')]",oWebDriver);
+    public HealWebElement oLoadingBar = new HealWebElement("oLoadingBar", "className=md-container md-mode-indeterminate",oWebDriver);
+
 
     //////////////////
     // Constructors //
     //////////////////
+
     public Menu(WebDriver oTargetDriver)
     {
-        super(oTargetDriver, URL);
+        super(oTargetDriver);
     }
-    public Menu(WebDriver oTargetDriver, String sUrl)
-    {
-        super(oTargetDriver, sUrl);
-    }
+
     /////////////
     // Methods //
     /////////////
-    public void Login()
+    public void SelectFromMenu(HealWebElement menuItem)
     {
-        this.oUserNameInput.sendKeys("mayur+qatest@heal.com");
-        this.oPasswordInput.sendKeys("Heal4325");
-        this.oLoginBtn.click();
+        if (oLoadingBar.exists()){
+            oLoadingBar.waitForInvisible();
+        }
+        if (oMenuBtn.isDisplayed() && oMenuBtn.isEnabled()){
+            oMenuBtn.waitForEnabled(1);
+            oMenuBtn.click();
+        }
+        menuItem.click();
     }
 }

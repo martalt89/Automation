@@ -4,8 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
+import org.openqa.selenium.Dimension;
 
 public class WebDriverListener implements IInvokedMethodListener {
+
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {

@@ -15,6 +15,11 @@ public class HomePage extends WebBase{
 
     public static final String URL = "https://patient.qa.heal.com/login";
     ///////////////////
+    // Shared Pages  //
+    ///////////////////
+    Menu menu = new Menu(oWebDriver);
+
+    ///////////////////
     // Page Elements //
     ///////////////////
     public HealWebElement oUserNameInput = new HealWebElement("oUserNameInput", "name=username",oWebDriver);
@@ -39,11 +44,16 @@ public class HomePage extends WebBase{
     /////////////
     // Methods //
     /////////////
-    public void Login()
+    public void SelectMenu(String menuName)
     {
         this.oUserNameInput.sendKeys("mayur+qatest@heal.com");
         this.oPasswordInput.sendKeys("Heal4325");
         this.oLoginBtn.click();
     }
+    public void SelectFromMenu(HealWebElement menuItem)
+    {
+        menu.SelectFromMenu(menuItem);
+    }
+
 
 }
