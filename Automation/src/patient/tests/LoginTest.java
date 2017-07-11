@@ -14,7 +14,7 @@ public class LoginTest extends WebBase {
 
     //WebDriver dr = DriverManager.getDriver();
 
-        @Test
+        @Test (groups = { "smoke", "regression" })
         @Parameters({ "url" })
         public void loginWithValidCredentials(String url) throws Exception {
             HealWebElement.setbMonitorMode(false);
@@ -29,11 +29,13 @@ public class LoginTest extends WebBase {
             validate.assertEquals("Validating the login ", homePage.oPageTitle.getText(), "Scheduled Visits");
 
     }
-    @Test
-    @Parameters ({"url"})
-    public void checkMenuLinksLoggedIn(String url){
-        WebDriver dr = DriverManager.getDriver();
 
+    @Test (groups = { "regression" })
+    @Parameters ({"url"})
+    public void checkMenuLinksLoggedIn(String url) throws Exception {
+        HealWebElement.setbMonitorMode(true);
+
+        WebDriver dr = DriverManager.getDriver();
         HealWebValidate validate = new HealWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr, url);
         HomePage homePage = new HomePage(dr);
@@ -41,7 +43,6 @@ public class LoginTest extends WebBase {
         VisitsPage visitsPage = new VisitsPage(dr);
         Menu menu = new Menu(dr);
 
-        HealWebElement.setbMonitorMode(false);
         loginPage.Login();
         homePage.SelectFromMenu(menu.oHomeLnk);
         if (!validate.verifyMatches("Verifying Visits page title ", homePage.oPageTitle.getText(), "Scheduled Visits")){

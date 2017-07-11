@@ -245,7 +245,7 @@ public class HealWebElement implements WebElement, Locatable {
     @Override
     public void click() {
         waitForVisible();
-        waitForEnabled();
+        //waitForEnabled();
         System.out.println("Clicking on... " + oWebElement.toString());
         oWebElement.click();
         if (iThrottleValue != 0)
@@ -554,7 +554,7 @@ public class HealWebElement implements WebElement, Locatable {
      */
     public boolean exists() {
         try {
-            waitForElement(5);
+            waitForElement(3);
             return true;
         } catch (Exception ex) {
             return false;
@@ -680,7 +680,7 @@ public class HealWebElement implements WebElement, Locatable {
      * Highlight element by drawing red border around it.
      */
     public void highlightMe() {
-        this.border = (String) oJavascriptExecutor.executeScript("var border = arguments[0].style.border; arguments[0].style.border='2px solid red'; return border;", oWebElement);
+        this.border = (String) oJavascriptExecutor.executeScript("var border = arguments[0].style.border; arguments[0].style.border='3px solid green'; return border;", oWebElement);
     }
 
     /**

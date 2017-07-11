@@ -68,6 +68,7 @@ class DriverFactory {
                     capabilities = DesiredCapabilities.internetExplorer();
                     capabilities.setCapability("platform", platform);
                     capabilities.setCapability("version", version);
+                    capabilities.setCapability("screenResolution", screenResolution);
                     try {
                         driver = new RemoteWebDriver(new URL(URL), capabilities);
                     } catch (MalformedURLException e) {

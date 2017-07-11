@@ -4,23 +4,27 @@
     <listeners>
         <listener class-name="utilities.WebDriverListener"></listener>
     </listeners>
-    <parameter name="environment" value="local" />
-    <parameter name="browserName" value="chrome" />
+    <parameter name="environment" value="remote" />
+    <!--<parameter name="browserName" value="chrome" />-->
     <test name="SauceLabs Test">
-        <parameter name="browserName" value="chrome" />
+        <!--<parameter name="browserName" value="IE" />-->
+        <!--<parameter name="platform" value="Windows 10" />-->
+        <!--<parameter name="version" value="11.103" />-->
+        <parameter name="browserName" value="firefox" />
         <parameter name="platform" value="macOS 10.12" />
         <parameter name="version" value="latest" />
         <parameter name="screenResolution" value="1280x960" />
         <parameter name="url" value="https://patient.qa.heal.com/login" />
         <classes>
-            <!--<class napwa.testsepwa.tests.Test1est1"/>-->
-            <class name="patient.tests.LoginTest"/>
-            <!--<class name="Test3"/>-->
-            <!--<class name="Test4"/>-->
-            <!--<class name="Test5"/>-->
-            <!--<class name="Test6"/>-->
+            <class name="patient.tests.LoginTest">
+                <methods>
+                    <!--<include name="loginWithValidCredentials"/>-->
+                    <include name="checkMenuLinksLoggedIn"/>
+                </methods>
+            </class>
         </classes>
     </test>
+
     <!--<test name="Login Chrome">-->
         <!--<parameter name="browserName" value="chrome" />-->
         <!--<parameter name="platform" value="macOS 10.12" />-->
