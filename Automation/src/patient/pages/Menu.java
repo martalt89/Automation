@@ -18,10 +18,10 @@ public class Menu extends WebBase{
     public HealWebElement oBookVisitLnk = new HealWebElement("oBookVisitLnk", "xpath=//*[@ui-sref='main.body.bookVisit.emergency']",oWebDriver);
     public HealWebElement oVisitsLnk = new HealWebElement("oVisitsLnk", "xpath=//*[@ui-sref='main.body.visits']",oWebDriver);
     public HealWebElement oProfilesLnk = new HealWebElement("oProfilesLnk", "xpath=//*[@ui-sref='main.body.profiles.chooseProfile']",oWebDriver);
-    public HealWebElement oPamentMethodLnk = new HealWebElement("oPamentMethodLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
+    public HealWebElement oPaymentMethodLnk = new HealWebElement("oPaymentMethodLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
     public HealWebElement oSignOutLnk = new HealWebElement("oSignOutLnk", "xpath=//*[@ui-sref='unauthenticate']",oWebDriver);
     public HealWebElement oMenuBtn = new HealWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')]",oWebDriver);
-    public HealWebElement oLoadingBar = new HealWebElement("oLoadingBar", "className=md-container md-mode-indeterminate",oWebDriver);
+    public HealWebElement oLoadingBar = new HealWebElement("oLoadingBar", "xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
 
 
     //////////////////
@@ -42,7 +42,7 @@ public class Menu extends WebBase{
             oLoadingBar.waitForInvisible();
         }
         if (oMenuBtn.isDisplayed() && oMenuBtn.isEnabled()){
-            oMenuBtn.waitForEnabled(1);
+            oMenuBtn.waitForEnabled();
             oMenuBtn.click();
         }
         menuItem.click();

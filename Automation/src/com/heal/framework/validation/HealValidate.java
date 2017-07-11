@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver;
  * */
 public class HealValidate
 {
-    public static final String SCREENSHOT_LOCATION = "C:/QA/ATF/out/screenshots";
+    public static final String SCREENSHOT_LOCATION = "/out/screenshots";
     private org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(HealValidate.class);
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;
@@ -44,13 +44,13 @@ public class HealValidate
         this.bTakeShots = bTakeScreenshot;
     }
 
-    public String getScreenshot()
-    {
-        if (bTakeShots)
-            return SysTools.getScreenshot();
-        else
-            return "";
-    }
+//    public String getScreenshot()
+//    {
+//        if (bTakeShots)
+//            return SysTools.getScreenshot();
+//        else
+//            return "";
+//    }
 
     /**
      * This method wraps the TestNG assertEquals method to provide fail-but-continue functionality.
@@ -79,7 +79,7 @@ public class HealValidate
         catch(AssertionError ex)
         {
             logger.error("{} - verifyEquals() failed! Actual: \"{}\"  Expected: \"{}\"", oArray);
-            vFailures.add(sComment + " - verifyEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
+//            vFailures.add(sComment + " - verifyEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
     }
@@ -121,10 +121,10 @@ public class HealValidate
      * @param sComment
      * (String) - Comment
      *
-     * @param actual
+     * @param sActual
      * (String) - Actual string.
      *
-     * @param expected
+     * @param sExpected
      * (String) - Regular expression.
      */
     public boolean verifyMatches(String sComment, String sActual, String sExpected)
@@ -144,7 +144,8 @@ public class HealValidate
         else
         {
             logger.error("{} - verifyMatches() failed! Actual: \"{}\"  Expected: \"{}\"", sArray);
-            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
+//            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
+            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " +  "]");
             return false;
         }
     }
@@ -155,10 +156,10 @@ public class HealValidate
      * @param sComment
      * (String) - Comment
      *
-     * @param actual
+     * @param sActual
      * (String) - Actual string.
      *
-     * @param expected
+     * @param sExpected
      * (String) - Regular expression.
      */
     public void assertMatches(String sComment, String sActual, String sExpected)

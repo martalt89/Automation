@@ -4,13 +4,14 @@ import com.heal.framework.web.HealWebElement;
 import com.heal.framework.web.WebBase;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Parameters;
 
 
 /**
  * Created by vahanmelikyan on 7/3/17.
  */
-public class LoginPage extends WebBase{
 
+public class LoginPage extends WebBase{
     public static final String URL = "https://patient.qa.heal.com/login";
     ///////////////////
     // Page Elements //
@@ -26,6 +27,7 @@ public class LoginPage extends WebBase{
     //////////////////
     // Constructors //
     //////////////////
+    @Parameters({ "url" })
     public LoginPage(WebDriver oTargetDriver)
     {
         super(oTargetDriver, URL);
@@ -34,13 +36,29 @@ public class LoginPage extends WebBase{
     {
         super(oTargetDriver, sUrl);
     }
+
     /////////////
     // Methods //
     /////////////
+
+    //Login with the default username and password
     public void Login()
     {
         this.oUserNameInput.sendKeys("mayur+qatest@heal.com");
         this.oPasswordInput.sendKeys("Heal4325");
+        this.oLoginBtn.click();
+    }
+
+    /**
+     * Logs in to heal with the provided username and password.
+     *
+     * @param sUsername (String) - Username to be used.
+     * @param sPassword (String) - Password to be used.
+     */
+    public void Login(String sUsername, String sPassword)
+    {
+        this.oUserNameInput.sendKeys(sUsername);
+        this.oPasswordInput.sendKeys(sPassword);
         this.oLoginBtn.click();
     }
 

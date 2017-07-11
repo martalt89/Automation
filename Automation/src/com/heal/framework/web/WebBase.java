@@ -3,9 +3,7 @@ package com.heal.framework.web;
 import com.heal.framework.exception.HealException;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -90,64 +88,10 @@ public class WebBase {
         }
     }
 
-    /**
-     * Constructor for using new WebDriver object
-     *
-     * @param sBrowser
-     * @param sUrl
-     */
-    public WebBase(String sBrowser, String sUrl) {
-        logger.trace("WebBase(String sBrowserType, String sUrl)");
-
-        switch (sBrowser) {
-            case "Chrome":
-                oWebDriver = new org.openqa.selenium.chrome.ChromeDriver();
-                break;
-            case "IE":
-                oWebDriver = new org.openqa.selenium.ie.InternetExplorerDriver();
-                break;
-            case "Firefox":
-                oWebDriver = new org.openqa.selenium.firefox.FirefoxDriver();
-                break;
-            case "HTML":
-                DesiredCapabilities dCaps = new DesiredCapabilities();
-                dCaps.setJavascriptEnabled(true);
-                dCaps.setCapability("takesScreenshot", false);
-                oWebDriver = new PhantomJSDriver(dCaps);
-                break;
-            case "Safari":
-                oWebDriver = new org.openqa.selenium.safari.SafariDriver();
-                break;
-            default:
-                oWebDriver = null;
-        }
-
-        sHomeUrl = sUrl;
-        sBrowserType = sBrowser;
-        oWebDriver.get(sHomeUrl);
-        if (!sBrowserType.equals("Safari"))
-            sWindowHandle = oWebDriver.getWindowHandle();
-    }
-
     public WebDriver getWebDriver() {
         return oWebDriver;
     }
 
-    public void setWebDriver(WebDriver oTargetDriver) {
-        oWebDriver = oTargetDriver;
-
-        sHomeUrl = oWebDriver.getCurrentUrl();
-        sWindowHandle = oWebDriver.getWindowHandle();
-
-        if (oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver)
-            sBrowserType = "Chrome";
-        else if (oWebDriver instanceof org.openqa.selenium.ie.InternetExplorerDriver)
-            sBrowserType = "IE";
-        else if (oWebDriver instanceof org.openqa.selenium.firefox.FirefoxDriver)
-            sBrowserType = "Firefox";
-        else if (oWebDriver instanceof org.openqa.selenium.phantomjs.PhantomJSDriver)
-            sBrowserType = "HTML";
-    }
 
     public void home() {
         oWebDriver.get(sHomeUrl);
