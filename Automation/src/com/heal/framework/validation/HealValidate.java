@@ -10,7 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-
+import com.heal.foundation.systools;
 
 
 /**
@@ -44,13 +44,13 @@ public class HealValidate
         this.bTakeShots = bTakeScreenshot;
     }
 
-//    public String getScreenshot()
-//    {
-//        if (bTakeShots)
-//            return SysTools.getScreenshot();
-//        else
-//            return "";
-//    }
+    public String getScreenshot()
+    {
+        if (bTakeShots)
+            return SysTools.getScreenshot();
+        else
+            return "";
+    }
 
     /**
      * This method wraps the TestNG assertEquals method to provide fail-but-continue functionality.
@@ -79,7 +79,7 @@ public class HealValidate
         catch(AssertionError ex)
         {
             logger.error("{} - verifyEquals() failed! Actual: \"{}\"  Expected: \"{}\"", oArray);
-//            vFailures.add(sComment + " - verifyEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
+            vFailures.add(sComment + " - verifyEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
     }
@@ -144,7 +144,7 @@ public class HealValidate
         else
         {
             logger.error("{} - verifyMatches() failed! Actual: \"{}\"  Expected: \"{}\"", sArray);
-//            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
+            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
             vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " +  "]");
             return false;
         }
