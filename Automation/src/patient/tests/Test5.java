@@ -1,4 +1,6 @@
-package patient.tests; /**
+package patient.tests;
+
+/**
  * Created by vahanmelikyan on 6/22/17.
  */
 import utilities.DriverManager;
@@ -17,8 +19,7 @@ public class Test5 {
     }
 
     private void invokeBrowser(String url) {
-//        System.out.println("Thread id = " + Thread.currentThread().getId());
-//        System.out.println("Hashcode of webDriver instance = " + utilities.DriverManager.getDriver().hashCode());
+
         DriverManager.getDriver().get(url);
     }
 }

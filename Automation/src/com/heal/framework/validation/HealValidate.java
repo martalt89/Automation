@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver;
  * */
 public class HealValidate
 {
-    public static final String SCREENSHOT_LOCATION = "C:/QA/ATF/out/screenshots";
+    public static final String SCREENSHOT_LOCATION = "/out/screenshots";
     private org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(HealValidate.class);
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;
@@ -127,27 +127,28 @@ public class HealValidate
      * @param sExpected
      * (String) - Regular expression.
      */
-//    public boolean verifyMatches(String sComment, String sActual, String sExpected)
-//    {
-//        iVerificationsExecuted++;
-//
-//        String[] sArray = {sComment, sActual, sExpected};
-//
-//        Pattern pattern = Pattern.compile(sExpected, Pattern.DOTALL);
-//        Matcher matcher = pattern.matcher(sActual);
-//
-//        if(matcher.matches())
-//        {
-//            logger.info("{} - verifyMatches(\"{}\", \"{}\") success!", sArray);
-//            return true;
-//        }
-//        else
-//        {
-//            logger.error("{} - verifyMatches() failed! Actual: \"{}\"  Expected: \"{}\"", sArray);
+    public boolean verifyMatches(String sComment, String sActual, String sExpected)
+    {
+        iVerificationsExecuted++;
+
+        String[] sArray = {sComment, sActual, sExpected};
+
+        Pattern pattern = Pattern.compile(sExpected, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(sActual);
+
+        if(matcher.matches())
+        {
+            logger.info("{} - verifyMatches(\"{}\", \"{}\") success!", sArray);
+            return true;
+        }
+        else
+        {
+            logger.error("{} - verifyMatches() failed! Actual: \"{}\"  Expected: \"{}\"", sArray);
 //            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
-//            return false;
-//        }
-//    }
+            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " +  "]");
+            return false;
+        }
+    }
 
     /**
      * This method asserts that two string matches using regular expression

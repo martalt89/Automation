@@ -245,7 +245,7 @@ public class HealWebElement implements WebElement, Locatable {
     @Override
     public void click() {
         waitForVisible();
-        //waitForEnabled();
+        waitForEnabled();
         System.out.println("Clicking on... " + oWebElement.toString());
         oWebElement.click();
         if (iThrottleValue != 0)
