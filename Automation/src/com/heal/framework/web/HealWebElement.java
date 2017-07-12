@@ -594,7 +594,8 @@ public class HealWebElement implements WebElement, Locatable {
     }
 
     public void jsClick() {
-        waitForVisible();
+        exists();
+        //waitForVisible();
         oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
         if (iThrottleValue != 0)
             try {
@@ -655,7 +656,7 @@ public class HealWebElement implements WebElement, Locatable {
     /**
      * Selects item from dropdown menu by index.
      *
-     * @param sSelection     (int) - Item index.
+     * @param iIndex     (int) - Item index.
      * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
      * @return (HealWebElement)
      */
@@ -680,7 +681,7 @@ public class HealWebElement implements WebElement, Locatable {
      * Highlight element by drawing red border around it.
      */
     public void highlightMe() {
-        this.border = (String) oJavascriptExecutor.executeScript("var border = arguments[0].style.border; arguments[0].style.border='3px solid green'; return border;", oWebElement);
+        this.border = (String) oJavascriptExecutor.executeScript("var border = arguments[0].style.border; arguments[0].style.border='2px dashed green'; return border;", oWebElement);
     }
 
     /**

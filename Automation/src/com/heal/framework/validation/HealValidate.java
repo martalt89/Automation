@@ -1,16 +1,9 @@
 package com.heal.framework.validation;
 
-import java.io.File;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import com.heal.foundation.systools;
+import com.heal.foundation.SysTools;
 
 
 /**
@@ -23,7 +16,9 @@ import com.heal.foundation.systools;
  * */
 public class HealValidate
 {
-    public static final String SCREENSHOT_LOCATION = "/out/screenshots";
+
+//    public static final String SCREENSHOT_LOCATION = "/out/screenshots";
+    public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out" + System.getProperty("file.separator");
     private org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(HealValidate.class);
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;
@@ -31,7 +26,7 @@ public class HealValidate
 
     public HealValidate()
     {
-        bTakeShots = false;
+        bTakeShots = true;
     }
 
     public HealValidate(boolean bTakeScreenshot)
@@ -47,7 +42,7 @@ public class HealValidate
     public String getScreenshot()
     {
         if (bTakeShots)
-            return SysTools.getScreenshot();
+            return SysTools.getScreenshot(SCREENSHOT_LOCATION);
         else
             return "";
     }

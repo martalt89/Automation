@@ -98,24 +98,6 @@ class DriverFactory {
                 break;
 
         }
-//        if (browserName.toLowerCase().contains("firefox")) {
-//            driver = new FirefoxDriver();
-//            driver.manage().window().setSize(dimension);
-//            return driver;
-//        }
-//        if (browserName.toLowerCase().contains("safari")) {
-//            driver = new SafariDriver();
-//
-//            return driver;
-//        }
-//
-//        if (browserName.toLowerCase().contains("chrome")) {
-//            System.setProperty("webdriver.chrome.driver", "chromedriver");
-//            DesiredCapabilities chromeDesiredCapabilities = DesiredCapabilities.chrome();
-//            driver = new ChromeDriver(chromeDesiredCapabilities);
-//            driver.manage().window().setSize(dimension);
-//            return driver;
-//        }
         return driver;
     }
 }

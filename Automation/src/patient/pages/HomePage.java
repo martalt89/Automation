@@ -1,6 +1,8 @@
 package patient.pages;
 
+import com.heal.framework.exception.HealException;
 import com.heal.framework.web.HealWebElement;
+import com.heal.framework.web.HealWebValidate;
 import com.heal.framework.web.WebBase;
 
 import org.openqa.selenium.WebDriver;
@@ -13,6 +15,7 @@ import java.util.logging.Logger;
  */
 public class HomePage extends WebBase{
 
+    HealWebValidate validate = new HealWebValidate(oWebDriver);
     public static final String URL = "https://patient.qa.heal.com/login";
     ///////////////////
     // Shared Pages  //
@@ -22,17 +25,13 @@ public class HomePage extends WebBase{
     ///////////////////
     // Page Elements //
     ///////////////////
+    public HealWebElement oAccountOwnerName = new HealWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-xs ng-binding')]",oWebDriver );
     public HealWebElement oPageTitle = new HealWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
 
 
     //////////////////
     // Constructors //
     //////////////////
-//    public HomePage(WebDriver oTargetDriver)
-//    {
-//        super(oTargetDriver, URL);
-//    }
-
     public HomePage(WebDriver oTargetDriver){
         super(oTargetDriver);
     }
@@ -40,14 +39,29 @@ public class HomePage extends WebBase{
     {
         super(oTargetDriver, sUrl);
     }
+
     /////////////
     // Methods //
     /////////////
-
-    public void SelectFromMenu(HealWebElement menuItem)
+    public void selectFromMenu(HealWebElement menuItem)
     {
         menu.SelectFromMenu(menuItem);
     }
-
-
+    /////////////////
+    // validations //
+    /////////////////
+    public void validateTitle(){
+        try {
+            validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), "Book Visit");
+        }catch (HealException e) {
+            System.out.println("cannot validate " + oPageTitle.getText());
+        }
+    }
+    public void validateTitle(String sTitle){
+    try {
+        validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), sTitle);
+        }catch (HealException e) {
+            System.out.println("cannot validate " + oPageTitle.getText());
+        }
+    }
 }

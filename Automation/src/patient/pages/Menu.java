@@ -41,11 +41,15 @@ public class Menu extends WebBase{
         if (oLoadingBar.exists()){
             oLoadingBar.waitForInvisible();
         }
-        if (oMenuBtn.isDisplayed() && oMenuBtn.isEnabled()){
-            oMenuBtn.waitForEnabled();
-            oMenuBtn.click();
+
+        //if the hamburger menu is visible perform javaScript click on the menu links
+        //will not work on native mobile apps
+        if (oMenuBtn.isDisplayed()){
+            menuItem.jsClick();
+        }else {
+            menuItem.click();
         }
-        menuItem.click();
+
         if (oLoadingBar.exists()){
             oLoadingBar.waitForInvisible();
         }

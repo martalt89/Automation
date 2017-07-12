@@ -42,7 +42,7 @@ public class LoginPage extends WebBase{
     /////////////
 
     //Login with the default username and password
-    public void Login()
+    public void login()
     {
         this.oUserNameInput.sendKeys("mayur+qatest@heal.com");
         this.oPasswordInput.sendKeys("Heal4325");
@@ -55,7 +55,7 @@ public class LoginPage extends WebBase{
      * @param sUsername (String) - Username to be used.
      * @param sPassword (String) - Password to be used.
      */
-    public void Login(String sUsername, String sPassword)
+    public void login(String sUsername, String sPassword)
     {
         this.oUserNameInput.sendKeys(sUsername);
         this.oPasswordInput.sendKeys(sPassword);
