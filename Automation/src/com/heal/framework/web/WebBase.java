@@ -432,6 +432,7 @@ public class WebBase {
      * Wait for page to complete load.  This is done by waiting for a new window instance and javascript 'document.readystate'.
      * Every time a page is loaded, a new window object is created in the WebDriver.
      * So we wait for this new Window object and wait for the document.readystate to be 'complete'.
+     *Hova8584
      *
      * @param iTimeOut (int) - Wait timeout in seconds.
      */

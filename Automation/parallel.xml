@@ -4,7 +4,7 @@
     <listeners>
         <listener class-name="utilities.WebDriverListener"></listener>
     </listeners>
-    <parameter name="environment" value="local" />
+    <parameter name="environment" value="remote" />
     <parameter name="browserName" value="chrome" />
     <test name="Chrome_1">
         <parameter name="browserName" value="safari" />
@@ -23,7 +23,7 @@
     </test>
     <test name="Chrome_2">
         <parameter name="browserName" value="chrome" />
-        <parameter name="platform" value="macOS 10.12" />
+        <parameter name="platform" value="Windows 10" />
         <parameter name="version" value="latest" />
         <parameter name="screenResolution" value="1280x960" />
         <parameter name="url" value="https://patient.qa.heal.com/login" />

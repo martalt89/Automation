@@ -28,7 +28,6 @@ public class HomePage extends WebBase{
     public HealWebElement oAccountOwnerName = new HealWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-xs ng-binding')]",oWebDriver );
     public HealWebElement oPageTitle = new HealWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
 
-
     //////////////////
     // Constructors //
     //////////////////

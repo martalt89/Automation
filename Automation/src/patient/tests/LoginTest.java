@@ -13,20 +13,18 @@ import org.testng.annotations.Test;
 public class LoginTest extends WebBase {
 
 
-        @Test (groups = { "smoke", "regression" })
-        @Parameters({ "url" })
-        public void loginWithValidCredentials(String url) throws Exception {
-            HealWebElement.setbMonitorMode(false);
+    @Test (groups = { "smoke", "regression" })
+    @Parameters({ "url" })
+    public void loginWithValidCredentials(String url) throws Exception {
+        HealWebElement.setbMonitorMode(false);
 
-            WebDriver dr = DriverManager.getDriver();
-            HealWebValidate validate = new HealWebValidate(dr);
-            LoginPage loginPage = new LoginPage(dr, url);
-            HomePage homePage = new HomePage(dr);
+        WebDriver dr = DriverManager.getDriver();
+        LoginPage loginPage = new LoginPage(dr, url);
+        HomePage homePage = new HomePage(dr);
 
-//          loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
-            loginPage.login();
-            homePage.validateTitle();
-
+//      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
+        loginPage.login();
+        homePage.validateTitle("Scheduled Visits");
     }
 
     @Test (groups = { "regression" })
@@ -44,11 +42,7 @@ public class LoginTest extends WebBase {
 
         loginPage.login();
         homePage.selectFromMenu(menu.oHomeLnk);
-        homePage.validateTitle();
-//        if (!validate.verifyMatches("Verifying Visits page title ", homePage.oPageTitle.getText(), "Scheduled Visits")){
-//            System.out.println("cannot validate " + homePage.oPageTitle.getText());
-//        }
-//        validate.verifyVisible("this should not be visible ", loginPage.oRegisterBtn);
+        homePage.validateTitle("Scheduled Visits");
         homePage.selectFromMenu(menu.oBookVisitLnk);
         if (!validate.verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
             System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());

@@ -1,6 +1,8 @@
 package patient.pages;
 
+import com.heal.framework.exception.HealException;
 import com.heal.framework.web.HealWebElement;
+import com.heal.framework.web.HealWebValidate;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 
@@ -9,6 +11,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class BookVisitPage extends WebBase {
 
+    HealWebValidate validate = new HealWebValidate(oWebDriver);
     ///////////////////
     // Shared Pages  //
     ///////////////////
@@ -32,6 +35,22 @@ public class BookVisitPage extends WebBase {
     {
         menu.SelectFromMenu(menuItem);
     }
-
+    /////////////////
+    // validations //
+    /////////////////
+    public void validateTitle(){
+        try {
+            validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), "Book Visit");
+        }catch (HealException e) {
+            System.out.println("cannot validate " + oPageTitle.getText());
+        }
+    }
+    public void validateTitle(String sTitle){
+        try {
+            validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), sTitle);
+        }catch (HealException e) {
+            System.out.println("cannot validate " + oPageTitle.getText());
+        }
+    }
 
 }
