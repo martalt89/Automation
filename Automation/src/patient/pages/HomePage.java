@@ -26,8 +26,9 @@ public class HomePage extends WebBase{
     // Page Elements //
     ///////////////////
     public HealWebElement oAccountOwnerName = new HealWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-xs ng-binding')]",oWebDriver );
+    public HealWebElement oAccountOwnerFirstName = new HealWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-gt-xs show-xs ng-binding')]",oWebDriver );
     public HealWebElement oPageTitle = new HealWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
-
+    public HealWebElement oAccountOwnerAvatar = new HealWebElement("oAccountOwnerAvatar", "css=profile-image[url='vm.user.avatarUrl'] ", oWebDriver);
 
     //////////////////
     // Constructors //
