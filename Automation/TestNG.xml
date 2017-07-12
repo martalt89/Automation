@@ -6,24 +6,24 @@
     </listeners>
     <parameter name="environment" value="local" />
     <!--<parameter name="browserName" value="chrome" />-->
-    <test name="SauceLabs Test">
-        <!--<parameter name="browserName" value="IE" />-->
-        <!--<parameter name="platform" value="Windows 10" />-->
-        <!--<parameter name="version" value="11.103" />-->
-        <parameter name="browserName" value="chrome" />
-        <parameter name="platform" value="macOS 10.12" />
-        <parameter name="version" value="latest" />
-        <parameter name="screenResolution" value="1280x960" />
-        <parameter name="url" value="https://patient.qa.heal.com/login" />
-        <classes>
-            <class name="patient.tests.LoginTest">
-                <methods>
-                    <!--<include name="loginWithValidCredentials"/>-->
-                    <include name="checkMenuLinksLoggedIn"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+    <!--<test name="SauceLpatient.tests.TestTest">-->
+        <!--&lt;!&ndash;<parameter name="browserName" value="IE" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<parameter name="platform" value="Windows 10" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<parameter name="version" value="11.103" />&ndash;&gt;-->
+        <!--<parameter name="browserName" value="chrome" />-->
+        <!--<parameter name="platform" value="macOS 10.12" />-->
+        <!--<parameter name="version" value="latest" />-->
+        <!--<parameter name="screenResolution" value="1280x960" />-->
+        <!--<parameter name="url" value="https://patient.qa.heal.com/login" />-->
+        <!--<classes>-->
+            <!--<class name="patient.tests.LoginTest">-->
+                <!--<methods>-->
+                    <!--&lt;!&ndash;<include name="loginWithValidCredentials"/>&ndash;&gt;-->
+                    <!--<include name="checkMenuLinksLoggedIn"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 
     <!--<test name="Login Chrome">-->
         <!--<parameter name="browserName" value="chrome" />-->
@@ -94,6 +94,13 @@
             <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
         <!--</classes>-->
     <!--</test>-->
-
+    <test name="Register Chrome">
+        <parameter name="browserName" value="chrome" />
+        <parameter name="platform" value="windows" />
+        <parameter name="version" value="10" />
+        <classes>
+            <class name="patient.tests.RegisterTest"/>
+        </classes>
+    </test>
 
 </suite> <!-- Suite -->
