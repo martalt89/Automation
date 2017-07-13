@@ -1,9 +1,8 @@
 package patient.tests;
 
-import com.heal.framework.web.HealWebElement;
+import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patient.pages.HomePage;
@@ -19,7 +18,7 @@ public class VisitsTest extends WebBase {
     @Test
     @Parameters({ "url" })
     public void loginWithValidCredentials(String url) throws Exception {
-        HealWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(true);
         WebDriver dr = DriverManager.getDriver();
 
        // lib.browserGoTo(url);
@@ -28,7 +27,7 @@ public class VisitsTest extends WebBase {
         VisitsPage visitsPage = new VisitsPage(dr);
         Menu menu = new Menu(dr);
 
-        HealWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(true);
         loginPage.oUserNameInput.sendKeys("mayur+qatest@heal.com");
         loginPage.oPasswordInput.sendKeys("Heal4325");
 
@@ -42,11 +41,11 @@ public class VisitsTest extends WebBase {
 //        Assert.assertTrue(visitsPage.oScheduledVisitsTitle.isDisplayed());
 //        visitsPage.oScheduledVisitsTitle.highlightMe();
 //
-        HealWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(true);
 //        Assert.assertTrue(visitsPage.oIconAll.isDisplayed());
         visitsPage.oIconAll.click();
 
-        HealWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(true);
         //Assert.assertTrue(visitsPage.oIconPatient.isDisplayed());
         visitsPage.oIconPatient.click();
 

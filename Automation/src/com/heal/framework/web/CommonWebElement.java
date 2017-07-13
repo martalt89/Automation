@@ -1,6 +1,6 @@
 package com.heal.framework.web;
 
-import com.heal.framework.exception.HealException;
+import com.heal.framework.exception.CommonException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.internal.Coordinates;
@@ -22,13 +22,13 @@ import java.util.regex.Pattern;
 /**
  * Created by vahanmelikyan on 7/1/17.
  */
-public class HealWebElement implements WebElement, Locatable {
-    Logger logger = LoggerFactory.getLogger(HealWebElement.class);
+public class CommonWebElement implements WebElement, Locatable {
+    Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
     private static int iImplicitWait = 30;
     private static int iThrottleValue = 0;
-    private static boolean bMonitorMode = true;
+    private static boolean bMonitorMode = false;
 
     private WebDriver oWebDriver;
     private JavascriptExecutor oJavascriptExecutor;
@@ -41,14 +41,14 @@ public class HealWebElement implements WebElement, Locatable {
     private Actions oAction;
 
     /**
-     * Constructor to wrap HealWebElement around a declared page element.
+     * Constructor to wrap CommonWebElement around a declared page element.
      *
      * @param oElement (WebElement) - Declared page element.
      * @param sName    (String)- Declared variable name.
      * @param sTag     (String) - Declared tag.
      * @param oDriver  (WebDriver) - WebDriver object.
      */
-    public HealWebElement(WebElement oElement, String sName, String sTag, WebDriver oDriver) {
+    public CommonWebElement(WebElement oElement, String sName, String sTag, WebDriver oDriver) {
         this.oWebElement = oElement;
         this.sElementName = sName;
         this.sElementTag = sTag;
@@ -58,23 +58,23 @@ public class HealWebElement implements WebElement, Locatable {
         this.oAction = new Actions(oWebDriver);
     }
 
-    public HealWebElement(WebElement oElement, String sTag, WebDriver oDriver) {
+    public CommonWebElement(WebElement oElement, String sTag, WebDriver oDriver) {
         this(oElement, null, sTag, oDriver);
     }
 
-    public HealWebElement(String sName, String sTag, WebDriver oDriver) {
+    public CommonWebElement(String sName, String sTag, WebDriver oDriver) {
         this(null, sName, sTag, oDriver);
     }
 
     /**
-     * Constructor to wrap HealWebElement around a declared page element.
+     * Constructor to wrap CommonWebElement around a declared page element.
      *
      * @param oElement (WebElement) - Declared page element.
      * @param sName    (String)- Declared variable name.
      * @param oBy     (By) - Declared tag.
      * @param oDriver  (WebDriver) - WebDriver object.
      */
-    public HealWebElement(WebElement oElement, String sName, By oBy, WebDriver oDriver) {
+    public CommonWebElement(WebElement oElement, String sName, By oBy, WebDriver oDriver) {
         this.sElementName = sName;
         this.oWebElement = oElement;
         this.oBy = oBy;
@@ -83,11 +83,11 @@ public class HealWebElement implements WebElement, Locatable {
         this.oAction = new Actions(oWebDriver);
     }
 
-    public HealWebElement(WebElement oElement, By oBy, WebDriver oDriver) {
+    public CommonWebElement(WebElement oElement, By oBy, WebDriver oDriver) {
         this(oElement, null, oBy, oDriver);
     }
 
-    public HealWebElement(String sName, By oBy, WebDriver oDriver) {
+    public CommonWebElement(String sName, By oBy, WebDriver oDriver) {
         this(null, sName, oBy, oDriver);
     }
 
@@ -97,7 +97,7 @@ public class HealWebElement implements WebElement, Locatable {
      * @param oElement (WebElement) - Any WebElement object.
      * @param oDriver  (WebDriver) - WebDriver object.
      */
-    public HealWebElement(WebElement oElement, WebDriver oDriver) {
+    public CommonWebElement(WebElement oElement, WebDriver oDriver) {
         this.oWebElement = oElement;
         this.oWebDriver = oDriver;
         this.oJavascriptExecutor = (JavascriptExecutor) oDriver;
@@ -111,7 +111,7 @@ public class HealWebElement implements WebElement, Locatable {
      * @param oElement       (WebElement) - Any WebElement object.
      * @param oParentElement (WebElement) - Parent WebElement.
      */
-    public HealWebElement(WebElement oElement, By oBy, WebElement oParentElement, WebDriver oDriver) {
+    public CommonWebElement(WebElement oElement, By oBy, WebElement oParentElement, WebDriver oDriver) {
         this.oWebElement = oElement;
         this.oParentWebElement = oParentElement;
         this.oBy = oBy;
@@ -126,7 +126,7 @@ public class HealWebElement implements WebElement, Locatable {
      * @param oElement       (WebElement) - Any WebElement object.
      * @param oParentElement (WebElement) - Parent WebElement.
      */
-    public HealWebElement(WebElement oElement, WebElement oParentElement, WebDriver oDriver) {
+    public CommonWebElement(WebElement oElement, WebElement oParentElement, WebDriver oDriver) {
         this(oElement, null, oParentElement, oDriver);
     }
 
@@ -135,7 +135,7 @@ public class HealWebElement implements WebElement, Locatable {
      *
      * @param sName (String) - Declared variable name.
      */
-    public HealWebElement(String sName, String sTag) {
+    public CommonWebElement(String sName, String sTag) {
         this.sElementName = sName;
         this.sElementTag = sTag;
 //        this.oWebElement = new WebElementDummy(sName);
@@ -150,7 +150,7 @@ public class HealWebElement implements WebElement, Locatable {
     }
 
     public static void setImplicitWait(int iImplicitWait) {
-        HealWebElement.iImplicitWait = iImplicitWait;
+        CommonWebElement.iImplicitWait = iImplicitWait;
     }
 
     public static int getThrottle() {
@@ -158,7 +158,7 @@ public class HealWebElement implements WebElement, Locatable {
     }
 
     public static void setThrottle(int iSeconds) {
-        HealWebElement.iThrottleValue = iSeconds;
+        CommonWebElement.iThrottleValue = iSeconds;
     }
 
     public static boolean isbMonitorMode() {
@@ -166,7 +166,7 @@ public class HealWebElement implements WebElement, Locatable {
     }
 
     public static void setbMonitorMode(boolean bMonitorMode) {
-        HealWebElement.bMonitorMode = bMonitorMode;
+        CommonWebElement.bMonitorMode = bMonitorMode;
     }
 
     public WebDriver getWebDriver() {
@@ -257,9 +257,9 @@ public class HealWebElement implements WebElement, Locatable {
     }
 
     @Override
-    public HealWebElement findElement(By arg0) {
+    public CommonWebElement findElement(By arg0) {
         waitForElement();
-        return new HealWebElement(oWebElement.findElement(arg0), arg0, oWebElement, oWebDriver);
+        return new CommonWebElement(oWebElement.findElement(arg0), arg0, oWebElement, oWebDriver);
     }
 
     @Override
@@ -268,7 +268,7 @@ public class HealWebElement implements WebElement, Locatable {
         java.util.List<WebElement> lATFWebElement = new java.util.Vector<WebElement>();
         java.util.List<WebElement> lWebElement = oWebElement.findElements(arg0);
         for (WebElement oElement : lWebElement) {
-            lATFWebElement.add(new HealWebElement(oElement, oWebElement, oWebDriver));
+            lATFWebElement.add(new CommonWebElement(oElement, oWebElement, oWebDriver));
         }
         return lATFWebElement;
     }
@@ -486,7 +486,7 @@ public class HealWebElement implements WebElement, Locatable {
                 this.appendKeys(Keys.PAGE_DOWN);
                 break;
             default:
-                throw new HealException("Scroll input '" + sTarget + "' not recognized!");
+                throw new CommonException("Scroll input '" + sTarget + "' not recognized!");
         }
     }
 
@@ -610,9 +610,9 @@ public class HealWebElement implements WebElement, Locatable {
      *
      * @param sSelection     (String) - Item text
      * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
-     * @return (HealWebElement)
+     * @return (CommonWebElement)
      */
-    public HealWebElement select(String sSelection, Boolean... returnSelected) {
+    public CommonWebElement select(String sSelection, Boolean... returnSelected) {
         waitForElement();
         org.openqa.selenium.support.ui.Select oSelect = new org.openqa.selenium.support.ui.Select(this);
         oSelect.selectByVisibleText(sSelection);
@@ -624,7 +624,7 @@ public class HealWebElement implements WebElement, Locatable {
             }
 
         if (returnSelected.length > 0 && returnSelected[0] == true)
-            return new HealWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
+            return new CommonWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
         else
             return null;
     }
@@ -634,9 +634,9 @@ public class HealWebElement implements WebElement, Locatable {
      *
      * @param sSelection     (String) - Item value attribute text.
      * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
-     * @return (HealWebElement)
+     * @return (CommonWebElement)
      */
-    public HealWebElement selectByValue(String sSelection, Boolean[] returnSelected) {
+    public CommonWebElement selectByValue(String sSelection, Boolean[] returnSelected) {
         waitForElement();
         org.openqa.selenium.support.ui.Select oSelect = new org.openqa.selenium.support.ui.Select(this);
         oSelect.selectByValue(sSelection);
@@ -648,7 +648,7 @@ public class HealWebElement implements WebElement, Locatable {
             }
 
         if (returnSelected.length > 0 && returnSelected[0] == true)
-            return new HealWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
+            return new CommonWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
         else
             return null;
     }
@@ -658,9 +658,9 @@ public class HealWebElement implements WebElement, Locatable {
      *
      * @param iIndex     (int) - Item index.
      * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
-     * @return (HealWebElement)
+     * @return (CommonWebElement)
      */
-    public HealWebElement selectByIndex(int iIndex, Boolean... returnSelected) {
+    public CommonWebElement selectByIndex(int iIndex, Boolean... returnSelected) {
         waitForElement();
         org.openqa.selenium.support.ui.Select oSelect = new org.openqa.selenium.support.ui.Select(this);
         oSelect.selectByIndex(iIndex);
@@ -672,7 +672,7 @@ public class HealWebElement implements WebElement, Locatable {
             }
 
         if (returnSelected.length > 0 && returnSelected[0] == true)
-            return new HealWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
+            return new CommonWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
         else
             return null;
     }
@@ -721,7 +721,7 @@ public class HealWebElement implements WebElement, Locatable {
 
             return (yLocation >= xOffsetFromTop) && (yLocation <= totalOffsetFromTop);
         } catch (Exception ex) {
-            throw new HealException(ex);
+            throw new CommonException(ex);
         }
     }
 
@@ -734,7 +734,7 @@ public class HealWebElement implements WebElement, Locatable {
      *
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
-    public HealWebElement waitForElement(long iTimeOut) {
+    public CommonWebElement waitForElement(long iTimeOut) {
         WebElement oResult = null;
 
         logger.trace("waitForElement():  {}, {}", sElementName, oBy);
@@ -766,9 +766,9 @@ public class HealWebElement implements WebElement, Locatable {
                 oResult = oWebElement;
         } catch (org.openqa.selenium.TimeoutException ex) {
             String sText = "Name:  " + sElementName + ", Tag:  " + (sElementTag != null ? sElementTag : oBy.toString());
-            throw new HealException("Timeout looking for element.  " + sText, ex);
+            throw new CommonException("Timeout looking for element.  " + sText, ex);
         } catch (Exception ex) {
-            throw new HealException("Unhandled exception", ex);
+            throw new CommonException("Unhandled exception", ex);
         }
 
         if (oResult != null) {
@@ -789,7 +789,7 @@ public class HealWebElement implements WebElement, Locatable {
             return this;
     }
 
-    public HealWebElement waitForElement() {
+    public CommonWebElement waitForElement() {
         return waitForElement(iImplicitWait);
     }
 
@@ -798,7 +798,7 @@ public class HealWebElement implements WebElement, Locatable {
      *
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
-    public HealWebElement waitForVisible(long iTimeOut) {
+    public CommonWebElement waitForVisible(long iTimeOut) {
         logger.trace("waitForVisible():  {}, {}", sElementName, oBy);
         if (oBy != null) {
             waitForElement(iTimeOut);
@@ -807,13 +807,13 @@ public class HealWebElement implements WebElement, Locatable {
                 Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
                 oWait.until(ExpectedConditions.visibilityOf(oWebElement));
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new HealException("Timeout waiting for element " + sElementName + " to become visible", ex);
+                throw new CommonException("Timeout waiting for element " + sElementName + " to become visible", ex);
             }
         }
         return this;
     }
 
-    public HealWebElement waitForVisible() {
+    public CommonWebElement waitForVisible() {
         return waitForVisible(iImplicitWait);
     }
 
@@ -829,7 +829,7 @@ public class HealWebElement implements WebElement, Locatable {
                 Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
                 oWait.until(ExpectedConditions.invisibilityOfElementLocated(oBy));
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new HealException("Timeout waiting for element " + sElementName + " to disappear!", ex);
+                throw new CommonException("Timeout waiting for element " + sElementName + " to disappear!", ex);
             }
         }
     }
@@ -862,7 +862,7 @@ public class HealWebElement implements WebElement, Locatable {
                     }
                 });
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new HealException("Timeout waiting for element " + sElementName + " to be enabled", ex);
+                throw new CommonException("Timeout waiting for element " + sElementName + " to be enabled", ex);
             }
         }
         return;
@@ -896,7 +896,7 @@ public class HealWebElement implements WebElement, Locatable {
                     }
                 });
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new HealException("Timeout waiting for element " + sElementName + " to have attribute '" + sName + "' value matching '" + sValue + "'", ex);
+                throw new CommonException("Timeout waiting for element " + sElementName + " to have attribute '" + sName + "' value matching '" + sValue + "'", ex);
             }
         }
         return;

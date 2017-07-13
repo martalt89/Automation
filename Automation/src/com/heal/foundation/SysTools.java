@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 
-import com.heal.framework.exception.HealException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +65,7 @@ public class SysTools
         }
         catch (Exception e)
         {
-//            HealException.HandleError(e);
+//            CommonException.HandleError(e);
         }
 
         return null;

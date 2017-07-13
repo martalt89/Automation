@@ -1,8 +1,8 @@
 package patient.pages;
 
-import com.heal.framework.exception.HealException;
-import com.heal.framework.web.HealWebElement;
-import com.heal.framework.web.HealWebValidate;
+import com.heal.framework.exception.CommonException;
+import com.heal.framework.web.CommonWebElement;
+import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 
@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class BookVisitPage extends WebBase {
 
-    HealWebValidate validate = new HealWebValidate(oWebDriver);
+    CommonWebValidate validate = new CommonWebValidate(oWebDriver);
     ///////////////////
     // Shared Pages  //
     ///////////////////
@@ -20,7 +20,7 @@ public class BookVisitPage extends WebBase {
     ///////////////////
     // Page Elements //
     ///////////////////
-    public HealWebElement oPageTitle = new HealWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
+    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
 
     //////////////////
     // Constructors //
@@ -31,7 +31,7 @@ public class BookVisitPage extends WebBase {
     /////////////
     // Methods //
     /////////////
-    public void SelectFromMenu(HealWebElement menuItem)
+    public void SelectFromMenu(CommonWebElement menuItem)
     {
         menu.SelectFromMenu(menuItem);
     }
@@ -41,14 +41,14 @@ public class BookVisitPage extends WebBase {
     public void validateTitle(){
         try {
             validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), "Book Visit");
-        }catch (HealException e) {
+        }catch (CommonException e) {
             System.out.println("cannot validate " + oPageTitle.getText());
         }
     }
     public void validateTitle(String sTitle){
         try {
             validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), sTitle);
-        }catch (HealException e) {
+        }catch (CommonException e) {
             System.out.println("cannot validate " + oPageTitle.getText());
         }
     }

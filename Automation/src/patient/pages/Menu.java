@@ -1,6 +1,6 @@
 package patient.pages;
 
-import com.heal.framework.web.HealWebElement;
+import com.heal.framework.web.CommonWebElement;
 import org.openqa.selenium.WebDriver;
 import com.heal.framework.web.WebBase;
 
@@ -14,14 +14,14 @@ public class Menu extends WebBase{
     ///////////////////
     // Page Elements //
     ///////////////////
-    public HealWebElement oHomeLnk = new HealWebElement("oHomeLnk", "xpath=//*[@ui-sref='main.body.home']",oWebDriver);
-    public HealWebElement oBookVisitLnk = new HealWebElement("oBookVisitLnk", "xpath=//*[@ui-sref='main.body.bookVisit.emergency']",oWebDriver);
-    public HealWebElement oVisitsLnk = new HealWebElement("oVisitsLnk", "xpath=//*[@ui-sref='main.body.visits']",oWebDriver);
-    public HealWebElement oProfilesLnk = new HealWebElement("oProfilesLnk", "xpath=//*[@ui-sref='main.body.profiles.chooseProfile']",oWebDriver);
-    public HealWebElement oPaymentMethodLnk = new HealWebElement("oPaymentMethodLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
-    public HealWebElement oSignOutLnk = new HealWebElement("oSignOutLnk", "xpath=//*[@ui-sref='unauthenticate']",oWebDriver);
-    public HealWebElement oMenuBtn = new HealWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')]",oWebDriver);
-    public HealWebElement oLoadingBar = new HealWebElement("oLoadingBar", "xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
+    public CommonWebElement oHomeLnk = new CommonWebElement("oHomeLnk", "xpath=//*[@ui-sref='main.body.home']",oWebDriver);
+    public CommonWebElement oBookVisitLnk = new CommonWebElement("oBookVisitLnk", "xpath=//*[@ui-sref='main.body.bookVisit.emergency']",oWebDriver);
+    public CommonWebElement oVisitsLnk = new CommonWebElement("oVisitsLnk", "xpath=//*[@ui-sref='main.body.visits']",oWebDriver);
+    public CommonWebElement oProfilesLnk = new CommonWebElement("oProfilesLnk", "xpath=//*[@ui-sref='main.body.profiles.chooseProfile']",oWebDriver);
+    public CommonWebElement oPaymentMethodLnk = new CommonWebElement("oPaymentMethodLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
+    public CommonWebElement oSignOutLnk = new CommonWebElement("oSignOutLnk", "xpath=//*[@ui-sref='unauthenticate']",oWebDriver);
+    public CommonWebElement oMenuBtn = new CommonWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')]",oWebDriver);
+    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
 
 
     //////////////////
@@ -36,7 +36,7 @@ public class Menu extends WebBase{
     /////////////
     // Methods //
     /////////////
-    public void SelectFromMenu(HealWebElement menuItem)
+    public void SelectFromMenu(CommonWebElement menuItem)
     {
         if (oLoadingBar.exists()){
             oLoadingBar.waitForInvisible();

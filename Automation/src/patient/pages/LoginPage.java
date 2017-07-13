@@ -1,6 +1,6 @@
 package patient.pages;
 
-import com.heal.framework.web.HealWebElement;
+import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 
 import org.openqa.selenium.WebDriver;
@@ -16,13 +16,13 @@ public class LoginPage extends WebBase{
     ///////////////////
     // Page Elements //
     ///////////////////
-    public HealWebElement oUserNameInput = new HealWebElement("oUserNameInput", "name=username",oWebDriver);
-    public HealWebElement oPasswordInput = new HealWebElement("oPasswordInput", "name=password", oWebDriver);
-    public HealWebElement oLoginBtn = new HealWebElement("oLoginBtn", "xpath=//button[@type='submit']", oWebDriver);
-    public HealWebElement oRememberMe = new HealWebElement("oRememberMe", "className=md-icon", oWebDriver);
-    public HealWebElement oForgotYourPasswordLnk = new HealWebElement("oForgotYourPasswordLnk", "linkText=Forgot Password", oWebDriver);
-    public HealWebElement oWarningMsg = new HealWebElement("oWarningMsg","className=error-messages",oWebDriver);
-    public HealWebElement oRegisterBtn = new HealWebElement("oRegisterNtm", "xpath=//*[text()='Register']", oWebDriver);
+    public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "name=username",oWebDriver);
+    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "name=password", oWebDriver);
+    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//button[@type='submit']", oWebDriver);
+    public CommonWebElement oRememberMe = new CommonWebElement("oRememberMe", "className=md-icon", oWebDriver);
+    public CommonWebElement oForgotYourPasswordLnk = new CommonWebElement("oForgotYourPasswordLnk", "linkText=Forgot Password", oWebDriver);
+    public CommonWebElement oWarningMsg = new CommonWebElement("oWarningMsg","className=error-messages",oWebDriver);
+    public CommonWebElement oRegisterBtn = new CommonWebElement("oRegisterNtm", "xpath=//*[text()='Register']", oWebDriver);
 
     //////////////////
     // Constructors //

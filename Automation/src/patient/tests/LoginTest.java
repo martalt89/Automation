@@ -1,9 +1,8 @@
 package patient.tests;
 
-import com.heal.framework.web.HealWebElement;
-import com.heal.framework.web.HealWebValidate;
+import com.heal.framework.web.CommonWebElement;
+import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
-import javafx.scene.input.Mnemonic;
 import org.openqa.selenium.WebDriver;
 import patient.pages.*;
 import utilities.DriverManager;
@@ -16,7 +15,7 @@ public class LoginTest extends WebBase {
     @Test (groups = { "smoke", "regression" })
     @Parameters({ "url" })
     public void loginWithValidCredentials(String url) throws Exception {
-        HealWebElement.setbMonitorMode(false);
+        CommonWebElement.setbMonitorMode(false);
 
         WebDriver dr = DriverManager.getDriver();
         LoginPage loginPage = new LoginPage(dr, url);
@@ -30,10 +29,10 @@ public class LoginTest extends WebBase {
     @Test (groups = { "regression" })
     @Parameters ({"url"})
     public void checkMenuLinksLoggedIn(String url) throws Exception {
-        HealWebElement.setbMonitorMode(false);
+        CommonWebElement.setbMonitorMode(false);
 
         WebDriver dr = DriverManager.getDriver();
-        HealWebValidate validate = new HealWebValidate(dr);
+        CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr, url);
         HomePage homePage = new HomePage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);

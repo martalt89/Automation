@@ -1,6 +1,6 @@
 package patient.pages;
 
-import com.heal.framework.web.HealWebElement;
+import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 
@@ -19,12 +19,12 @@ public class VisitsPage extends WebBase{
     // Page Elements //
     ///////////////////
 
-    public HealWebElement oPageTitle = new HealWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
-    public HealWebElement oCancelVisitBtn = new HealWebElement("oCancelVisitBtn", "xpath=//*[text()='Cancel Visit']", oWebDriver);
-    public HealWebElement oWhatToExpectBtn = new HealWebElement("oWhatToExpectBtn", "xpath=//*[text()='What To Expect']", oWebDriver);
-    public HealWebElement oScheduledVisitsTitle = new HealWebElement("oScheduledVisitsTitle", "xpath=//*[text()='Scheduled Visits']", oWebDriver);
-    public HealWebElement oIconAll = new HealWebElement("oIconAll", "xpath=//*[text()='All']", oWebDriver);
-    public HealWebElement oIconPatient = new HealWebElement("oIconPatient", "css=profile-image[url='patient.avatarUrl'] ", oWebDriver);
+    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
+    public CommonWebElement oCancelVisitBtn = new CommonWebElement("oCancelVisitBtn", "xpath=//*[text()='Cancel Visit']", oWebDriver);
+    public CommonWebElement oWhatToExpectBtn = new CommonWebElement("oWhatToExpectBtn", "xpath=//*[text()='What To Expect']", oWebDriver);
+    public CommonWebElement oScheduledVisitsTitle = new CommonWebElement("oScheduledVisitsTitle", "xpath=//*[text()='Scheduled Visits']", oWebDriver);
+    public CommonWebElement oIconAll = new CommonWebElement("oIconAll", "xpath=//*[text()='All']", oWebDriver);
+    public CommonWebElement oIconPatient = new CommonWebElement("oIconPatient", "css=profile-image[url='patient.avatarUrl'] ", oWebDriver);
 
 
     //////////////////

@@ -1,8 +1,10 @@
 package com.heal.framework.web;
 
 import java.util.regex.Pattern;
+
+import com.heal.framework.exception.CommonException;
+import com.heal.framework.validation.CommonValidate;
 import org.openqa.selenium.WebDriver;
-import com.heal.framework.exception.HealException;
 import com.heal.foundation.SysTools;
 
 /**
@@ -13,19 +15,19 @@ import com.heal.foundation.SysTools;
  *
  *
  * */
-public class HealWebValidate extends com.heal.framework.validation.HealValidate
+public class CommonWebValidate extends CommonValidate
 {
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(HealWebValidate.class);
+    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonWebValidate.class);
     private WebDriver oWebDriver = null;
-    private HealWebElement oHealWebElement = null;
+    private CommonWebElement oCommonWebElement = null;
 
-    public HealWebValidate(WebDriver oDriver)
+    public CommonWebValidate(WebDriver oDriver)
     {
         super();
         oWebDriver = oDriver;
     }
 
-    public HealWebValidate(WebDriver oDriver, boolean bTakeScreenshot)
+    public CommonWebValidate(WebDriver oDriver, boolean bTakeScreenshot)
     {
         super(bTakeScreenshot);
         oWebDriver = oDriver;
@@ -41,15 +43,15 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
     {
         String screenshot = "";
 
-        if (bTakeShots && oHealWebElement != null && oHealWebElement.getWebElement() != null)
+        if (bTakeShots && oCommonWebElement != null && oCommonWebElement.getWebElement() != null)
         {
             try
             {
-                oHealWebElement.highlightMe();
+                oCommonWebElement.highlightMe();
                 SysTools.sleepFor(1);
                 screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
-                oHealWebElement.unHighlightMe();
-                oHealWebElement = null;
+                oCommonWebElement.unHighlightMe();
+                oCommonWebElement = null;
             }
             catch(Exception ex)
             {
@@ -71,12 +73,12 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Web element to check for visibility.
+     * (CommonWebElement) - Web element to check for visibility.
      */
-    public boolean verifyVisible(String sComment, HealWebElement oTarget)
+    public boolean verifyVisible(String sComment, CommonWebElement oTarget)
     {
         iVerificationsExecuted++;
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         try
         {
@@ -90,7 +92,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
             vFailures.add(sComment + " - verifyVisible(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyVisible() failed! Target element not found!");
             vFailures.add(sComment + " - verifyVisible() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
@@ -105,12 +107,12 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Web element to check for visibility.
+     * (CommonWebElement) - Web element to check for visibility.
      */
-    public boolean verifyInvisible(String sComment, HealWebElement oTarget)
+    public boolean verifyInvisible(String sComment, CommonWebElement oTarget)
     {
         iVerificationsExecuted++;
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         try
         {
@@ -133,12 +135,12 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Web element to check for.
+     * (CommonWebElement) - Web element to check for.
      */
-    public boolean verifyViewable(String sComment, HealWebElement oTarget)
+    public boolean verifyViewable(String sComment, CommonWebElement oTarget)
     {
         iVerificationsExecuted++;
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         try
         {
@@ -152,7 +154,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
             vFailures.add(sComment + " - verifyViewable(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyViewable() failed! Target element not found!");
             vFailures.add(sComment + " - verifyViewable() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
@@ -170,15 +172,15 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * (WebBase) - Starting page where the link is located.
      *
      * @param oLink
-     * (HealWebElement) - Link object to test.
+     * (CommonWebElement) - Link object to test.
      *
      * @param sExpectedURL
      * (String) - Expected URL of the new page.
      */
-    public boolean verifyLinkNavigation(String sComment, WebBase oStartPage, HealWebElement oLink, String sExpectedURL)
+    public boolean verifyLinkNavigation(String sComment, WebBase oStartPage, CommonWebElement oLink, String sExpectedURL)
     {
         iVerificationsExecuted++;
-        oHealWebElement = oLink;
+        oCommonWebElement = oLink;
         String sActualURL = "";
 
         try
@@ -196,7 +198,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
             vFailures.add(sComment + " - verifyLink failed! Actual: \"" + sActualURL + "\"  Expected: \"" + sExpectedURL + "\"   [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyLinkNavigation() failed! Target element not found!");
             vFailures.add(sComment + " - verifyLinkNavigation() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
@@ -214,15 +216,15 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * (WebBase) - Starting page where the link is located.
      *
      * @param oLink
-     * (HealWebElement) - Link object to test.
+     * (CommonWebElement) - Link object to test.
      *
      * @param sExpectedURL
      * (String) - Expected URL of newly open window/tab/popup.
      */
-    public boolean verifyLinkPopup(String sComment, WebBase oStartPage, HealWebElement oLink, String sExpectedURL)
+    public boolean verifyLinkPopup(String sComment, WebBase oStartPage, CommonWebElement oLink, String sExpectedURL)
     {
         iVerificationsExecuted++;
-        oHealWebElement = oLink;
+        oCommonWebElement = oLink;
         String sActualURL = "";
 
         try
@@ -243,7 +245,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
             oStartPage.closePopup();
             return false;
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyLinkPopup() failed! Target element not found!");
             vFailures.add(sComment + " - verifyLinkPopup() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
@@ -259,7 +261,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      *  (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Target element.
+     * (CommonWebElement) - Target element.
      *
      * @param sAttribName
      * (String) - Attribute name.
@@ -267,15 +269,15 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @param sExpectedValue
      * (String) - Expected attribute value.
      */
-    public boolean verifyAttribute(String sComment, HealWebElement oTarget, String sAttribName, String sExpectedValue)
+    public boolean verifyAttribute(String sComment, CommonWebElement oTarget, String sAttribName, String sExpectedValue)
     {
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         try
         {
             return verifyMatches(sComment + " - Verify Attribute '" + sAttribName + "'", oTarget.getAttribute(sAttribName).replaceAll("\\s", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase(), sExpectedValue.replaceAll("\\s", "").toLowerCase());
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyAttribute() failed! Target element not found!");
             vFailures.add(sComment + " - verifyAttribute() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
@@ -291,7 +293,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      *  (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Target element.
+     * (CommonWebElement) - Target element.
      *
      * @param sCssProp
      * (String) - CSS property name.
@@ -299,15 +301,15 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @param sExpectedValue
      * (String) - Expected CSS property value.
      */
-    public boolean verifyCssValue(String sComment, HealWebElement oTarget, String sCssProp, String sExpectedValue)
+    public boolean verifyCssValue(String sComment, CommonWebElement oTarget, String sCssProp, String sExpectedValue)
     {
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         try
         {
             return verifyMatches(sComment + " - Verify CSS property '" + sCssProp + "'", oTarget.getCssValue(sCssProp).replaceAll("\\s", "").replaceAll("\"", "").replaceAll("'", "").toLowerCase(), sExpectedValue.replaceAll("\\s", "").toLowerCase());
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyCssValue() failed! Target element not found!");
             vFailures.add(sComment + " - verifyCssValue() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
@@ -322,7 +324,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      *  (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Target element.
+     * (CommonWebElement) - Target element.
      *
      * @param sExpectedText
      * (String) - Expected text.
@@ -336,9 +338,9 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @param sExpectedColor
      * (String) - Expected color.  Represented in rgba(r, g, b, a).  E.g., the opaque color red is rgba(256, 0, 0, 1).  The "(" and ")" need to be escaped such as "\\(".
      */
-    public boolean verifyElementText(String sComment, HealWebElement oTarget, String sExpectedText, String sExpectedFont, String sExpectedSize, String sExpectedColor)
+    public boolean verifyElementText(String sComment, CommonWebElement oTarget, String sExpectedText, String sExpectedFont, String sExpectedSize, String sExpectedColor)
     {
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         return verifyVisible(sComment, oTarget) && verifyMatches(sComment, oTarget.getText(), sExpectedText) & verifyCssValue(sComment, oTarget, "font-family", sExpectedFont) & verifyCssValue(sComment, oTarget, "font-size", sExpectedSize) & verifyCssValue(sComment, oTarget, "color", sExpectedColor);
     }
@@ -350,7 +352,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Target element.
+     * (CommonWebElement) - Target element.
      *
      * @param sExpected
      * (String) - Expected text.
@@ -358,15 +360,15 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @return
      * (boolean) - true if equals, else false.
      */
-    public boolean verifyTextEquals(String sComment, HealWebElement oTarget, String sExpected)
+    public boolean verifyTextEquals(String sComment, CommonWebElement oTarget, String sExpected)
     {
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         try
         {
             return verifyEquals(sComment, oTarget.getText(), sExpected);
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyTextEquals() failed! Target element not found!");
             vFailures.add(sComment + " - verifyTextEquals() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
@@ -381,7 +383,7 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * (String) - Comment.
      *
      * @param oTarget
-     * (HealWebElement) - Target element.
+     * (CommonWebElement) - Target element.
      *
      * @param sExpected
      * (String) - Expected pattern.
@@ -389,15 +391,15 @@ public class HealWebValidate extends com.heal.framework.validation.HealValidate
      * @return
      * (boolean) - true if matches, else false.
      */
-    public boolean verifyTextMatches(String sComment, HealWebElement oTarget, String sExpected)
+    public boolean verifyTextMatches(String sComment, CommonWebElement oTarget, String sExpected)
     {
-        oHealWebElement = oTarget;
+        oCommonWebElement = oTarget;
 
         try
         {
             return verifyMatches(sComment, oTarget.getText(), sExpected);
         }
-        catch(HealException ex)
+        catch(CommonException ex)
         {
             logger.error("{} - verifyTextMatches() failed! Target element not found!");
             vFailures.add(sComment + " - verifyTextMatches() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");

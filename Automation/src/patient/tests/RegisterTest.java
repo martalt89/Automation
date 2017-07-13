@@ -1,6 +1,6 @@
 package patient.tests;
 
-import com.heal.framework.web.HealWebValidate;
+import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 import patient.pages.HomePage;
@@ -16,7 +16,7 @@ public class RegisterTest extends WebBase {
     public void checkRegisterPageElements() throws Exception {
         WebDriver dr = DriverManager.getDriver();
         RegisterPage registerPage = new RegisterPage(dr);
-        HealWebValidate validate = new HealWebValidate(dr);
+        CommonWebValidate validate = new CommonWebValidate(dr);
         validate.verifyVisible("Verify register First name input is displayed", registerPage.oFirstNameInput);
         validate.verifyVisible("Verify register Last name input is displayed is displayed", registerPage.oLastNameNameInput);
         validate.verifyVisible("Verify register Email name input is displayed", registerPage.oEmailInput);
@@ -33,7 +33,7 @@ public class RegisterTest extends WebBase {
     public void registerInvalidInput() throws Exception {
         WebDriver dr = DriverManager.getDriver();
         RegisterPage registerPage = new RegisterPage(dr);
-        HealWebValidate validate = new HealWebValidate(dr);
+        CommonWebValidate validate = new CommonWebValidate(dr);
         registerPage.oCreateAcctBtn.click();
         validate.verifyVisible("Verify that field validation error message is displayed", registerPage.oRegisterAlert);
     }
