@@ -26,7 +26,7 @@ public class CommonValidate
 
     public CommonValidate()
     {
-        bTakeShots = true;
+        bTakeShots = false;
     }
 
     public CommonValidate(boolean bTakeScreenshot)

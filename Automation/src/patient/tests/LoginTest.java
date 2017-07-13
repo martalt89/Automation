@@ -1,17 +1,15 @@
 package patient.tests;
 
-import com.heal.framework.test.WebBaseTest;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.Optional;
 import patient.pages.*;
 import utilities.DriverManager;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class LoginTest extends WebBaseTest {
+public class LoginTest extends WebBase {
 
 
     @Test (groups = { "smoke", "regression" })

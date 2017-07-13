@@ -36,6 +36,7 @@ _DS_Store
 
 # Folders to ignore
 .idea/
+out/
 
 # Compiled class file
 *.class
