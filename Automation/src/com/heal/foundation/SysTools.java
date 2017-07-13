@@ -39,7 +39,7 @@ public class SysTools
 
 
     /**
-     * This is method is used to capturing a fullscreen screenshot to a specified folder.
+     * This is method is used to capture a fullscreen screenshot to a specified folder.
      * The file name is constructed using timestamp in the form of "MMddyyyy-HHmmss".
      *
      * @param sFolderPath

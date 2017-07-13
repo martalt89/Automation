@@ -5,11 +5,7 @@
         <listener class-name="utilities.WebDriverListener"></listener>
     </listeners>
     <parameter name="environment" value="local" />
-    <!--<parameter name="browserName" value="chrome" />-->
     <test name="SauceLabs Test">
-        <!--<parameter name="browserName" value="IE" />-->
-        <!--<parameter name="platform" value="Windows 10" />-->
-        <!--<parameter name="version" value="11.103" />-->
         <parameter name="browserName" value="chrome" />
         <parameter name="platform" value="macOS 10.12" />
         <parameter name="version" value="latest" />
@@ -18,82 +14,10 @@
         <classes>
             <class name="patient.tests.LoginTest">
                 <methods>
-                    <!--<include name="loginWithValidCredentials"/>-->
+                    <include name="loginWithValidCredentials"/>
                     <include name="checkMenuLinksLoggedIn"/>
                 </methods>
             </class>
         </classes>
     </test>
-
-    <!--<test name="Login Chrome">-->
-        <!--<parameter name="browserName" value="chrome" />-->
-        <!--<parameter name="platform" value="macOS 10.12" />-->
-        <!--<parameter name="version" value="10" />-->
-        <!--<parameter name="url" value="https://patient.qa.heal.com/login" />-->
-        <!--<classes>-->
-            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
-            <!--<class name="patient.tests.LoginTest"/>-->
-            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
-        <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="Login Safari">-->
-        <!--<parameter name="browserName" value="safari" />-->
-        <!--<parameter name="platform" value="macOS 10.12" />-->
-        <!--<parameter name="version" value="10" />-->
-        <!--<parameter name="url" value="https://patient.qa.heal.com/login" />-->
-        <!--<classes>-->
-            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
-            <!--<class name="patient.tests.LoginTest"/>-->
-            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
-        <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="Login Chrome3">-->
-        <!--<parameter name="browserName" value="chrome" />-->
-        <!--<parameter name="platform" value="macOS 10.12" />-->
-        <!--<parameter name="version" value="10" />-->
-        <!--<parameter name="url" value="https://patient.qa.heal.com/login" />-->
-        <!--<classes>-->
-            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
-            <!--<class name="patient.tests.LoginTest"/>-->
-            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
-        <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="Login Chrome4">-->
-        <!--<parameter name="browserName" value="chrome" />-->
-        <!--<parameter name="platform" value="macOS 10.12" />-->
-        <!--<parameter name="version" value="10" />-->
-        <!--<parameter name="url" value="https://patient.qa.heal.com/login" />-->
-        <!--<classes>-->
-            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
-            <!--<class name="patient.tests.LoginTest"/>-->
-            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
-        <!--</classes>-->
-    <!--</test>-->
-    <!--<test name="Login Chrome5">-->
-        <!--<parameter name="browserName" value="chrome" />-->
-        <!--<parameter name="platform" value="macOS 10.12" />-->
-        <!--<parameter name="version" value="10" />-->
-        <!--<parameter name="url" value="https://patient.qa.heal.com/login" />-->
-        <!--<classes>-->
-            <!--&lt;!&ndash;<class napwa.testsepwa.tests.Test1est1"/>&ndash;&gt;-->
-            <!--<class name="patient.tests.LoginTest"/>-->
-            <!--&lt;!&ndash;<class name="Test3"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test4"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test5"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<class name="Test6"/>&ndash;&gt;-->
-        <!--</classes>-->
-    <!--</test>-->
-
-
 </suite> <!-- Suite -->
