@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by vahanmelikyan on 7/5/17.
  */
-public class HomePage extends WebBase{
+public class HomePage extends WebBase {
 
     CommonWebValidate validate = new CommonWebValidate(oWebDriver);
     public static final String URL = "https://patient.qa.heal.com/login";
