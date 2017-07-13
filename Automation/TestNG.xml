@@ -4,17 +4,19 @@
     <listeners>
         <listener class-name="utilities.WebDriverListener"></listener>
     </listeners>
-    <parameter name="environment" value="remote" />
+    <parameter name="environment" value="local" />
     <test name="SauceLabs Test">
-        <parameter name="browserName" value="IE" />
+        <parameter name="target_browsers" value="safari" />
+        <parameter name="browserName" value="safari" />
         <parameter name="platform" value="Windows 10" />
         <parameter name="version" value="latest" />
         <parameter name="screenResolution" value="1280x960" />
         <parameter name="url" value="https://patient.qa.heal.com/login" />
         <classes>
             <class name="patient.tests.LoginTest" />
-            <class name="patient.tests.RegisterTest" />
-            <class name="patient.tests.VisitsTest" />
+            <!--<class name="patient.tests.RegisterTest" />-->
+            <!--<class name="patient.tests.VisitsTest" />-->
+            <!--<class name="patient.tests.BookVisitTest" />-->
         </classes>
     </test>
 </suite> <!-- Suite -->

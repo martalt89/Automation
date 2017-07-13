@@ -1,15 +1,17 @@
 package patient.tests;
 
+import com.heal.framework.test.WebBaseTest;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Optional;
 import patient.pages.*;
 import utilities.DriverManager;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class LoginTest extends WebBase {
+public class LoginTest extends WebBaseTest {
 
 
     @Test (groups = { "smoke", "regression" })
@@ -26,7 +28,7 @@ public class LoginTest extends WebBase {
         homePage.validateTitle("Scheduled Visits");
     }
 
-    @Test (groups = { "regression" })
+    @Test (groups = { "regression"})
     @Parameters ({"url"})
     public void checkMenuLinksLoggedIn(String url) throws Exception {
         CommonWebElement.setbMonitorMode(false);
