@@ -16,7 +16,6 @@ public class RegisterPage extends WebBase {
 
     public static SysTools sysTools = new SysTools();
 
-    public static final String sRedirectUrlAfterRegister = "https://patient.qa.heal.com/book-visit";
     public static final String URL = "https://patient.qa.heal.com/register";
     public static final String sRegisterFirstName = "QA_fn";
     public static final String sRegisterLastName = "QA_ln";
@@ -38,10 +37,17 @@ public class RegisterPage extends WebBase {
     public CommonWebElement oPhoneNmbFlag = new CommonWebElement( "oPhoneNmbFlag", "className=selected-flag", oWebDriver );
     public CommonWebElement oPhoneNmbInput = new CommonWebElement( "oPhoneNmbInput", "name=phonenumber", oWebDriver );
     public CommonWebElement oZipcodeInput = new CommonWebElement( "oZipcodeInput", "name=zipcode", oWebDriver );
-    public CommonWebElement oCreateAcctBtn = new CommonWebElement( "oCreateAcctBtn", "xpath=//*[@id=\"register-view\"]/form/div[9]/button", oWebDriver );
-    public CommonWebElement oAlreadyHaveAccLnk = new CommonWebElement( "oAlreadyHaveAccLnk", "xpath=//*[@id=\"register-view\"]/form/div[9]/a", oWebDriver );
+    public CommonWebElement oRememberMeLabel = new CommonWebElement( "oRememberMeLabel", "xpath=//*[text()='Remember Me']", oWebDriver );
+    public CommonWebElement oCreateAcctBtn = new CommonWebElement( "oCreateAcctBtn", "xpath=//button[@type='submit']", oWebDriver );
+    public CommonWebElement oAlreadyHaveAccLnk = new CommonWebElement( "oAlreadyHaveAccLnk", "xpath=//*[@ui-sref='authentication.login’]", oWebDriver );
+    //error messages
     public CommonWebElement oRegisterAlert = new CommonWebElement( "oRegisterAlert", "className=alert-warning", oWebDriver );
-
+    public CommonWebElement oRegisterFirstnameError = new CommonWebElement( "oRegisterFirstnameError", "xpath=//*[@ng-messages='registerForm.firstname.$error']", oWebDriver );
+    public CommonWebElement oRegisterLastnameError = new CommonWebElement( "oRegisterLastnameError", "xpath=//*[@ng-messages='registerForm.lastname.$error']", oWebDriver );
+    public CommonWebElement oRegisterEmailError = new CommonWebElement( "oRegisterEmailError", "xpath=//*[@ng-messages='registerForm.username.$error']", oWebDriver );
+    public CommonWebElement oRegisterPasswordError = new CommonWebElement( "oRegisterPasswordError", "xpath=//*[@ng-messages='registerForm.password.$error']", oWebDriver );
+    public CommonWebElement oRegisterPhoneNumberError = new CommonWebElement( "oRegisterPhoneNumberError", "xpath=//*[@ng-messages='registerForm.phonenumber.$error']", oWebDriver );
+    public CommonWebElement oRegisterZipcodeError = new CommonWebElement( "oRegisterZipcodeError", "xpath=//*[@ng-messages='registerForm.zipcode.$error']", oWebDriver );
 
     //////////////////
     // Constructors //
@@ -54,12 +60,5 @@ public class RegisterPage extends WebBase {
     /////////////
     // Methods //
     /////////////
-    //Please create a method
-
-    public static String getCurrentDateTime(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH-mm");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
 
 }
