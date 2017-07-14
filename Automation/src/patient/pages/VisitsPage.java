@@ -27,8 +27,8 @@ public class VisitsPage extends WebBase {
     public CommonWebElement oWhatToExpectBtn = new CommonWebElement("oWhatToExpectBtn", "xpath=//*[text()='What To Expect']", oWebDriver);
     public CommonWebElement oScheduledVisitsTitle = new CommonWebElement("oScheduledVisitsTitle", "xpath=//*[text()='Scheduled Visits']", oWebDriver);
     public CommonWebElement oIconAll = new CommonWebElement("oIconAll", "xpath=//*[text()='All']", oWebDriver);
-    public CommonWebElement oIconPatient = new CommonWebElement("oIconPatient", "css=profile-image[url='patient.avatarUrl']", oWebDriver);
-    //public CommonWebElement oIconPatient = new CommonWebElement("oIconPatient", "xpath=//*[contains(@class,'profile-image')])[1]", oWebDriver); // this does not work
+    public CommonWebElement oIcon1stPatient = new CommonWebElement("oIcon1stPatient", "xpath=//*[contains(@class,'patient')][1]", oWebDriver); // this works
+    public CommonWebElement oIcon2ndPatient = new CommonWebElement("oIcon2ndPatient", "xpath=//*[contains(@class,'patient')][2]", oWebDriver); // this works
     public CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "className=card-content", oWebDriver);
 
 
@@ -48,20 +48,5 @@ public class VisitsPage extends WebBase {
     /////////////
     // Methods //
     /////////////
-    public void SelectCancelVisit() {
-        this.oCancelVisitBtn.jsClick();
-    }
-
-    public void SelectWhatToExpect() {
-        this.oWhatToExpectBtn.jsClick();
-    }
-
-    public void SelectAllVisits() {
-        this.oIconAll.click();
-    }
-
-    public void SelectPatientVisits() {
-        this.oIconPatient.click();
-    }
-
+    // in progress
 }

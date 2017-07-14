@@ -43,13 +43,13 @@ public class VisitsTest extends WebBase {
         visitsPage.oIconAll.click();
 
         // select only visits of first profile
-        visitsPage.oIconPatient.click();
+        visitsPage.oIcon1stPatient.click();
 
         // assert that visit card of first profile is displayed
         Assert.assertTrue(visitsPage.oVisitCard.isDisplayed());
 
         // click what to expect button
-        visitsPage.SelectWhatToExpect();
+        visitsPage.oWhatToExpectBtn.jsClick();
 
         // sign out
         homePage.selectFromMenu(menu.oSignOutLnk);
