@@ -20,10 +20,16 @@ public class ChooseProfileTest {
         ChooseProfilePage profile = new ChooseProfilePage(dr);
         HomePage homePage = new HomePage(dr);
         Menu menu = new Menu(dr);
-        LoginPage login = new LoginPage(dr);
         CommonWebValidate validate = new CommonWebValidate(dr);
         CommonWebElement.setbMonitorMode(true);
-        login.login("mihai.muresan@heal.com","Heal4325");
+
+        //we need a login method
+        LoginPage loginPage = new LoginPage(dr, url);
+        loginPage.oUserNameInput.sendKeys("mihai.muresan@heal.com");
+        loginPage.oPasswordInput.sendKeys("Heal4325");
+        loginPage.oLoginBtn.click();
+
+
         homePage.selectFromMenu(menu.oProfilesLnk);
         validate.verifyVisible("Verify Manage Profiles label is displayed", profile.oManageProfilesLabel);
         validate.verifyVisible("Verify Choose Profile label is displayed", profile.oChooseProfileLabel);
