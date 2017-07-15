@@ -109,7 +109,6 @@ public class CommonValidate
         }
 
     }
-
     /**
      * This method verifies that two string matches using regular expression
      *

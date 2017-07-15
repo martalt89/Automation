@@ -23,7 +23,7 @@ public class LoginTest extends WebBase {
 
 //      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
         loginPage.login();
-        homePage.validateTitle("Scheduled Visits");
+        homePage.validateTitle("Book Visit");
     }
 
     @Test (groups = { "regression"})
@@ -41,7 +41,7 @@ public class LoginTest extends WebBase {
 
         loginPage.login();
         homePage.selectFromMenu(menu.oHomeLnk);
-        homePage.validateTitle("Scheduled Visits");
+        homePage.validateTitle("Book Visit");
         homePage.selectFromMenu(menu.oBookVisitLnk);
         if (!validate.verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
             System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
