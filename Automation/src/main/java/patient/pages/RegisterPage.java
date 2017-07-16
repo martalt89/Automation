@@ -1,8 +1,8 @@
 package patient.pages;
 
-import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.WebBase;
-import com.heal.foundation.SysTools;
+import framework.web.CommonWebElement;
+import framework.web.WebBase;
+import foundation.SysTools;
 import org.openqa.selenium.WebDriver;
 
 import java.text.DateFormat;

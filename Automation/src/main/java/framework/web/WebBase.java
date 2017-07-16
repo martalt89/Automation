@@ -1,6 +1,6 @@
-package com.heal.framework.web;
+package framework.web;
 
-import com.heal.framework.exception.CommonException;
+import framework.exception.CommonException;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;

@@ -1,6 +1,6 @@
-package com.heal.framework.web;
+package framework.web;
 
-import com.heal.framework.exception.CommonException;
+import framework.exception.CommonException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.internal.Coordinates;

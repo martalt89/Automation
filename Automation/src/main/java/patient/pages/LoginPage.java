@@ -1,7 +1,7 @@
 package patient.pages;
 
-import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.WebBase;
+import framework.web.CommonWebElement;
+import framework.web.WebBase;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;

@@ -1,8 +1,8 @@
 package patient.tests;
 
-import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.CommonWebValidate;
-import com.heal.framework.web.WebBase;
+import framework.web.CommonWebElement;
+import framework.web.CommonWebValidate;
+import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 import patient.pages.*;
 import utilities.DriverManager;

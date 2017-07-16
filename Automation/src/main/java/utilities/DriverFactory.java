@@ -76,6 +76,19 @@ class DriverFactory {
                     }
                     driver.manage().window().maximize();
                     return driver;
+                case "iPhone":
+                    capabilities = DesiredCapabilities.iphone();
+                    capabilities.setCapability("appiumVersion", "1.6.4");
+                    capabilities.setCapability("deviceName","iPhone Simulator");
+                    capabilities.setCapability("deviceOrientation", "portrait");
+                    capabilities.setCapability("platformVersion","10.3");
+                    capabilities.setCapability("platformName", "iOS");
+                    capabilities.setCapability("browserName", "Safari");
+                    try{
+                        driver = new RemoteWebDriver(new URL(URL), capabilities);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                 default:
                     break;
             }

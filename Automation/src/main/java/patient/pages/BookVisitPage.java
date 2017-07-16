@@ -1,9 +1,9 @@
 package patient.pages;
 
-import com.heal.framework.exception.CommonException;
-import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.CommonWebValidate;
-import com.heal.framework.web.WebBase;
+import framework.exception.CommonException;
+import framework.web.CommonWebElement;
+import framework.web.CommonWebValidate;
+import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 
 /**

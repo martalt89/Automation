@@ -1,4 +1,4 @@
-package com.heal.framework.exception;
+package framework.exception;
 
 /**
  * Created by vahanmelikyan on 2017/7/5.

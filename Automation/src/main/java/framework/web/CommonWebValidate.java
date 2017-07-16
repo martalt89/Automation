@@ -1,11 +1,11 @@
-package com.heal.framework.web;
+package framework.web;
 
 import java.util.regex.Pattern;
 
-import com.heal.framework.exception.CommonException;
-import com.heal.framework.validation.CommonValidate;
+import framework.exception.CommonException;
+import framework.validation.CommonValidate;
 import org.openqa.selenium.WebDriver;
-import com.heal.foundation.SysTools;
+import foundation.SysTools;
 
 /**
  * The Validation class verification methods are essentially wrappers around the

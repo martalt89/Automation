@@ -1,4 +1,4 @@
-package com.heal.foundation;
+package foundation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
