@@ -25,9 +25,9 @@
 				<configuration>
 					<forkCount>1</forkCount>
 					<suiteXmlFiles>
-						<suiteXmlFile>${suiteXML}</suiteXmlFile>
-						<!--<suiteXmlFile>TestNG.xml</suiteXmlFile>-->
+						<suiteXmlFile>${mySuiteXML}</suiteXmlFile>
 					</suiteXmlFiles>
+					<workingDirectory>target/</workingDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

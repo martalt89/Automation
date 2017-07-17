@@ -20,7 +20,11 @@ public class BookVisitPage extends WebBase {
     ///////////////////
     // Page Elements //
     ///////////////////
-    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
+    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]", oWebDriver);
+    public CommonWebElement oEmergencyNoBtn = new CommonWebElement("oEmergencyNoBtn", "xpath=//*[text()='No']", oWebDriver);
+    public CommonWebElement oEmergencyYesBtn = new CommonWebElement("oEmergencyYesBtn", "xpath=//*[text()='Yes']", oWebDriver);
+    public CommonWebElement oOkBtn = new CommonWebElement("oOkBtn", "xpath=//*[text()='Ok']", oWebDriver);
+
 
     //////////////////
     // Constructors //

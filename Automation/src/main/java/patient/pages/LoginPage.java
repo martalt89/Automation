@@ -44,7 +44,7 @@ public class LoginPage extends WebBase{
     //Login with the default username and password
     public void login()
     {
-        this.oUserNameInput.sendKeys("mayur+qatest@heal.com");
+        this.oUserNameInput.sendKeys("mihai.muresan@heal.com");
         this.oPasswordInput.sendKeys("Heal4325");
         this.oLoginBtn.click();
     }
