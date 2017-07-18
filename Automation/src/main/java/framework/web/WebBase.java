@@ -9,8 +9,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.testng.Reporter;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -21,7 +22,7 @@ import java.sql.Timestamp;
  */
 public class WebBase {
 
-    Logger logger = LoggerFactory.getLogger(WebBase.class);
+//    Logger logger = LoggerFactory.getLogger(WebBase.class);
 
     public static final int IMPLICIT_WAIT = 60;
     public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
@@ -40,7 +41,7 @@ public class WebBase {
      * @param oTargetDriver
      */
     public WebBase(WebDriver oTargetDriver) {
-        logger.trace("WebBase(WebDriver oTargetDriver)");
+//        logger.trace("WebBase(WebDriver oTargetDriver)");
 
         oWebDriver = oTargetDriver;
 
@@ -67,7 +68,7 @@ public class WebBase {
      * @param sUrl
      */
     public WebBase(WebDriver oTargetDriver, String sUrl) {
-        logger.trace("WebBase(WebDriver oTargetDriver, String sUrl)");
+//        logger.trace("WebBase(WebDriver oTargetDriver, String sUrl)");
 
         oWebDriver = oTargetDriver;
         sHomeUrl = sUrl;
@@ -204,7 +205,7 @@ public class WebBase {
 
     public static String getScreenshot(WebDriver oDriver, String sFileLocation) {
         File screenShot;
-        Logger logger = LoggerFactory.getLogger(WebBase.class);
+//        Logger logger = LoggerFactory.getLogger(WebBase.class);
 
         try {
             try {
@@ -222,21 +223,24 @@ public class WebBase {
 
             String fullFilePath = sFileLocation + "/" + timestamp.toString() + ".png";
             FileUtils.copyFile(screenShot, new File(fullFilePath));
-            logger.info("Screenshot sent to {}", fullFilePath);
+//            logger.info("Screenshot sent to {}", fullFilePath);
+            Reporter.log(String.format("Screenshot sent to {%s}", fullFilePath));
 
             // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
             try {
                 out.println(oDriver.getPageSource());
             } catch (Exception ex) {
-                logger.error("Failed to dump page source to file:  ", ex);
+//                logger.error("Failed to dump page source to file:  ", ex);
+                Reporter.log(String.format("Failed to dump page source to file:  {%s}", ex));
             } finally {
                 out.close();
             }
 
             return fullFilePath;
         } catch (Exception ex) {
-            logger.error("Failed to capture screenshot:  " + ex);
+//            logger.error("Failed to capture screenshot:  " + ex);
+            Reporter.log(String.format("Failed to capture screenshot:  {%s}", ex));
             return "";
         }
     }

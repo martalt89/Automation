@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Reporter;
 
 
 /**
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SysTools
 {
-    private static Logger logger = LoggerFactory.getLogger(SysTools.class);
+//    private static Logger logger = LoggerFactory.getLogger(SysTools.class);
 
     /**
      * Default constructor for the SysTools class. Initialization allows access to all public methods
@@ -145,7 +146,8 @@ public class SysTools
     {
         try
         {
-            logger.trace("Sleeping for " + lSecondsToWait + " seconds");
+ //           logger.trace("Sleeping for " + lSecondsToWait + " seconds");
+            Reporter.log("Sleeping for " + lSecondsToWait + " seconds");
             Thread.sleep(lSecondsToWait * 1000);
         }
         catch (Exception e)
