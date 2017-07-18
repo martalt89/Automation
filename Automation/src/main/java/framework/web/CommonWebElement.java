@@ -748,7 +748,7 @@ public class CommonWebElement implements WebElement, Locatable {
         WebElement oResult = null;
 
 //        logger.trace("waitForElement():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForElement():  {%s}, {%s}", sElementName, oBy));
+        Reporter.log(String.format("waitForElement():  {%s}, {%s} <br>", sElementName, oBy));
 
         try {
             if (oBy != null) {
@@ -811,7 +811,7 @@ public class CommonWebElement implements WebElement, Locatable {
      */
     public CommonWebElement waitForVisible(long iTimeOut) {
 //        logger.trace("waitForVisible():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForVisible():  {%s}, {%s}", sElementName, oBy));
+        Reporter.log(String.format("waitForVisible():  {%s}, {%s} <br>", sElementName, oBy));
 
         if (oBy != null) {
             waitForElement(iTimeOut);
@@ -837,7 +837,7 @@ public class CommonWebElement implements WebElement, Locatable {
      */
     public void waitForInvisible(long iTimeOut) {
 //        logger.trace("waitForInvisible():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForInvisible():  {%s}, {%s}", sElementName, oBy));
+        Reporter.log(String.format("waitForInvisible():  {%s}, {%s} <br>", sElementName, oBy));
 
         if (oBy != null) {
             try {
@@ -860,7 +860,7 @@ public class CommonWebElement implements WebElement, Locatable {
      */
     public void waitForEnabled(long iTimeOut) {
 //        logger.trace("waitForEnabled():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForEnabled():  {%s}, {%s}", sElementName, oBy));
+        Reporter.log(String.format("waitForEnabled():  {%s}, {%s} <br>", sElementName, oBy));
 
         if (oBy != null) {
             waitForElement(iTimeOut);

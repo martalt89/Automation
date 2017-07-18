@@ -6,13 +6,13 @@
     </listeners>
     <parameter name="environment" value="local" />
     <test name="Login and Register">
-        <parameter name="browserName" value="safari" />
+        <parameter name="browserName" value="chrome" />
         <parameter name="platform" value="Windows 10" />
         <parameter name="version" value="latest" />
         <parameter name="screenResolution" value="1280x960" />
         <parameter name="url" value="https://patient.qa.heal.com/login" />
         <classes>
-            <class name="patient.tests.AddCardTest" />
+            <!--<class name="patient.tests.AddCardTest" />-->
             <class name="patient.tests.LoginTest" />
             <!--<class name="patient.tests.RegisterTest" />-->
             <!--<class name="patient.tests.VisitsTest" />-->

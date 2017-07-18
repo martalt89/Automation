@@ -38,6 +38,7 @@ _DS_Store
 .idea/
 out/
 target/
+test-output/
 
 # Compiled class file
 *.class

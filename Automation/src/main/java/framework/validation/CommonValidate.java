@@ -80,7 +80,7 @@ public class CommonValidate
         catch(AssertionError ex)
         {
 //            logger.error("{} - verifyEquals() failed! Actual: \"{}\"  Expected: \"{}\"", oArray);
-            Reporter.log(String.format("{%s} - verifyEquals(%s) failed! Actual: \"{%s}\"  Expected: \"{%s}\"", oArray));
+            Reporter.log(String.format("{%s} - verifyEquals(%s) failed! Actual: {%s}  Expected: {%s}", oArray));
             //Reporter.log(String.format("- verifyEquals(%s) failed! Actual: {%s}  Expected: {%s}", oArray));
             vFailures.add(sComment + " - verifyEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
             return false;
@@ -109,13 +109,13 @@ public class CommonValidate
         {
             org.testng.Assert.assertEquals(oActual, oExpected);
 //            logger.info("{} - assertEquals(\"{}\", \"{}\") success!", oArray);
-            Reporter.log(String.format("{%s} - assertEquals(\"{%s}\", \"{%s}\") success!", oArray));
+            Reporter.log(String.format("{%s} - assertEquals({%s}, {%s}) success!", oArray));
         }
         catch(AssertionError ex)
         {
 //            logger.error("{} - assertEquals() failed! Actual: \"{}\"  Expected: \"{}\"", oArray);
             //Reporter.log(String.format("{%s} - assertEquals(%s) failed! Actual: \"{%s}\"  Expected: \"{%s}\"", oArray));
-            Reporter.log(String.format("\"{%s}\" - assertEquals() failed! Actual: \"{%s}\"  Expected: \"{%s}\"", oArray));
+            Reporter.log(String.format("{%s} - assertEquals() failed! Actual: {%s} Expected: {%s}", oArray));
             fail("assertEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"");
         }
 
@@ -144,13 +144,13 @@ public class CommonValidate
         if(matcher.matches())
         {
 //            logger.info("{} - verifyMatches(\"{}\", \"{}\") success!", sArray);
-            Reporter.log(String.format("{%s} - verifyMatches(\"{%s}\", \"{%s}\") success!", sArray));
+            Reporter.log(String.format("{%s} - verifyMatches({%s}, {%s}) success! <br>", sArray));
             return true;
         }
         else
         {
 //            logger.error("{} - verifyMatches() failed! Actual: \"{}\"  Expected: \"{}\"", sArray);
-            Reporter.log(String.format("{%s} - verifyMatches() failed! Actual: \"{%s}\"  Expected: \"{%s}\"", sArray));
+            Reporter.log(String.format("{%s} - verifyMatches() failed! Actual: {%s}  Expected: {%s} <br>", sArray));
             vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
             vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " +  "]");
             return false;
