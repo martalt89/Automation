@@ -18,6 +18,8 @@ class DriverFactory {
     private static final String USERNAME = "vmelikyan";
     private static final String ACCESS_KEY = "48aaa651-4c31-41b7-9536-9de238905f03";
     private static final String URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:443/wd/hub";
+    private static String os = System.getProperty("os.name");
+    private static String path = System.getProperty("user.dir");
 
 
     static WebDriver createInstance(String environment, String browserName, String platform, String version, String screenResolution) {
@@ -95,7 +97,12 @@ class DriverFactory {
         }
         switch (browserName) {
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", "chromedriver");
+                if (os.equalsIgnoreCase("Mac OS X")) {
+                    System.setProperty("webdriver.chrome.driver", path + "chromedriver");
+                }else {
+                    System.setProperty("webdriver.chrome.driver", path + "chromedriver.exe");
+                }
+
                 DesiredCapabilities chromeDesiredCapabilities = DesiredCapabilities.chrome();
                 driver = new ChromeDriver(chromeDesiredCapabilities);
                 driver.manage().window().setSize(dimension);
