@@ -29,13 +29,15 @@ _DS_Store
 .AppleDouble
 .LSOverride
 *.class
-.iml
+*.iml
 
 # Thumbnails
 ._*
 
 # Folders to ignore
 .idea/
+out/
+target/
 
 # Compiled class file
 *.class

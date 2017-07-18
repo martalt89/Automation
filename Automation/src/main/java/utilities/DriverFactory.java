@@ -68,6 +68,7 @@ class DriverFactory {
                     capabilities = DesiredCapabilities.internetExplorer();
                     capabilities.setCapability("platform", platform);
                     capabilities.setCapability("version", version);
+                    capabilities.setCapability("screenResolution", screenResolution);
                     try {
                         driver = new RemoteWebDriver(new URL(URL), capabilities);
                     } catch (MalformedURLException e) {
@@ -75,6 +76,19 @@ class DriverFactory {
                     }
                     driver.manage().window().maximize();
                     return driver;
+                case "iPhone":
+                    capabilities = DesiredCapabilities.iphone();
+                    capabilities.setCapability("appiumVersion", "1.6.4");
+                    capabilities.setCapability("deviceName","iPhone Simulator");
+                    capabilities.setCapability("deviceOrientation", "portrait");
+                    capabilities.setCapability("platformVersion","10.3");
+                    capabilities.setCapability("platformName", "iOS");
+                    capabilities.setCapability("browserName", "Safari");
+                    try{
+                        driver = new RemoteWebDriver(new URL(URL), capabilities);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                 default:
                     break;
             }
@@ -97,24 +111,6 @@ class DriverFactory {
                 break;
 
         }
-//        if (browserName.toLowerCase().contains("firefox")) {
-//            driver = new FirefoxDriver();
-//            driver.manage().window().setSize(dimension);
-//            return driver;
-//        }
-//        if (browserName.toLowerCase().contains("safari")) {
-//            driver = new SafariDriver();
-//
-//            return driver;
-//        }
-//
-//        if (browserName.toLowerCase().contains("chrome")) {
-//            System.setProperty("webdriver.chrome.driver", "chromedriver");
-//            DesiredCapabilities chromeDesiredCapabilities = DesiredCapabilities.chrome();
-//            driver = new ChromeDriver(chromeDesiredCapabilities);
-//            driver.manage().window().setSize(dimension);
-//            return driver;
-//        }
         return driver;
     }
 }

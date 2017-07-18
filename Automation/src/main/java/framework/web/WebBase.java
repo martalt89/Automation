@@ -1,6 +1,6 @@
-package com.heal.framework.web;
+package framework.web;
 
-import com.heal.framework.exception.HealException;
+import framework.exception.CommonException;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;
@@ -155,7 +155,7 @@ public class WebBase {
                 }
             });
         } catch (org.openqa.selenium.TimeoutException ex) {
-            throw new HealException("Timeout waiting for popup/window!");
+            throw new CommonException("Timeout waiting for popup/window!");
         }
 
         java.util.Set<String> oHandles = oWebDriver.getWindowHandles();
@@ -247,12 +247,12 @@ public class WebBase {
      * @param oBy (org.openqa.selenium.By) - Search method
      * @return (WebElement) - Found element
      */
-    public HealWebElement findElement(org.openqa.selenium.By oBy) {
-        return new HealWebElement(oWebDriver.findElement(oBy), oBy, oWebDriver);
+    public CommonWebElement findElement(org.openqa.selenium.By oBy) {
+        return new CommonWebElement(oWebDriver.findElement(oBy), oBy, oWebDriver);
     }
 
-    public HealWebElement findElement(String sTag) {
-        return new HealWebElement(oWebDriver.findElement(getByFromString(sTag)), sTag, oWebDriver);
+    public CommonWebElement findElement(String sTag) {
+        return new CommonWebElement(oWebDriver.findElement(getByFromString(sTag)), sTag, oWebDriver);
     }
 
     public static By getByFromString(String sTag) {
@@ -284,7 +284,7 @@ public class WebBase {
             case "partialLinkText":
                 return By.partialLinkText(sSearchTag);
             default:
-                throw new HealException("Unrecognized locator:  " + sSearchMethod);
+                throw new CommonException("Unrecognized locator:  " + sSearchMethod);
         }
     }
 
@@ -299,12 +299,12 @@ public class WebBase {
      * @param iTimeOut (long) - Wait timeout in seconds.
      * @return (WebElement) - WebElement found.
      */
-    public HealWebElement waitForElement(org.openqa.selenium.By oBy, int iTimeOut) {
+    public CommonWebElement waitForElement(org.openqa.selenium.By oBy, int iTimeOut) {
         try {
             Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
             WebElement oElement = oWait.until(ExpectedConditions.presenceOfElementLocated(oBy));
 
-            return new HealWebElement(oElement, oBy, oWebDriver);
+            return new CommonWebElement(oElement, oBy, oWebDriver);
 
 //			Wait<org.openqa.selenium.By> oWait = new FluentWait<org.openqa.selenium.By>(oBy)
 //				       .withTimeout(iTimeOut, java.util.concurrent.TimeUnit.SECONDS)
@@ -327,13 +327,13 @@ public class WebBase {
 
         } catch (org.openqa.selenium.TimeoutException ex) {
             String sText = "Tag:  " + oBy.toString();
-            throw new HealException("Timeout looking for element.  " + sText, ex);
+            throw new CommonException("Timeout looking for element.  " + sText, ex);
         } catch (Exception ex) {
-            throw new HealException("Unhandled exception", ex);
+            throw new CommonException("Unhandled exception", ex);
         }
     }
 
-    public HealWebElement waitForElement(org.openqa.selenium.By oBy) {
+    public CommonWebElement waitForElement(org.openqa.selenium.By oBy) {
         return waitForElement(oBy, IMPLICIT_WAIT);
     }
 
@@ -344,21 +344,21 @@ public class WebBase {
      * @param iTimeOut (long) - Wait timeout in seconds.
      * @return (WebElement) - WebElement found.
      */
-    public HealWebElement waitForVisible(org.openqa.selenium.By oBy, int iTimeOut) {
+    public CommonWebElement waitForVisible(org.openqa.selenium.By oBy, int iTimeOut) {
         try {
             Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
             WebElement oElement = oWait.until(ExpectedConditions.visibilityOfElementLocated(oBy));
 
-            return new HealWebElement(oElement, oBy, oWebDriver);
+            return new CommonWebElement(oElement, oBy, oWebDriver);
         } catch (org.openqa.selenium.TimeoutException ex) {
             String sText = "Tag:  " + oBy.toString();
-            throw new HealException("Timeout waiting for element to be visible.  " + sText, ex);
+            throw new CommonException("Timeout waiting for element to be visible.  " + sText, ex);
         } catch (Exception ex) {
-            throw new HealException("Unhandled exception", ex);
+            throw new CommonException("Unhandled exception", ex);
         }
     }
 
-    public HealWebElement waitForVisible(org.openqa.selenium.By oBy) {
+    public CommonWebElement waitForVisible(org.openqa.selenium.By oBy) {
         return waitForVisible(oBy, IMPLICIT_WAIT);
     }
 
@@ -373,9 +373,9 @@ public class WebBase {
             Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
             oWait.until(ExpectedConditions.titleContains(sTitle));
         } catch (org.openqa.selenium.TimeoutException ex) {
-            throw new HealException("Timeout waiting page title:  " + sTitle, ex);
+            throw new CommonException("Timeout waiting page title:  " + sTitle, ex);
         } catch (Exception ex) {
-            throw new HealException("Unhandled exception", ex);
+            throw new CommonException("Unhandled exception", ex);
         }
     }
 
@@ -432,6 +432,7 @@ public class WebBase {
      * Wait for page to complete load.  This is done by waiting for a new window instance and javascript 'document.readystate'.
      * Every time a page is loaded, a new window object is created in the WebDriver.
      * So we wait for this new Window object and wait for the document.readystate to be 'complete'.
+     *Hova8584
      *
      * @param iTimeOut (int) - Wait timeout in seconds.
      */
