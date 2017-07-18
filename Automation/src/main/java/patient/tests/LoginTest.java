@@ -23,7 +23,7 @@ public class LoginTest extends WebBase {
 
 //      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
         loginPage.login();
-        homePage.validateTitle("Book Visit");
+        homePage.validateTitle("Scheduled Visits");
     }
 
     @Test (groups = { "regression"})

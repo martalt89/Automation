@@ -109,13 +109,13 @@ public class CommonValidate
         {
             org.testng.Assert.assertEquals(oActual, oExpected);
 //            logger.info("{} - assertEquals(\"{}\", \"{}\") success!", oArray);
-            Reporter.log(String.format("{%s} - assertEquals({%s}, {%s}) success!", oArray));
+            Reporter.log(String.format("{%s} - assertEquals({%s}, {%s}) success! <br>", oArray));
         }
         catch(AssertionError ex)
         {
 //            logger.error("{} - assertEquals() failed! Actual: \"{}\"  Expected: \"{}\"", oArray);
             //Reporter.log(String.format("{%s} - assertEquals(%s) failed! Actual: \"{%s}\"  Expected: \"{%s}\"", oArray));
-            Reporter.log(String.format("{%s} - assertEquals() failed! Actual: {%s} Expected: {%s}", oArray));
+            Reporter.log(String.format("{%s} - assertEquals() failed! Actual: {%s} Expected: {%s} <br>", oArray));
             fail("assertEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"");
         }
 

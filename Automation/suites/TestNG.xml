@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="8" name="Critical Path" parallel="classes" >
+<suite thread-count="8" name="Critical Path" parallel="methods" >
     <listeners>
         <listener class-name="utilities.WebDriverListener"></listener>
     </listeners>
