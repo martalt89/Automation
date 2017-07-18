@@ -13,11 +13,13 @@ import java.util.List;
 public class VisitsPage extends WebBase {
 
     public static final String URL = "https://patient.qa.heal.com/login";
+
     ///////////////////
     // Shared Pages  //
     ///////////////////
     Menu menu = new Menu(oWebDriver);
     HomePage homePage = new HomePage(oWebDriver);
+
     ///////////////////
     // Page Elements //
     ///////////////////
@@ -30,9 +32,13 @@ public class VisitsPage extends WebBase {
     public CommonWebElement oIcon1stPatient = new CommonWebElement("oIcon1stPatient", "xpath=//*[contains(@class,'patient')][1]", oWebDriver); // this works
     public CommonWebElement oIcon2ndPatient = new CommonWebElement("oIcon2ndPatient", "xpath=//*[contains(@class,'patient')][2]", oWebDriver); // this works
     public CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "className=card-content", oWebDriver);
-
-
-
+    //Click Cancel visit -> cancel visit section
+    public CommonWebElement oCancelQuestion = new CommonWebElement("oCancelQuestion", "xpath=//*[contains(text(),'cancel this visit?')]", oWebDriver);
+    public CommonWebElement oCancelReasonMenu = new CommonWebElement("oCancelReasonMenu", "name=cancelReasonId", oWebDriver);
+    public CommonWebElement oNotesText = new CommonWebElement("oNotesText", "xpath=//*[text()='Notes:']", oWebDriver);
+    public CommonWebElement oNotesInput = new CommonWebElement("oNotesInput", "xpath=//input", oWebDriver);
+    public CommonWebElement oCloseCancelVisitWindow = new CommonWebElement( "oCloseCancelVisitWindow", "className=close-cancel-visit", oWebDriver );
+    public CommonWebElement oSubmitBtn = new CommonWebElement( "oSubmitBtn", "xpath=//*[text()='Submit']", oWebDriver );
 
     //////////////////
     // Constructors //

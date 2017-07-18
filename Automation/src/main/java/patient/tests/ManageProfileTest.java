@@ -24,7 +24,7 @@ public class ManageProfileTest {
         ChooseProfilePage chooseProfile = new ChooseProfilePage(dr);
         ManageProfilePage profile = new ManageProfilePage(dr);
         CommonWebValidate validate = new CommonWebValidate(dr);
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         login.login("mihai.muresan@heal.com", "Heal4325");
         homePage.selectFromMenu(menu.oProfilesLnk);
         chooseProfile.selectMainProfile();
