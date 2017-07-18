@@ -6,7 +6,7 @@
     </listeners>
     <parameter name="environment" value="local" />
     <test name="Login and Register">
-        <parameter name="browserName" value="chrome" />
+        <parameter name="browserName" value="safari" />
         <parameter name="platform" value="Windows 10" />
         <parameter name="version" value="latest" />
         <parameter name="screenResolution" value="1280x960" />

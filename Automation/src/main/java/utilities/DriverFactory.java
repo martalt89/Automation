@@ -98,7 +98,7 @@ class DriverFactory {
         }
         switch (browserName) {
             case "chrome":
-                if (os.equalsIgnoreCase("Mac OS X")) {
+                if (os.contains("Mac")) {
                     System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver");
                 }else {
                     System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
