@@ -147,12 +147,13 @@ public class SysTools
         try
         {
  //           logger.trace("Sleeping for " + lSecondsToWait + " seconds");
-            Reporter.log("Sleeping for " + lSecondsToWait + " seconds");
+            Reporter.log("Sleeping for " + lSecondsToWait + " seconds <br>");
             Thread.sleep(lSecondsToWait * 1000);
         }
         catch (Exception e)
         {
-            //ErrorManagement.HandleError(e);
+//            ErrorManagement.HandleError(e);
+            Reporter.log(e.toString() + " <br>");
         }
     }
 }

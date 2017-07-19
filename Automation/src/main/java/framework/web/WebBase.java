@@ -224,7 +224,7 @@ public class WebBase {
             String fullFilePath = sFileLocation + "/" + timestamp.toString() + ".png";
             FileUtils.copyFile(screenShot, new File(fullFilePath));
 //            logger.info("Screenshot sent to {}", fullFilePath);
-            Reporter.log(String.format("Screenshot sent to {%s}", fullFilePath));
+            Reporter.log(String.format("Screenshot sent to {%s} <br>", fullFilePath));
 
             // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
@@ -232,7 +232,7 @@ public class WebBase {
                 out.println(oDriver.getPageSource());
             } catch (Exception ex) {
 //                logger.error("Failed to dump page source to file:  ", ex);
-                Reporter.log(String.format("Failed to dump page source to file:  {%s}", ex));
+                Reporter.log(String.format("Failed to dump page source to file:  {%s} <br>", ex));
             } finally {
                 out.close();
             }
@@ -240,7 +240,7 @@ public class WebBase {
             return fullFilePath;
         } catch (Exception ex) {
 //            logger.error("Failed to capture screenshot:  " + ex);
-            Reporter.log(String.format("Failed to capture screenshot:  {%s}", ex));
+            Reporter.log(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";
         }
     }

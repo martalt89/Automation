@@ -533,7 +533,7 @@ public class CommonWebElement implements WebElement, Locatable {
         // This code allows RemoteWebDriver to upload local file to remote node.
         if (!(oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver) && !(oWebDriver instanceof org.openqa.selenium.firefox.FirefoxDriver) && !(oWebDriver instanceof org.openqa.selenium.ie.InternetExplorerDriver)) {
 //            logger.trace("RomoteWebDriver found!");
-            Reporter.log("RomoteWebDriver found!");
+            Reporter.log("RomoteWebDriver found! <br>");
             LocalFileDetector detector = new LocalFileDetector();
             file = detector.getLocalFile(arg0);
             ((RemoteWebDriver) oWebDriver).setFileDetector(detector);
@@ -541,7 +541,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
         waitForElement();
 //        logger.debug("Sending file {}", file.getAbsolutePath());
-        Reporter.log(String.format("Sending file {%s}", file.getAbsolutePath()));
+        Reporter.log(String.format("Sending file {%s} <br>", file.getAbsolutePath()));
         oWebElement.sendKeys(file.getAbsolutePath());
         if (iThrottleValue != 0)
             try {
@@ -586,7 +586,7 @@ public class CommonWebElement implements WebElement, Locatable {
      */
     public void click(String sJavascript) {
 //        logger.trace("Clicking with Javascript:  {}", sJavascript);
-        Reporter.log(String.format("Clicking with Javascript:  {%s}", sJavascript));
+        Reporter.log(String.format("Clicking with Javascript:  {%s} <br>", sJavascript));
 
         waitForVisible();
         oJavascriptExecutor.executeScript(sJavascript + ".click()");
@@ -724,10 +724,10 @@ public class CommonWebElement implements WebElement, Locatable {
 //            logger.trace("totalOffsetFromTop:  {}", totalOffsetFromTop);
 //            logger.trace("yLocation:  {}", yLocation);
 
-            Reporter.log(String.format("xOffsetFromTop:  {%s}", xOffsetFromTop));
-            Reporter.log(String.format("viewportHeight:  {%s}", viewportHeight));
-            Reporter.log(String.format("totalOffsetFromTop:  {%s}", totalOffsetFromTop));
-            Reporter.log(String.format("yLocation:  {%s}", yLocation));
+            Reporter.log(String.format("xOffsetFromTop:  {%s} <br>", xOffsetFromTop));
+            Reporter.log(String.format("viewportHeight:  {%s} <br>", viewportHeight));
+            Reporter.log(String.format("totalOffsetFromTop:  {%s} <br>", totalOffsetFromTop));
+            Reporter.log(String.format("yLocation:  {%s} <br>", yLocation));
 
             return (yLocation >= xOffsetFromTop) && (yLocation <= totalOffsetFromTop);
         } catch (Exception ex) {
@@ -890,7 +890,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
     public void waitForAttribute(String sName, String sValue, long iTimeOut) {
 //        logger.trace("waitForAttribute():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForAttribute():  {%s}, {%s}", sElementName, oBy));
+        Reporter.log(String.format("waitForAttribute():  {%s}, {%s} <br>", sElementName, oBy));
 
         if (oBy != null) {
             waitForElement(iTimeOut);
