@@ -23,9 +23,7 @@ import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 
 public class RunTestSuite {
-    private static final String TEST_PACKAGE = "framework.test";
-
-    public RunTestSuite(){}
+    private static final String TEST_PACKAGE = "patient.tests";
 
     public static void main(String[] args) throws IOException {
 
@@ -39,11 +37,12 @@ public class RunTestSuite {
         //BaseQueries oQuery = new BaseQueries(oEnv);
 
         File oExcel = new File("C:\\Projects\\GitHub\\Automation\\Automation\\src\\main\\java\\framework\\test\\Heal_Login.xlsx");
-        XmlSuite oSuite = readFromExcel(oExcel);
+        List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
+        oSuites.add(readFromExcel(oExcel));
 
         TestNG testng = new TestNG();
 
-        testng.setXmlSuites((List<XmlSuite>) oSuite);
+        testng.setXmlSuites(oSuites);
 
 
         testng.run();

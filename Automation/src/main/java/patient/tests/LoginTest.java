@@ -1,5 +1,6 @@
 package patient.tests;
 
+import framework.test.WebBaseTest;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
@@ -9,7 +10,7 @@ import utilities.DriverManager;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class LoginTest extends WebBase {
+public class LoginTest extends WebBaseTest {
 
 
     @Test (groups = { "smoke", "regression" })
@@ -17,7 +18,7 @@ public class LoginTest extends WebBase {
     public void loginWithValidCredentials(String url) throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr, url);
         HomePage homePage = new HomePage(dr);
 
@@ -31,7 +32,7 @@ public class LoginTest extends WebBase {
     public void checkMenuLinksLoggedIn(String url) throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr, url);
         HomePage homePage = new HomePage(dr);
