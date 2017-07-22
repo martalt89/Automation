@@ -15,10 +15,10 @@ public class LoginTest extends WebBaseTest {
 
     @Test (groups = { "smoke", "regression" })
 //    @Parameters({ "url" })
-    public void loginWithValidCredentials(String url) throws Exception {
+    public void loginWithValidCredentials() throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
-        WebDriver dr = getDriver();
+        WebDriver dr = DriverManager.getDriver();
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
 
@@ -32,7 +32,7 @@ public class LoginTest extends WebBaseTest {
     public void checkMenuLinksLoggedIn() throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
-        WebDriver dr = getDriver();
+        WebDriver dr = DriverManager.getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);

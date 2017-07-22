@@ -6,11 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,6 +17,7 @@ import org.testng.xml.XmlClass;
 import org.testng.xml.XmlInclude;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
+import utilities.WebDriverListener;
 
 public class RunTestSuite {
     private static final String TEST_PACKAGE = "patient.tests";
@@ -36,14 +33,18 @@ public class RunTestSuite {
         //Environment oEnv = new Environment();
         //BaseQueries oQuery = new BaseQueries(oEnv);
 
-        File oExcel = new File("C:\\Projects\\GitHub\\Automation\\Automation\\src\\main\\java\\framework\\test\\Heal_Login.xlsx");
+        File oExcel = new File("C:\\Users\\zzhen\\IdeaProjects\\Automation\\Automation\\src\\main\\java\\framework\\test\\Heal_Login.xlsx");
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
-        oSuites.add(readFromExcel(oExcel));
 
+        XmlSuite suite = readFromExcel(oExcel);
+
+        suite.setParameters(processParameters(oExcel));
+        oSuites.add(suite);
+        System.out.println(suite.toXml());
         TestNG testng = new TestNG();
 
         testng.setXmlSuites(oSuites);
-
+        testng.addListener(new WebDriverListener());
 
         testng.run();
     }
@@ -140,7 +141,7 @@ public class RunTestSuite {
                 oClass = new XmlClass(sTestClass);
 
                 // Found Group.  Create Test to contain Group only
-                if (oTestRow[2] != null)
+                if (oTestRow[2] != null && !oTestRow[2].equals(""))
                 {
                     oTest.setName(sTestName + "_" + oTestRow[2]);
                     oGroups = new ArrayList<String>();
@@ -148,7 +149,7 @@ public class RunTestSuite {
                     oTest.setIncludedGroups(oGroups);
                 }
                 // Found Test Case.  Create Test to contain Test Cases only.
-                else if (oTestRow[3] != null)
+                else if (oTestRow[3] != null && !oTestRow[3].equals(""))
                 {
                     oTest.setName(sTestName);
                     oInclude = new XmlInclude((String)oTestRow[3]);
@@ -157,7 +158,7 @@ public class RunTestSuite {
                     oClass.setIncludedMethods(oIncludes);
 
                     // Found test case parameters.  Insert as TestNG suite parameter using name/value pair with name being the Test Case name.
-                    if (oTestRow[4] != null)
+                    if (oTestRow[4] != null && !oTestRow[4].equals(""))
                     {
                         String sTestInput = (String)oTestRow[4];
 
@@ -190,4 +191,31 @@ public class RunTestSuite {
 
         return oSuite;
     }
+
+    public static HashMap<String, String> processParameters(File excelFile)  throws IOException{
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        FileInputStream  driverExcel = new FileInputStream(excelFile);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(driverExcel);
+        Iterator<Row> rowIterator = workbook.getSheet("Parameters").iterator();
+
+
+        while(rowIterator.hasNext())
+        {
+            Row row = rowIterator.next();
+
+            if (row.getCell(0).getStringCellValue().equalsIgnoreCase("Name"))
+                continue;
+
+            String sName = row.getCell(0,MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue().trim();
+            String sValue = row.getCell(1, MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue().trim();
+
+            params.put(sName, sValue);
+
+        }
+
+        return params;
+    }
+
 }

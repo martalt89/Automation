@@ -226,7 +226,7 @@ public class WebBaseTest
      */
     @BeforeClass(alwaysRun=true)
     @Parameters({ "grid_mode", "grid_server_url", "target_browsers", "firefox_profile", "element_action_throttle", "element_implicit_wait", "monitor_mode", "environment", "maximize_browser" })
-    public void setup(@Optional("false") String grid_mode, @Optional("") String grid_server_url, String target_browsers, @Optional("") String firefox_profile, @Optional("0") String element_action_throttle, @Optional("60") String element_implicit_wait, @Optional("false") String monitor_mode, @Optional("config") String environment, @Optional("false") String maximizeBrowser)
+    public void setup(@Optional("false") String grid_mode, @Optional("") String grid_server_url, @Optional("") String target_browsers, @Optional("") String firefox_profile, @Optional("0") String element_action_throttle, @Optional("60") String element_implicit_wait, @Optional("false") String monitor_mode, @Optional("config") String environment, @Optional("false") String maximizeBrowser)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
