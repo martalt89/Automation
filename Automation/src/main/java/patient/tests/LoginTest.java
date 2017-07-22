@@ -14,12 +14,12 @@ public class LoginTest extends WebBaseTest {
 
 
     @Test (groups = { "smoke", "regression" })
-    @Parameters({ "url" })
+//    @Parameters({ "url" })
     public void loginWithValidCredentials(String url) throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
         WebDriver dr = getDriver();
-        LoginPage loginPage = new LoginPage(dr, url);
+        LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
 
 //      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
@@ -28,13 +28,13 @@ public class LoginTest extends WebBaseTest {
     }
 
     @Test (groups = { "regression"})
-    @Parameters ({"url"})
-    public void checkMenuLinksLoggedIn(String url) throws Exception {
+//    @Parameters ({"url"})
+    public void checkMenuLinksLoggedIn() throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
         WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
-        LoginPage loginPage = new LoginPage(dr, url);
+        LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         VisitsPage visitsPage = new VisitsPage(dr);
