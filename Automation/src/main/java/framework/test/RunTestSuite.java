@@ -140,7 +140,7 @@ public class RunTestSuite {
                 oClass = new XmlClass(sTestClass);
 
                 // Found Group.  Create Test to contain Group only
-                if (oTestRow[2] != null)
+                if (oTestRow[2] != null && !oTestRow[2].equals(""))
                 {
                     oTest.setName(sTestName + "_" + oTestRow[2]);
                     oGroups = new ArrayList<String>();
@@ -148,7 +148,7 @@ public class RunTestSuite {
                     oTest.setIncludedGroups(oGroups);
                 }
                 // Found Test Case.  Create Test to contain Test Cases only.
-                else if (oTestRow[3] != null)
+                else if (oTestRow[3] != null && !oTestRow[3].equals(""))
                 {
                     oTest.setName(sTestName);
                     oInclude = new XmlInclude((String)oTestRow[3]);
@@ -157,7 +157,7 @@ public class RunTestSuite {
                     oClass.setIncludedMethods(oIncludes);
 
                     // Found test case parameters.  Insert as TestNG suite parameter using name/value pair with name being the Test Case name.
-                    if (oTestRow[4] != null)
+                    if (oTestRow[4] != null && !oTestRow[4].equals(""))
                     {
                         String sTestInput = (String)oTestRow[4];
 
