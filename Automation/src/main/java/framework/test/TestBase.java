@@ -38,9 +38,9 @@ import org.testng.annotations.*;
  *
  */
 
-public class WebBaseTest
+public class TestBase
 {
-//    Logger //logger = LoggerFactory.getLogger(WebBaseTest.class);
+//    Logger //logger = LoggerFactory.getLogger(TestBase.class);
 
     private static final String FIREFOX_PROFILE = "C:/QA/ATF/machine/FirefoxProfiles";
 
@@ -74,7 +74,7 @@ public class WebBaseTest
     //  Constructors      //
     ////////////////////////
 
-    public WebBaseTest()
+    public TestBase()
     {
     }
 

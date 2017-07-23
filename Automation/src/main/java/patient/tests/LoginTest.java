@@ -1,16 +1,14 @@
 package patient.tests;
 
-import framework.test.WebBaseTest;
+import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
-import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 import patient.pages.*;
 import utilities.DriverManager;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class LoginTest extends WebBaseTest {
+public class LoginTest extends TestBase {
 
 
     @Test (groups = { "smoke", "regression" })

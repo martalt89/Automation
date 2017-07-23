@@ -27,7 +27,7 @@ public class LoginPage extends WebBase{
     //////////////////
     // Constructors //
     //////////////////
-    @Parameters({ "url" })
+   // @Parameters({ "url" })
     public LoginPage(WebDriver oTargetDriver)
     {
         super(oTargetDriver, URL);

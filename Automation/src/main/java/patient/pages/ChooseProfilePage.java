@@ -16,7 +16,7 @@ public class ChooseProfilePage extends WebBase {
     ///////////////////
 
     //TODO: Also add objects for selected/unselected profile(s) icon(s)
-    public CommonWebElement oProfileName = new CommonWebElement( "oProfileName", "xpath=//*[@id='choose-profile']//h[text()='Mihai']", oWebDriver );
+    public CommonWebElement oProfileName = new CommonWebElement( "oProfileName", "xpath=//*[@id='choose-profile']//h[text()='Mayur']", oWebDriver );
     public CommonWebElement oManageProfilesLabel = new CommonWebElement( "oManageProfilesLabel", "xpath=//*[text()='Manage Profiles']", oWebDriver );
     public CommonWebElement oChooseProfileLabel = new CommonWebElement( "oChooseProfileLabel", "xpath=//*[text()='Choose Profile']", oWebDriver );
     public CommonWebElement oMainProfileLink = new CommonWebElement( "oMainProfileLink", "xpath=//*[@id='choose-profile']//span[1]", oWebDriver );
