@@ -4,7 +4,6 @@ import framework.web.CommonWebElement;
 import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
-import utilities.DriverManager;
 
 /**
  * Created by mihai.muresan on 7/19/2017.
