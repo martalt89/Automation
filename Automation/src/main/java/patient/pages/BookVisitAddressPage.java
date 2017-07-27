@@ -18,7 +18,7 @@ public class BookVisitAddressPage extends WebBase {
     public CommonWebElement oBookVisitTitle = new CommonWebElement( "oBookVisitTitle", "xpath=//*[text()='Book Visit']", oWebDriver );
     public CommonWebElement oVisitLocationTitle = new CommonWebElement( "oVisitLocationTitle", "xpath=//*[text()='Visit Location']", oWebDriver );
     public CommonWebElement oSavedAddressText = new CommonWebElement( "oSavedAddressText", "xpath=//*[text()='My Saved Address']", oWebDriver );
-    public CommonWebElement oSavedAddress = new CommonWebElement( "oSavedAddress", "className=address-selection", oWebDriver );
+    public CommonWebElement oSavedAddress = new CommonWebElement( "oSavedAddress", "xpath=(//*[@class='md-list-item-text address-label layout-column'])[1]", oWebDriver );
     public CommonWebElement oSearchAddressText = new CommonWebElement( "oSearchAddressText", "xpath=//*[text()='Search Address']", oWebDriver );
     public CommonWebElement oWhatAdressText = new CommonWebElement( "oWhatAdressText", "xpath=//*[contains(text(),'What kind')]", oWebDriver );
     public CommonWebElement oAddressInput = new CommonWebElement( "oAddressInput", "name=address1", oWebDriver );
@@ -62,6 +62,10 @@ public class BookVisitAddressPage extends WebBase {
         this.oInstructionsInput.sendKeys(sInstructions);
         //TODO: Add code to select Address type from dropdown menu - currently there are some issues with this
         this.oContinueBtn.click();
+    }
+
+    public void selectFirstSavedAddress(){
+        oSavedAddress.click();
     }
 
 }

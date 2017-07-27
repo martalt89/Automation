@@ -246,6 +246,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void click() {
+        CommonWebElement oLoadingBar = new CommonWebElement("oLoadinBar","xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
         waitForVisible();
         //waitForEnabled();
         System.out.println("Clicking on... " + oWebElement.toString());
@@ -256,6 +257,10 @@ public class CommonWebElement implements WebElement, Locatable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+        if (oLoadingBar.exists()){
+            oLoadingBar.waitForInvisible();
+        }
     }
 
     @Override
@@ -632,6 +637,32 @@ public class CommonWebElement implements WebElement, Locatable {
             return new CommonWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
         else
             return null;
+    }
+
+    /**
+     * Selects item from dropdown menu by visible text.
+     *
+     * @param sSelection     (String) - Item text
+     * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
+     * @return (CommonWebElement)
+     */
+    public CommonWebElement selectAngular(String sSelection) {
+        CommonWebElement listItem = new CommonWebElement("listItem", "xpath=//*[text()='" + sSelection + "']", oWebDriver);
+        waitForElement();
+        if (!isViewable()) {
+            scrollForElement();
+        }
+        click();
+        listItem.waitForElement();
+        listItem.jsClick();
+        if (iThrottleValue != 0)
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        return listItem;
     }
 
     /**

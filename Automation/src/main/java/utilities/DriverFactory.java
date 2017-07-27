@@ -21,7 +21,7 @@ class DriverFactory {
     private static String path = System.getProperty("user.dir");
     private static String separator = System.getProperty("file.separator");
     private static DesiredCapabilities capabilities;
-    
+
     static WebDriver createInstance(String environment, String browserName, String platform, String version, String screenResolution) {
         WebDriver driver = null;
         Dimension dimension = new Dimension(1280, 960);

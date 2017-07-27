@@ -59,6 +59,8 @@ public class RunTestSuite {
 
         XmlSuite oSuite = new XmlSuite();
         oSuite.setName(suiteName);
+        oSuite.setThreadCount(6);
+        oSuite.setParallel(XmlSuite.ParallelMode.METHODS);
         oSuite.setVerbose(2);
         oSuite.setDataProviderThreadCount(1);
 

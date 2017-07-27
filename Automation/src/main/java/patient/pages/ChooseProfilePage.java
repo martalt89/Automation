@@ -10,6 +10,7 @@ import org.testng.annotations.Parameters;
  */
 public class ChooseProfilePage extends WebBase {
     public static final String URL = "https://patient.qa.heal.com/profiles";
+    Menu menu = new Menu(oWebDriver);
 
     ///////////////////
     // Page Elements //
@@ -19,7 +20,8 @@ public class ChooseProfilePage extends WebBase {
     public CommonWebElement oProfileName = new CommonWebElement( "oProfileName", "xpath=//*[@id='choose-profile']//h[text()='Mayur']", oWebDriver );
     public CommonWebElement oManageProfilesLabel = new CommonWebElement( "oManageProfilesLabel", "xpath=//*[text()='Manage Profiles']", oWebDriver );
     public CommonWebElement oChooseProfileLabel = new CommonWebElement( "oChooseProfileLabel", "xpath=//*[text()='Choose Profile']", oWebDriver );
-    public CommonWebElement oMainProfileLink = new CommonWebElement( "oMainProfileLink", "xpath=//*[@id='choose-profile']//span[1]", oWebDriver );
+    //public CommonWebElement oMainProfileLink = new CommonWebElement( "oMainProfileLink", "xpath=//*[@id='choose-profile']//span[1]", oWebDriver );
+    public CommonWebElement oMainProfileLink = new CommonWebElement( "oMainProfileLink", "xpath=(//*[contains(@class,'choose-profile-first-name')])[1]", oWebDriver );
     public CommonWebElement oAddPatientLogo = new CommonWebElement( "oAddPatientLogo", "className='create-patient-link", oWebDriver );
     public CommonWebElement oAddPatientLabel = new CommonWebElement( "oAddPatientLabel", "xpath=//*[text()='Add Patient']", oWebDriver );
     public CommonWebElement oContinueBtn = new CommonWebElement( "oContinueBtn", "xpath=//*[text()='Continue']", oWebDriver );

@@ -24,8 +24,15 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oAditionalInfoText = new CommonWebElement( "oAditionalInfoText", "xpath=//*[contains(text(),'Additional Info')]", oWebDriver );
     public CommonWebElement oSelectDateText = new CommonWebElement( "oSelectDateText", "xpath=//*[text()='Select Date']", oWebDriver );
     public CommonWebElement oSelectTimeText = new CommonWebElement( "oSelectDateText", "xpath=//*[text()='Select a Time']", oWebDriver );
-    public CommonWebElement oAditionalInfoInput = new CommonWebElement( "oAditionalInfoInput", "name=symptoms", oWebDriver );
+    public CommonWebElement oSymptomsInput = new CommonWebElement( "oAditionalInfoInput", "xpath=(//*[@name='symptoms'])[1]", oWebDriver );
     public CommonWebElement oSelectDateInput = new CommonWebElement( "oSelectDateInput", "className=md-datepicker-input", oWebDriver );
+    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot')])[1]", oWebDriver );
+
+
+
+
+
+
     public CommonWebElement oTimeRangeButton1 = new CommonWebElement( "oTimeRangeButton1", "xpath=//*[text()='08:00 am - 10:00 am']", oWebDriver );
     public CommonWebElement oTimeRangeButton2 = new CommonWebElement( "oTimeRangeButton2", "xpath=//*[text()='10:00 am - 12:00 pm']", oWebDriver );
     public CommonWebElement oTimeRangeButton3 = new CommonWebElement( "oTimeRangeButton3", "xpath=//*[text()='12:00 pm - 02:00 pm']", oWebDriver );
