@@ -709,13 +709,7 @@ public class CommonWebElement implements WebElement, Locatable {
         else
             return null;
     }
-
-    private void setSelected(WebElement option, boolean select) {
-        boolean isSelected=option.isDisplayed();
-        if ((!isSelected && select) || (isSelected && !select)) {
-            option.click();
-        }
-    }
+    
     /**
      * Selects item from dropdown menu by the item text
      *
