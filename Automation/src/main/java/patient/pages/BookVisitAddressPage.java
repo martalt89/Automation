@@ -58,7 +58,7 @@ public class BookVisitAddressPage extends WebBase {
     public void typeAddressDetailsAndSubmit(Boolean SavedAddress, String sAddress, String sAptSte, String sInstructions, String sAddressType)
     {
         if(SavedAddress) this.oSavedAddress.click();
-        else this.oAddressTypeMenu.sendKeys(sAddress);
+        else this.oAddressInput.sendKeys(sAddress);
         this.oAptSteInput.sendKeys(sAptSte);
         this.oInstructionsInput.sendKeys(sInstructions);
         //TODO: Add code to select Address type from dropdown menu - currently there are some issues with this
