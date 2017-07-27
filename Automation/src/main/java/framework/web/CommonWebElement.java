@@ -8,10 +8,7 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.testng.Reporter;
@@ -711,6 +708,51 @@ public class CommonWebElement implements WebElement, Locatable {
             return new CommonWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
         else
             return null;
+    }
+
+    private void setSelected(WebElement option, boolean select) {
+        boolean isSelected=option.isDisplayed();
+        if ((!isSelected && select) || (isSelected && !select)) {
+            option.click();
+        }
+    }
+    /**
+     * Selects item from dropdown menu by the item text
+     *
+     * @param sText (String) - Item text
+     */
+    public void selectByVisibleTextAngular(String sText) {
+        oWebElement.click(); // click menu button first to open drop down menu
+        List<WebElement> options =
+                oWebDriver.findElements(By.xpath("//md-option[normalize-space(.) = " + Quotes.escape(sText) + "]"));
+        boolean matched = false;
+        for (WebElement option : options) {
+            if (option.isDisplayed()){
+                option.click();}
+            matched=true;
+        }
+        if (!matched) {
+            throw new NoSuchElementException("Cannot locate element with text: " + sText);
+        }
+    }
+    /**
+     * Selects item from dropdown menu by the value attribute.
+     *
+     * @param sText (String) - Item's value attribute
+     */
+    public void selectByValueAngular(String sText){
+        oWebElement.click(); // click menu button first to open drop down menu
+        List<WebElement> options = oWebDriver.findElements(By.xpath("//md-option[@value="+ Quotes.escape(sText) + "]"));
+
+        boolean matched = false;
+        for (WebElement option : options) {
+            if (option.isDisplayed())
+                option.click();
+            matched = true;
+        }
+        if (!matched) {
+            throw new NoSuchElementException("Cannot locate element with value: " + sText);
+        }
     }
 
     /**

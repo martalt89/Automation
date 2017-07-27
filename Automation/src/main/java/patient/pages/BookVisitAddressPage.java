@@ -24,8 +24,9 @@ public class BookVisitAddressPage extends WebBase {
     public CommonWebElement oAddressInput = new CommonWebElement( "oAddressInput", "name=address1", oWebDriver );
     public CommonWebElement oAptSteInput = new CommonWebElement( "oAptSteInput", "name=address2", oWebDriver );
     public CommonWebElement oInstructionsInput = new CommonWebElement( "oInstructionsInput", "name=instructions", oWebDriver );
-    public CommonWebElement oSelectAddressType = new CommonWebElement( "oAddressTypeMenu", "className=md-select-value", oWebDriver );
+    public CommonWebElement oAddressTypeMenuButton = new CommonWebElement( "oAddressTypeMenu", "className=md-select-value", oWebDriver );
     public CommonWebElement oContinueBtn = new CommonWebElement( "oContinueBtn", "xpath=//*[text()='Continue']", oWebDriver );
+    public CommonWebElement oAddressTypeMenu = new CommonWebElement(oAddressTypeMenuButton, "oAddressTypeMenu", "className=md-content", oWebDriver );
 
     //////////////////
     // Constructors //
@@ -57,7 +58,7 @@ public class BookVisitAddressPage extends WebBase {
     public void typeAddressDetailsAndSubmit(Boolean SavedAddress, String sAddress, String sAptSte, String sInstructions, String sAddressType)
     {
         if(SavedAddress) this.oSavedAddress.click();
-        else this.oAddressInput.sendKeys(sAddress);
+        else this.oAddressTypeMenu.sendKeys(sAddress);
         this.oAptSteInput.sendKeys(sAptSte);
         this.oInstructionsInput.sendKeys(sInstructions);
         //TODO: Add code to select Address type from dropdown menu - currently there are some issues with this
