@@ -716,18 +716,12 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param sText (String) - Item text
      */
     public void selectByVisibleTextAngular(String sText) {
-        oWebElement.click(); // click menu button first to open drop down menu
-        List<WebElement> options =
-                oWebDriver.findElements(By.xpath("//md-option[normalize-space(.) = " + Quotes.escape(sText) + "]"));
-        boolean matched = false;
-        for (WebElement option : options) {
-            if (option.isDisplayed()){
-                option.click();}
-            matched=true;
-        }
-        if (!matched) {
-            throw new NoSuchElementException("Cannot locate element with text: " + sText);
-        }
+        if (this.getTagName().contains("md-select")) //dropdown buttons have md-select tags
+            this.click();
+        else
+            throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
+        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
+        oMenuItem.click();
     }
     /**
      * Selects item from dropdown menu by the value attribute.

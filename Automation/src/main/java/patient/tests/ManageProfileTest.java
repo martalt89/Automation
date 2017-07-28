@@ -13,7 +13,7 @@ import utilities.DriverManager;
  */
 public class ManageProfileTest {
 
-    @Test
+    @Test(groups = {"dev"})
     @Parameters({ "url" })
     public void manageProfile(String url) throws Exception {
         //Small test for Manage Profile page
@@ -31,6 +31,10 @@ public class ManageProfileTest {
 
         validate.verifyVisible("Verify Patient Details label is displayed", profile.oPatientDetailsLabel);
         validate.verifyVisible("Verify Patient Info label is displayed", profile.oPatientInfoLabel);
+        //test select items from dropdown
+        profile.oRelationshipInput.selectByVisibleTextAngular("Partner");
+        profile.oRelationshipInput.selectByVisibleTextAngular("Coworker");
+        //profile.oFirstNameInput.selectByVisibleTextAngular("Partner"); //fail test; calling object must be a dropdown button( must have <md-select> tag)
 
     }
 }
