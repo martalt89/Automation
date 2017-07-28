@@ -24,8 +24,9 @@ public class BookVisitAddressPage extends WebBase {
     public CommonWebElement oAddressInput = new CommonWebElement( "oAddressInput", "name=address1", oWebDriver );
     public CommonWebElement oAptSteInput = new CommonWebElement( "oAptSteInput", "name=address2", oWebDriver );
     public CommonWebElement oInstructionsInput = new CommonWebElement( "oInstructionsInput", "name=instructions", oWebDriver );
-    public CommonWebElement oSelectAddressType = new CommonWebElement( "oAddressTypeMenu", "className=md-select-value", oWebDriver );
+    public CommonWebElement oAddressTypeMenuButton = new CommonWebElement( "oAddressTypeMenu", "className=md-select-value", oWebDriver );
     public CommonWebElement oContinueBtn = new CommonWebElement( "oContinueBtn", "xpath=//*[text()='Continue']", oWebDriver );
+    public CommonWebElement oAddressTypeMenu = new CommonWebElement(oAddressTypeMenuButton, "oAddressTypeMenu", "className=md-content", oWebDriver );
 
     //////////////////
     // Constructors //
