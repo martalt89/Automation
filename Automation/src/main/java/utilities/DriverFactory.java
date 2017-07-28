@@ -48,6 +48,7 @@ class DriverFactory {
 
                 DesiredCapabilities chromeDesiredCapabilities = DesiredCapabilities.chrome();
                 driver = new ChromeDriver(chromeDesiredCapabilities);
+                driver.manage().window().maximize();
                 driver.manage().window().setSize(dimension);
                 return driver;
             case "safari":

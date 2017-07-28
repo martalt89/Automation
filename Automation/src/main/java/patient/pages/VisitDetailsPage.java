@@ -19,6 +19,7 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oVisitDetailsTitle = new CommonWebElement( "oVisitDetailsTitle", "xpath=//*[text()='Visit Details']", oWebDriver );
     public CommonWebElement oSelectServiceText = new CommonWebElement( "oSelectServiceText", "xpath=//*[contains(text(),'Select a Service')]", oWebDriver );
     public CommonWebElement oSickOrInjuredText = new CommonWebElement( "oSickOrInjuredText", "xpath=//*[text()='Sick or Injured']", oWebDriver );
+    //public CommonWebElement oSickOrInjuredText = new CommonWebElement( "oSickOrInjuredText", "xpath=(//*[@class='ng-isolate-scope'])[2]", oWebDriver );
     public CommonWebElement oAnnualPhysicalText = new CommonWebElement( "oAnnualPhysicalText", "xpath=//*[text()='Annual Physical']", oWebDriver );
     public CommonWebElement oOtherText = new CommonWebElement( "oOtherText", "xpath=//*[text()='Other']", oWebDriver );
     public CommonWebElement oAditionalInfoText = new CommonWebElement( "oAditionalInfoText", "xpath=//*[contains(text(),'Additional Info')]", oWebDriver );
@@ -26,7 +27,8 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oSelectTimeText = new CommonWebElement( "oSelectDateText", "xpath=//*[text()='Select a Time']", oWebDriver );
     public CommonWebElement oSymptomsInput = new CommonWebElement( "oAditionalInfoInput", "xpath=(//*[@name='symptoms'])[1]", oWebDriver );
     public CommonWebElement oSelectDateInput = new CommonWebElement( "oSelectDateInput", "className=md-datepicker-input", oWebDriver );
-    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot')])[1]", oWebDriver );
+    //public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot')]/span)[1]", oWebDriver );
+    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//*[@class='layout-wrap ng-scope layout-align-center-start layout-row']/button/span)[1]", oWebDriver );
 
 
 
@@ -50,6 +52,16 @@ public class VisitDetailsPage extends WebBase {
     public VisitDetailsPage(WebDriver oTargetDriver, String sUrl)
     {
         super(oTargetDriver, sUrl);
+    }
+
+    //////////////////
+    //// Methods /////
+    //////////////////
+
+    public void selectFirstAvailableTimeSlot(){
+        oFirstAvailableTimeSlot.jsClick();
+        //oFirstAvailableTimeSlot.click();
+
     }
 
 }

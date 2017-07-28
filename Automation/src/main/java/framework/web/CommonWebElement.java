@@ -1,5 +1,6 @@
 package framework.web;
 
+import com.google.common.base.Function;
 import framework.exception.CommonException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -184,7 +185,7 @@ public class CommonWebElement implements WebElement, Locatable {
         return oParentWebElement;
     }
 
-    public void setoarentWebElement(WebElement oParentWebElement) {
+    public void setoParentWebElement(WebElement oParentWebElement) {
         this.oParentWebElement = oParentWebElement;
     }
 
@@ -247,8 +248,11 @@ public class CommonWebElement implements WebElement, Locatable {
     @Override
     public void click() {
         CommonWebElement oLoadingBar = new CommonWebElement("oLoadinBar","xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
-        waitForVisible();
-        //waitForEnabled();
+        //waitForVisible();
+        if (oLoadingBar.exists()){
+            oLoadingBar.waitForInvisible();
+        }
+        waitForEnabled();
         System.out.println("Clicking on... " + oWebElement.toString());
         oWebElement.click();
         if (iThrottleValue != 0)
@@ -258,9 +262,7 @@ public class CommonWebElement implements WebElement, Locatable {
                 e.printStackTrace();
             }
 
-        if (oLoadingBar.exists()){
-            oLoadingBar.waitForInvisible();
-        }
+
     }
 
     @Override
@@ -358,7 +360,8 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void sendKeys(CharSequence... arg0) {
-        waitForVisible();
+        //waitForVisible();
+        waitForEnabled();
         oWebElement.clear();
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
@@ -562,13 +565,21 @@ public class CommonWebElement implements WebElement, Locatable {
      * @return (Boolean)
      */
     public boolean exists() {
-        try {
-            waitForElement(3);
+        boolean isPresent = oWebDriver.findElements(oBy).size() > 0;
+        if (isPresent) {
             return true;
-        } catch (Exception ex) {
+        }else {
             return false;
         }
     }
+//    public boolean exists() {
+//        try {
+//            waitForElement(3);
+//            return true;
+//        } catch (Exception ex) {
+//            return false;
+//        }
+//    }
 
     /**
      * Check if this element is a dummy element.
@@ -604,7 +615,7 @@ public class CommonWebElement implements WebElement, Locatable {
     }
 
     public void jsClick() {
-        exists();
+        waitForEnabled();
         //waitForVisible();
         oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
         if (iThrottleValue != 0)
@@ -902,12 +913,13 @@ public class CommonWebElement implements WebElement, Locatable {
                         .pollingEvery(500, java.util.concurrent.TimeUnit.MICROSECONDS)
                         .ignoring(NoSuchElementException.class);
 
-                oWait.until(new com.google.common.base.Function<WebElement, Boolean>() {
-                    @Override
-                    public Boolean apply(WebElement oWebElement) {
-                        return oWebElement.isEnabled();
-                    }
-                });
+//                oWait.until(new com.google.common.base.Function<WebElement, Boolean>() {
+//                    @Override
+//                    public Boolean apply(WebElement oWebElement) {
+//                        return oWebElement.isEnabled();
+//                    }
+//                });
+                oWait.until((Function<WebElement, Boolean>) oWebElement -> oWebElement.isEnabled());
             } catch (org.openqa.selenium.TimeoutException ex) {
                 throw new CommonException("Timeout waiting for element " + sElementName + " to be enabled", ex);
             }

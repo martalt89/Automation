@@ -25,7 +25,6 @@ public class BookVisitPage extends WebBase {
     public CommonWebElement oEmergencyYesBtn = new CommonWebElement("oEmergencyYesBtn", "xpath=//*[text()='Yes']", oWebDriver);
     public CommonWebElement oOkBtn = new CommonWebElement("oOkBtn", "xpath=//*[text()='Ok']", oWebDriver);
 
-
     //////////////////
     // Constructors //
     //////////////////
