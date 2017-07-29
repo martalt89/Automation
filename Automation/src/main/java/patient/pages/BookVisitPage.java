@@ -36,7 +36,7 @@ public class BookVisitPage extends WebBase {
     /////////////
     public void SelectFromMenu(CommonWebElement menuItem)
     {
-        menu.SelectFromMenu(menuItem);
+        menu.selectFromMenu(menuItem);
     }
     /////////////////
     // validations //

@@ -4,6 +4,7 @@ import foundation.SysTools;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -58,16 +59,10 @@ public class VisitTests extends WebBase {
         whatToExpectPage.oNextBtn.click();
         whatToExpectPage.oGotItBtn.click();
 
-
         System.out.println("Total number of validations executed : " + validate.getTotalCount());
         int passed = validate.getTotalCount()-validate.getFailureCount();
         System.out.println("Passed validations " + passed);
         System.out.println("Failed validations " + validate.getFailureCount());
-    }
-
-    @Test (groups = {"dev"})
-    public void cancelVisit() {
-
-
+        System.out.println("The visit was booked successfully. Visit code: " + SysTools.getVisitCodeFromURL(dr));
     }
 }

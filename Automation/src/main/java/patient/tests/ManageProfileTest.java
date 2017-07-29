@@ -13,7 +13,7 @@ import utilities.DriverManager;
  */
 public class ManageProfileTest {
 
-    @Test(groups = {"dev"})
+    @Test(groups = {"saas"})
     @Parameters({ "url" })
     public void manageProfile(String url) throws Exception {
         //Small test for Manage Profile page

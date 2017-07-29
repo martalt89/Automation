@@ -245,11 +245,12 @@ public class CommonWebElement implements WebElement, Locatable {
     @Override
     public void click() {
         CommonWebElement oLoadingBar = new CommonWebElement("oLoadinBar","xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
-        //waitForVisible();
+
         if (oLoadingBar.exists()){
             oLoadingBar.waitForInvisible();
         }
         waitForEnabled();
+        waitForVisible();
         System.out.println("Clicking on... " + oWebElement.toString());
         oWebElement.click();
         if (iThrottleValue != 0)
@@ -731,8 +732,8 @@ public class CommonWebElement implements WebElement, Locatable {
             this.click();
         else
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
-        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
-        oMenuItem.click();
+        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//*[text()='" + sText + "']", oWebDriver);
+        oMenuItem.jsClick();
     }
     /**
      * Selects item from dropdown menu by the value attribute.

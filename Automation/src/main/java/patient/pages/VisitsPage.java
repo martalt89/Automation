@@ -1,9 +1,13 @@
 package patient.pages;
 
+import foundation.SysTools;
 import framework.web.CommonWebElement;
 import framework.web.WebBase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.testng.Reporter;
 
 import java.util.List;
 
@@ -34,11 +38,11 @@ public class VisitsPage extends WebBase {
     public CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "className=card-content", oWebDriver);
     //Click Cancel visit -> cancel visit section
     public CommonWebElement oCancelQuestion = new CommonWebElement("oCancelQuestion", "xpath=//*[contains(text(),'cancel this visit?')]", oWebDriver);
-    public CommonWebElement oCancelReasonMenu = new CommonWebElement("oCancelReasonMenu", "name=cancelReasonId", oWebDriver);
+    public CommonWebElement oCancelReasonMenu = new CommonWebElement("oCancelReasonMenu", "xpath=(//*[@class='card-content'])[1]//md-select", oWebDriver);
     public CommonWebElement oNotesText = new CommonWebElement("oNotesText", "xpath=//*[text()='Notes:']", oWebDriver);
     public CommonWebElement oNotesInput = new CommonWebElement("oNotesInput", "xpath=//input", oWebDriver);
     public CommonWebElement oCloseCancelVisitWindow = new CommonWebElement( "oCloseCancelVisitWindow", "className=close-cancel-visit", oWebDriver );
-    public CommonWebElement oSubmitBtn = new CommonWebElement( "oSubmitBtn", "xpath=//*[text()='Submit']", oWebDriver );
+    public CommonWebElement oSubmitBtn = new CommonWebElement( "oSubmitBtn", "xpath=(//*[text()='Submit'])[1]", oWebDriver );
 
     //////////////////
     // Constructors //
@@ -55,4 +59,17 @@ public class VisitsPage extends WebBase {
     // Methods //
     /////////////
     // in progress
+    public void cancelVisit() {
+        try {
+            oCancelVisitBtn.click();
+            oCancelReasonMenu.selectByVisibleTextAngular("Other");
+            oNotesInput.sendKeys("Automation");
+            SysTools.sleepFor(2);
+            oSubmitBtn.click();
+        }catch (NoSuchElementException e){
+            Reporter.log("No visits to cancel");
+        }
+
+    }
+
 }

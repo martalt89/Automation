@@ -43,7 +43,7 @@ public class HomePage extends WebBase {
     /////////////
     public void selectFromMenu(CommonWebElement menuItem)
     {
-        menu.SelectFromMenu(menuItem);
+        menu.selectFromMenu(menuItem);
     }
     /////////////////
     // validations //
