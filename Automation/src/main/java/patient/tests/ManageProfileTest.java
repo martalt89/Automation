@@ -15,7 +15,7 @@ public class ManageProfileTest {
 
     @Test(groups = {"saas"})
     @Parameters({ "url" })
-    public void manageProfile(String url) throws Exception {
+    public void manageProfile() throws Exception {
         //Small test for Manage Profile page
         WebDriver dr = DriverManager.getDriver();
         LoginPage login = new LoginPage(dr);

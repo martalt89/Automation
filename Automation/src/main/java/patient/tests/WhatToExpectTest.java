@@ -15,7 +15,7 @@ public class WhatToExpectTest {
 
     @Test
     @Parameters({ "url" })
-    public void checkWhatToExpectScreens(String url) throws Exception {
+    public void checkWhatToExpectScreens() throws Exception {
         //small tests for some page objects
         WebDriver dr = DriverManager.getDriver();
         HomePage homePage = new HomePage(dr);

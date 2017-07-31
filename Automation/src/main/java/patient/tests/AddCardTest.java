@@ -15,7 +15,7 @@ public class AddCardTest {
 
     @Test
     @Parameters({ "url" })
-    public void checkPofilesPageElements(String url) throws Exception {
+    public void checkPofilesPageElements() throws Exception {
         WebDriver dr = DriverManager.getDriver();
         AddCardPage payment = new AddCardPage(dr);
         HomePage homePage = new HomePage(dr);

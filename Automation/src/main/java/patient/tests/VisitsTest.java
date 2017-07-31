@@ -19,11 +19,11 @@ public class VisitsTest extends WebBase {
 
     @Test
     @Parameters({ "url" })
-    public void accessVisitPage(String url) throws Exception {
+    public void accessVisitPage() throws Exception {
         CommonWebElement.setbMonitorMode(true);
         WebDriver dr = DriverManager.getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
-        LoginPage loginPage = new LoginPage(dr, url);
+        LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
         VisitsPage visitsPage = new VisitsPage(dr);
         Menu menu = new Menu(dr);

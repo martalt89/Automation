@@ -15,7 +15,7 @@ public class ChooseProfileTest {
 
     @Test
     @Parameters({ "url" })
-    public void checkPofilesPageElements(String url) throws Exception {
+    public void checkPofilesPageElements() throws Exception {
         WebDriver dr = DriverManager.getDriver();
         ChooseProfilePage profile = new ChooseProfilePage(dr);
         HomePage homePage = new HomePage(dr);

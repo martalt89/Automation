@@ -38,7 +38,7 @@ class DriverFactory {
             return driver;
         }
 
-        switch (browserName) {
+        switch (browserName.toLowerCase()) {
             case "chrome":
                 if (os.contains("Mac")) {
                     System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver");
@@ -66,8 +66,8 @@ class DriverFactory {
 
     private static DesiredCapabilities getDesiredCapabilities(String browserName, String platform, String browserVersion) {
 
-        switch (browserName) {
-            case "IE":
+        switch (browserName.toLowerCase()) {
+            case "ie":
                 capabilities = DesiredCapabilities.internetExplorer();
                 capabilities.setCapability("version", browserVersion);
                 capabilities.setCapability("platform", platform);
@@ -87,7 +87,7 @@ class DriverFactory {
                 capabilities.setCapability("version", browserVersion);
                 capabilities.setCapability("platform", platform);
                 break;
-            case "iPhone":
+            case "iphone":
                 capabilities = DesiredCapabilities.iphone();
                 capabilities.setCapability("browserName", "Safari");
                 capabilities.setCapability("appiumVersion", "1.6.4");

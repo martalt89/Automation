@@ -15,7 +15,7 @@ public class PaymentsTest {
 
     @Test
     @Parameters({ "url" })
-    public void checkPaymentsPage(String url) throws Exception {
+    public void checkPaymentsPage() throws Exception {
         WebDriver dr = DriverManager.getDriver();
         PaymentsPage payment = new PaymentsPage(dr);
         HomePage homePage = new HomePage(dr);

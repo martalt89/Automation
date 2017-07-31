@@ -17,12 +17,12 @@ public class VisitTests extends WebBase {
     WebDriver dr = DriverManager.getDriver();
 
     @Test (groups = {"dsf"})
-    @Parameters({ "url" })
-    public void bookVisit(String url) throws Exception {
+    //@Parameters({ "url" })
+    public void bookVisit() throws Exception {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = DriverManager.getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
-        LoginPage loginPage = new LoginPage(dr, url);
+        LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
         BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
