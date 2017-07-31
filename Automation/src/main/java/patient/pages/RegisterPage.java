@@ -4,10 +4,8 @@ import framework.web.CommonWebElement;
 import framework.web.WebBase;
 import foundation.SysTools;
 import org.openqa.selenium.WebDriver;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import framework.test.TestData;
+import org.testng.annotations.Test;
 
 /**
  * Created by mihai.muresan on 7/10/2017.
@@ -61,4 +59,16 @@ public class RegisterPage extends WebBase {
     // Methods //
     /////////////
 
+    //below is a method to demonstrate how input fields are populated with data extracted from a sheet document
+    TestData testData = new TestData();
+    public void registerValidData() throws InterruptedException {
+        this.oFirstNameInput.sendKeys(testData.getFirstName());
+        this.oLastNameNameInput.sendKeys(testData.getLastName());
+        this.oEmailInput.sendKeys(testData.getEmail());
+        this.oPasswordInput.sendKeys(testData.getPassword());
+        this.oConfirmPasswordInput.sendKeys(testData.getPassword());
+        Thread.sleep(3000); //just to verify that the correct data is written in input fields
+
+
+    }
 }

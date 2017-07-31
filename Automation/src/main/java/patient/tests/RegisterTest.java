@@ -54,4 +54,11 @@ public class RegisterTest extends WebBase {
         homePage.validateTitle();
     }
 
+    @Test(groups = {"dev"})
+    public void testWithExcelTestData() throws Exception {
+        WebDriver dr = DriverManager.getDriver();
+        RegisterPage registerPage = new RegisterPage(dr);
+        registerPage.registerValidData();
+
+    }
 }
