@@ -16,7 +16,7 @@ public class VisitTests extends WebBase {
 
     WebDriver dr = DriverManager.getDriver();
 
-    @Test (groups = {"dev"})
+    @Test (groups = {"dsf"})
     @Parameters({ "url" })
     public void bookVisit(String url) throws Exception {
         CommonWebElement.setbMonitorMode(false);

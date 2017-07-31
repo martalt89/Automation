@@ -36,6 +36,9 @@ public class LoginPage extends WebBase{
     {
         super(oTargetDriver, sUrl);
     }
+    public LoginPage(){
+        super();
+    }
 
     /////////////
     // Methods //

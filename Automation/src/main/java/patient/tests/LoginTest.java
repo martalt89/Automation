@@ -12,13 +12,13 @@ import org.testng.annotations.Test;
 public class LoginTest extends TestBase {
 
 
-    @Test (groups = { "smoke", "regression" })
+    @Test (groups = { "smoke", "regression", "dev" })
 //    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
         WebDriver dr = DriverManager.getDriver();
-        LoginPage loginPage = new LoginPage(dr);
+        LoginPage loginPage = new LoginPage();
         HomePage homePage = new HomePage(dr);
 
 //      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
