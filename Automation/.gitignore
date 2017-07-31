@@ -1,71 +1,46 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
 
-# Folder config file
-Desktop.ini
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# Gradle:
+.idea/**/gradle.xml
+.idea/**/libraries
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+# CMake
+cmake-build-debug/
 
-# Windows shortcuts
-*.lnk
+# Mongo Explorer plugin:
+.idea/**/mongoSettings.xml
 
-# =========================
-# Operating System Files
-# =========================
+## File-based project format:
+*.iws
 
-# OSX
-# =========================
+## Plugin-specific files:
 
-.DS_Store
-_DS_Store
-.AppleDouble
-.LSOverride
-*.class
-*.iml
-
-# Thumbnails
-._*
-
-# Folders to ignore
-.idea/
+# IntelliJ
 out/
-target/
-test-output/
 
-# Compiled class file
-*.class
+# mpeltonen/sbt-idea plugin
+.idea_modules/
 
-# Log file
-*.log
+# JIRA plugin
+atlassian-ide-plugin.xml
 
-# Package Files #
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
+# Cursive Clojure plugin
+.idea/replstate.xml
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
