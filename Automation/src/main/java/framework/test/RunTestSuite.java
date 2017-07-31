@@ -220,7 +220,7 @@ public class RunTestSuite {
             params.put(sName, sValue);
 
         }
-
+        driverExcel.close();
         return params;
     }
 
