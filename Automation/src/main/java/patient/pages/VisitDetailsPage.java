@@ -54,6 +54,10 @@ public class VisitDetailsPage extends WebBase {
         super(oTargetDriver, sUrl);
     }
 
+    public VisitDetailsPage() {
+
+    }
+
     //////////////////
     //// Methods /////
     //////////////////

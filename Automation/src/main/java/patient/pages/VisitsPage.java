@@ -54,6 +54,9 @@ public class VisitsPage extends WebBase {
     public VisitsPage(WebDriver oTargetDriver, String sUrl) {
         super(oTargetDriver, sUrl);
     }
+    public VisitsPage(){
+
+    }
 
     /////////////
     // Methods //

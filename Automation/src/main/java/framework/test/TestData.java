@@ -9,8 +9,7 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 
 
-public class TestData
-{
+public class TestData {
 
     private String projDri = System.getProperty("user.dir");
     private String fileSeparator = System.getProperty("file.separator");
@@ -25,24 +24,22 @@ public class TestData
 
     /**
      * Gets test data from a sheet document
+     *
      * @param sKey (String) Test data key from the sheet document - e.g. "Firstname"
      * @return (String) Test data value from the sheet document - e.g. "John" for a given "Firstname" key
      */
-    private String getTestData(String sKey){
+    private String getTestData(String sKey) {
         String testValue = null;
         try {
-            //String sFilePath = "D:\\Backup Softvision\\Workspace\\heal-qa-automation\\Automation\\src\\main\\java\\framework\\test\\test_data.xlsx";
             String sFilePath = fileExcelPath;
             FileInputStream file = new FileInputStream(sFilePath);
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheet("Sheet1");
             Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext())
-            {
+            while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 Iterator<Cell> cellIterator = row.cellIterator();
-                while (cellIterator.hasNext())
-                {
+                while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
                     cell.setCellType(CellType.STRING);
                     if (cell.getStringCellValue().equals(sKey))
@@ -56,22 +53,20 @@ public class TestData
         return testValue;
     }
 
-    public String getFirstName(){
+    public String getFirstName() {
         return getTestData("Firstname");
     }
-    public String getLastName(){
+
+    public String getLastName() {
         return getTestData("Lastname");
     }
-    public String getEmail(){
+
+    public String getEmail() {
         return getTestData("Email");
     }
-    public String getPassword(){
+
+    public String getPassword() {
         return getTestData("Password");
     }
 
 }
-
-
-
-
-

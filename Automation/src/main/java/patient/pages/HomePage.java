@@ -38,6 +38,10 @@ public class HomePage extends WebBase {
         super(oTargetDriver, sUrl);
     }
 
+    public HomePage(){
+
+    }
+
     /////////////
     // Methods //
     /////////////

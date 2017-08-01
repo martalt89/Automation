@@ -32,6 +32,9 @@ public class Menu extends WebBase{
     {
         super(oTargetDriver);
     }
+    public Menu(){
+
+    }
 
     /////////////
     // Methods //

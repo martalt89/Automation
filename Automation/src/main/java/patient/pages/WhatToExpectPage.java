@@ -60,5 +60,7 @@ public class WhatToExpectPage extends WebBase {
     {
         super(oTargetDriver, sUrl);
     }
+    public WhatToExpectPage(){
 
+    }
 }

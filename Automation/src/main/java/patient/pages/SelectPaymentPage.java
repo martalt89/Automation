@@ -43,5 +43,8 @@ public class SelectPaymentPage extends WebBase {
     {
         super(oTargetDriver, sUrl);
     }
+    public SelectPaymentPage(){
+
+    }
 
 }
