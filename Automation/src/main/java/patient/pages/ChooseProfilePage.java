@@ -10,24 +10,21 @@ import org.testng.annotations.Parameters;
  */
 public class ChooseProfilePage extends WebBase {
     public static final String URL = "https://patient.qa.heal.com/profiles";
+    Menu menu = new Menu(oWebDriver);
 
     ///////////////////
     // Page Elements //
     ///////////////////
 
     //TODO: Also add objects for selected/unselected profile(s) icon(s)
+    public CommonWebElement oProfileName = new CommonWebElement( "oProfileName", "xpath=//*[@id='choose-profile']//h[text()='Mayur']", oWebDriver );
     public CommonWebElement oManageProfilesLabel = new CommonWebElement( "oManageProfilesLabel", "xpath=//*[text()='Manage Profiles']", oWebDriver );
     public CommonWebElement oChooseProfileLabel = new CommonWebElement( "oChooseProfileLabel", "xpath=//*[text()='Choose Profile']", oWebDriver );
-    public CommonWebElement oProfileName = new CommonWebElement( "oProfileName", "xpath=//*[@id='choose-profile']//h[text()='Mihai']", oWebDriver );
-    /*
-    Note1: on below object - oMainProfileLink
-    1. By oMainProfileLink i mean to the user that created the account, in my case Mihai. It's the first profile that it's displayed in Choose profile section
-    2. It is currently hardcoded, but after we decide where we will keep some account data, I will get that value from there
-     */
-    public CommonWebElement oMainProfileLink = new CommonWebElement( "oMainProfileLink", "xpath=//*[@id='choose-profile']//span[text()='Mihai']", oWebDriver );
-    public CommonWebElement oAddPatientLogo = new CommonWebElement( "oAddPatientLogo", "xpath=//*[@id='ic_add_circle_24px_cache150']", oWebDriver );
+    //public CommonWebElement oMainProfileLink = new CommonWebElement( "oMainProfileLink", "xpath=//*[@id='choose-profile']//span[1]", oWebDriver );
+    public CommonWebElement oMainProfileLink = new CommonWebElement( "oMainProfileLink", "xpath=(//*[contains(@class,'choose-profile-first-name')])[1]", oWebDriver );
+    public CommonWebElement oAddPatientLogo = new CommonWebElement( "oAddPatientLogo", "className='create-patient-link", oWebDriver );
     public CommonWebElement oAddPatientLabel = new CommonWebElement( "oAddPatientLabel", "xpath=//*[text()='Add Patient']", oWebDriver );
-    public CommonWebElement oContinueBtn = new CommonWebElement( "oContinueBtn", "xpath=//*[@id='manage-profiles']//button", oWebDriver );
+    public CommonWebElement oContinueBtn = new CommonWebElement( "oContinueBtn", "xpath=//*[text()='Continue']", oWebDriver );
 
     //////////////////
     // Constructors //

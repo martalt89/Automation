@@ -1,5 +1,6 @@
 package patient.tests;
 
+import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import org.openqa.selenium.WebDriver;
@@ -11,11 +12,11 @@ import utilities.DriverManager;
 /**
  * Created by mihai.muresan on 7/17/2017.
  */
-public class AddCardTest {
+public class AddCardTest extends TestBase {
 
     @Test
     @Parameters({ "url" })
-    public void checkPofilesPageElements(String url) throws Exception {
+    public void checkPofilesPageElements() throws Exception {
         WebDriver dr = DriverManager.getDriver();
         AddCardPage payment = new AddCardPage(dr);
         HomePage homePage = new HomePage(dr);

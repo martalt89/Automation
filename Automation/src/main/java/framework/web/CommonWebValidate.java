@@ -5,7 +5,12 @@ import java.util.regex.Pattern;
 import framework.exception.CommonException;
 import framework.validation.CommonValidate;
 import org.openqa.selenium.WebDriver;
+
 import foundation.SysTools;
+import org.testng.Reporter;
+
+import foundation.SysTools;
+
 
 /**
  * The Validation class verification methods are essentially wrappers around the
@@ -17,7 +22,7 @@ import foundation.SysTools;
  * */
 public class CommonWebValidate extends CommonValidate
 {
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonWebValidate.class);
+    //    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonWebValidate.class);
     private WebDriver oWebDriver = null;
     private CommonWebElement oCommonWebElement = null;
 
@@ -83,18 +88,21 @@ public class CommonWebValidate extends CommonValidate
         try
         {
             org.testng.Assert.assertEquals(oTarget.isDisplayed(), true);
-            logger.info("{} - verifyVisible(\"{}\") success!", sComment, oTarget.getElementName());
+//            logger.info("{} - verifyVisible(\"{}\") success!", sComment, oTarget.getElementName());
+            Reporter.log(String.format("{%s} - verifyVisible(\"{%s}\") success! <br>", sComment, oTarget.getElementName()));
             return true;
         }
         catch(AssertionError ex)
         {
-            logger.error("{} - verifyVisible(\"{}\") failed!", sComment, oTarget.getElementName());
+//            logger.error("{} - verifyVisible(\"{}\") failed!", sComment, oTarget.getElementName());
+            Reporter.log(String.format("{%s} - verifyVisible(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
             vFailures.add(sComment + " - verifyVisible(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyVisible() failed! Target element not found!");
+//            logger.error("{} - verifyVisible() failed! Target element not found!");
+            Reporter.log(String.format("{%s} - verifyVisible(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
             vFailures.add(sComment + " - verifyVisible() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -117,12 +125,14 @@ public class CommonWebValidate extends CommonValidate
         try
         {
             org.testng.Assert.assertEquals(oTarget.isDisplayed(3), false);
-            logger.info("{} - verifyInvisible(\"{}\") success!", sComment, oTarget.getElementName());
+//            logger.info("{} - verifyInvisible(\"{}\") success!", sComment, oTarget.getElementName());
+            Reporter.log(String.format("{%s} - verifyInvisible(\"{%s}\") success! <br>", sComment, oTarget.getElementName()));
             return true;
         }
         catch(AssertionError ex)
         {
-            logger.error("{} - verifyInvisible(\"{}\") failed!", sComment, oTarget.getElementName());
+//            logger.error("{} - verifyInvisible(\"{}\") failed!", sComment, oTarget.getElementName());
+            Reporter.log(String.format("{%s} - verifyInvisible(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
             vFailures.add(sComment + "- verifyInvisible(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -145,18 +155,21 @@ public class CommonWebValidate extends CommonValidate
         try
         {
             org.testng.Assert.assertEquals(oTarget.isViewable(), true);
-            logger.info("{} - verifyViewable(\"{}\") success!", sComment, oTarget.getElementName());
+//            logger.info("{} - verifyViewable(\"{}\") success!", sComment, oTarget.getElementName());
+            Reporter.log(String.format("{%s} - verifyViewable(\"{%s}\") success! <br>", sComment, oTarget.getElementName()));
             return true;
         }
         catch(AssertionError ex)
         {
-            logger.error("{} - verifyViewable(\"{}\") failed!", sComment, oTarget.getElementName());
+//            logger.error("{} - verifyViewable(\"{}\") failed!", sComment, oTarget.getElementName());
+            Reporter.log(String.format("{%s} - verifyViewable(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
             vFailures.add(sComment + " - verifyViewable(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyViewable() failed! Target element not found!");
+//            logger.error("{} - verifyViewable() failed! Target element not found!");
+            Reporter.log("{} - verifyViewable() failed! Target element not found! <br>");
             vFailures.add(sComment + " - verifyViewable() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -189,18 +202,21 @@ public class CommonWebValidate extends CommonValidate
             oStartPage.waitForPageLoad();
             sActualURL = oStartPage.getCurrentUrl();
             org.testng.Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
-            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
+//            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
+            Reporter.log("sComment" + String.format(" - verifyLink(\"{%s}\", \"{%s}\") success! <br>", oLink.getElementName(), sExpectedURL));
             return true;
         }
         catch(AssertionError ex)
         {
-            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
+//            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
+            Reporter.log("sComment" + String.format(" - verifyLink failed! Actual: \"{%s}\"  Expected: \"{%s}\" <br>", sActualURL, sExpectedURL));
             vFailures.add(sComment + " - verifyLink failed! Actual: \"" + sActualURL + "\"  Expected: \"" + sExpectedURL + "\"   [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyLinkNavigation() failed! Target element not found!");
+//            logger.error("{} - verifyLinkNavigation() failed! Target element not found!");
+            Reporter.log("{} - verifyLinkNavigation() failed! Target element not found! <br>");
             vFailures.add(sComment + " - verifyLinkNavigation() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -234,20 +250,23 @@ public class CommonWebValidate extends CommonValidate
             oStartPage.waitForUrlNot("");
             sActualURL = oStartPage.getCurrentUrl();
             org.testng.Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
-            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
+//            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
+            Reporter.log("sComment" + String.format(" - verifyLink(\"{%s}\", \"{%s}\") success! <br>", oLink.getElementName(), sExpectedURL));
             oStartPage.closePopup();
             return true;
         }
         catch(AssertionError ex)
         {
-            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
+//            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
+            Reporter.log("sComment" + String.format(" - verifyLink failed! Actual: \"{%s}\"  Expected: \"{%s}\" <br>", sActualURL, sExpectedURL));
             vFailures.add(sComment + " - verifyLink failed! Actual: \"" + sActualURL + "\"  Expected: \"" + sExpectedURL + "\"   [Screenshot:  " + getScreenshot() + "]");
             oStartPage.closePopup();
             return false;
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyLinkPopup() failed! Target element not found!");
+//            logger.error("{} - verifyLinkPopup() failed! Target element not found!");
+            Reporter.log("{} - verifyLinkPopup() failed! Target element not found! <br>");
             vFailures.add(sComment + " - verifyLinkPopup() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -279,7 +298,8 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyAttribute() failed! Target element not found!");
+//            logger.error("{} - verifyAttribute() failed! Target element not found!");
+            Reporter.log("{} - verifyAttribute() failed! Target element not found! <br>");
             vFailures.add(sComment + " - verifyAttribute() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -311,7 +331,8 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyCssValue() failed! Target element not found!");
+//            logger.error("{} - verifyCssValue() failed! Target element not found!");
+            Reporter.log("{} - verifyCssValue() failed! Target element not found! <br>");
             vFailures.add(sComment + " - verifyCssValue() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -370,7 +391,8 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyTextEquals() failed! Target element not found!");
+//            logger.error("{} - verifyTextEquals() failed! Target element not found!");
+            Reporter.log("{} - verifyTextEquals() failed! Target element not found! <br>");
             vFailures.add(sComment + " - verifyTextEquals() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -401,7 +423,8 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-            logger.error("{} - verifyTextMatches() failed! Target element not found!");
+//            logger.error("{} - verifyTextMatches() failed! Target element not found!");
+            Reporter.log("{} - verifyTextMatches() failed! Target element not found! <br>");
             vFailures.add(sComment + " - verifyTextMatches() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -409,7 +432,8 @@ public class CommonWebValidate extends CommonValidate
 
     public void logFailure(String message)
     {
-        logger.error("Failure:  {}", message);
+//        logger.error("Failure:  {}", message);
+        Reporter.log(String.format("Failure:  {%s} <br>", message));
         vFailures.add("Failure:  " + message + "  [Screenshot:  " + getScreenshot() + "]");
     }
 }

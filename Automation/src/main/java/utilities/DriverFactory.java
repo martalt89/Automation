@@ -14,90 +14,41 @@ import java.net.URL;
 
 class DriverFactory {
 
-
-    private static final String USERNAME = "vmelikyan";
-    private static final String ACCESS_KEY = "48aaa651-4c31-41b7-9536-9de238905f03";
+    private static final String USERNAME = "qaheal";
+    private static final String ACCESS_KEY = "e14bb2d7-155b-4775-8978-9365c5b22012";
     private static final String URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:443/wd/hub";
-
+    private static String os = System.getProperty("os.name");
+    private static String path = System.getProperty("user.dir");
+    private static String separator = System.getProperty("file.separator");
+    private static DesiredCapabilities capabilities;
 
     static WebDriver createInstance(String environment, String browserName, String platform, String version, String screenResolution) {
         WebDriver driver = null;
         Dimension dimension = new Dimension(1280, 960);
-        DesiredCapabilities capabilities;
+        //DesiredCapabilities capabilities;
 
         if (environment.equalsIgnoreCase("remote")) {
-            switch (browserName) {
-                case "chrome":
-                    capabilities = DesiredCapabilities.chrome();
-                    capabilities.setCapability("platform", platform);
-                    capabilities.setCapability("version", version);
-                    capabilities.setCapability("screenResolution", screenResolution);
-                    try {
-                        driver = new RemoteWebDriver(new URL(URL), capabilities);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    driver.manage().window().maximize();
-                    return driver;
 
-                case "safari":
-                    capabilities = DesiredCapabilities.safari();
-                    capabilities.setCapability("platform", platform);
-                    capabilities.setCapability("version", version);
-                    capabilities.setCapability("screenResolution", screenResolution);
-                    try {
-                        driver = new RemoteWebDriver(new URL(URL), capabilities);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    driver.manage().window().maximize();
-                    return driver;
-                case "firefox":
-                    capabilities = DesiredCapabilities.firefox();
-                    capabilities.setCapability("platform", platform);
-                    capabilities.setCapability("version", version);
-                    capabilities.setCapability("screenResolution", screenResolution);
-                    try {
-                        driver = new RemoteWebDriver(new URL(URL), capabilities);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    driver.manage().window().maximize();
-                    return driver;
-                case "IE":
-                    capabilities = DesiredCapabilities.internetExplorer();
-                    capabilities.setCapability("platform", platform);
-                    capabilities.setCapability("version", version);
-                    capabilities.setCapability("screenResolution", screenResolution);
-                    try {
-                        driver = new RemoteWebDriver(new URL(URL), capabilities);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    driver.manage().window().maximize();
-                    return driver;
-                case "iPhone":
-                    capabilities = DesiredCapabilities.iphone();
-                    capabilities.setCapability("appiumVersion", "1.6.4");
-                    capabilities.setCapability("deviceName","iPhone Simulator");
-                    capabilities.setCapability("deviceOrientation", "portrait");
-                    capabilities.setCapability("platformVersion","10.3");
-                    capabilities.setCapability("platformName", "iOS");
-                    capabilities.setCapability("browserName", "Safari");
-                    try{
-                        driver = new RemoteWebDriver(new URL(URL), capabilities);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                default:
-                    break;
+            capabilities = getDesiredCapabilities(browserName, platform, version);
+            try {
+                driver = new RemoteWebDriver(new URL(URL), capabilities);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
             }
+            return driver;
         }
-        switch (browserName) {
+
+        switch (browserName.toLowerCase()) {
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", "chromedriver");
+                if (os.contains("Mac")) {
+                    System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver");
+                }else {
+                    System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
+                }
+
                 DesiredCapabilities chromeDesiredCapabilities = DesiredCapabilities.chrome();
                 driver = new ChromeDriver(chromeDesiredCapabilities);
+                driver.manage().window().maximize();
                 driver.manage().window().setSize(dimension);
                 return driver;
             case "safari":
@@ -109,15 +60,48 @@ class DriverFactory {
                 return driver;
             default:
                 break;
-
         }
         return driver;
     }
+
+    private static DesiredCapabilities getDesiredCapabilities(String browserName, String platform, String browserVersion) {
+
+        switch (browserName.toLowerCase()) {
+            case "ie":
+                capabilities = DesiredCapabilities.internetExplorer();
+                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("platform", platform);
+                break;
+            case "firefox":
+                capabilities = DesiredCapabilities.firefox();
+                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("platform", platform);
+                break;
+            case "safari":
+                capabilities = DesiredCapabilities.safari();
+                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("platform", platform);
+                break;
+            case "chrome":
+                capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("platform", platform);
+                break;
+            case "iphone":
+                capabilities = DesiredCapabilities.iphone();
+                capabilities.setCapability("browserName", "Safari");
+                capabilities.setCapability("appiumVersion", "1.6.4");
+                capabilities.setCapability("deviceName", "iPhone 7 Simulator");
+                capabilities.setCapability("deviceOrientation", "portrait");
+                capabilities.setCapability("platformVersion", "10.3");
+                capabilities.setCapability("platformName", "iOS");
+                capabilities.setCapability("version", browserVersion);
+                break;
+            default:
+                capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability("version", browserVersion);
+                break;
+        }
+        return capabilities;
+    }
 }
-
-
-//	public static String getDriver(String key)
-//	{
-//		return localpath + System.getProperty("file.separator") + key;
-//	}
-//}

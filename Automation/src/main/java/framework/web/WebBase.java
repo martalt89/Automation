@@ -9,8 +9,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.testng.Reporter;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -20,8 +21,6 @@ import java.sql.Timestamp;
  * Created by vahanmelikyan on 6/29/17.
  */
 public class WebBase {
-
-    Logger logger = LoggerFactory.getLogger(WebBase.class);
 
     public static final int IMPLICIT_WAIT = 60;
     public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
@@ -40,11 +39,9 @@ public class WebBase {
      * @param oTargetDriver
      */
     public WebBase(WebDriver oTargetDriver) {
-        logger.trace("WebBase(WebDriver oTargetDriver)");
 
         oWebDriver = oTargetDriver;
 
-//		sHomeUrl = oWebDriver.getCurrentUrl();
         sWindowHandle = oWebDriver.getWindowHandle();
 
         if (oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver) {
@@ -67,7 +64,7 @@ public class WebBase {
      * @param sUrl
      */
     public WebBase(WebDriver oTargetDriver, String sUrl) {
-        logger.trace("WebBase(WebDriver oTargetDriver, String sUrl)");
+//        logger.trace("WebBase(WebDriver oTargetDriver, String sUrl)");
 
         oWebDriver = oTargetDriver;
         sHomeUrl = sUrl;
@@ -204,7 +201,6 @@ public class WebBase {
 
     public static String getScreenshot(WebDriver oDriver, String sFileLocation) {
         File screenShot;
-        Logger logger = LoggerFactory.getLogger(WebBase.class);
 
         try {
             try {
@@ -222,21 +218,21 @@ public class WebBase {
 
             String fullFilePath = sFileLocation + "/" + timestamp.toString() + ".png";
             FileUtils.copyFile(screenShot, new File(fullFilePath));
-            logger.info("Screenshot sent to {}", fullFilePath);
+            Reporter.log(String.format("Screenshot sent to {%s} <br>", fullFilePath));
 
             // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
             try {
                 out.println(oDriver.getPageSource());
             } catch (Exception ex) {
-                logger.error("Failed to dump page source to file:  ", ex);
+                Reporter.log(String.format("Failed to dump page source to file:  {%s} <br>", ex));
             } finally {
                 out.close();
             }
 
             return fullFilePath;
         } catch (Exception ex) {
-            logger.error("Failed to capture screenshot:  " + ex);
+            Reporter.log(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";
         }
     }
@@ -305,25 +301,6 @@ public class WebBase {
             WebElement oElement = oWait.until(ExpectedConditions.presenceOfElementLocated(oBy));
 
             return new CommonWebElement(oElement, oBy, oWebDriver);
-
-//			Wait<org.openqa.selenium.By> oWait = new FluentWait<org.openqa.selenium.By>(oBy)
-//				       .withTimeout(iTimeOut, java.util.concurrent.TimeUnit.SECONDS)
-//				       .pollingEvery(500, java.util.concurrent.TimeUnit.MICROSECONDS)
-//				       .ignoring(NoSuchElementException.class);
-//
-//			WebElement oElement = oWait.until(new com.google.common.base.Function<org.openqa.selenium.By, WebElement>()
-//					{
-//						@Override
-//						public WebElement apply(org.openqa.selenium.By oBy)
-//						{
-//							WebElement oFound = oWebDriver.findElement(oBy);
-//							return oFound;
-//							if (oFound.isDisplayed())
-//								return oFound;
-//							else
-//								return null;
-//						}
-//					});
 
         } catch (org.openqa.selenium.TimeoutException ex) {
             String sText = "Tag:  " + oBy.toString();
@@ -432,7 +409,7 @@ public class WebBase {
      * Wait for page to complete load.  This is done by waiting for a new window instance and javascript 'document.readystate'.
      * Every time a page is loaded, a new window object is created in the WebDriver.
      * So we wait for this new Window object and wait for the document.readystate to be 'complete'.
-     *Hova8584
+     * Hova8584
      *
      * @param iTimeOut (int) - Wait timeout in seconds.
      */
@@ -456,28 +433,5 @@ public class WebBase {
         waitForPageLoad(IMPLICIT_WAIT);
     }
 
-    ////////////////////////////
-    //  Misc methods          //
-    ////////////////////////////
-
-//    private boolean startSeleniumRC() {
-//        try {
-//            org.openqa.selenium.server.SeleniumServer ss;
-//            org.openqa.selenium.server.RemoteControlConfiguration rcc;
-//
-//            rcc = new org.openqa.selenium.server.RemoteControlConfiguration();
-//            rcc.setInteractive(true);
-//            rcc.setSingleWindow(true);
-//            rcc.setTimeoutInSeconds(10);
-//            ss = new org.openqa.selenium.server.SeleniumServer(rcc);
-//            ss.start();
-//
-//            Thread.sleep(5000);
-//            return true;
-//        } catch (Exception ex) {
-//            logger.error("Failed to start Selenium RC");
-//            return false;
-//        }
-//    }
 
 }

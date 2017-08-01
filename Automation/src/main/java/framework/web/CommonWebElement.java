@@ -1,5 +1,6 @@
 package framework.web;
 
+import com.google.common.base.Function;
 import framework.exception.CommonException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -8,12 +9,11 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openqa.selenium.support.ui.*;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import org.testng.Reporter;
+
 
 import java.io.File;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * Created by vahanmelikyan on 7/1/17.
  */
 public class CommonWebElement implements WebElement, Locatable {
-    Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
+//    Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
     private static int iImplicitWait = 30;
@@ -182,7 +182,7 @@ public class CommonWebElement implements WebElement, Locatable {
         return oParentWebElement;
     }
 
-    public void setoarentWebElement(WebElement oParentWebElement) {
+    public void setoParentWebElement(WebElement oParentWebElement) {
         this.oParentWebElement = oParentWebElement;
     }
 
@@ -244,8 +244,13 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void click() {
+        CommonWebElement oLoadingBar = new CommonWebElement("oLoadinBar","xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
+
+        if (oLoadingBar.exists()){
+            oLoadingBar.waitForInvisible();
+        }
+        waitForEnabled();
         waitForVisible();
-        //waitForEnabled();
         System.out.println("Clicking on... " + oWebElement.toString());
         oWebElement.click();
         if (iThrottleValue != 0)
@@ -254,6 +259,8 @@ public class CommonWebElement implements WebElement, Locatable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
     }
 
     @Override
@@ -351,7 +358,8 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void sendKeys(CharSequence... arg0) {
-        waitForVisible();
+        //waitForVisible();
+        waitForEnabled();
         oWebElement.clear();
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
@@ -530,14 +538,16 @@ public class CommonWebElement implements WebElement, Locatable {
 
         // This code allows RemoteWebDriver to upload local file to remote node.
         if (!(oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver) && !(oWebDriver instanceof org.openqa.selenium.firefox.FirefoxDriver) && !(oWebDriver instanceof org.openqa.selenium.ie.InternetExplorerDriver)) {
-            logger.trace("RomoteWebDriver found!");
+//            logger.trace("RomoteWebDriver found!");
+            Reporter.log("RomoteWebDriver found! <br>");
             LocalFileDetector detector = new LocalFileDetector();
             file = detector.getLocalFile(arg0);
             ((RemoteWebDriver) oWebDriver).setFileDetector(detector);
         }
 
         waitForElement();
-        logger.debug("Sending file {}", file.getAbsolutePath());
+//        logger.debug("Sending file {}", file.getAbsolutePath());
+        Reporter.log(String.format("Sending file {%s} <br>", file.getAbsolutePath()));
         oWebElement.sendKeys(file.getAbsolutePath());
         if (iThrottleValue != 0)
             try {
@@ -553,13 +563,21 @@ public class CommonWebElement implements WebElement, Locatable {
      * @return (Boolean)
      */
     public boolean exists() {
-        try {
-            waitForElement(3);
+        boolean isPresent = oWebDriver.findElements(oBy).size() > 0;
+        if (isPresent) {
             return true;
-        } catch (Exception ex) {
+        }else {
             return false;
         }
     }
+//    public boolean exists() {
+//        try {
+//            waitForElement(3);
+//            return true;
+//        } catch (Exception ex) {
+//            return false;
+//        }
+//    }
 
     /**
      * Check if this element is a dummy element.
@@ -581,7 +599,8 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param sJavascript (String) - Javascript.
      */
     public void click(String sJavascript) {
-        logger.trace("Clicking with Javascript:  {}", sJavascript);
+//        logger.trace("Clicking with Javascript:  {}", sJavascript);
+        Reporter.log(String.format("Clicking with Javascript:  {%s} <br>", sJavascript));
 
         waitForVisible();
         oJavascriptExecutor.executeScript(sJavascript + ".click()");
@@ -594,7 +613,7 @@ public class CommonWebElement implements WebElement, Locatable {
     }
 
     public void jsClick() {
-        exists();
+        waitForEnabled();
         //waitForVisible();
         oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
         if (iThrottleValue != 0)
@@ -627,6 +646,32 @@ public class CommonWebElement implements WebElement, Locatable {
             return new CommonWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
         else
             return null;
+    }
+
+    /**
+     * Selects item from dropdown menu by visible text.
+     *
+     * @param sSelection     (String) - Item text
+     * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
+     * @return (CommonWebElement)
+     */
+    public CommonWebElement selectAngular(String sSelection) {
+        CommonWebElement listItem = new CommonWebElement("listItem", "xpath=//*[text()='" + sSelection + "']", oWebDriver);
+        waitForElement();
+        if (!isViewable()) {
+            scrollForElement();
+        }
+        click();
+        listItem.waitForElement();
+        listItem.jsClick();
+        if (iThrottleValue != 0)
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        return listItem;
     }
 
     /**
@@ -676,6 +721,39 @@ public class CommonWebElement implements WebElement, Locatable {
         else
             return null;
     }
+    
+    /**
+     * Selects item from dropdown menu by the item text
+     *
+     * @param sText (String) - Item text
+     */
+    public void selectByVisibleTextAngular(String sText) {
+        if (this.getTagName().contains("md-select")) //dropdown buttons have md-select tags
+            this.click();
+        else
+            throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
+        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//*[text()='" + sText + "']", oWebDriver);
+        oMenuItem.jsClick();
+    }
+    /**
+     * Selects item from dropdown menu by the value attribute.
+     *
+     * @param sText (String) - Item's value attribute
+     */
+    public void selectByValueAngular(String sText){
+        oWebElement.click(); // click menu button first to open drop down menu
+        List<WebElement> options = oWebDriver.findElements(By.xpath("//md-option[@value="+ Quotes.escape(sText) + "]"));
+
+        boolean matched = false;
+        for (WebElement option : options) {
+            if (option.isDisplayed())
+                option.click();
+            matched = true;
+        }
+        if (!matched) {
+            throw new NoSuchElementException("Cannot locate element with value: " + sText);
+        }
+    }
 
     /**
      * Highlight element by drawing red border around it.
@@ -714,10 +792,15 @@ public class CommonWebElement implements WebElement, Locatable {
             else
                 yLocation = getLocation().y;
 
-            logger.trace("xOffsetFromTop:  {}", xOffsetFromTop);
-            logger.trace("viewportHeight:  {}", viewportHeight);
-            logger.trace("totalOffsetFromTop:  {}", totalOffsetFromTop);
-            logger.trace("yLocation:  {}", yLocation);
+//            logger.trace("xOffsetFromTop:  {}", xOffsetFromTop);
+//            logger.trace("viewportHeight:  {}", viewportHeight);
+//            logger.trace("totalOffsetFromTop:  {}", totalOffsetFromTop);
+//            logger.trace("yLocation:  {}", yLocation);
+
+            Reporter.log(String.format("xOffsetFromTop:  {%s} <br>", xOffsetFromTop));
+            Reporter.log(String.format("viewportHeight:  {%s} <br>", viewportHeight));
+            Reporter.log(String.format("totalOffsetFromTop:  {%s} <br>", totalOffsetFromTop));
+            Reporter.log(String.format("yLocation:  {%s} <br>", yLocation));
 
             return (yLocation >= xOffsetFromTop) && (yLocation <= totalOffsetFromTop);
         } catch (Exception ex) {
@@ -737,7 +820,8 @@ public class CommonWebElement implements WebElement, Locatable {
     public CommonWebElement waitForElement(long iTimeOut) {
         WebElement oResult = null;
 
-        logger.trace("waitForElement():  {}, {}", sElementName, oBy);
+//        logger.trace("waitForElement():  {}, {}", sElementName, oBy);
+        Reporter.log(String.format("waitForElement():  {%s}, {%s} <br>", sElementName, oBy));
 
         try {
             if (oBy != null) {
@@ -799,7 +883,9 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
     public CommonWebElement waitForVisible(long iTimeOut) {
-        logger.trace("waitForVisible():  {}, {}", sElementName, oBy);
+//        logger.trace("waitForVisible():  {}, {}", sElementName, oBy);
+        Reporter.log(String.format("waitForVisible():  {%s}, {%s} <br>", sElementName, oBy));
+
         if (oBy != null) {
             waitForElement(iTimeOut);
 
@@ -823,7 +909,9 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
     public void waitForInvisible(long iTimeOut) {
-        logger.trace("waitForInvisible():  {}, {}", sElementName, oBy);
+//        logger.trace("waitForInvisible():  {}, {}", sElementName, oBy);
+        Reporter.log(String.format("waitForInvisible():  {%s}, {%s} <br>", sElementName, oBy));
+
         if (oBy != null) {
             try {
                 Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
@@ -844,7 +932,8 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
     public void waitForEnabled(long iTimeOut) {
-        logger.trace("waitForEnabled():  {}, {}", sElementName, oBy);
+//        logger.trace("waitForEnabled():  {}, {}", sElementName, oBy);
+        Reporter.log(String.format("waitForEnabled():  {%s}, {%s} <br>", sElementName, oBy));
 
         if (oBy != null) {
             waitForElement(iTimeOut);
@@ -855,12 +944,13 @@ public class CommonWebElement implements WebElement, Locatable {
                         .pollingEvery(500, java.util.concurrent.TimeUnit.MICROSECONDS)
                         .ignoring(NoSuchElementException.class);
 
-                oWait.until(new com.google.common.base.Function<WebElement, Boolean>() {
-                    @Override
-                    public Boolean apply(WebElement oWebElement) {
-                        return oWebElement.isEnabled();
-                    }
-                });
+//                oWait.until(new com.google.common.base.Function<WebElement, Boolean>() {
+//                    @Override
+//                    public Boolean apply(WebElement oWebElement) {
+//                        return oWebElement.isEnabled();
+//                    }
+//                });
+                oWait.until((Function<WebElement, Boolean>) oWebElement -> oWebElement.isEnabled());
             } catch (org.openqa.selenium.TimeoutException ex) {
                 throw new CommonException("Timeout waiting for element " + sElementName + " to be enabled", ex);
             }
@@ -873,7 +963,8 @@ public class CommonWebElement implements WebElement, Locatable {
     }
 
     public void waitForAttribute(String sName, String sValue, long iTimeOut) {
-        logger.trace("waitForAttribute():  {}, {}", sElementName, oBy);
+//        logger.trace("waitForAttribute():  {}, {}", sElementName, oBy);
+        Reporter.log(String.format("waitForAttribute():  {%s}, {%s} <br>", sElementName, oBy));
 
         if (oBy != null) {
             waitForElement(iTimeOut);

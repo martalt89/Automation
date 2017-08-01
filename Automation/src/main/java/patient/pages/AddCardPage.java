@@ -43,4 +43,22 @@ public class AddCardPage extends WebBase {
         super(oTargetDriver, sUrl);
     }
 
+    /////////////
+    // Methods //
+    /////////////
+
+    /**
+     *
+     * @param sCardNumber (String) - Card number to be used
+     * @param sCardExpirationDate (String) - Card expiration date
+     * @param sCardCVC (String) - Card CVC
+     */
+    public void typeCardDetailsAndSubmit(String sCardNumber, String sCardExpirationDate, String sCardCVC)
+    {
+        this.oCardNumberInput.sendKeys(sCardNumber);
+        this.oCardExpirationInput.sendKeys(sCardExpirationDate);
+        this.oCVCInput.sendKeys(sCardCVC);
+        this.oApplyCardBtn.click();
+    }
+
 }

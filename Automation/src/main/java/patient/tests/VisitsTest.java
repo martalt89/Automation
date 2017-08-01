@@ -1,8 +1,9 @@
 package patient.tests;
 
-import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.CommonWebValidate;
-import com.heal.framework.web.WebBase;
+import framework.test.TestBase;
+import framework.web.CommonWebElement;
+import framework.web.CommonWebValidate;
+import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -13,17 +14,17 @@ import patient.pages.Menu;
 import patient.pages.VisitsPage;
 import utilities.DriverManager;
 
-public class VisitsTest extends WebBase {
+public class VisitsTest extends TestBase {
 
     WebDriver dr = DriverManager.getDriver();
 
     @Test
     @Parameters({ "url" })
-    public void accessVisitPage(String url) throws Exception {
+    public void accessVisitPage() throws Exception {
         CommonWebElement.setbMonitorMode(true);
         WebDriver dr = DriverManager.getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
-        LoginPage loginPage = new LoginPage(dr, url);
+        LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
         VisitsPage visitsPage = new VisitsPage(dr);
         Menu menu = new Menu(dr);

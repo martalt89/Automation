@@ -27,7 +27,7 @@ public class LoginPage extends WebBase{
     //////////////////
     // Constructors //
     //////////////////
-    @Parameters({ "url" })
+   // @Parameters({ "url" })
     public LoginPage(WebDriver oTargetDriver)
     {
         super(oTargetDriver, URL);
@@ -35,6 +35,9 @@ public class LoginPage extends WebBase{
     public LoginPage(WebDriver oTargetDriver, String sUrl)
     {
         super(oTargetDriver, sUrl);
+    }
+    public LoginPage(){
+        super();
     }
 
     /////////////
@@ -44,7 +47,7 @@ public class LoginPage extends WebBase{
     //Login with the default username and password
     public void login()
     {
-        this.oUserNameInput.sendKeys("mihai.muresan@heal.com");
+        this.oUserNameInput.sendKeys("mayur+qatest@heal.com");
         this.oPasswordInput.sendKeys("Heal4325");
         this.oLoginBtn.click();
     }

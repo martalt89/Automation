@@ -8,8 +8,11 @@ import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Reporter;
 
 
 /**
@@ -19,7 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SysTools
 {
-    private static Logger logger = LoggerFactory.getLogger(SysTools.class);
+//    private static Logger logger = LoggerFactory.getLogger(SysTools.class);
 
     /**
      * Default constructor for the SysTools class. Initialization allows access to all public methods
@@ -33,12 +36,8 @@ public class SysTools
     // File and I/O           //
     ////////////////////////////
 
-
-
-
-
     /**
-     * This is method is used to capture a fullscreen screenshot to a specified folder.
+     * This method is used to capture a fullscreen screenshot to a specified folder.
      * The file name is constructed using timestamp in the form of "MMddyyyy-HHmmss".
      *
      * @param sFolderPath
@@ -79,10 +78,10 @@ public class SysTools
      * Returns the current date/time value in the specified string format
      *
      * @param sFormat
-     * (String) Date/Time display format
+     * (String) - Date/Time display format
      *
      * @return
-     * (String) Date/Time value displayed in specified format
+     * (String) - Date/Time value displayed in specified format
      */
     public static String getTimestamp(String sFormat)
     {
@@ -94,7 +93,7 @@ public class SysTools
      * Returns the current date/time value in the format MMddyyyy-HHmmss
      *
      * @return
-     * (String) Date/Time value with format MMddyyyy-HHmmss
+     * (String) - Date/Time value with format MMddyyyy-HHmmss
      */
     public static String getTimestamp()
     {
@@ -136,7 +135,7 @@ public class SysTools
     ////////////////////////////
 
     /**
-     * Convenience method that wraps around Thread.Sleep()
+     * Convenient method that wraps around Thread.Sleep()
      *
      * @param lSecondsToWait
      * (long) - Seconds to sleep.
@@ -145,12 +144,35 @@ public class SysTools
     {
         try
         {
-            logger.trace("Sleeping for " + lSecondsToWait + " seconds");
+ //           logger.trace("Sleeping for " + lSecondsToWait + " seconds");
+            Reporter.log("Sleeping for " + lSecondsToWait + " seconds <br>");
             Thread.sleep(lSecondsToWait * 1000);
         }
         catch (Exception e)
         {
-            //ErrorManagement.HandleError(e);
+//            ErrorManagement.HandleError(e);
+            Reporter.log(e.toString() + " <br>");
         }
+    }
+    /**
+     * Convenient method to get the visit code from the URL
+     *
+     * @param dr
+     * (WebDriver) - Drive from which to get the URL
+     *
+     * @return
+     * (String)
+     */
+    public static String getVisitCodeFromURL(WebDriver dr){
+        String visitCode;
+        String currentURL = dr.getCurrentUrl();
+        int slashIndex;
+        slashIndex = StringUtils.ordinalIndexOf(currentURL, "/", 4) + 1;
+        if (slashIndex > 0) {
+            visitCode = currentURL.substring(slashIndex);
+        } else {
+            visitCode = currentURL;
+        }
+        return visitCode;
     }
 }

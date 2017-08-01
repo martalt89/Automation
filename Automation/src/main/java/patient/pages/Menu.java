@@ -36,7 +36,7 @@ public class Menu extends WebBase{
     /////////////
     // Methods //
     /////////////
-    public void SelectFromMenu(CommonWebElement menuItem)
+    public void selectFromMenu(CommonWebElement menuItem)
     {
         if (oLoadingBar.exists()){
             oLoadingBar.waitForInvisible();
