@@ -11,6 +11,18 @@ import java.util.Iterator;
 
 public class TestData
 {
+
+    private String projDri = System.getProperty("user.dir");
+    private String fileSeparator = System.getProperty("file.separator");
+    private String fileExcelName = "test_data.xlsx";
+    private String fileExcelPath = projDri + fileSeparator +
+            "src" + fileSeparator +
+            "main" + fileSeparator +
+            "java" + fileSeparator +
+            "framework" + fileSeparator +
+            "test" + fileSeparator + fileExcelName;
+
+
     /**
      * Gets test data from a sheet document
      * @param sKey (String) Test data key from the sheet document - e.g. "Firstname"
@@ -19,10 +31,11 @@ public class TestData
     private String getTestData(String sKey){
         String testValue = null;
         try {
-            String sFilePath = "D:\\Backup Softvision\\Workspace\\heal-qa-automation\\Automation\\src\\main\\java\\framework\\test\\test_data.xlsx";
+            //String sFilePath = "D:\\Backup Softvision\\Workspace\\heal-qa-automation\\Automation\\src\\main\\java\\framework\\test\\test_data.xlsx";
+            String sFilePath = fileExcelPath;
             FileInputStream file = new FileInputStream(sFilePath);
             XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            XSSFSheet sheet = workbook.getSheet("Sheet1");
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext())
             {

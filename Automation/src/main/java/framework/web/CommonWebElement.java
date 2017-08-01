@@ -244,11 +244,6 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void click() {
-        CommonWebElement oLoadingBar = new CommonWebElement("oLoadinBar","xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
-
-        if (oLoadingBar.exists()){
-            oLoadingBar.waitForInvisible();
-        }
         waitForEnabled();
         waitForVisible();
         System.out.println("Clicking on... " + oWebElement.toString());
@@ -259,8 +254,6 @@ public class CommonWebElement implements WebElement, Locatable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
     }
 
     @Override
@@ -391,6 +384,37 @@ public class CommonWebElement implements WebElement, Locatable {
     //////////////////////////////////////////
     //  Class methods                       //
     //////////////////////////////////////////
+    /**
+     * Click on an element and wait for another element to appear or disappear
+     *
+     * @param element (CommonWebElement) - Element to wait for appear or disappear
+     * @param bAppear (Boolean)
+     *                true(will wait for the element to appear after the click)
+     *                false(will wait for the element to disappear after the click)
+     *
+     */
+    public void clickAndWait(CommonWebElement element, Boolean bAppear) {
+
+        if (bAppear){
+            element.waitForElement();
+        }else {
+            if (element.exists()){
+                element.waitForInvisible();
+            }
+        }
+        waitForEnabled();
+        waitForVisible();
+        System.out.println("Clicking on... " + oWebElement.toString());
+        oWebElement.click();
+        if (iThrottleValue != 0)
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    }
+
+
 
     /**
      * Click on an offset from the top-left corner of the element.
@@ -721,7 +745,7 @@ public class CommonWebElement implements WebElement, Locatable {
         else
             return null;
     }
-    
+
     /**
      * Selects item from dropdown menu by the item text
      *

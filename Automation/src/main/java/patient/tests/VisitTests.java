@@ -16,7 +16,7 @@ public class VisitTests extends WebBase {
 
     WebDriver dr = DriverManager.getDriver();
 
-    @Test (groups = {"dsf"})
+    @Test (groups = {"desv"})
     //@Parameters({ "url" })
     public void bookVisit() throws Exception {
         CommonWebElement.setbMonitorMode(false);
@@ -42,21 +42,21 @@ public class VisitTests extends WebBase {
             System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
         }
         // Select a non life-threatening medical emergency
-        bookVisitPage.oEmergencyNoBtn.click();
+        bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false);
         chooseProfilePage.selectMainProfile();
         addressPage.selectFirstSavedAddress();
-        addressPage.oContinueBtn.click();
-        visitDetailsPage.oSickOrInjuredText.click();
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSymptomsInput.sendKeys("I'm testing this...");
         //visitDetailsPage.oSelectDateInput.sendKeys("07/29/2017");
         visitDetailsPage.selectFirstAvailableTimeSlot();
-        visitDetailsPage.oContinueBtn.click();
-        paymentPage.oCompleteBtn.click();
+        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
         validate.assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
         validate.assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
-        whatToExpectPage.oNextBtn.click();
-        whatToExpectPage.oNextBtn.click();
-        whatToExpectPage.oNextBtn.click();
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
 
         System.out.println("Total number of validations executed : " + validate.getTotalCount());

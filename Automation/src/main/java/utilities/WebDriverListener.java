@@ -18,7 +18,7 @@ public class WebDriverListener implements IInvokedMethodListener {
             String version = method.getTestMethod().getXmlTest().getAllParameters().get("version");
             String screenResolution = method.getTestMethod().getXmlTest().getAllParameters().get("screenResolution");
 
-            WebDriver driver = DriverFactory.createInstance(environment,browserName, platform, version, screenResolution);
+            WebDriver driver = DriverFactory.createInstance(environment, browserName, platform, version, screenResolution);
             DriverManager.setWebDriver(driver);
         }
     }

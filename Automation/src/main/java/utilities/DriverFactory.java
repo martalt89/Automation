@@ -29,63 +29,67 @@ class DriverFactory {
 
         if (environment.equalsIgnoreCase("remote")) {
 
-            capabilities = getDesiredCapabilities(browserName, platform, version);
+            capabilities = getDesiredCapabilities(browserName, platform, version, screenResolution);
             try {
                 driver = new RemoteWebDriver(new URL(URL), capabilities);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             return driver;
-        }
+        } else {
 
-        switch (browserName.toLowerCase()) {
-            case "chrome":
-                if (os.contains("Mac")) {
-                    System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver");
-                }else {
-                    System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
-                }
+            switch (browserName.toLowerCase()) {
+                case "chrome":
+                    if (os.contains("Mac")) {
+                        System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver");
+                    } else {
+                        System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
+                    }
 
-                DesiredCapabilities chromeDesiredCapabilities = DesiredCapabilities.chrome();
-                driver = new ChromeDriver(chromeDesiredCapabilities);
-                driver.manage().window().maximize();
-                driver.manage().window().setSize(dimension);
-                return driver;
-            case "safari":
-                driver = new SafariDriver();
-                return driver;
-            case "firefox":
-                driver = new FirefoxDriver();
-                driver.manage().window().setSize(dimension);
-                return driver;
-            default:
-                break;
+                    DesiredCapabilities chromeDesiredCapabilities = DesiredCapabilities.chrome();
+                    driver = new ChromeDriver(chromeDesiredCapabilities);
+                    driver.manage().window().maximize();
+                    driver.manage().window().setSize(dimension);
+                    return driver;
+                case "safari":
+                    driver = new SafariDriver();
+                    return driver;
+                case "firefox":
+                    driver = new FirefoxDriver();
+                    driver.manage().window().setSize(dimension);
+                    return driver;
+                default:
+                    break;
+            }
+            return driver;
         }
-        return driver;
     }
-
-    private static DesiredCapabilities getDesiredCapabilities(String browserName, String platform, String browserVersion) {
+    private static DesiredCapabilities getDesiredCapabilities(String browserName, String platform, String version, String screenResolution) {
 
         switch (browserName.toLowerCase()) {
             case "ie":
                 capabilities = DesiredCapabilities.internetExplorer();
-                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("version", version);
                 capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
                 break;
             case "firefox":
                 capabilities = DesiredCapabilities.firefox();
-                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("version", version);
                 capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
                 break;
             case "safari":
                 capabilities = DesiredCapabilities.safari();
-                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("version", version);
                 capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
                 break;
             case "chrome":
                 capabilities = DesiredCapabilities.chrome();
-                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("version", version);
                 capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
                 break;
             case "iphone":
                 capabilities = DesiredCapabilities.iphone();
@@ -95,11 +99,9 @@ class DriverFactory {
                 capabilities.setCapability("deviceOrientation", "portrait");
                 capabilities.setCapability("platformVersion", "10.3");
                 capabilities.setCapability("platformName", "iOS");
-                capabilities.setCapability("version", browserVersion);
+                capabilities.setCapability("version", version);
                 break;
             default:
-                capabilities = DesiredCapabilities.chrome();
-                capabilities.setCapability("version", browserVersion);
                 break;
         }
         return capabilities;
