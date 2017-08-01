@@ -1,5 +1,6 @@
 package patient.tests;
 
+import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,7 @@ import utilities.DriverManager;
 /**
  * Created by mihai.muresan on 7/13/2017.
  */
-public class ChooseProfileTest {
+public class ChooseProfileTest extends TestBase {
 
     @Test
     @Parameters({ "url" })

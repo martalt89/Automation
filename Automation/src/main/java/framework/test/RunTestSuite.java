@@ -32,10 +32,6 @@ public class RunTestSuite {
         //  Read test suite from excel   //
         ///////////////////////////////////
 
-
-        //Environment oEnv = new Environment();
-        //BaseQueries oQuery = new BaseQueries(oEnv);
-
         File oExcel = new File(fileExcelPath);
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
 
@@ -47,6 +43,8 @@ public class RunTestSuite {
         TestNG testng = new TestNG();
 
         testng.setXmlSuites(oSuites);
+
+
         testng.addListener(new WebDriverListener());
 
         testng.run();
