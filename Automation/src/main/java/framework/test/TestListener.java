@@ -1,4 +1,4 @@
-package framework.web;
+package framework.test;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,7 +15,6 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import framework.test.TestBase;
 import org.testng.IAnnotationTransformer;
 import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
@@ -31,7 +30,7 @@ import framework.exception.CommonException;
 import foundation.SysTools;
 
 /**
- * Created by zzhen on 8/1/2017.
+ * Created by vahanmelikyan on 8/1/2017.
  */
 public class TestListener extends TestListenerAdapter implements IAnnotationTransformer, IMethodInterceptor {
 
