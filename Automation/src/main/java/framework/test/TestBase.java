@@ -12,10 +12,6 @@ import framework.web.WebBase;
 import framework.validation.*;
 import foundation.*;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import com.google.gson.JsonObject;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
@@ -25,8 +21,6 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.ScreenshotException;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.testng.ITestContext;
 import org.testng.SkipException;
@@ -40,22 +34,16 @@ import org.testng.annotations.*;
 
 public class TestBase
 {
-//    Logger //logger = LoggerFactory.getLogger(TestBase.class);
-
-    private static final String FIREFOX_PROFILE = "C:/QA/ATF/machine/FirefoxProfiles";
 
     ////////////////////////
     //  Class members     //
     ////////////////////////	
 
-    private String sFirefoxProfile;
     private boolean bGridMode = false;
     private String sGridServerUrl = "";
     //	private int iPageLoadTimeout = 90;
     private boolean bMaximizeBrowser = false;
-//    private static Environment oEnv = null;
     private String[] aBrowsers;
-//    private static HealEntityManager oEm = null;
 
     /**
      * InheritableThreadLocal variables are needed when tests are ran in parallel.  They ensure threads do not share/contaminate each other's data.  
@@ -208,14 +196,6 @@ public class TestBase
         oException.remove();
     }
 
-//    public HealEntityManager getEntityManager() {
-//        return oEm;
-//    }
-
-//    public Environment getEnvironment()
-//    {
-//        return oEnv;
-//    }
 
     ////////////////////////
     //  TestNG methods    //
@@ -254,13 +234,8 @@ public class TestBase
             if (maximizeBrowser.equalsIgnoreCase("true"))
                 bMaximizeBrowser = true;
 
-            // Firefox profile
-            sFirefoxProfile = firefox_profile.equals("")?FIREFOX_PROFILE:firefox_profile;
-            //logger.info("setup():  Firefox profile:  {}", sFirefoxProfile);
-
             // Set time to wait for a page to load
             //iPageLoadTimeout = Integer.parseInt(oProp.getProperty("page_load_timeout", "90"));
-            ////logger.info("setup():  PageLoadTimeout set to {} sec", iPageLoadTimeout);
 
             // Set global throttling value for CommonWebElement
             framework.web.CommonWebElement.setThrottle(Integer.parseInt(element_action_throttle));
@@ -270,29 +245,6 @@ public class TestBase
             framework.web.CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
             //logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
 
-            // Create Environment instance
-            if (!environment.equals("config"))
-            {
-//                oEnv = new Environment(environment);
-                //logger.info("setup():  Environment:  {}  [from spreadsheet]", oEnv.getEnvironmentName());
-            }
-            else
-            {
-//                oEnv = new Environment();
-                //logger.info("setup():  Environment:  {}  [from config]", oEnv.getEnvironmentName());
-            }
-
-            // Start default HealEntityManager
-//            if (oEnv.getEnvironmentName().equalsIgnoreCase("PRODUCTION"))
-//                oEm = new HealEntityManager("TEST");
-//            else
-//                oEm = new HealEntityManager(oEnv);
-//            //logger.info("setup():  HealEntityManager started");
-
-            // Set the default HealEntity Entity Manager and environment for the HealEntity class.
-//            HealEntity.setEntityManager(oEm);
-//            HealEntity.setEnviornment(oEnv);
-
             // Turn on monitor mode if set
             if (monitor_mode.equalsIgnoreCase("true"))
                 CommonWebElement.setbMonitorMode(true);
@@ -300,8 +252,6 @@ public class TestBase
         }
         catch(Exception ex)
         {
-//            if (oEm != null)
-//                oEm.close();
             throw new CommonException(ex);
         }
 
@@ -313,9 +263,7 @@ public class TestBase
     @AfterClass(alwaysRun=true)
     public void teardown()
     {
-        //logger.trace("teardown():  ");
-//        if (oEm != null)
-//            oEm.close();
+
     }
 
     /**
@@ -360,7 +308,6 @@ public class TestBase
             // Only supported for Firefox in current release.
             //oDriver.manage().timeouts().pageLoadTimeout(iPageLoadTimeout, java.util.concurrent.TimeUnit.SECONDS);
 
-            //oDriver.manage().window().setPosition(new org.openqa.selenium.Point(0, 0));
             if (bMaximizeBrowser)
                 oDriver.manage().window().maximize();
 
@@ -374,7 +321,6 @@ public class TestBase
         //  thread would fail also.  This affects DataProvider-driven tests.
         catch (Exception ex)
         {
-            //logger.error("Execption:  ", ex);
             // Store any WebDriver related exception for the thread, so it can be retrieved later.
             setException(new CommonException(ex));
         }
@@ -668,7 +614,6 @@ public class TestBase
                 break;
             case "FIREFOX":
                 FirefoxProfile profile = new FirefoxProfile();
-                profile.setEnableNativeEvents(false);
                 oRequestCapability = DesiredCapabilities.firefox();
                 oRequestCapability.setCapability(org.openqa.selenium.firefox.FirefoxDriver.PROFILE, profile);
                 break;
@@ -703,42 +648,6 @@ public class TestBase
             throw new CommonException("Failed to instantiate RemoteWebDriver!", e.getCause());
         }
     }
-
-    /**
-     * Retrieves remote host name where the test was executed.
-     *
-     * @param sSessionID
-     * (String) - Session ID
-     * @param sGridUrl
-     * (String) - Grid server url
-     * @return
-     * (String) - host name
-     */
-//    public String getRemoteWebDriverNode(String sSessionID, String sGridUrl)
-//    {
-//        try
-//        {
-//            URL oGridUrl = new URL(sGridUrl);
-//            HttpHost oHost = new HttpHost(oGridUrl.getHost(), oGridUrl.getPort());
-//            DefaultHttpClient oClient = new DefaultHttpClient();
-//            URL oTestSessionApi = new URL("http://" + oGridUrl.getHost() + ":" + oGridUrl.getPort() + "/grid/api/testsession?session=" + sSessionID);
-//            BasicHttpEntityEnclosingRequest oRequest = new BasicHttpEntityEnclosingRequest("POST", oTestSessionApi.toExternalForm());
-//            HttpResponse oResponse  = oClient.execute(oHost, oRequest);
-//            JsonObject object = new JsonObject(org.apache.commons.io.IOUtils.toString(oResponse.getEntity().getContent()));
-//            URL oRemote = new URL(object.getString("proxyId"));
-//            String[] aIP = oRemote.getHost().split("\\.");
-//            byte[] aIPBytes = new byte[aIP.length];
-//            for (int i=0; i < aIPBytes.length; i++)
-//                aIPBytes[i] = (byte)Integer.parseInt(aIP[i]);
-//            java.net.InetAddress oIP = java.net.InetAddress.getByAddress(aIPBytes);
-//            return oIP.getCanonicalHostName();
-//        }
-//        catch(Exception ex)
-//        {
-//            //logger.error("getRemoteWebDriverNode():  Exception caught!  ", ex);
-//            return "";
-//        }
-//    }
 
     /**
      * Destroys current WebDriver instance.
