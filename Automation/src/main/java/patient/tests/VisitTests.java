@@ -1,6 +1,7 @@
 package patient.tests;
 
 import foundation.SysTools;
+import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
@@ -12,7 +13,7 @@ import org.testng.annotations.Test;
 import patient.pages.*;
 import utilities.DriverManager;
 
-public class VisitTests extends WebBase {
+public class VisitTests extends TestBase {
 
     WebDriver dr = DriverManager.getDriver();
 

@@ -1,5 +1,6 @@
 package patient.tests;
 
+import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
@@ -13,7 +14,7 @@ import patient.pages.Menu;
 import patient.pages.VisitsPage;
 import utilities.DriverManager;
 
-public class VisitsTest extends WebBase {
+public class VisitsTest extends TestBase {
 
     WebDriver dr = DriverManager.getDriver();
 
