@@ -19,9 +19,13 @@ public class ProfileTest extends TestBase {
     String insuranceID = "JQU397M89484";
     String insuranceGroup = "A45878";
     String insuranceProvider = "Anthem";
+    String email = "test@test.com";
+    String phoneNumber = "18182123842";
+    String relationship = "Friend";
+    String gender = "Female";
 
 
-    @Test(groups = {"devv", "critical"})
+    @Test(groups = {"dev", "critical"})
     public void addInsuranceToExistingPatient(){
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = DriverManager.getDriver();
@@ -35,20 +39,28 @@ public class ProfileTest extends TestBase {
         try {
             loginPage.login();
             homePage.selectFromMenu(menu.oProfilesLnk);
-            validate.assertMatches("Checking if the 'Manage Profile' is displayed", manageProfilePage.oManageProfilesLabel.getText(), "Manage profiles");
+            validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
             manageProfilePage.oAddPatientbtn.click();
             //manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
             manageProfilePage.oFirstNameInput.sendKeys(firstName);
             manageProfilePage.oLastNameInput.sendKeys(lastaName);
+            manageProfilePage.oEmailInput.sendKeys(email);
+            manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
             manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
-
-            manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
+            manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
+            manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
 
             manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
+            manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
+
             manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
 
             manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-
+            if (menu.oLoadingBar.exists()){
+                System.out.println("Found the loading bar");
+            }else {
+                System.out.println("no loading bar");
+            }
             //SysTools.sleepFor(1);
             if(validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitile.getText(), "Choose profile")) {
                 System.out.println("Successfully added REAL insurance.");

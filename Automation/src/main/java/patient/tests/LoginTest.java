@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class LoginTest extends TestBase {
 
 
-    @Test (groups = { "dev","smoke", "regression", "critical" })
+    @Test (groups = { "devv","smoke", "regression", "critical" })
 //    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
         CommonWebElement.setbMonitorMode(false);

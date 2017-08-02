@@ -397,27 +397,25 @@ public class CommonWebElement implements WebElement, Locatable {
      *
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
-        //SysTools.sleepFor(1);
-        if (bAppear){
-            element.waitForElement();
-        }else {
-            if (element.exists()){
-                element.waitForInvisible();
-            }
-        }
         waitForEnabled();
         waitForVisible();
         System.out.println("Clicking on... " + oWebElement.toString());
         oWebElement.click();
-        if (iThrottleValue != 0)
+        if (iThrottleValue != 0) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        if (bAppear){
+            element.waitForElement();
+        } else {
+            if (element.exists()){
+                element.waitForInvisible();
+            }
+        }
     }
-
-
 
     /**
      * Click on an offset from the top-left corner of the element.
@@ -765,6 +763,7 @@ public class CommonWebElement implements WebElement, Locatable {
         }else {
             oMenuItem.jsClick();
         }
+        SysTools.sleepFor(1);
     }
     /**
      * Selects item from dropdown menu by the value attribute.

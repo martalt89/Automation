@@ -27,7 +27,7 @@ public class ManageProfilePage extends WebBase{
     //Patient Info input
     public CommonWebElement oFirstNameInput = new CommonWebElement( "oFirstNameInput", "name=firstname", oWebDriver );
     public CommonWebElement oLastNameInput = new CommonWebElement( "oLastNameInput", "name=lastname", oWebDriver );
-    public CommonWebElement oEmailInput = new CommonWebElement( "oFirstNameLabel", "name=username", oWebDriver );
+    public CommonWebElement oEmailInput = new CommonWebElement( "oFirstNameLabel", "name=email", oWebDriver );
     public CommonWebElement oPhoneNmbFlag = new CommonWebElement( "oPhoneNmbFlag", "className=selected-flag", oWebDriver );
     public CommonWebElement oPhoneNmbInput = new CommonWebElement( "oPhoneNmbInput", "name=phonenumber", oWebDriver );
     public CommonWebElement oRelationshipInput = new CommonWebElement( "oRelationshipInput", "name=relationship", oWebDriver );
