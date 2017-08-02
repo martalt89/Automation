@@ -23,6 +23,7 @@ public class ManageProfilePage extends WebBase{
     public CommonWebElement oContiuneButton = new CommonWebElement("oContinueButton", "xpath=//*[text()='Continue']", oWebDriver);
     public CommonWebElement oErrorBox = new CommonWebElement("oErrorBox", "xpath=//*[contains(@class,'error')]/div", oWebDriver);
     public CommonWebElement oSubtitile = new CommonWebElement("oSubtitile", "xpath=//h5", oWebDriver);
+    public CommonWebElement oAddPatientbtn = new CommonWebElement("oAddPatientbtn", "xpath=//*[@class='create-patient-link']", oWebDriver);
     //Patient Info input
     public CommonWebElement oFirstNameInput = new CommonWebElement( "oFirstNameInput", "name=firstname", oWebDriver );
     public CommonWebElement oLastNameInput = new CommonWebElement( "oLastNameInput", "name=lastname", oWebDriver );

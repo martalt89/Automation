@@ -17,7 +17,7 @@ public class VisitTests extends TestBase {
 
     WebDriver dr = DriverManager.getDriver();
 
-    @Test (groups = {"desv", "critical"})
+    @Test (groups = {"devv", "critical"})
     //@Parameters({ "url" })
     public void bookVisit() throws Exception {
 

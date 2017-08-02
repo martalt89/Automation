@@ -397,7 +397,7 @@ public class CommonWebElement implements WebElement, Locatable {
      *
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
-        SysTools.sleepFor(1);
+        //SysTools.sleepFor(1);
         if (bAppear){
             element.waitForElement();
         }else {

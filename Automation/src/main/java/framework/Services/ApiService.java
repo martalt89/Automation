@@ -28,7 +28,7 @@ public class ApiService {
 
         Response re = RestAssured.given()
                 .contentType("application/json")
-                .body(jsonAsMap) //will converts Map to JSON format
+                    .body(jsonAsMap) //will converts Map to JSON format
                 .post("https://patient.qa.heal.com/api/v2/account");
         System.out.println("json" + jsonAsMap);
         System.out.println("POST /account status code: " + re.getStatusCode());

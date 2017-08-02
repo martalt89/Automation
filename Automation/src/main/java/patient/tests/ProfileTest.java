@@ -21,8 +21,8 @@ public class ProfileTest extends TestBase {
     String insuranceProvider = "Anthem";
 
 
-    @Test(groups = {"dev", "critical"})
-    public void addInsuranceToExistingUPatient(){
+    @Test(groups = {"devv", "critical"})
+    public void addInsuranceToExistingPatient(){
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = DriverManager.getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
@@ -36,7 +36,8 @@ public class ProfileTest extends TestBase {
             loginPage.login();
             homePage.selectFromMenu(menu.oProfilesLnk);
             validate.assertMatches("Checking if the 'Manage Profile' is displayed", manageProfilePage.oManageProfilesLabel.getText(), "Manage profiles");
-            manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
+            manageProfilePage.oAddPatientbtn.click();
+            //manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
             manageProfilePage.oFirstNameInput.sendKeys(firstName);
             manageProfilePage.oLastNameInput.sendKeys(lastaName);
             manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");

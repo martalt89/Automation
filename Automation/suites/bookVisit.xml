@@ -7,13 +7,14 @@
     <parameter name="environment" value="local" />
     <test name="Login and Register">
         <parameter name="browserName" value="chrome" />
-        <parameter name="platform" value="macOS 10.12" />
+        <parameter name="platform" value="windows 10" />
+        <!--<parameter name="platform" value="macOS 10.12" />-->
         <parameter name="version" value="latest" />
         <parameter name="screenResolution" value="1280x960" />
         <parameter name="url" value="https://patient.qa.heal.com/login" />
         <groups>
             <run>
-                <include name="dev"/>
+                <include name="critical"/>
             </run>
         </groups>
         <classes>
