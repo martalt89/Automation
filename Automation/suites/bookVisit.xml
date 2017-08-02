@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="8" name="Critical Path" parallel="tests" >
+<suite thread-count="2" name="Critical Path" parallel="tests" >
     <listeners>
         <listener class-name="utilities.WebDriverListener"></listener>
     </listeners>
@@ -30,30 +30,6 @@
         </classes>
     </test>
     <test name="Login and Register1">
-        <parameter name="browserName" value="chrome" />
-        <parameter name="platform" value="windows 10" />
-        <!--<parameter name="platform" value="macOS 10.12" />-->
-        <parameter name="version" value="latest" />
-        <parameter name="screenResolution" value="1280x960" />
-        <parameter name="url" value="https://patient.qa.heal.com/login" />
-        <groups>
-            <run>
-                <include name="dev"/>
-            </run>
-        </groups>
-        <classes>
-            <!--<class name="patient.tests.AddCardTest" />-->
-            <class name="patient.tests.LoginTest" />
-            <!--<class name="patient.tests.RegisterTest" />-->
-            <!--<class name="patient.tests.VisitsTest" />-->
-            <class name="patient.tests.VisitTests" />
-            <!--<class name="patient.tests.ChooseProfileTest" />-->
-            <!--<class name="patient.tests.ManageProfileTest" />-->
-            <!--<class name="patient.tests.PaymentsTest" />-->
-            <class name="patient.tests.ProfileTest" />
-        </classes>
-    </test>
-    <test name="Login and Register2">
         <parameter name="browserName" value="chrome" />
         <parameter name="platform" value="windows 10" />
         <!--<parameter name="platform" value="macOS 10.12" />-->
