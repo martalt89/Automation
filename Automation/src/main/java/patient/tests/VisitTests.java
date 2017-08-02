@@ -17,10 +17,10 @@ public class VisitTests extends TestBase {
 
     WebDriver dr = DriverManager.getDriver();
 
-    @Test (groups = {"desv"})
+    @Test (groups = {"desv", "critical"})
     //@Parameters({ "url" })
     public void bookVisit() throws Exception {
-        try {
+
             CommonWebElement.setbMonitorMode(false);
             WebDriver dr = DriverManager.getDriver();
             CommonWebValidate validate = new CommonWebValidate(dr);
@@ -35,16 +35,14 @@ public class VisitTests extends TestBase {
             BookVisitPage bookVisitPage = new BookVisitPage(dr);
             Menu menu = new Menu(dr);
 
-            // Login on patient web app
-            loginPage.login();
-            // Select Book Visit from Menu
-            homePage.selectFromMenu(menu.oBookVisitLnk);
+        try {
+            loginPage.login(); // Login on patient web app
+            homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
             // Verify page title
             if (!validate.verifyMatches("Verifying Book visit page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
                 System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
             }
-            // Select a non life-threatening medical emergency
-            bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false);
+            bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
             chooseProfilePage.selectMainProfile();
             addressPage.selectFirstSavedAddress();
             addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);

@@ -80,7 +80,7 @@ public class CommonValidate
         catch(AssertionError ex)
         {
 //            logger.error("{} - verifyEquals() failed! Actual: \"{}\"  Expected: \"{}\"", oArray);
-            Reporter.log(String.format("{%s} - verifyEquals(%s) failed! Actual: {%s}  Expected: {%s} <br>", oArray));
+            Reporter.log(String.format("{%s} - verifyEquals() failed! Actual: {%s}  Expected: {%s} <br>", oArray));
             vFailures.add(sComment + " - verifyEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -178,7 +178,7 @@ public class CommonValidate
 
         if(matcher.matches())
 //            logger.info("{} - assertMatches(\"{}\", \"{}\") success!", sArray);
-            Reporter.log(String.format("{%s} - assertMatches(\"{%s}\", \"{%s}\") success! <br>", sArray));
+            Reporter.log(String.format("{%s} - assertMatches( Actual \"{%s}\",  \"{%s}\") success! <br>", sArray));
         else
         {
 //            logger.error("{} - assertMatches() failed! Actual: \"{}\"  Expected: \"{}\"", sArray);

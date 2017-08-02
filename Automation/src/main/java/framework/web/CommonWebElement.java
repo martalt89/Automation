@@ -1,6 +1,7 @@
 package framework.web;
 
 import com.google.common.base.Function;
+import foundation.SysTools;
 import framework.exception.CommonException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -246,7 +247,9 @@ public class CommonWebElement implements WebElement, Locatable {
     public void click() {
         waitForEnabled();
         waitForVisible();
-        System.out.println("Clicking on... " + oWebElement.toString());
+
+            System.out.println("Clicking on... " + oBy.toString());
+
         oWebElement.click();
         if (iThrottleValue != 0)
             try {
@@ -394,7 +397,7 @@ public class CommonWebElement implements WebElement, Locatable {
      *
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
-
+        SysTools.sleepFor(1);
         if (bAppear){
             element.waitForElement();
         }else {
@@ -757,7 +760,11 @@ public class CommonWebElement implements WebElement, Locatable {
         else
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
         CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//*[text()='" + sText + "']", oWebDriver);
-        oMenuItem.jsClick();
+        if (oMenuItem.isViewable()){
+            oMenuItem.click();
+        }else {
+            oMenuItem.jsClick();
+        }
     }
     /**
      * Selects item from dropdown menu by the value attribute.

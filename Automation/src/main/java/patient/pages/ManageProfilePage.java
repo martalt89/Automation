@@ -15,14 +15,17 @@ public class ManageProfilePage extends WebBase{
     // Page Elements //
     ///////////////////
 
-    public CommonWebElement oManageProfilesLabel = new CommonWebElement( "oManageProfilesLabel", "xpath=//*[text()='Manage Profiles']", oWebDriver );
+    public CommonWebElement oManageProfilesLabel = new CommonWebElement( "oManageProfilesLabel", "xpath=//*[contains(@class,'title')]", oWebDriver );
     public CommonWebElement oPatientDetailsLabel = new CommonWebElement( "oPatientDetailsLabel", "xpath=//*[text()='Patient Details']", oWebDriver );
     public CommonWebElement oProfileImage = new CommonWebElement( "oProfileImage", "className=profile-image", oWebDriver );
     public CommonWebElement oPatientInfoLabel = new CommonWebElement( "oPatientInfoLabel", "xpath=//*[text()='Patient Info']", oWebDriver );
     public CommonWebElement oInsuranceLabel = new CommonWebElement( "oInsuranceLabel", "xpath=//*[text()='Insurance (Optional)']", oWebDriver );
+    public CommonWebElement oContiuneButton = new CommonWebElement("oContinueButton", "xpath=//*[text()='Continue']", oWebDriver);
+    public CommonWebElement oErrorBox = new CommonWebElement("oErrorBox", "xpath=//*[contains(@class,'error')]/div", oWebDriver);
+    public CommonWebElement oSubtitile = new CommonWebElement("oSubtitile", "xpath=//h5", oWebDriver);
     //Patient Info input
     public CommonWebElement oFirstNameInput = new CommonWebElement( "oFirstNameInput", "name=firstname", oWebDriver );
-    public CommonWebElement oLastNameNameInput = new CommonWebElement( "oLastNameInput", "name=lastname", oWebDriver );
+    public CommonWebElement oLastNameInput = new CommonWebElement( "oLastNameInput", "name=lastname", oWebDriver );
     public CommonWebElement oEmailInput = new CommonWebElement( "oFirstNameLabel", "name=username", oWebDriver );
     public CommonWebElement oPhoneNmbFlag = new CommonWebElement( "oPhoneNmbFlag", "className=selected-flag", oWebDriver );
     public CommonWebElement oPhoneNmbInput = new CommonWebElement( "oPhoneNmbInput", "name=phonenumber", oWebDriver );
