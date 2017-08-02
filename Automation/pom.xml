@@ -36,7 +36,7 @@
 				<configuration>
 					<forkCount>1</forkCount>
 					<suiteXmlFiles>
-						<!--<suiteXmlFile>${suiteXML}</suiteXmlFile>-->
+						<suiteXmlFile>${suiteXML}</suiteXmlFile>
 						<!--<suiteXmlFile>src/test/java/TestNG.xml</suiteXmlFile>-->
 					</suiteXmlFiles>
 				</configuration>
