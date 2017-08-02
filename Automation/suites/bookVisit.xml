@@ -14,7 +14,7 @@
         <parameter name="url" value="https://patient.qa.heal.com/login" />
         <groups>
             <run>
-                <include name="dev"/>
+                <include name="critical"/>
             </run>
         </groups>
         <classes>
@@ -38,7 +38,7 @@
         <parameter name="url" value="https://patient.qa.heal.com/login" />
         <groups>
             <run>
-                <include name="dev"/>
+                <include name="critical"/>
             </run>
         </groups>
         <classes>
