@@ -39,7 +39,7 @@ public class VisitTests extends TestBase {
             loginPage.login(); // Login on patient web app
             homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
             // Verify page title
-            if (!validate.verifyMatches("Verifying Book visit page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
+            if (!validate.verifyMatches("Verifying Book visit page title ", bookVisitPage.oPageTitle.getText(), "Book a house call")){
                 System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
             }
             bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency

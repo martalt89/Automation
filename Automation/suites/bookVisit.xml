@@ -4,7 +4,7 @@
     <listeners>
         <listener class-name="utilities.WebDriverListener"></listener>
     </listeners>
-    <parameter name="environment" value="local" />
+    <parameter name="environment" value="remote" />
     <test name="Login and Register">
         <parameter name="browserName" value="chrome" />
         <parameter name="platform" value="windows 10" />

@@ -49,19 +49,10 @@ public class ProfileTest extends TestBase {
             manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
             manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
             manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
-
             manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
             manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
-
             manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
-
             manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-            if (menu.oLoadingBar.exists()){
-                System.out.println("Found the loading bar");
-            }else {
-                System.out.println("no loading bar");
-            }
-            //SysTools.sleepFor(1);
             if(validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitile.getText(), "Choose profile")) {
                 System.out.println("Successfully added REAL insurance.");
             }else {
@@ -69,7 +60,6 @@ public class ProfileTest extends TestBase {
                 manageProfilePage.oGroupIdInput.sendKeys("X0001004");  //group ID
                 System.out.println("Successfully added TEST insurance.");
             }
-
             //SysTools.sleepFor(15);
         } catch (CommonException e) {
             e.printStackTrace();
