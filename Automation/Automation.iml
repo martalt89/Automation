@@ -81,5 +81,6 @@
     <orderEntry type="library" name="Maven: io.rest-assured:rest-assured-common:3.0.3" level="project" />
     <orderEntry type="library" name="Maven: io.rest-assured:xml-path:3.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20170516" level="project" />
+    <orderEntry type="library" name="Maven: com.stripe:stripe-java:5.4.0" level="project" />
   </component>
 </module>

@@ -1,16 +1,21 @@
 package framework.restAPI;
 
 import com.google.gson.JsonObject;
-import foundation.SysTools;
+import com.stripe.Stripe;
+import com.stripe.exception.*;
+import com.stripe.model.Token;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AccountAPI {
-    private String username = "qa_auto_test" + SysTools.getTimestamp("yyyy_MM_dd_HH-mm-ss") + "@heal.com";
-    private String password = "Heal4325";
+    private String sUsername = RestUtils.generateUsername();
+    private String sPassword = "Heal4325";
+    private int iExpiryMonth = 12;
+    private int iExpiryYear = 2022;
     private String baseURI = "https://patient.qa.heal.com/api";
+
 
     public void createAccount(){
         String resourceAPI = "/v2/account";
@@ -18,30 +23,30 @@ public class AccountAPI {
         jsonAsMap.put("campaign", new JsonObject());
         jsonAsMap.put("firstName", "mihai");
         jsonAsMap.put("lastName", "auto");
-        jsonAsMap.put("username", username);
-        jsonAsMap.put("password", password);
+        jsonAsMap.put("username", sUsername);
+        jsonAsMap.put("password", sPassword);
         jsonAsMap.put("password2", "Heal4325");
         jsonAsMap.put("mobile", "+12015555555");
         jsonAsMap.put("zipcode", "5840");
 
         Response response = RestAssured.given()
                 .contentType("application/json")
-                .body(jsonAsMap) //will converts Map to JSON format
+                .body(jsonAsMap)
                 .log().all()
                 .post(baseURI + resourceAPI);
         response.prettyPrint();
     }
 
-    public void findPatientsByUsername(){
+    public String getPatientsByUsername(){
         String resourceAPI = "/v2/account";
         Response response = RestAssured.given()
                 .auth()
                 .preemptive()
-                .basic(username, password)
-                .param("username", username)
+                .basic(sUsername, sPassword)
+                .param("username", sUsername)
                 .log().all()
                 .get(baseURI + resourceAPI);
-        response.prettyPrint();
+        return response.prettyPrint();
     }
 
     public void addAddress(){
@@ -59,7 +64,7 @@ public class AccountAPI {
         Response response = RestAssured.given()
                 .auth()
                 .preemptive()
-                .basic(username, password)
+                .basic(sUsername, sPassword)
                 .contentType("application/json")
                 .body(jsonAsMap)
                 .log().all()
@@ -67,24 +72,37 @@ public class AccountAPI {
         response.prettyPrint();
     }
 
+
+    public String createStripeToken() {
+        Stripe.apiKey = "pk_test_DIamIvBnKXe5LdP5fl1iR0v8";
+        Map<String, Object> tokenParams = new HashMap<String, Object>();
+        Map<String, Object> cardParams = new HashMap<String, Object>();
+        cardParams.put("number", "4242424242424242");
+        cardParams.put("exp_month", iExpiryMonth);
+        cardParams.put("exp_year", iExpiryYear);
+        cardParams.put("cvc", "314");
+        tokenParams.put("card", cardParams);
+        try {
+            return Token.create(tokenParams).getId();
+        } catch (AuthenticationException | APIException | InvalidRequestException | APIConnectionException | CardException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void createPayment(){
         String resourceAPI = "/account/payment";
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("cardExpiryMonth", 12);
-        jsonAsMap.put("cardExpiryYear", 2022);
+        jsonAsMap.put("cardExpiryMonth", iExpiryMonth);
+        jsonAsMap.put("cardExpiryYear", iExpiryYear);
         jsonAsMap.put("cardLast", "4242");
         jsonAsMap.put("cardType", "Visa");
-        jsonAsMap.put("token", "tok_1AmkxuCBDgZDxrPNfpkwsTMg");
-
-        // This does not work yet, I have to do one call
-        // on https://api.stripe.com/v1/tokens to generate the token than I will use it
-        // for creating payment on https://patient.qa.heal.com/api/account/payment
-
+        jsonAsMap.put("token", createStripeToken());
 
         Response response = RestAssured.given()
                 .auth()
                 .preemptive()
-                .basic(username, password)
+                .basic(sUsername, sPassword)
                 .contentType("application/json")
                 .body(jsonAsMap)
                 .log().all()
@@ -97,8 +115,9 @@ public class AccountAPI {
         //for temporary testing purposes
         AccountAPI api = new AccountAPI();
         api.createAccount();
-        //api.findPatientsByUsername();
-        //api.addAddress();
-        //api.createPayment();
+        api.getPatientsByUsername();
+        api.addAddress();
+        api.createPayment();
+        api.createPayment();
     }
 }

@@ -34,7 +34,7 @@ public class RestUtils {
      * Generates a unique username using timestamp
      * @return (String) Generated username
      */
-    public String generateUsername(){
+    public static String generateUsername(){
         return "qa_auto_test_" + SysTools.getTimestamp("yyyy_MM_dd_HH-mm-ss") +"@heal.com";
     }
 }
