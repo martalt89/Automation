@@ -248,7 +248,7 @@ public class CommonWebElement implements WebElement, Locatable {
         waitForEnabled();
         waitForVisible();
 
-            System.out.println("Clicking on... " + oBy.toString());
+            //System.out.println("Clicking on... " + oBy.toString());
 
         oWebElement.click();
         if (iThrottleValue != 0)
@@ -399,7 +399,7 @@ public class CommonWebElement implements WebElement, Locatable {
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
         waitForEnabled();
         waitForVisible();
-        System.out.println("Clicking on... " + oWebElement.toString());
+        //System.out.println("Clicking on... " + oBy.toString());
         oWebElement.click();
         if (iThrottleValue != 0) {
             try {
@@ -757,7 +757,7 @@ public class CommonWebElement implements WebElement, Locatable {
             this.click();
         else
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
-        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//*[text()='" + sText + "']", oWebDriver);
+        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
         if (oMenuItem.isViewable()){
             oMenuItem.click();
         }else {

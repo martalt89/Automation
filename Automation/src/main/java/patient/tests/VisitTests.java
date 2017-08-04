@@ -35,7 +35,7 @@ public class VisitTests extends TestBase {
             BookVisitPage bookVisitPage = new BookVisitPage(dr);
             Menu menu = new Menu(dr);
 
-        try {
+
             loginPage.login(); // Login on patient web app
             homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
             // Verify page title
@@ -44,6 +44,7 @@ public class VisitTests extends TestBase {
             }
             bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
             chooseProfilePage.selectMainProfile();
+            //addressPage.typeAddressDetailsAndSubmit(false,"12846 Woodley ave", "", "Some instructions", "Home");
             addressPage.selectFirstSavedAddress();
             addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
             visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
@@ -64,8 +65,5 @@ public class VisitTests extends TestBase {
             System.out.println("Passed validations " + passed);
             System.out.println("Failed validations " + validate.getFailureCount());
             System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

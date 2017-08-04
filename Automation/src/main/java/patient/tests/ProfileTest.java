@@ -56,8 +56,11 @@ public class ProfileTest extends TestBase {
             if(validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitile.getText(), "Choose profile")) {
                 System.out.println("Successfully added REAL insurance.");
             }else {
+                System.out.println("Could not add REAL insurance. Trying with TEST insurance...");
                 manageProfilePage.oMemberIdInput.sendKeys("COST_ESTIMATES_025");  //insurance ID
                 manageProfilePage.oGroupIdInput.sendKeys("X0001004");  //group ID
+                manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+                validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitile.getText(), "Choose profile");
                 System.out.println("Successfully added TEST insurance.");
             }
             //SysTools.sleepFor(15);
