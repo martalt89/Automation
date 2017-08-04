@@ -12,7 +12,7 @@ public class RestUtils {
      *                e.g. "firstName" from {"firstname":"Joe"}
      * @return (String) Value of the given JSON key
      */
-    public String responseParser(String sJsonString, String sJsonKey){
+    public String getJsonValue(String sJsonString, String sJsonKey){
         JSONObject obj = new JSONObject(sJsonString);
         return obj.getString(sJsonKey);
     }
@@ -25,7 +25,7 @@ public class RestUtils {
      * @param sJsonKey (String) JSON key that is searched e.g. "firstname" from "firstname":"Joe"
      * @return (String) Value of the given JSON key
      */
-    public String responseParser(String sJsonString, String jsonObject, String sJsonKey){
+    public String getJsonValue(String sJsonString, String jsonObject, String sJsonKey){
         JSONObject obj = new JSONObject(sJsonString);
         return obj.getJSONObject(jsonObject).getString(sJsonKey);
     }
