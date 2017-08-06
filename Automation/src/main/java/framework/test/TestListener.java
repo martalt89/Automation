@@ -51,6 +51,11 @@ public class TestListener extends TestListenerAdapter implements IAnnotationTran
         oResultXML = resultXML;
     }
 
+    public TestListener(Document resultXML)
+    {
+        oResultXML = resultXML;
+    }
+
     @Override
     public void onTestFailure(ITestResult oResult)
     {

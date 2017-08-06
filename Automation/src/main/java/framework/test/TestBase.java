@@ -12,7 +12,6 @@ import framework.web.WebBase;
 import framework.validation.*;
 import foundation.*;
 import org.apache.commons.codec.binary.Base64;
-import com.google.gson.JsonObject;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +23,6 @@ import org.openqa.selenium.remote.ScreenshotException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.*;
 
@@ -40,8 +38,10 @@ public class TestBase
     ////////////////////////
     //  Class members     //
     ////////////////////////	
-
-    private boolean bGridMode = false;
+    private static String os = System.getProperty("os.name");
+    private static String path = System.getProperty("user.dir");
+    private static String separator = System.getProperty("file.separator");
+    private String environment = "";
     private String sGridServerUrl = "";
     //	private int iPageLoadTimeout = 90;
     private boolean bMaximizeBrowser = false;
@@ -207,30 +207,29 @@ public class TestBase
      * Responsible for setting all the test class properties and instantiating an HealEntityManager to be shared by all tests.
      */
     @BeforeClass(alwaysRun=true)
-    @Parameters({ "grid_mode", "grid_server_url", "target_browsers",  "element_action_throttle", "element_implicit_wait", "maximize_browser" })
-    public void setup(@Optional("false") String grid_mode, @Optional("") String grid_server_url, @Optional("") String target_browsers, @Optional("0") String element_action_throttle, @Optional("60") String element_implicit_wait,  @Optional("false") String maximizeBrowser)
+    @Parameters({ "environment","browserName", "platform", "version", "screenResolution", "username", "accessKey",  "saucelab_url", "element_implicit_wait", "maximize_browser" })
+    public void setup(@Optional("local") String environment,@Optional("chrome") String browserName, @Optional("") String platform, @Optional("") String version, @Optional("chrome") String screenResolution, @Optional("") String username, @Optional("chrome") String accessKey,  @Optional("") String saucelab_url, @Optional("60") String element_implicit_wait,  @Optional("false") String maximizeBrowser)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
         try
         {
-            // Grid mode
-            bGridMode = Boolean.parseBoolean(grid_mode);
-            logger.info("setup():  Grid mode:  {}", bGridMode);
+            // Env mode
+            logger.info("setup():  Environment mode:  {}", environment);
 
             // Grid server url
-            if (bGridMode)
+            if (environment.equalsIgnoreCase("remote"))
             {
-                if (grid_server_url.equals(""))
+                if (saucelab_url.equals(""))
                     throw new SkipException("Parameter 'grid_server_url' must be provided when running in grid mode!");
-                sGridServerUrl = grid_server_url;
+                sGridServerUrl = saucelab_url;
                 logger.info("setup():  Grid server URL:  {}", sGridServerUrl);
             }
 
             // Target browsers
-            target_browsers = target_browsers.replaceAll("\\s", "");
-            aBrowsers = target_browsers.split(",");
-            logger.info("setup():  Target browsers:  {}", target_browsers);
+            browserName = browserName.replaceAll("\\s", "");
+            aBrowsers = browserName.split(",");
+            logger.info("setup():  Target browsers:  {}", browserName);
 
             // Maximize browser
             if (maximizeBrowser.equalsIgnoreCase("true"))
@@ -238,10 +237,6 @@ public class TestBase
 
             // Set time to wait for a page to load
             //iPageLoadTimeout = Integer.parseInt(oProp.getProperty("page_load_timeout", "90"));
-
-            // Set global throttling value for CommonWebElement
-            framework.web.CommonWebElement.setThrottle(Integer.parseInt(element_action_throttle));
-            logger.info("setup():  Element action throttle:  {} sec", element_action_throttle);
 
             // Set global implicit wait value for CommonWebElement
             framework.web.CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
@@ -271,31 +266,25 @@ public class TestBase
      * This method must never fail.  By design, TestNG will skip all subsequent test methods if the BeforeMethod fails.  However,
      * we use BeforeMethod before each test to create separate instances of WebDriver for test.  So one BeforeMethod failure should
      * not cause subsequent tests to be skipped.  Our solution is to catch all exception and let the test method handle any failure to
-     * create WebDriver.
-     *
-     * @param aParams
-     * (Object[]) - Parameters that will be passed into the test method by DataProvider.
-     *
-     * @param oMethod
-     * (Method) - The Method object for the target test method.
+     * create WebDriver.     *
      *
      * @throws Exception
      */
     @BeforeMethod(alwaysRun=true)
-    public void beforeMethod(Object[] aParams, java.lang.reflect.Method oMethod) throws Exception
+    public void beforeMethod() throws Exception
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
-        logger.info("Executing: {} Parameters: {}", oMethod.getName(), aParams);
+        //logger.info("Executing: {} Parameters: {}", oMethod.getName(), aParams);
 
         try
         {
             WebDriver oDriver = null;
 
-            if (bGridMode)
-                oDriver = StartRemoteWebDriver((String)aParams[0], sGridServerUrl);
+            if (environment.equalsIgnoreCase("remote"))
+                oDriver = StartRemoteWebDriver((String)"chrome", sGridServerUrl);
             else
-                oDriver = StartWebDriver((String)aParams[0]);
+                oDriver = StartWebDriver((String)"chrome");
 
             // Only supported for Firefox in current release.
             //oDriver.manage().timeouts().pageLoadTimeout(iPageLoadTimeout, java.util.concurrent.TimeUnit.SECONDS);
@@ -434,6 +423,11 @@ public class TestBase
             switch (sBrowserType.toUpperCase())
             {
                 case "CHROME":
+                    if (os.contains("Mac")) {
+                        System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver");
+                    } else {
+                        System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
+                    }
                     return new org.openqa.selenium.chrome.ChromeDriver();
                 case "IE":
                     DesiredCapabilities dc = DesiredCapabilities.internetExplorer();
