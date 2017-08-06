@@ -45,7 +45,7 @@ public class TestBase
     private String sGridServerUrl = "";
     //	private int iPageLoadTimeout = 90;
     private boolean bMaximizeBrowser = false;
-    private String[] aBrowsers;
+    private String browser;
 
     /**
      * InheritableThreadLocal variables are needed when tests are ran in parallel.  They ensure threads do not share/contaminate each other's data.  
@@ -83,9 +83,9 @@ public class TestBase
         sGridServerUrl = sGridServer;
     }
 
-    public String[] getBrowsers()
+    public String getBrowser()
     {
-        return aBrowsers;
+        return browser;
     }
 
     /**
@@ -227,9 +227,8 @@ public class TestBase
             }
 
             // Target browsers
-            browserName = browserName.replaceAll("\\s", "");
-            aBrowsers = browserName.split(",");
-            logger.info("setup():  Target browsers:  {}", browserName);
+            browser = browserName.replaceAll("\\s", "");
+            logger.info("setup():  Target browsers:  {}", browser);
 
             // Maximize browser
             if (maximizeBrowser.equalsIgnoreCase("true"))
@@ -282,9 +281,9 @@ public class TestBase
             WebDriver oDriver = null;
 
             if (environment.equalsIgnoreCase("remote"))
-                oDriver = StartRemoteWebDriver((String)"chrome", sGridServerUrl);
+                oDriver = StartRemoteWebDriver(browser, sGridServerUrl);
             else
-                oDriver = StartWebDriver((String)"chrome");
+                oDriver = StartWebDriver(browser);
 
             // Only supported for Firefox in current release.
             //oDriver.manage().timeouts().pageLoadTimeout(iPageLoadTimeout, java.util.concurrent.TimeUnit.SECONDS);
