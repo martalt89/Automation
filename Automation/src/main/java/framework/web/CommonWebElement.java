@@ -864,7 +864,22 @@ public class CommonWebElement implements WebElement, Locatable {
             throw new CommonException("Unhandled exception", ex);
         }
 
-        return this;
+        if (oResult != null)
+        {
+            oWebElement = oResult;
+
+            // Highlight element
+            if (bMonitorMode)
+            {
+                highlightMe();
+                SysTools.sleepFor(1);
+                unHighlightMe();
+            }
+
+            return this;
+        }
+        else
+            return this;
     }
 
     public CommonWebElement waitForElement() {
