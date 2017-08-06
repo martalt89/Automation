@@ -32,7 +32,7 @@ import foundation.SysTools;
 /**
  * Created by vahanmelikyan on 8/1/2017.
  */
-public class TestListener extends TestListenerAdapter implements IAnnotationTransformer, IMethodInterceptor {
+public class TestListener extends TestListenerAdapter {
 
     Logger logger = LoggerFactory.getLogger(TestListener.class);
     private Properties oProperties = new Properties();
@@ -471,103 +471,7 @@ public class TestListener extends TestListenerAdapter implements IAnnotationTran
     }
 
     /**
-     * Implements IAnnotationTransformer to allow modification to @Test annotation of each test method before execution.
-     */
-    @Override
-    public void transform(ITestAnnotation annotation, java.lang.Class testClass, java.lang.reflect.Constructor testConstructor, java.lang.reflect.Method testMethod)
-    {
-        logger.trace("transform():  Annotation transformation for {}", testMethod.getName());
-        if (oProperties.getProperty("timeout") != null)
-        {	logger.trace("transform():  Setting timeout = {} secs", oProperties.getProperty("timeout"));
-            annotation.setTimeOut(Integer.parseInt(oProperties.getProperty("timeout")) * 1000);
-        }
-
-        if (annotation.getDataProvider().equals("") || annotation.getDataProvider() == null)
-        {
-            logger.trace("transform():  Setting DataProvider = GetTestParameters");
-            annotation.setDataProvider("GetTestParameters");
-        }
-        else if (annotation.getDataProvider().equalsIgnoreCase("none"))
-        {
-            logger.trace("transform():  Setting DataProvider = none ");
-            annotation.setDataProvider("");
-        }
-
-        if (oProperties.getProperty(testMethod.getName() + ".invocationcount") != null)
-        {
-            int invocationCount = Integer.parseInt(oProperties.getProperty(testMethod.getName() + ".invocationcount"));
-            logger.trace("transform():  Setting invocationCount = {}", invocationCount);
-            annotation.setInvocationCount(invocationCount);
-            if (oProperties.getProperty("parallel") != null)
-                annotation.setThreadPoolSize(invocationCount);
-        }
-
-        if (oProperties.getProperty(testMethod.getName() + ".timeout") != null)
-        {
-            int timeout = Integer.parseInt(oProperties.getProperty(testMethod.getName() + ".timeout"));
-            logger.trace("transform():  Setting timeout = {}", timeout);
-            annotation.setTimeOut(timeout);
-        }
-
-        if (oProperties.getProperty(testMethod.getName() + ".RetryCount") != null)
-        {
-            logger.trace("transform():  Setting retryAnalyzer");
-            //annotation.setRetryAnalyzer(Retry.class);
-        }
-
-        // Skip multiple invocations if test failed.
-        annotation.setSkipFailedInvocations(true);
-    }
-
-    /**
-     * Implements IMethodInterceptor to sort the order of test execution.
-     *
-     * @param methods
-     * (List<IMethodInstance>) - List of test methods.
-     *
-     * @param context
-     * (ITestContext) - TestNG test context.
-     *
-     * @return
-     * (List<IMethodInstance>) - Sorted method list.
-     */
-    @Override
-    public List<IMethodInstance> intercept(List<IMethodInstance> methods, ITestContext context)
-    {
-        logger.trace("intercept():");
-
-        String testName;
-        List<IMethodInstance> sortedMethods = new ArrayList<IMethodInstance>();
-
-        // Get the excel records from properties object
-        ArrayList<Object[]> testRows = (ArrayList<Object[]>)oProperties.get("tests");
-
-        if (testRows == null)
-            return methods;
-
-        // Iterate through excel records to get the order of execution
-        for (Object[] row : testRows)
-        {
-            // Get full class/method name from excel record
-            testName = (String)row[1] + "." + (String)row[3];
-
-            // Find current record class/method name in TestNG method list.
-            for(IMethodInstance methodInst : methods)
-            {
-                ITestNGMethod method = methodInst.getMethod();
-
-                // Add to return method list if match found.
-                if (testName.equals(method.getTestClass().getName() + "." + method.getMethodName()))
-                    sortedMethods.add(methodInst);
-            }
-        }
-
-        return sortedMethods;
-    }
-
-    /**
      * Comparator class used to sort ITestResult objects by test name
-     * @author dhuang
      *
      */
     public class ResultComparator implements Comparator<ITestResult>
