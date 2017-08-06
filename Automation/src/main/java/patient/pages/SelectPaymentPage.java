@@ -27,7 +27,7 @@ public class SelectPaymentPage extends WebBase {
     public CommonWebElement oPromoCodeLink = new CommonWebElement( "oPromoCodeLink", "xpath=//*[text()='Have a promo code?']", oWebDriver );
     public CommonWebElement oPromoCodeInput = new CommonWebElement( "oPromoCodeInput", "xpath=//*[@ng-model='vm.service.pricing.promoCode']", oWebDriver );
     public CommonWebElement oTotalText = new CommonWebElement( "oTotalText", "xpath=//*[text()='Total']", oWebDriver );
-    public CommonWebElement oCompleteBtn = new CommonWebElement( "oCompleteBtn", "xpath=//*[text()='Complete Booking']", oWebDriver );
+    public CommonWebElement oCompleteBtn = new CommonWebElement( "oCompleteBtn", "xpath=//*[text()='Request doctor']", oWebDriver );
     public CommonWebElement oPriceInfoText = new CommonWebElement( "oPriceInfoText", "xpath=//*[contains(text(),'calculated price in the website')]", oWebDriver );
 
     //////////////////

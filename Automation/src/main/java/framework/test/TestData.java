@@ -6,11 +6,28 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class TestData {
 
+    public String firstname;
+    public String lastname;
+    public String email;
+    public String password;
+    public String confirmPassword;
+    public String phoneNumber;
+    public String zipCode;
+
+    /**
+     * Initializes class variables with the values from Excel file
+     * @param sSheetName (String) Sheet name from the Excel file
+     */
+    public TestData(String sSheetName){
+        initFromExcel(sSheetName);
+    }
     private String projDri = System.getProperty("user.dir");
     private String fileSeparator = System.getProperty("file.separator");
     private String fileExcelName = "test_data.xlsx";
@@ -22,51 +39,37 @@ public class TestData {
             "test" + fileSeparator + fileExcelName;
 
 
-    /**
-     * Gets test data from a sheet document
-     *
-     * @param sKey (String) Test data key from the sheet document - e.g. "Firstname"
-     * @return (String) Test data value from the sheet document - e.g. "John" for a given "Firstname" key
-     */
-    private String getTestData(String sKey) {
-        String testValue = null;
+    private void initFromExcel(String sSheetName) {
+        Map<String,String> testDataFromExcel = new HashMap<>();
         try {
             String sFilePath = fileExcelPath;
             FileInputStream file = new FileInputStream(sFilePath);
             XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheet("Sheet1");
+            XSSFSheet sheet = workbook.getSheet(sSheetName);
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 Iterator<Cell> cellIterator = row.cellIterator();
                 while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    cell.setCellType(CellType.STRING);
-                    if (cell.getStringCellValue().equals(sKey))
-                        testValue = cellIterator.next().getStringCellValue();
+                    Cell key = cellIterator.next();
+                    key.setCellType(CellType.STRING);
+                    Cell value =  cellIterator.next();
+                    value.setCellType(CellType.STRING);
+                    testDataFromExcel.put(key.getStringCellValue(),value.getStringCellValue());
                 }
             }
             file.close();
+            firstname = testDataFromExcel.get("Firstname");
+            lastname = testDataFromExcel.get("Lastname");
+            email = testDataFromExcel.get("Email");
+            password = testDataFromExcel.get("Password");
+            confirmPassword = testDataFromExcel.get("ConfirmPassword");
+            phoneNumber = testDataFromExcel.get("PhoneNumber");
+            zipCode = testDataFromExcel.get("ZipCode");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return testValue;
-    }
-
-    public String getFirstName() {
-        return getTestData("Firstname");
-    }
-
-    public String getLastName() {
-        return getTestData("Lastname");
-    }
-
-    public String getEmail() {
-        return getTestData("Email");
-    }
-
-    public String getPassword() {
-        return getTestData("Password");
     }
 
 }

@@ -1,6 +1,7 @@
 package framework.web;
 
 import com.google.common.base.Function;
+import foundation.SysTools;
 import framework.exception.CommonException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -246,7 +247,9 @@ public class CommonWebElement implements WebElement, Locatable {
     public void click() {
         waitForEnabled();
         waitForVisible();
-        System.out.println("Clicking on... " + oWebElement.toString());
+
+            //System.out.println("Clicking on... " + oBy.toString());
+
         oWebElement.click();
         if (iThrottleValue != 0)
             try {
@@ -394,27 +397,25 @@ public class CommonWebElement implements WebElement, Locatable {
      *
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
-
-        if (bAppear){
-            element.waitForElement();
-        }else {
-            if (element.exists()){
-                element.waitForInvisible();
-            }
-        }
         waitForEnabled();
         waitForVisible();
-        System.out.println("Clicking on... " + oWebElement.toString());
+        //System.out.println("Clicking on... " + oBy.toString());
         oWebElement.click();
-        if (iThrottleValue != 0)
+        if (iThrottleValue != 0) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        if (bAppear){
+            element.waitForElement();
+        } else {
+            if (element.exists()){
+                element.waitForInvisible();
+            }
+        }
     }
-
-
 
     /**
      * Click on an offset from the top-left corner of the element.
@@ -735,8 +736,13 @@ public class CommonWebElement implements WebElement, Locatable {
             this.click();
         else
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
-        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//*[text()='" + sText + "']", oWebDriver);
-        oMenuItem.jsClick();
+        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
+        if (oMenuItem.isViewable()){
+            oMenuItem.click();
+        }else {
+            oMenuItem.jsClick();
+        }
+        SysTools.sleepFor(1);
     }
     /**
      * Selects item from dropdown menu by the value attribute.

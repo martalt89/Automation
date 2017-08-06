@@ -12,18 +12,22 @@ import org.testng.annotations.Test;
 public class LoginTest extends TestBase {
 
 
-    @Test (groups = { "smoke", "regression" })
+    @Test (groups = { "devv","smoke", "regression", "critical" })
 //    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
         WebDriver dr = DriverManager.getDriver();
+        CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
 
 //      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
         loginPage.login();
-        homePage.validateTitle("Scheduled Visits");
+        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+
+
+        //homePage.validateTitle("Your activity");
     }
 
     @Test (groups = { "regression"})

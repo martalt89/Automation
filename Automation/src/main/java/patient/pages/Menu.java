@@ -52,7 +52,6 @@ public class Menu extends WebBase{
         }else {
             menuItem.click();
         }
-
         if (oLoadingBar.exists()){
             oLoadingBar.waitForInvisible();
         }
