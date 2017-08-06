@@ -45,7 +45,7 @@ public class RunTestSuite {
         testng.setXmlSuites(oSuites);
 
 
-        testng.addListener(new WebDriverListener());
+        //testng.addListener(new WebDriverListener());
 
         testng.run();
     }

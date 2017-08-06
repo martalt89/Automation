@@ -594,28 +594,8 @@ public class CommonWebElement implements WebElement, Locatable {
             return false;
         }
     }
-//    public boolean exists() {
-//        try {
-//            waitForElement(3);
-//            return true;
-//        } catch (Exception ex) {
-//            return false;
-//        }
-//    }
 
-    /**
-     * Check if this element is a dummy element.
-     *
-     * @return
-     * (boolean)
-     */
-//    public boolean isDummy()
-//    {
-//        if (oWebElement instanceof WebElementDummy)
-//            return true;
-//        else
-//            return false;
-//    }
+
 
     /**
      * Click using Javascript.  The input Javascript must return an element.  For example "document.getElementById(SomeID)".
@@ -676,7 +656,6 @@ public class CommonWebElement implements WebElement, Locatable {
      * Selects item from dropdown menu by visible text.
      *
      * @param sSelection     (String) - Item text
-     * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
      * @return (CommonWebElement)
      */
     public CommonWebElement selectAngular(String sSelection) {
@@ -879,22 +858,7 @@ public class CommonWebElement implements WebElement, Locatable {
             throw new CommonException("Unhandled exception", ex);
         }
 
-        if (oResult != null) {
-            oWebElement = oResult;
-
-            // Highlight element
-            if (bMonitorMode) {
-                highlightMe();
-                try {Thread.sleep(1000);
-                } catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                unHighlightMe();
-            }
-
-            return this;
-        } else
-            return this;
+        return this;
     }
 
     public CommonWebElement waitForElement() {

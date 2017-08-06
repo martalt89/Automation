@@ -21,6 +21,8 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.ScreenshotException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.testng.ITestContext;
 import org.testng.SkipException;
@@ -34,7 +36,7 @@ import org.testng.annotations.*;
 
 public class TestBase
 {
-
+    Logger logger = LoggerFactory.getLogger(TestBase.class);
     ////////////////////////
     //  Class members     //
     ////////////////////////	
@@ -205,8 +207,8 @@ public class TestBase
      * Responsible for setting all the test class properties and instantiating an HealEntityManager to be shared by all tests.
      */
     @BeforeClass(alwaysRun=true)
-    @Parameters({ "grid_mode", "grid_server_url", "target_browsers", "firefox_profile", "element_action_throttle", "element_implicit_wait", "monitor_mode", "environment", "maximize_browser" })
-    public void setup(@Optional("false") String grid_mode, @Optional("") String grid_server_url, @Optional("") String target_browsers, @Optional("") String firefox_profile, @Optional("0") String element_action_throttle, @Optional("60") String element_implicit_wait, @Optional("false") String monitor_mode, @Optional("config") String environment, @Optional("false") String maximizeBrowser)
+    @Parameters({ "grid_mode", "grid_server_url", "target_browsers",  "element_action_throttle", "element_implicit_wait", "maximize_browser" })
+    public void setup(@Optional("false") String grid_mode, @Optional("") String grid_server_url, @Optional("") String target_browsers, @Optional("0") String element_action_throttle, @Optional("60") String element_implicit_wait,  @Optional("false") String maximizeBrowser)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
@@ -214,7 +216,7 @@ public class TestBase
         {
             // Grid mode
             bGridMode = Boolean.parseBoolean(grid_mode);
-            //logger.info("setup():  Grid mode:  {}", bGridMode);
+            logger.info("setup():  Grid mode:  {}", bGridMode);
 
             // Grid server url
             if (bGridMode)
@@ -222,13 +224,13 @@ public class TestBase
                 if (grid_server_url.equals(""))
                     throw new SkipException("Parameter 'grid_server_url' must be provided when running in grid mode!");
                 sGridServerUrl = grid_server_url;
-                //logger.info("setup():  Grid server URL:  {}", sGridServerUrl);
+                logger.info("setup():  Grid server URL:  {}", sGridServerUrl);
             }
 
             // Target browsers
             target_browsers = target_browsers.replaceAll("\\s", "");
             aBrowsers = target_browsers.split(",");
-            //logger.info("setup():  Target browsers:  {}", target_browsers);
+            logger.info("setup():  Target browsers:  {}", target_browsers);
 
             // Maximize browser
             if (maximizeBrowser.equalsIgnoreCase("true"))
@@ -239,15 +241,11 @@ public class TestBase
 
             // Set global throttling value for CommonWebElement
             framework.web.CommonWebElement.setThrottle(Integer.parseInt(element_action_throttle));
-            //logger.info("setup():  Element action throttle:  {} sec", element_action_throttle);
+            logger.info("setup():  Element action throttle:  {} sec", element_action_throttle);
 
             // Set global implicit wait value for CommonWebElement
             framework.web.CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
-            //logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
-
-            // Turn on monitor mode if set
-            if (monitor_mode.equalsIgnoreCase("true"))
-                CommonWebElement.setbMonitorMode(true);
+            logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
 
         }
         catch(Exception ex)
@@ -288,13 +286,7 @@ public class TestBase
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
-        //logger.info("Executing: {} Parameters: {}", oMethod.getName(), aParams);
-
-        if (aParams.length == 0)
-        {
-            setValidate(new CommonValidate(false));
-            return;
-        }
+        logger.info("Executing: {} Parameters: {}", oMethod.getName(), aParams);
 
         try
         {
@@ -314,8 +306,7 @@ public class TestBase
             // Store WebDriver, Validate, and RemoteNode instances in the InheritableThreadLocal variable so each thread has own copy.  A must for parallel execution.
             setDriver(oDriver);
             setValidate(new CommonWebValidate(oDriver, true));
-//            if (bGridMode)
-//                setRemoteNode(getRemoteWebDriverNode(((RemoteWebDriver)oDriver).getSessionId().toString(), sGridServerUrl));
+
         }
         //  We want to catch all exceptions here and return because if beforeMethod() fails (e.g., due to WebDriver instantiation error), subsequent tests in the same
         //  thread would fail also.  This affects DataProvider-driven tests.
@@ -340,7 +331,7 @@ public class TestBase
         try
         {
             //String sStatus = oResult.getStatus() == org.testng.ITestResult.SUCCESS?"SUCCESS":"FAILURE";
-            //logger.trace("afterMethod():  ");
+            logger.trace("afterMethod():  ");
             unsetValidate();
             unsetRemoteNode();
             unsetException();
@@ -348,120 +339,8 @@ public class TestBase
         }
         catch (Exception ex)
         {
-            //logger.error("afterMethod():  Exception caught!  ", ex);
+            logger.error("afterMethod():  Exception caught!  ", ex);
         }
-    }
-
-    @DataProvider(parallel = true)
-    public Object[][] GetTestParameters(java.lang.reflect.Method oMethod, ITestContext context)
-    {
-        MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
-
-        // Get the number of formal parameters this test method has
-        int nbrOfFormalParams = oMethod.getParameterTypes().length;
-
-        ///////////////////////////////
-        // Target browser processing //
-        ///////////////////////////////
-
-        // Used to find browser type to exclude by looking at the groups element of Test annotation
-        String[] groups = oMethod.getAnnotation(Test.class).groups();
-        //logger.trace("GetTestParameters():  Target groups:  {}, {}, {}, {}", aBrowsers);
-
-        String[] aBrowsers = getBrowsers();
-        //logger.trace("GetTestParameters():  Target browsers:  {}, {}, {}, {}", aBrowsers);
-
-        // Remove from target browswer array the browser that we need to skip
-        boolean match = false;
-        ArrayList<String> browsersToRun = new ArrayList<String>();
-        for (String browser : aBrowsers)
-        {
-            //logger.trace("GetTestParameters():  Target browser: {}", browser);
-
-            for (String group : groups)
-            {
-                //logger.trace("GetTestParameters():  Target group: {}", group);
-
-                if(group.equalsIgnoreCase("Exclude" + browser.trim()))
-                {
-                    //logger.trace("GetTestParameters():  Found matching Exclude<Browser>", group);
-                    match = true;
-                    break;
-                }
-                else
-                    match = false;
-            }
-
-            if (!match)
-            {
-                //logger.trace("GetTestParameters():  Add {} to target browsers to run", browser.trim());
-                browsersToRun.add(browser.trim());
-            }
-        }
-
-        Object[] targetBrowsers = browsersToRun.toArray();
-
-        ///////////////////////////////
-        // Test parameter processing //
-        ///////////////////////////////
-
-        // Get parameters for test case
-        String sTestParams = "";
-        List<Properties> listOfProperties = new ArrayList<Properties>();
-        int iLength = targetBrowsers.length;  // Number of iteration based on number of target browsers.
-
-        // If test method contains two parameters, then we know it's looking for a properties object as the second parameter.
-        if (nbrOfFormalParams == 2)
-        {
-            // Read the parameters string from TestNG suite by looking for TestNG suite parameter with the name in form of <TestClass>.<TestMethod>  
-            // For example, "<parameter name="patient.tests.LoginTest" value=""/>"
-            sTestParams = context.getCurrentXmlTest().getParameter(context.getCurrentXmlTest().getName() + "." + oMethod.getName());
-
-            if (sTestParams == null || sTestParams.equals(""))  // If no TestNG suite parameter name found.  Create an empty Properties object.
-                listOfProperties.add(new Properties());
-            else
-                listOfProperties = strToProperties(sTestParams);  // Call strToProperties() to parse the parameter string.
-
-            iLength = iLength * listOfProperties.size();  // If multiple property sets are found, number of iteration becomes number of property set times number of target browsers.
-        }
-
-        // Create and build object array to contain all the test parameters for each iteration. For example, 
-        // 
-        // with parameter string ""
-        // 
-        // input[0][0] = "Chrome"
-        // input[0][1] = prop1
-        //
-        // input[1][0] = "Chrome"
-        // input[1][1] = prop2
-        //
-        // input[2][0] = "Firefox"
-        // input[2][1] = prop1
-        //
-        // input[3][0] = "Firefox"
-        // input[3][1] = prop2
-        //
-        // where prop1 contains properties "" and prop2 contains properties "".  So the same test method would get
-        // executed a total of four times:  (2 browsers) X (2 parameter sets) = 4.
-
-        Object[][] input = new Object[iLength][nbrOfFormalParams];
-
-        for (int i=0, j=0; i < targetBrowsers.length; i++)
-        {
-            if (nbrOfFormalParams == 2)
-            {
-                for (int k = 0; k < listOfProperties.size(); k++)
-                {
-                    input[j][0] = targetBrowsers[i];
-                    input[j][1] = listOfProperties.get(k);
-                    j++;
-                }
-            }
-            else
-                input[j++][0] = targetBrowsers[i];
-        }
-
-        return input;
     }
 
     //////////////////////////////
@@ -478,7 +357,7 @@ public class TestBase
     {
         try
         {
-            //logger.error("handleException(): Exception caught!  ", ex);
+            logger.error("handleException(): Exception caught!  ", ex);
 
             if (!(ex instanceof NullPointerException))
             {
@@ -510,7 +389,7 @@ public class TestBase
         FileOutputStream fOut = new FileOutputStream(fullFilePath);
         fOut.write(aBase64);
         fOut.close();
-        //logger.info("Screenshot sent to {}", fullFilePath);
+        logger.info("Screenshot sent to {}", fullFilePath);
         return fullFilePath;
     }
 
@@ -647,6 +526,49 @@ public class TestBase
         {
             throw new CommonException("Failed to instantiate RemoteWebDriver!", e.getCause());
         }
+    }
+
+    private  DesiredCapabilities getDesiredCapabilities(String browserName, String platform, String version, String screenResolution) {
+        DesiredCapabilities capabilities = null;
+        switch (browserName.toLowerCase()) {
+            case "ie":
+                capabilities = DesiredCapabilities.internetExplorer();
+                capabilities.setCapability("version", version);
+                capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
+                break;
+            case "firefox":
+                capabilities = DesiredCapabilities.firefox();
+                capabilities.setCapability("version", version);
+                capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
+                break;
+            case "safari":
+                capabilities = DesiredCapabilities.safari();
+                capabilities.setCapability("version", version);
+                capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
+                break;
+            case "chrome":
+                capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability("version", version);
+                capabilities.setCapability("platform", platform);
+                capabilities.setCapability("screenResolution", screenResolution);
+                break;
+            case "iphone":
+                capabilities = DesiredCapabilities.iphone();
+                capabilities.setCapability("browserName", "Safari");
+                capabilities.setCapability("appiumVersion", "1.6.4");
+                capabilities.setCapability("deviceName", "iPhone 7 Simulator");
+                capabilities.setCapability("deviceOrientation", "portrait");
+                capabilities.setCapability("platformVersion", "10.3");
+                capabilities.setCapability("platformName", "iOS");
+                capabilities.setCapability("version", version);
+                break;
+            default:
+                break;
+        }
+        return capabilities;
     }
 
     /**
