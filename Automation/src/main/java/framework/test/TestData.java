@@ -5,7 +5,10 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.InvalidArgumentException;
+
 import java.io.FileInputStream;
+import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,13 +16,20 @@ import java.util.Map;
 
 public class TestData {
 
-    public String firstname;
-    public String lastname;
-    public String email;
-    public String password;
-    public String confirmPassword;
-    public String phoneNumber;
-    public String zipCode;
+    public Boolean bHasMedicareMedicaid;
+    public String sFirstname;
+    public String sLastname;
+    public String sEmail;
+    public String sPassword;
+    public String sConfirmPassword;
+    public String sPhoneNumber;
+    public String sZipCode;
+    public String sDateOfBirth;
+    public String sRelationship;
+    public String sGender;
+
+    public static final String ACCOUNT_SHEET = "Account";
+    public static final String PATIENT_SHEET = "Patient";
 
     /**
      * Initializes class variables with the values from Excel file
@@ -59,13 +69,29 @@ public class TestData {
                 }
             }
             file.close();
-            firstname = testDataFromExcel.get("Firstname");
-            lastname = testDataFromExcel.get("Lastname");
-            email = testDataFromExcel.get("Email");
-            password = testDataFromExcel.get("Password");
-            confirmPassword = testDataFromExcel.get("ConfirmPassword");
-            phoneNumber = testDataFromExcel.get("PhoneNumber");
-            zipCode = testDataFromExcel.get("ZipCode");
+                //TODO: Add exceptions for cases where Excel file has incorrect Keys or typos. ie. "Firstnam" instead of "Firstname"
+                if (sSheetName.equals(ACCOUNT_SHEET)) {
+                        sFirstname = testDataFromExcel.get("Firstname");
+                        sLastname = testDataFromExcel.get("Lastname");
+                        sEmail = testDataFromExcel.get("Email");
+                        sPassword = testDataFromExcel.get("Password");
+                        sConfirmPassword = testDataFromExcel.get("ConfirmPassword");
+                        sPhoneNumber = testDataFromExcel.get("PhoneNumber");
+                        sZipCode = testDataFromExcel.get("ZipCode");
+                }
+
+                if (sSheetName.equals(PATIENT_SHEET)) {
+                        bHasMedicareMedicaid = testDataFromExcel.get("HasMedicareMedicaid").toLowerCase().equals("false") ? false : true;
+                        sFirstname = testDataFromExcel.get("Firstname");
+                        sLastname = testDataFromExcel.get("Lastname");
+                        sEmail = testDataFromExcel.get("Email");
+                        sPhoneNumber = testDataFromExcel.get("PhoneNumber");
+                        sZipCode = testDataFromExcel.get("ZipCode");
+                        sDateOfBirth = testDataFromExcel.get("DateOfBirth");
+                        sRelationship = testDataFromExcel.get("Relationship");
+                        sGender = testDataFromExcel.get("Gender");
+                }
+
 
         } catch (Exception e) {
             e.printStackTrace();

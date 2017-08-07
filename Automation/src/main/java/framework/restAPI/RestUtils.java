@@ -21,8 +21,8 @@ public class RestUtils {
      * Parses a JSON string and returns the searched value
      * @param sJsonString (String) JSON String to be parsed
      * @param jsonObject (String) JSON object containing the key that is searched
-     *                  e.g. "account" from "account"[{ "firstname" from "firstname":"Joe"}]
-     * @param sJsonKey (String) JSON key that is searched e.g. "firstname" from "firstname":"Joe"
+     *                  e.g. "account" from "account"[{ "sFirstname" from "sFirstname":"Joe"}]
+     * @param sJsonKey (String) JSON key that is searched e.g. "sFirstname" from "sFirstname":"Joe"
      * @return (String) Value of the given JSON key
      */
     public String getJsonValue(String sJsonString, String jsonObject, String sJsonKey){
