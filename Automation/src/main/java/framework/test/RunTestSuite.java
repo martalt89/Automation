@@ -25,7 +25,7 @@ public class RunTestSuite {
     public static void main(String[] args) throws IOException {
         String projDri = System.getProperty("user.dir");
         String fileSeparator = System.getProperty("file.separator");
-        String fileExcelName = "Heal_Login.xlsx";
+        String fileExcelName = "Run.xlsx";
         String fileExcelPath = projDri + fileSeparator + "src" + fileSeparator + "main" + fileSeparator + "java" + fileSeparator + "framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
 
         ///////////////////////////////////
