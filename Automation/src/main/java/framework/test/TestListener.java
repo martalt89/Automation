@@ -35,7 +35,6 @@ import foundation.SysTools;
 public class TestListener extends TestListenerAdapter {
 
     Logger logger = LoggerFactory.getLogger(TestListener.class);
-    private Properties oProperties = new Properties();
     Document oResultXML;
     java.util.List<ITestResult> lConfigFailures = new ArrayList<ITestResult>();
     int iSuiteVerificationPassTotal = 0;
@@ -43,13 +42,6 @@ public class TestListener extends TestListenerAdapter {
     Date suiteStart = null;
     java.util.List<ITestResult> lAllTests = new ArrayList<ITestResult>();
 
-
-
-    public TestListener(Document resultXML, Properties oProp)
-    {
-        oProperties = oProp;
-        oResultXML = resultXML;
-    }
 
     public TestListener(Document resultXML)
     {
@@ -251,18 +243,6 @@ public class TestListener extends TestListenerAdapter {
         suiteNode.setAttribute("verify.fail", String.valueOf(iSuiteVerificationFailTotal));
         suiteNode.setAttribute("user", System.getenv("USERNAME"));
 
-        try
-        {
-            Properties envProps = new Properties();
-            envProps.load(new BufferedReader(new FileReader(new File("c:/qa/atf/conf/EnvironmentSettings.properties"))));
-            suiteNode.setAttribute("env", envProps.getProperty("CurrentEnvironment"));
-            suiteNode.setAttribute("release", envProps.getProperty("CurrentRelease"));
-        }
-        catch (Exception ex)
-        {
-           logger.error("Faield to read environment info from config.", ex);
-        }
-
 
         // Create Class node
         Element classNode = oResultXML.createElement("class");
@@ -300,7 +280,7 @@ public class TestListener extends TestListenerAdapter {
 
 
             testNode.setAttribute("name", testName);
-            testNode.setAttribute("browser", (String)oResult.getParameters()[0]);
+            //testNode.setAttribute("browser", (String)oResult.getParameters()[0]);
 
             if (oResult.getStatus() == ITestResult.SUCCESS)
             {

@@ -17,16 +17,19 @@ import org.testng.xml.XmlClass;
 import org.testng.xml.XmlInclude;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
-import utilities.WebDriverListener;
+import org.w3c.dom.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.uncommons.reportng.HTMLReporter;
 
 public class RunTestSuite {
     private static final String TEST_PACKAGE = "patient.tests";
 
     public static void main(String[] args) throws IOException {
-        String projDri = System.getProperty("user.dir");
+        String projDir = System.getProperty("user.dir");
         String fileSeparator = System.getProperty("file.separator");
         String fileExcelName = "Run.xlsx";
-        String fileExcelPath = projDri + fileSeparator + "src" + fileSeparator + "main" + fileSeparator + "java" + fileSeparator + "framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
+        String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "main" + fileSeparator + "java" + fileSeparator + "framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
 
         ///////////////////////////////////
         //  Read test suite from excel   //
@@ -41,12 +44,21 @@ public class RunTestSuite {
         oSuites.add(suite);
         System.out.println(suite.toXml());
         TestNG testng = new TestNG();
-
         testng.setXmlSuites(oSuites);
+        DocumentBuilder docBuilder = null;
+        try{
+            docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
+        Document resultXML = docBuilder.newDocument();
+        TestListener oTestListener = new TestListener(resultXML);
 
-        //testng.addListener(new WebDriverListener());
-       // testng.addListener(new TestListener());
+        HTMLReporter oReportNGListener = new org.uncommons.reportng.HTMLReporter();
+        testng.addListener(oReportNGListener);
+        testng.addListener(oTestListener);
         testng.run();
     }
 
