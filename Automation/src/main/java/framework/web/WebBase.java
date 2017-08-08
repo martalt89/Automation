@@ -1,5 +1,6 @@
 package framework.web;
 
+import foundation.SysTools;
 import framework.exception.CommonException;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -16,14 +17,14 @@ import org.testng.Reporter;
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-
+import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
 /**
  * Created by vahanmelikyan on 6/29/17.
  */
 public class WebBase {
 
     public static final int IMPLICIT_WAIT = 60;
-    public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
+    //public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
 
     public WebDriver oWebDriver;
     public String sBrowserType;
@@ -214,7 +215,7 @@ public class WebBase {
                 screenShot = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
             }
 
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String timestamp = SysTools.getTimestamp();
 
             String fullFilePath = sFileLocation + "/" + timestamp.toString() + ".png";
             FileUtils.copyFile(screenShot, new File(fullFilePath));
