@@ -28,7 +28,7 @@ public class ProfileTest extends TestBase {
     @Test(groups = {"dev", "critical"})
     public void addInsuranceToExistingPatient(){
         CommonWebElement.setbMonitorMode(false);
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);

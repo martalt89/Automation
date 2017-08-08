@@ -15,14 +15,13 @@ import utilities.DriverManager;
 
 public class VisitTests extends TestBase {
 
-    WebDriver dr = DriverManager.getDriver();
 
     @Test (groups = {"devv", "critical"})
     //@Parameters({ "url" })
     public void bookVisit() throws Exception {
 
             CommonWebElement.setbMonitorMode(false);
-            WebDriver dr = DriverManager.getDriver();
+            WebDriver dr = getDriver();
             CommonWebValidate validate = new CommonWebValidate(dr);
             LoginPage loginPage = new LoginPage(dr);
             HomePage homePage = new HomePage(dr);

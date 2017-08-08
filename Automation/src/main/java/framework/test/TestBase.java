@@ -208,7 +208,7 @@ public class TestBase
      */
     @BeforeClass(alwaysRun=true)
     @Parameters({ "environment","browserName", "platform", "version", "screenResolution", "username", "accessKey",  "saucelab_url", "element_implicit_wait", "maximize_browser" })
-    public void setup(@Optional("local") String environment,@Optional("chrome") String browserName, @Optional("") String platform, @Optional("") String version, @Optional("chrome") String screenResolution, @Optional("") String username, @Optional("chrome") String accessKey,  @Optional("") String saucelab_url, @Optional("60") String element_implicit_wait,  @Optional("false") String maximizeBrowser)
+    public void setup(@Optional("local") String environment,@Optional("chrome") String browserName, @Optional("") String platform, @Optional("") String version, @Optional("chrome") String screenResolution, @Optional("") String username, @Optional("chrome") String accessKey,  @Optional("") String saucelab_url, @Optional("60") String element_implicit_wait,  @Optional("true") String maximizeBrowser)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
