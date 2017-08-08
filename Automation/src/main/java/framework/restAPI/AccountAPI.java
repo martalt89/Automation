@@ -4,20 +4,44 @@ import com.google.gson.JsonObject;
 import com.stripe.Stripe;
 import com.stripe.exception.*;
 import com.stripe.model.Token;
+import framework.test.TestData;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class AccountAPI {
-    private String sUsername = RestUtils.generateUsername();
-    private String sPassword = "Heal4325";
-    private int iExpiryMonth = 12;
-    private int iExpiryYear = 2022;
+    private TestData addCardInputData = new TestData(TestData.CARD_SHEET);
+    private RestUtils restUtils = new RestUtils();
+    public String sUsername;
+    public String sPassword;
+    private String sUserId;
     private String baseURI = "https://patient.qa.heal.com/api";
+    private static final String APIkey = "pk_test_DIamIvBnKXe5LdP5fl1iR0v8";
+    /**
+     * Constructor
+     * @param sAccUsername (String) Account sEmail
+     * @param sAccPassword (String) Account sPassword
+     */
+    public AccountAPI(String sAccUsername, String sAccPassword, Boolean bCreateAccount){
+        this.sUsername = sAccUsername;
+        this.sPassword = sAccPassword;
+        if(bCreateAccount) createAccount();
+        initAccountInfo();
+    }
 
+    /**
+     * Constructor
+     * @param sAccUsername (String) Account sEmail
+     * @param sAccPassword (String) Account sPassword
+     */
+    public AccountAPI(String sAccUsername, String sAccPassword){
+        this.sUsername = sAccUsername;
+        this.sPassword = sAccPassword;
+    }
 
-    public void createAccount(){
+    private void createAccount(){
         String resourceAPI = "/v2/account";
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("campaign", new JsonObject());
@@ -37,29 +61,34 @@ public class AccountAPI {
         response.prettyPrint();
     }
 
-    public String getPatientsByUsername(){
+    private Map getAccountByUsername(){
         String resourceAPI = "/v2/account";
-        Response response = RestAssured.given()
+        Map<String,String> accountInfoMap = new HashMap<>();
+        Response getResponse = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sUsername, sPassword)
                 .param("username", sUsername)
                 .log().all()
                 .get(baseURI + resourceAPI);
-        return response.prettyPrint();
+        getResponse.prettyPrint();
+        String response = getResponse.asString();
+
+        accountInfoMap.put("id", restUtils.getJsonValue(response, "id"));
+        return accountInfoMap;
     }
 
     public void addAddress(){
         String resourceAPI = "/account/address";
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("address", "1123 Bulevard");
+        jsonAsMap.put("address", "1 Market St");
         jsonAsMap.put("addressType", "HOME");
         jsonAsMap.put("city", "San Francisco");
         jsonAsMap.put("country", "United States");
-        jsonAsMap.put("zipcode", "90525");
-        jsonAsMap.put("establishment", "something");
+        jsonAsMap.put("zipcode", "94105");
+        jsonAsMap.put("establishment", "");
         jsonAsMap.put("unit", "2");
-        jsonAsMap.put("instruction", "none");
+        jsonAsMap.put("instruction", "gate code 4235");
 
         Response response = RestAssured.given()
                 .auth()
@@ -73,14 +102,14 @@ public class AccountAPI {
     }
 
 
-    public String createStripeToken() {
-        Stripe.apiKey = "pk_test_DIamIvBnKXe5LdP5fl1iR0v8";
+    private String createStripeToken() {
+        Stripe.apiKey = APIkey;
         Map<String, Object> tokenParams = new HashMap<String, Object>();
         Map<String, Object> cardParams = new HashMap<String, Object>();
-        cardParams.put("number", "4242424242424242");
-        cardParams.put("exp_month", iExpiryMonth);
-        cardParams.put("exp_year", iExpiryYear);
-        cardParams.put("cvc", "314");
+        cardParams.put("number", addCardInputData.sCardNumber);
+        cardParams.put("exp_month", addCardInputData.iExpiryMonth);
+        cardParams.put("exp_year", addCardInputData.iExpiryYear);
+        cardParams.put("cvc", addCardInputData.sCVC);
         tokenParams.put("card", cardParams);
         try {
             return Token.create(tokenParams).getId();
@@ -93,10 +122,10 @@ public class AccountAPI {
     public void createPayment(){
         String resourceAPI = "/account/payment";
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("cardExpiryMonth", iExpiryMonth);
-        jsonAsMap.put("cardExpiryYear", iExpiryYear);
-        jsonAsMap.put("cardLast", "4242");
-        jsonAsMap.put("cardType", "Visa");
+        jsonAsMap.put("cardExpiryMonth", addCardInputData.iExpiryMonth);
+        jsonAsMap.put("cardExpiryYear", addCardInputData.iExpiryYear);
+        jsonAsMap.put("cardLast", "4242"); // to do
+        jsonAsMap.put("cardType", addCardInputData.sCardType);
         jsonAsMap.put("token", createStripeToken());
 
         Response response = RestAssured.given()
@@ -110,14 +139,14 @@ public class AccountAPI {
         response.prettyPrint();
     }
 
+    /**
+     * Initializes account info variables
+     */
+    private void initAccountInfo(){
+        //init account info below
+        Map account = getAccountByUsername();
+        sUserId = (String) account.get("id");
 
-    public static void main(String args[]){
-        //for temporary testing purposes
-        AccountAPI api = new AccountAPI();
-        api.createAccount();
-        api.getPatientsByUsername();
-        api.addAddress();
-        api.createPayment();
-        api.createPayment();
+
     }
 }
