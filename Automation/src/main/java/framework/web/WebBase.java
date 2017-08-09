@@ -11,11 +11,13 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
+import java.nio.file.Path;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
 /**
@@ -217,9 +219,9 @@ public class WebBase {
 
             String timestamp = SysTools.getTimestamp();
 
-            String fullFilePath = sFileLocation + "/" + timestamp.toString() + ".png";
-            FileUtils.copyFile(screenShot, new File(fullFilePath));
-            Reporter.log(String.format("Screenshot sent to {%s} <br>", fullFilePath));
+            Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
+            FileUtils.copyFile(screenShot, fullFilePath.toFile());
+            Reporter.log(String.format("Screenshot sent to {%s} <img src='{%s}'></img>", fullFilePath.toAbsolutePath(), fullFilePath.toAbsolutePath()));
 
             // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
@@ -231,7 +233,7 @@ public class WebBase {
                 out.close();
             }
 
-            return fullFilePath;
+            return fullFilePath.toAbsolutePath().toString();
         } catch (Exception ex) {
             Reporter.log(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";
