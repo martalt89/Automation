@@ -432,5 +432,9 @@ public class WebBase {
         waitForPageLoad(IMPLICIT_WAIT);
     }
 
+    public void waitForPageReady(){
+        waitForUrl(sHomeUrl);
+        waitForPageLoad();
+    }
 
 }

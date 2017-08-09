@@ -30,7 +30,7 @@ public class HomePage extends WebBase {
     // Constructors //
     //////////////////
     public HomePage(WebDriver oTargetDriver){
-        super(oTargetDriver);
+        super(oTargetDriver, URL);
     }
     public HomePage(WebDriver oTargetDriver, String sUrl)
     {

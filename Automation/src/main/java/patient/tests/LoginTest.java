@@ -19,13 +19,13 @@ public class LoginTest extends TestBase {
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
         loginPage.visit();
-        loginPage.waitForPageLoad();
+        loginPage.waitForPageReady();
         assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
 
         loginPage.login();
 
         HomePage homePage = new HomePage(dr);
-        homePage.waitForPageLoad();
+        homePage.waitForPageReady();
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
