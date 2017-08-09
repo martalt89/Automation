@@ -55,7 +55,7 @@ public class LoginTest extends TestBase {
             System.out.println("cannot validate " + visitsPage.oPageTitle.getText());
         }
         homePage.selectFromMenu(menu.oProfilesLnk);
-        homePage.selectFromMenu(menu.oPaymentMethodLnk);
+        homePage.selectFromMenu(menu.oPaymentsLnk);
         homePage.selectFromMenu(menu.oSignOutLnk);
         System.out.println("Total number of validations executed : " + validate.getTotalCount());
         int passed = validate.getTotalCount()-validate.getFailureCount();
