@@ -18,7 +18,7 @@ public class Menu extends WebBase{
     public CommonWebElement oBookVisitLnk = new CommonWebElement("oBookVisitLnk", "xpath=//*[@ui-sref='main.body.bookVisit.emergency']",oWebDriver);
     public CommonWebElement oVisitsLnk = new CommonWebElement("oVisitsLnk", "xpath=//*[@ui-sref='main.body.visits']",oWebDriver);
     public CommonWebElement oProfilesLnk = new CommonWebElement("oProfilesLnk", "xpath=//*[@ui-sref='main.body.profiles.chooseProfile']",oWebDriver);
-    public CommonWebElement oPaymentMethodLnk = new CommonWebElement("oPaymentMethodLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
+    public CommonWebElement oPaymentsLnk = new CommonWebElement("oPaymentsLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
     public CommonWebElement oSignOutLnk = new CommonWebElement("oSignOutLnk", "xpath=//*[@ui-sref='unauthenticate']",oWebDriver);
     public CommonWebElement oMenuBtn = new CommonWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')]",oWebDriver);
     public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);

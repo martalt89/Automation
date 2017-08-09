@@ -25,7 +25,7 @@ public class AddCardTest extends TestBase {
         CommonWebValidate validate = new CommonWebValidate(dr);
         CommonWebElement.setbMonitorMode(false);
         login.login("mihaiqa1@heal.com", "Heal4325");
-        homePage.selectFromMenu(menu.oPaymentMethodLnk);
+        homePage.selectFromMenu(menu.oPaymentsLnk);
         validate.verifyVisible("Verify Payments label is displayed", payment.oPaymentsLabel);
 
 

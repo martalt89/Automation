@@ -20,7 +20,7 @@ public class SelectPaymentPage extends WebBase {
     public CommonWebElement oCreditCardDetailsTxt = new CommonWebElement( "oCreditCardDetailsTxt", "xpath=//*[text()='Credit Card Details']", oWebDriver );
     public CommonWebElement oNeedDetailsTxt = new CommonWebElement( "oNeedDetailsTxt", "xpath=//*[contains(text(),'*We need your credit')]", oWebDriver );
     public CommonWebElement oSelectCard = new CommonWebElement( "oSelectCard", "xpath=//*[@ng-click='vm.selectCard()']", oWebDriver );
-    public CommonWebElement oEditPaymentBtn = new CommonWebElement( "oEditPaymentBtn", "xpath=//*[text()='Edit Payment']", oWebDriver );
+    public CommonWebElement oEditPaymentBtn = new CommonWebElement( "oEditPaymentBtn", "xpath=//*[text()='Edit payment']", oWebDriver );
     public CommonWebElement oInsuranceInfoTxt = new CommonWebElement( "oInsuranceInfoTxt", "xpath=//*[text()='Edit Payment']", oWebDriver );
     public CommonWebElement oUseInsuranceTxt = new CommonWebElement( "oUseInsuranceTxt", "xpath=//*[contains(text(),'use insurance?')]", oWebDriver );
     public CommonWebElement oAddInsuranceBtn = new CommonWebElement( "oAddInsuranceBtn", "xpath=//*[text()='+ Add Insurance']", oWebDriver );

@@ -1,33 +1,50 @@
 package patient.tests;
 
 import framework.test.TestBase;
+import framework.test.TestData;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patient.pages.*;
-import utilities.DriverManager;
 
 /**
- * Created by mihai.muresan on 7/17/2017.
+ *  Test suite for Payments page
  */
 public class PaymentsTest extends TestBase {
+    private TestData addCardInputData = new TestData(TestData.CARD_SHEET);
+    private String sExpirationMonth = Integer.toString(addCardInputData.iExpiryMonth);
+    private String sExpirationYear = Integer.toString(addCardInputData.iExpiryYear);
 
-    @Test
-    @Parameters({ "url" })
-    public void checkPaymentsPage() throws Exception {
-        WebDriver dr = DriverManager.getDriver();
-        PaymentsPage payment = new PaymentsPage(dr);
-        HomePage homePage = new HomePage(dr);
-        LoginPage login = new LoginPage(dr);
-        Menu menu = new Menu(dr);
-        CommonWebValidate validate = new CommonWebValidate(dr);
+
+    @Test (groups = { "dev" , "critical" })
+    public void editPayments() throws Exception {
+
         CommonWebElement.setbMonitorMode(false);
-        login.login("mihai.muresan@heal.com", "Heal4325");
-        homePage.selectFromMenu(menu.oPaymentMethodLnk);
-        validate.verifyVisible("Verify Payments label is displayed", payment.oPaymentsLabel);
+        WebDriver dr = getDriver();
+        CommonWebValidate validate = new CommonWebValidate(dr);
+        LoginPage loginPage = new LoginPage(dr);
+        HomePage homePage = new HomePage(dr);
+        PaymentsPage paymentsPage = new PaymentsPage(dr);
+        AddCardPage addCardPage = new AddCardPage(dr);
 
+        Menu menu = new Menu(dr);
 
+        // Login on patient web app
+        loginPage.login();
+        // Select Payments from Menu
+        homePage.selectFromMenu(menu.oPaymentsLnk);
+        paymentsPage.oEditPaymentBtn.click();
+
+        // Add card details from excel test data
+        addCardPage.oCardNumberInput.sendKeys(addCardInputData.sCardNumber);
+        addCardPage.oCardExpirationInput.sendKeys(sExpirationMonth + sExpirationYear);
+        addCardPage.oCVCInput.sendKeys(addCardInputData.sCVC);
+
+        // Apply changes then wait for Payments page to load with new card details
+        addCardPage.oApplyCardBtn.clickAndWait(paymentsPage.oPaymentsLabel, true);
+
+        // Validate the new card details
+        validate.assertEquals("Verifying card expiration date ", paymentsPage.oCardExpDate.getText(), sExpirationMonth + "/" + sExpirationYear);
     }
 }
