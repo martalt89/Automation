@@ -9,6 +9,7 @@ import org.testng.Reporter;
 
 import foundation.SysTools;
 
+import static com.sun.tools.doclint.Entity.lambda;
 
 
 /**

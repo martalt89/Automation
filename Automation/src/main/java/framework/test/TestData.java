@@ -5,10 +5,8 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openqa.selenium.InvalidArgumentException;
 
 import java.io.FileInputStream;
-import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,9 +25,16 @@ public class TestData {
     public String sDateOfBirth;
     public String sRelationship;
     public String sGender;
+    public int iExpiryMonth;
+    public int iExpiryYear;
+    public String sCardNumber;
+    public String sCVC;
+    public String sCardType;
+
 
     public static final String ACCOUNT_SHEET = "Account";
     public static final String PATIENT_SHEET = "Patient";
+    public static final String CARD_SHEET = "Card";
 
     /**
      * Initializes class variables with the values from Excel file
@@ -91,6 +96,14 @@ public class TestData {
                         sRelationship = testDataFromExcel.get("Relationship");
                         sGender = testDataFromExcel.get("Gender");
                 }
+
+            if (sSheetName.equals(CARD_SHEET)){
+                    iExpiryMonth = Integer .parseInt(testDataFromExcel.get("ExpiryMonth"));
+                    iExpiryYear = Integer .parseInt(testDataFromExcel.get("ExpiryYear"));
+                    sCardNumber = testDataFromExcel.get("CardNumber");
+                    sCVC = testDataFromExcel.get("CVC");
+                    sCardType = testDataFromExcel.get("CardType");
+            }
 
 
         } catch (Exception e) {
