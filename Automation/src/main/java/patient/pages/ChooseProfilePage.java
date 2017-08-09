@@ -40,6 +40,10 @@ public class ChooseProfilePage extends WebBase {
         super(oTargetDriver, sUrl);
     }
 
+    public ChooseProfilePage(){
+
+    }
+
     /////////////
     // Methods //
     /////////////

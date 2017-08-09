@@ -31,6 +31,9 @@ public class BookVisitPage extends WebBase {
     public BookVisitPage(WebDriver oTargetDriver){
         super(oTargetDriver);
     }
+    public BookVisitPage(){
+
+    }
     /////////////
     // Methods //
     /////////////

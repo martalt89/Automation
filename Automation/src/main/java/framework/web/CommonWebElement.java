@@ -1,6 +1,7 @@
 package framework.web;
 
 import com.google.common.base.Function;
+import foundation.SysTools;
 import framework.exception.CommonException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -62,9 +63,16 @@ public class CommonWebElement implements WebElement, Locatable {
         this(oElement, null, sTag, oDriver);
     }
 
+//    public CommonWebElement(String sName, String sTagWeb, String sTagNative, WebDriver oDriver) {
+//
+//        this.sElementName = sName;
+//        this.sElementTag = sTagWeb + " | " + sTagNative;
+//        this.oWebDriver = oDriver;
+//    }
     public CommonWebElement(String sName, String sTag, WebDriver oDriver) {
         this(null, sName, sTag, oDriver);
     }
+
 
     /**
      * Constructor to wrap CommonWebElement around a declared page element.
@@ -244,14 +252,11 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void click() {
-        CommonWebElement oLoadingBar = new CommonWebElement("oLoadinBar","xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
-
-        if (oLoadingBar.exists()){
-            oLoadingBar.waitForInvisible();
-        }
         waitForEnabled();
         waitForVisible();
-        System.out.println("Clicking on... " + oWebElement.toString());
+
+            //System.out.println("Clicking on... " + oBy.toString());
+
         oWebElement.click();
         if (iThrottleValue != 0)
             try {
@@ -259,8 +264,6 @@ public class CommonWebElement implements WebElement, Locatable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
     }
 
     @Override
@@ -391,6 +394,35 @@ public class CommonWebElement implements WebElement, Locatable {
     //////////////////////////////////////////
     //  Class methods                       //
     //////////////////////////////////////////
+    /**
+     * Click on an element and wait for another element to appear or disappear
+     *
+     * @param element (CommonWebElement) - Element to wait for appear or disappear
+     * @param bAppear (Boolean)
+     *                true(will wait for the element to appear after the click)
+     *                false(will wait for the element to disappear after the click)
+     *
+     */
+    public void clickAndWait(CommonWebElement element, Boolean bAppear) {
+        waitForEnabled();
+        waitForVisible();
+        //System.out.println("Clicking on... " + oBy.toString());
+        oWebElement.click();
+        if (iThrottleValue != 0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (bAppear){
+            element.waitForElement();
+        } else {
+            if (element.exists()){
+                element.waitForInvisible();
+            }
+        }
+    }
 
     /**
      * Click on an offset from the top-left corner of the element.
@@ -570,29 +602,7 @@ public class CommonWebElement implements WebElement, Locatable {
             return false;
         }
     }
-//    public boolean exists() {
-//        try {
-//            waitForElement(3);
-//            return true;
-//        } catch (Exception ex) {
-//            return false;
-//        }
-//    }
-
-    /**
-     * Check if this element is a dummy element.
-     *
-     * @return
-     * (boolean)
-     */
-//    public boolean isDummy()
-//    {
-//        if (oWebElement instanceof WebElementDummy)
-//            return true;
-//        else
-//            return false;
-//    }
-
+    
     /**
      * Click using Javascript.  The input Javascript must return an element.  For example "document.getElementById(SomeID)".
      *
@@ -652,7 +662,6 @@ public class CommonWebElement implements WebElement, Locatable {
      * Selects item from dropdown menu by visible text.
      *
      * @param sSelection     (String) - Item text
-     * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
      * @return (CommonWebElement)
      */
     public CommonWebElement selectAngular(String sSelection) {
@@ -721,7 +730,7 @@ public class CommonWebElement implements WebElement, Locatable {
         else
             return null;
     }
-    
+
     /**
      * Selects item from dropdown menu by the item text
      *
@@ -732,8 +741,13 @@ public class CommonWebElement implements WebElement, Locatable {
             this.click();
         else
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
-        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//*[text()='" + sText + "']", oWebDriver);
-        oMenuItem.jsClick();
+        CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
+        if (oMenuItem.isViewable()){
+            oMenuItem.click();
+        }else {
+            oMenuItem.jsClick();
+        }
+        SysTools.sleepFor(1);
     }
     /**
      * Selects item from dropdown menu by the value attribute.
@@ -855,21 +869,21 @@ public class CommonWebElement implements WebElement, Locatable {
             throw new CommonException("Unhandled exception", ex);
         }
 
-        if (oResult != null) {
+        if (oResult != null)
+        {
             oWebElement = oResult;
 
             // Highlight element
-            if (bMonitorMode) {
+            if (bMonitorMode)
+            {
                 highlightMe();
-                try {Thread.sleep(1000);
-                } catch (InterruptedException e){
-                    e.printStackTrace();
-                }
+                SysTools.sleepFor(1);
                 unHighlightMe();
             }
 
             return this;
-        } else
+        }
+        else
             return this;
     }
 

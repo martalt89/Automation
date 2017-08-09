@@ -12,18 +12,23 @@ import org.testng.annotations.Test;
 public class LoginTest extends TestBase {
 
 
-    @Test (groups = { "smoke", "regression" })
+    @Test (groups = { "devv","smoke", "regression", "critical" })
 //    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
-        CommonWebElement.setbMonitorMode(false);
 
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
-        HomePage homePage = new HomePage(dr);
+        loginPage.visit();
+        loginPage.waitForPageLoad();
+        assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
 
-//      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
         loginPage.login();
-        homePage.validateTitle("Scheduled Visits");
+
+        HomePage homePage = new HomePage(dr);
+        homePage.waitForPageLoad();
+        assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
+        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
     }
 
     @Test (groups = { "regression"})
@@ -41,7 +46,6 @@ public class LoginTest extends TestBase {
 
         loginPage.login();
         homePage.selectFromMenu(menu.oHomeLnk);
-        homePage.validateTitle("Scheduled Visits");
         homePage.selectFromMenu(menu.oBookVisitLnk);
         if (!validate.verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
             System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());

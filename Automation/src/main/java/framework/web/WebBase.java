@@ -1,5 +1,6 @@
 package framework.web;
 
+import foundation.SysTools;
 import framework.exception.CommonException;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -10,20 +11,23 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
+import java.nio.file.Path;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
-
+import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
 /**
  * Created by vahanmelikyan on 6/29/17.
  */
 public class WebBase {
 
     public static final int IMPLICIT_WAIT = 60;
-    public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
+    //public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
+    public volatile static String baseUrl = "";
 
     public WebDriver oWebDriver;
     public String sBrowserType;
@@ -65,11 +69,8 @@ public class WebBase {
      */
     public WebBase(WebDriver oTargetDriver, String sUrl) {
 //        logger.trace("WebBase(WebDriver oTargetDriver, String sUrl)");
-
         oWebDriver = oTargetDriver;
         sHomeUrl = sUrl;
-        if (!oWebDriver.getCurrentUrl().equals(sHomeUrl))
-            oWebDriver.get(sHomeUrl);
         sWindowHandle = oWebDriver.getWindowHandle();
 
         if (oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver) {
@@ -89,10 +90,12 @@ public class WebBase {
         return oWebDriver;
     }
 
+    public void visit() {
+        visit(sHomeUrl);
+    }
 
-    public void home() {
-        oWebDriver.get(sHomeUrl);
-        //reload();
+    public void visit(String url) {
+        oWebDriver.get(url);
     }
 
     public void reload() {
@@ -132,10 +135,6 @@ public class WebBase {
 
     public void quit() {
         oWebDriver.quit();
-    }
-
-    public void navigateTo(String sUrl) {
-        oWebDriver.get(sUrl);
     }
 
     public WebDriver getPopup() {
@@ -214,11 +213,11 @@ public class WebBase {
                 screenShot = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
             }
 
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String timestamp = SysTools.getTimestamp();
 
-            String fullFilePath = sFileLocation + "/" + timestamp.toString() + ".png";
-            FileUtils.copyFile(screenShot, new File(fullFilePath));
-            Reporter.log(String.format("Screenshot sent to {%s} <br>", fullFilePath));
+            Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
+            FileUtils.copyFile(screenShot, fullFilePath.toFile());
+            Reporter.log(String.format("Screenshot sent to {%s} <img src='{%s}'></img>", fullFilePath.toAbsolutePath(), fullFilePath.toAbsolutePath()));
 
             // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
@@ -230,7 +229,7 @@ public class WebBase {
                 out.close();
             }
 
-            return fullFilePath;
+            return fullFilePath.toAbsolutePath().toString();
         } catch (Exception ex) {
             Reporter.log(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";

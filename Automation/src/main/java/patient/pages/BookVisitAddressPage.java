@@ -42,6 +42,10 @@ public class BookVisitAddressPage extends WebBase {
         super(oTargetDriver, sUrl);
     }
 
+    public BookVisitAddressPage(){
+
+    }
+
     /////////////
     // Methods //
     /////////////

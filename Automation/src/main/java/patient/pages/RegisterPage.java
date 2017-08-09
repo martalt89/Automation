@@ -59,16 +59,16 @@ public class RegisterPage extends WebBase {
     // Methods //
     /////////////
 
-    //below is a method to demonstrate how input fields are populated with data extracted from a sheet document
-    TestData testData = new TestData();
-    public void registerValidData() throws InterruptedException {
-        this.oFirstNameInput.sendKeys(testData.getFirstName());
-        this.oLastNameNameInput.sendKeys(testData.getLastName());
-        this.oEmailInput.sendKeys(testData.getEmail());
-        this.oPasswordInput.sendKeys(testData.getPassword());
-        this.oConfirmPasswordInput.sendKeys(testData.getPassword());
-        Thread.sleep(3000); //just to verify that the correct data is written in input fields
+//    //below is a method to demonstrate how input fields are populated with data extracted from a sheet document
+//    TestData testData = new TestData("Sheet1");
+//    public void registerValidData() throws InterruptedException {
+//        this.oFirstNameInput.sendKeys(testData.getFirstName());
+//        this.oLastNameNameInput.sendKeys(testData.getLastName());
+//        this.oEmailInput.sendKeys(testData.getEmail());
+//        this.oPasswordInput.sendKeys(testData.getPassword());
+//        this.oConfirmPasswordInput.sendKeys(testData.getPassword());
+//        Thread.sleep(3000); //just to verify that the correct data is written in input fields
 
 
-    }
+//    }
 }

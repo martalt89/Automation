@@ -1,5 +1,6 @@
 package patient.tests;
 
+import framework.test.TestBase;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +11,7 @@ import org.testng.annotations.Test;
 /**
  * Created by mihai.muresan on 7/10/2017.
  */
-public class RegisterTest extends WebBase {
+public class RegisterTest extends TestBase {
 
     @Test
     public void checkRegisterPageElements() throws Exception {
@@ -51,14 +52,13 @@ public class RegisterTest extends WebBase {
         registerPage.oPhoneNmbInput.sendKeys(RegisterPage.sRegisterPhoneNo);
         registerPage.oZipcodeInput.sendKeys(RegisterPage.sRegisterZipCode);
         registerPage.oCreateAcctBtn.click();
-        homePage.validateTitle();
     }
 
-    @Test(groups = {"dev"})
-    public void testWithExcelTestData() throws Exception {
-        WebDriver dr = DriverManager.getDriver();
-        RegisterPage registerPage = new RegisterPage(dr);
-        registerPage.registerValidData();
-
-    }
+//    @Test(groups = {"dev"})
+//    public void testWithExcelTestData() throws Exception {
+//        WebDriver dr = DriverManager.getDriver();
+//        RegisterPage registerPage = new RegisterPage(dr);
+//        registerPage.registerValidData();
+//
+//    }
 }

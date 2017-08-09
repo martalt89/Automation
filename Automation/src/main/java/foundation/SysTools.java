@@ -3,7 +3,9 @@ package foundation;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Date;
 import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 
@@ -154,6 +156,39 @@ public class SysTools
             Reporter.log(e.toString() + " <br>");
         }
     }
+
+    /**
+     * Return the during between two Date object in the string form of "hh:mm:ss"
+     *
+     * @param start
+     * (Date) - Start date.
+     *
+     * @param end
+     * (Date) - End date.
+     *
+     * @return
+     * (String) - Elapsed time in string format.
+     */
+    public static String getElapsedTimeString(Date start, Date end)
+    {
+        long millies = end.getTime() - start.getTime();
+        return String.format("%1$02d:%2$02d:%3$02d", TimeUnit.MILLISECONDS.toHours(millies), TimeUnit.MILLISECONDS.toMinutes(millies) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millies)), TimeUnit.MILLISECONDS.toSeconds(millies) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millies)));
+    }
+
+    /**
+     * Return the during between two Date object in the string form of "hh:mm:ss"
+     *
+     * @param millies
+     * (long) - Elapsed time in milliseconds.
+     *
+     * @return
+     * (String) - Elapsed time in string format.
+     */
+    public static String getElapsedTimeString(long millies)
+    {
+        return String.format("%1$02d:%2$02d:%3$02d", TimeUnit.MILLISECONDS.toHours(millies), TimeUnit.MILLISECONDS.toMinutes(millies) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millies)), TimeUnit.MILLISECONDS.toSeconds(millies) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millies)));
+    }
+
     /**
      * Convenient method to get the visit code from the URL
      *
