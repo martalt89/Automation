@@ -207,22 +207,41 @@ public class TestBase
      * Responsible for setting all the test class properties and instantiating an HealEntityManager to be shared by all tests.
      */
     @BeforeClass(alwaysRun=true)
-    @Parameters({ "environment","browserName", "platform", "version", "screenResolution", "username", "accessKey",  "saucelab_url", "element_implicit_wait", "maximize_browser" })
-    public void setup(@Optional("local") String environment,@Optional("chrome") String browserName, @Optional("") String platform, @Optional("") String version, @Optional("chrome") String screenResolution, @Optional("") String username, @Optional("chrome") String accessKey,  @Optional("") String saucelab_url, @Optional("60") String element_implicit_wait,  @Optional("true") String maximizeBrowser)
+    @Parameters({ "environment",
+            "browserName"
+            ,"platform"
+            ,"version"
+            ,"screenResolution"
+            ,"USERNAME"
+            ,"ACCESS_KEY"
+            ,"saucelab_url"
+            ,"element_implicit_wait"
+            ,"maximize_browser"
+    })
+    public void setup(@Optional("local") String environment,
+                      @Optional("chrome") String browserName,
+                      @Optional("") String platform,
+                      @Optional("") String version,
+                      @Optional("chrome") String screenResolution,
+                      @Optional("") String username,
+                      @Optional("chrome") String accessKey,
+                      @Optional("") String saucelab_url,
+                      @Optional("60") String element_implicit_wait,
+                      @Optional("true") String maximizeBrowser)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
-
         try
         {
             // Env mode
             logger.info("setup():  Environment mode:  {}", environment);
 
+            this.environment = environment;
             // Grid server url
             if (environment.equalsIgnoreCase("remote"))
             {
                 if (saucelab_url.equals(""))
                     throw new SkipException("Parameter 'grid_server_url' must be provided when running in grid mode!");
-                sGridServerUrl = saucelab_url;
+                this.sGridServerUrl = "https://" + username + ":" + accessKey + saucelab_url;
                 logger.info("setup():  Grid server URL:  {}", sGridServerUrl);
             }
 

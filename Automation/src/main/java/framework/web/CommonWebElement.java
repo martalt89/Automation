@@ -63,9 +63,16 @@ public class CommonWebElement implements WebElement, Locatable {
         this(oElement, null, sTag, oDriver);
     }
 
+//    public CommonWebElement(String sName, String sTagWeb, String sTagNative, WebDriver oDriver) {
+//
+//        this.sElementName = sName;
+//        this.sElementTag = sTagWeb + " | " + sTagNative;
+//        this.oWebDriver = oDriver;
+//    }
     public CommonWebElement(String sName, String sTag, WebDriver oDriver) {
         this(null, sName, sTag, oDriver);
     }
+
 
     /**
      * Constructor to wrap CommonWebElement around a declared page element.
@@ -595,9 +602,7 @@ public class CommonWebElement implements WebElement, Locatable {
             return false;
         }
     }
-
-
-
+    
     /**
      * Click using Javascript.  The input Javascript must return an element.  For example "document.getElementById(SomeID)".
      *
