@@ -24,6 +24,8 @@ public class PaymentsTest extends TestBase {
         WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageReady();
         HomePage homePage = new HomePage(dr);
         PaymentsPage paymentsPage = new PaymentsPage(dr);
         AddCardPage addCardPage = new AddCardPage(dr);

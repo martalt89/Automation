@@ -24,6 +24,8 @@ public class BookVisitTest extends TestBase {
             WebDriver dr = getDriver();
             CommonWebValidate validate = new CommonWebValidate(dr);
             LoginPage loginPage = new LoginPage(dr);
+            loginPage.goTo();
+            loginPage.waitForPageLoad();
             HomePage homePage = new HomePage(dr);
             ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
             BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
@@ -38,7 +40,7 @@ public class BookVisitTest extends TestBase {
             loginPage.login(); // Login on patient web app
             homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
             // Verify page title
-            if (!validate.verifyMatches("Verifying Book visit page title ", bookVisitPage.oPageTitle.getText(), "Book a house call")){
+            if (!validate.verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book a house call")){
                 System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
             }
             bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency

@@ -18,7 +18,7 @@ public class LoginTest extends TestBase {
 
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
-        loginPage.visit();
+        loginPage.goTo();
         loginPage.waitForPageReady();
         assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
 

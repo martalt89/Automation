@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import java.io.File;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
+
 import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
 /**
  * Created by vahanmelikyan on 6/29/17.
@@ -90,11 +90,11 @@ public class WebBase {
         return oWebDriver;
     }
 
-    public void visit() {
-        visit(sHomeUrl);
+    public void goTo() {
+        goTo(sHomeUrl);
     }
 
-    public void visit(String url) {
+    public void goTo(String url) {
         oWebDriver.get(url);
     }
 

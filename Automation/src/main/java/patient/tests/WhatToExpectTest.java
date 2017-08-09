@@ -25,7 +25,7 @@ public class WhatToExpectTest extends TestBase {
         VisitsPage visits = new VisitsPage(dr);
         WhatToExpectPage wte = new WhatToExpectPage(dr);
         CommonWebValidate validate = new CommonWebValidate(dr);
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         login.login("mihai.muresa@heal.com", "Heal4325");
         homePage.selectFromMenu(menu.oVisitsLnk);
         visits.oWhatToExpectBtn.click();

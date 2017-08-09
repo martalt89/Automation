@@ -4,14 +4,9 @@ import foundation.SysTools;
 import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
-import framework.web.WebBase;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patient.pages.*;
-import utilities.DriverManager;
 
 public class VisitTests extends TestBase {
 
@@ -24,6 +19,8 @@ public class VisitTests extends TestBase {
             WebDriver dr = getDriver();
             CommonWebValidate validate = new CommonWebValidate(dr);
             LoginPage loginPage = new LoginPage(dr);
+            loginPage.goTo();
+            loginPage.waitForPageReady();
             HomePage homePage = new HomePage(dr);
             ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
             BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
@@ -38,7 +35,7 @@ public class VisitTests extends TestBase {
             loginPage.login(); // Login on patient web app
             homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
             // Verify page title
-            if (!validate.verifyMatches("Verifying Book visit page title ", bookVisitPage.oPageTitle.getText(), "Book a house call")){
+            if (!validate.verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book a house call")){
                 System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
             }
             bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
