@@ -52,7 +52,6 @@ public class RegisterTest extends TestBase {
         registerPage.oPhoneNmbInput.sendKeys(RegisterPage.sRegisterPhoneNo);
         registerPage.oZipcodeInput.sendKeys(RegisterPage.sRegisterZipCode);
         registerPage.oCreateAcctBtn.click();
-        homePage.validateTitle();
     }
 
 //    @Test(groups = {"dev"})

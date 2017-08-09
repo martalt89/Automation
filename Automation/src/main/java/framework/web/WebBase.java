@@ -27,6 +27,7 @@ public class WebBase {
 
     public static final int IMPLICIT_WAIT = 60;
     //public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
+    public volatile static String baseUrl = "";
 
     public WebDriver oWebDriver;
     public String sBrowserType;
@@ -68,11 +69,8 @@ public class WebBase {
      */
     public WebBase(WebDriver oTargetDriver, String sUrl) {
 //        logger.trace("WebBase(WebDriver oTargetDriver, String sUrl)");
-
         oWebDriver = oTargetDriver;
         sHomeUrl = sUrl;
-        if (!oWebDriver.getCurrentUrl().equals(sHomeUrl))
-            oWebDriver.get(sHomeUrl);
         sWindowHandle = oWebDriver.getWindowHandle();
 
         if (oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver) {
@@ -92,10 +90,12 @@ public class WebBase {
         return oWebDriver;
     }
 
+    public void visit() {
+        visit(sHomeUrl);
+    }
 
-    public void home() {
-        oWebDriver.get(sHomeUrl);
-        //reload();
+    public void visit(String url) {
+        oWebDriver.get(url);
     }
 
     public void reload() {
@@ -135,10 +135,6 @@ public class WebBase {
 
     public void quit() {
         oWebDriver.quit();
-    }
-
-    public void navigateTo(String sUrl) {
-        oWebDriver.get(sUrl);
     }
 
     public WebDriver getPopup() {

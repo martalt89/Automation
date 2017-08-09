@@ -12,8 +12,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class HomePage extends WebBase {
 
-    CommonWebValidate validate = new CommonWebValidate(oWebDriver);
-    public static final String URL = "https://patient.qa.heal.com/login";
+    public static final String URL = "https://patient.qa.heal.com/visits";
     ///////////////////
     // Shared Pages  //
     ///////////////////
@@ -49,21 +48,5 @@ public class HomePage extends WebBase {
     {
         menu.selectFromMenu(menuItem);
     }
-    /////////////////
-    // validations //
-    /////////////////
-    public void validateTitle(){
-        try {
-            validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), "Book Visit");
-        }catch (CommonException e) {
-            System.out.println("cannot validate " + oPageTitle.getText());
-        }
-    }
-    public void validateTitle(String sTitle){
-    try {
-        validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), sTitle);
-        }catch (CommonException e) {
-            System.out.println("cannot validate " + oPageTitle.getText());
-        }
-    }
+
 }
