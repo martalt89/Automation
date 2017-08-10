@@ -267,21 +267,39 @@ public class CommonWebElement implements WebElement, Locatable {
     }
 
     @Override
-    public CommonWebElement findElement(By arg0) {
+    public CommonWebElement findElement(By oBy) {
         waitForElement();
-        return new CommonWebElement(oWebElement.findElement(arg0), arg0, oWebElement, oWebDriver);
+        List<CommonWebElement> commonWebElements = findAllElements(oBy);
+        if(commonWebElements.size() == 0){
+            throw new NoSuchElementException("no such element found for： " + oBy.toString());
+        }
+        return findAllElements(oBy).get(0);
     }
 
     @Override
-    public List<WebElement> findElements(By arg0) {
+    public List<WebElement> findElements(By oBy) {
         waitForElement();
-        java.util.List<WebElement> lATFWebElement = new java.util.Vector<WebElement>();
-        java.util.List<WebElement> lWebElement = oWebElement.findElements(arg0);
-        for (WebElement oElement : lWebElement) {
-            lATFWebElement.add(new CommonWebElement(oElement, oWebElement, oWebDriver));
-        }
-        return lATFWebElement;
+        return oWebElement.findElements(oBy);
     }
+
+
+    public List<CommonWebElement> findAllElements(By oBy) {
+        waitForElement();
+        List<CommonWebElement> commonWebElements = new java.util.ArrayList<CommonWebElement>();
+        List<WebElement> lWebElement = oWebElement.findElements(oBy);
+        for (WebElement oElement : lWebElement) {
+            if(WebBase.Ignore_Hidden_Element ){
+                if(!oElement.isDisplayed()){
+                    continue;
+                }
+                commonWebElements.add(new CommonWebElement(oElement,oWebElement, oWebDriver));
+            }
+            else
+                commonWebElements.add(new CommonWebElement(oElement,oWebElement, oWebDriver));
+        }
+        return commonWebElements;
+    }
+
 
     @Override
     public String getAttribute(String arg0) {
