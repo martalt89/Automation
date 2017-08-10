@@ -20,7 +20,7 @@ public class ManageProfilePage extends WebBase{
     public CommonWebElement oProfileImage = new CommonWebElement( "oProfileImage", "className=profile-image", oWebDriver );
     public CommonWebElement oPatientInfoLabel = new CommonWebElement( "oPatientInfoLabel", "xpath=//*[text()='Patient Info']", oWebDriver );
     public CommonWebElement oInsuranceLabel = new CommonWebElement( "oInsuranceLabel", "xpath=//*[text()='Insurance (Optional)']", oWebDriver );
-    public CommonWebElement oContiuneButton = new CommonWebElement("oContinueButton", "xpath=//*[text()='Continue']", oWebDriver);
+    public CommonWebElement oContinueButton = new CommonWebElement("oContinueButton", "xpath=//*[text()='Continue']", oWebDriver);
     public CommonWebElement oErrorBox = new CommonWebElement("oErrorBox", "xpath=//*[contains(@class,'error')]/div", oWebDriver);
     public CommonWebElement oSubtitile = new CommonWebElement("oSubtitile", "xpath=//h5", oWebDriver);
     public CommonWebElement oAddPatientbtn = new CommonWebElement("oAddPatientbtn", "xpath=//*[@class='create-patient-link']", oWebDriver);
@@ -92,5 +92,19 @@ public class ManageProfilePage extends WebBase{
         super(oTargetDriver, sUrl);
     }
 
+    /////////////
+    // Methods //
+    /////////////
 
+    public void clickPatientByText(String sText)
+    {
+        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=//*[text()='"+sText+"']", oWebDriver );
+        oPatient.click();
+    }
+
+    public CommonWebElement getElementByText(String sText)
+    {
+        return new CommonWebElement( "oElement", "xpath=//*[text()='"+sText+"']", oWebDriver );
+
+    }
 }
