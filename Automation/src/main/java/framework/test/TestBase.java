@@ -42,7 +42,7 @@ public class TestBase
     private static String path = System.getProperty("user.dir");
     private static String separator = System.getProperty("file.separator");
     private String environment = "";
-    private String sGridServerUrl = "";
+    private String saucelab_url = "";
     //	private int iPageLoadTimeout = 90;
     private boolean bMaximizeBrowser = false;
     private String browser;
@@ -80,7 +80,7 @@ public class TestBase
      */
     public void setGridServer(String sGridServer)
     {
-        sGridServerUrl = sGridServer;
+        saucelab_url = sGridServer;
     }
 
     public String getBrowser()
@@ -212,6 +212,7 @@ public class TestBase
             ,"platform"
             ,"version"
             ,"screenResolution"
+            ,"url"
             ,"USERNAME"
             ,"ACCESS_KEY"
             ,"saucelab_url"
@@ -223,6 +224,7 @@ public class TestBase
                       @Optional("") String platform,
                       @Optional("") String version,
                       @Optional("chrome") String screenResolution,
+                      @Optional("patient.qa.heal.com") String url,
                       @Optional("") String username,
                       @Optional("chrome") String accessKey,
                       @Optional("") String saucelab_url,
@@ -236,13 +238,14 @@ public class TestBase
             logger.info("setup():  Environment mode:  {}", environment);
 
             this.environment = environment;
+            WebBase.baseUrl = url;
             // Grid server url
             if (environment.equalsIgnoreCase("remote"))
             {
                 if (saucelab_url.equals(""))
                     throw new SkipException("Parameter 'grid_server_url' must be provided when running in grid mode!");
-                this.sGridServerUrl = "https://" + username + ":" + accessKey + saucelab_url;
-                logger.info("setup():  Grid server URL:  {}", sGridServerUrl);
+                this.saucelab_url = "https://" + username + ":" + accessKey + saucelab_url;
+                logger.info("setup():  Grid server URL:  {}", this.saucelab_url);
             }
 
             // Target browsers
@@ -300,7 +303,7 @@ public class TestBase
             WebDriver oDriver = null;
 
             if (environment.equalsIgnoreCase("remote"))
-                oDriver = StartRemoteWebDriver(browser, sGridServerUrl);
+                oDriver = StartRemoteWebDriver(browser, saucelab_url);
             else
                 oDriver = StartWebDriver(browser);
 

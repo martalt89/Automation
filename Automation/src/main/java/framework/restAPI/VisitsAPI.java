@@ -32,7 +32,7 @@ public class VisitsAPI {
     }
 
     public void createVisit(){
-        String resourceAPI = "/v4/patient/visit";
+        String resourceAPI = "/v4/patient/goTo";
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("patientId", "0001501691831758-2f663b05b4c-0001" ); // todo: need patient id from Create patient component
         jsonAsMap.put("serviceCode", "SICK_ADULT");

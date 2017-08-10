@@ -18,14 +18,17 @@ public class LoginTest extends TestBase {
 
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
-        HomePage homePage = new HomePage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageReady();
+        assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
 
-//      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
         loginPage.login();
+
+        HomePage homePage = new HomePage(dr);
+        homePage.waitForPageReady();
+        assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-
-
-        //homePage.validateTitle("Your activity");
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
     }
 
     @Test (groups = { "regression"})
@@ -43,7 +46,6 @@ public class LoginTest extends TestBase {
 
         loginPage.login();
         homePage.selectFromMenu(menu.oHomeLnk);
-        homePage.validateTitle("Scheduled Visits");
         homePage.selectFromMenu(menu.oBookVisitLnk);
         if (!validate.verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
             System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());

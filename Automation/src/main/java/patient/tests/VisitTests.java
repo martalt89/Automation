@@ -4,16 +4,11 @@ import foundation.SysTools;
 import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
-import framework.web.WebBase;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patient.pages.*;
-import utilities.DriverManager;
 
-public class BookVisitTest extends TestBase {
+public class VisitTests extends TestBase {
 
 
     @Test (groups = {"devv", "critical"})
@@ -25,7 +20,7 @@ public class BookVisitTest extends TestBase {
             CommonWebValidate validate = new CommonWebValidate(dr);
             LoginPage loginPage = new LoginPage(dr);
             loginPage.goTo();
-            loginPage.waitForPageLoad();
+            loginPage.waitForPageReady();
             HomePage homePage = new HomePage(dr);
             ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
             BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);

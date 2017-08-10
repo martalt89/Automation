@@ -21,7 +21,7 @@ public class VisitsActivityTest extends TestBase {
     @Test
     @Parameters({ "url" })
     public void accessVisitPage() throws Exception {
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = DriverManager.getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
@@ -46,7 +46,7 @@ public class VisitsActivityTest extends TestBase {
         // select only visits of first profile
         visitsPage.oIcon1stPatient.click();
 
-        // assert that visit card of first profile is displayed
+        // assert that goTo card of first profile is displayed
         Assert.assertTrue(visitsPage.oVisitCard.isDisplayed());
 
         // click what to expect button

@@ -190,7 +190,7 @@ public class SysTools
     }
 
     /**
-     * Convenient method to get the visit code from the URL
+     * Convenient method to get the goTo code from the URL
      *
      * @param dr
      * (WebDriver) - Drive from which to get the URL
