@@ -6,6 +6,7 @@ import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -14,9 +15,12 @@ import patient.pages.*;
 import utilities.DriverManager;
 
 public class BookVisitTest extends TestBase {
+    private String sFullPrice = "$99";
+    private String sPromo50PercentOffPrice = "$49.50";
+    private String sPromo100PercentOffPrice = "$0";
 
 
-    @Test (groups = {"devv", "critical"})
+    @Test (groups = {"dev", "critical"})
     //@Parameters({ "url" })
     public void bookVisit() throws Exception {
 
@@ -67,4 +71,81 @@ public class BookVisitTest extends TestBase {
             System.out.println("Failed validations " + validate.getFailureCount());
             System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
     }
+    @Test (groups = {"dev", "critical"})
+    public void BookVisitWith50PercentPromo() throws Exception {
+        CommonWebElement.setbMonitorMode(true);
+        WebDriver dr = getDriver();
+        CommonWebValidate validate = new CommonWebValidate(dr);
+        LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        HomePage homePage = new HomePage(dr);
+        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
+        BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
+        VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
+        VisitsPage visitsPage = new VisitsPage(dr);
+        SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        BookVisitPage bookVisitPage = new BookVisitPage(dr);
+        Menu menu = new Menu(dr);
+
+        loginPage.login(); // Login on patient web app
+        homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
+        bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
+        chooseProfilePage.selectMainProfile();
+        addressPage.selectFirstSavedAddress();
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+
+        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSymptomsInput.sendKeys("headache");
+        visitDetailsPage.selectFirstAvailableTimeSlot();
+        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+
+        validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+
+        paymentPage.oPromoCodeLink.click();
+        paymentPage.oPromoCodeInput.sendKeys("50PERCENT", Keys.TAB);
+        paymentPage.oPriceInfoText.waitForVisible();
+
+        validate.assertEquals("Verifying 50% promo price ", paymentPage.oPriceInfoText.getText(), sPromo50PercentOffPrice);
+    }
+    @Test (groups = {"dev", "critical"})
+    public void BookVisitWith100PercentPromo() throws Exception {
+        CommonWebElement.setbMonitorMode(true);
+        WebDriver dr = getDriver();
+        CommonWebValidate validate = new CommonWebValidate(dr);
+        LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        HomePage homePage = new HomePage(dr);
+        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
+        BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
+        VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
+        VisitsPage visitsPage = new VisitsPage(dr);
+        SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        BookVisitPage bookVisitPage = new BookVisitPage(dr);
+        Menu menu = new Menu(dr);
+
+        loginPage.login(); // Login on patient web app
+        homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
+        bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
+        chooseProfilePage.selectMainProfile();
+        addressPage.selectFirstSavedAddress();
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+
+        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSymptomsInput.sendKeys("headache");
+        visitDetailsPage.selectFirstAvailableTimeSlot();
+        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+
+        validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+
+        paymentPage.oPromoCodeLink.click();
+        paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
+        paymentPage.oPriceInfoText.waitForVisible();
+
+        validate.assertEquals("Verifying 100% promo price ", paymentPage.oPriceInfoText.getText(), sPromo100PercentOffPrice);
+    }
+
 }
