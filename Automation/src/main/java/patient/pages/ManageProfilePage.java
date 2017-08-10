@@ -77,7 +77,7 @@ public class ManageProfilePage extends WebBase{
     public CommonWebElement oBirthDateError = new CommonWebElement( "oBirthDateError", "xpath=//*[@ng-messages='patientForm.dateOfBirth.$error']", oWebDriver );
     public CommonWebElement oRelationshipError = new CommonWebElement( "oRelationshipError", "xpath=//*[@ng-messages='patientForm.relationship.$error']", oWebDriver );
     public CommonWebElement oGenderError = new CommonWebElement( "oProviderGeha", "xpath=//*[@ng-messages='patientForm.gender.$error']", oWebDriver );
-    public CommonWebElement oPatientIcon = new CommonWebElement( "oPatientIcon", "xpath=//*[text()='"+"updatedFN"+"']", oWebDriver );
+
     //////////////////
     // Constructors //
     //////////////////
