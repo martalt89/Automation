@@ -28,7 +28,11 @@ public class SelectPaymentPage extends WebBase {
     public CommonWebElement oPromoCodeInput = new CommonWebElement( "oPromoCodeInput", "xpath=//*[@ng-model='vm.service.pricing.promoCode']", oWebDriver );
     public CommonWebElement oTotalText = new CommonWebElement( "oTotalText", "xpath=//*[text()='Total']", oWebDriver );
     public CommonWebElement oCompleteBtn = new CommonWebElement( "oCompleteBtn", "xpath=//*[text()='Complete Booking'] | //*[text()='Request doctor']", oWebDriver );
-    public CommonWebElement oPriceInfoText = new CommonWebElement( "oPriceInfoText", "xpath=//*[contains(text(),'calculated price in the website')]", oWebDriver );
+    public CommonWebElement oPriceInfoText = new CommonWebElement( "oPriceInfoText", "xpath=//*[contains(@class,'float-right md-primary ng-binding')]", oWebDriver );
+
+    public CommonWebElement oCheckCircleEnabled = new CommonWebElement("oCheckCircleEnabled",
+            "xpath=//*[@md-icon='ic_check_circle_24px' and @class='md-primary']"); // in progress, need to find out how to take the icon
+    // when is disabled and also when is enabled
 
     //////////////////
     // Constructors //
