@@ -1,6 +1,5 @@
 package patient.tests;
 
-import framework.exception.CommonException;
 import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
@@ -27,7 +26,7 @@ public class ProfileTest extends TestBase {
     public void addInsuranceToExistingPatient(){
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+        //CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
@@ -38,7 +37,7 @@ public class ProfileTest extends TestBase {
         //Test steps
             loginPage.login();
             homePage.selectFromMenu(menu.oProfilesLnk);
-            validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+            verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
             manageProfilePage.oAddPatientbtn.click();
             //manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
             manageProfilePage.oFirstNameInput.sendKeys(firstName);
@@ -59,7 +58,7 @@ public class ProfileTest extends TestBase {
                 manageProfilePage.oMemberIdInput.sendKeys("COST_ESTIMATES_025");  //insurance ID
                 manageProfilePage.oGroupIdInput.sendKeys("X0001004");  //group ID
                 manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-                validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitile.getText(), "Choose profile");
+                verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitile.getText(), "Choose profile");
                 System.out.println("Successfully added TEST insurance.");
             }
     }
