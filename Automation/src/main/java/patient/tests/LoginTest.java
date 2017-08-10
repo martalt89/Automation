@@ -28,7 +28,16 @@ public class LoginTest extends TestBase {
         homePage.waitForPageReady();
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Scheduled Visits");
+
+        Menu menu = new Menu(dr);
+        menu.selectFromMenu(menu.oVisitsLnk);
+
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.waitForPageReady();
+        assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
+
+
     }
 
     @Test (groups = { "regression"})

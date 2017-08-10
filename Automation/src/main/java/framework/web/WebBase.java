@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.List;
+
 import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
 /**
  * Created by vahanmelikyan on 6/29/17.
@@ -33,6 +35,7 @@ public class WebBase {
     public String sBrowserType;
     public String sHomeUrl;
     public String sWindowHandle = "";
+    public volatile static boolean Ignore_Hidden_Element = true;
 
     public WebBase() {
     }
@@ -243,11 +246,36 @@ public class WebBase {
      * @return (WebElement) - Found element
      */
     public CommonWebElement findElement(org.openqa.selenium.By oBy) {
-        return new CommonWebElement(oWebDriver.findElement(oBy), oBy, oWebDriver);
+        List<CommonWebElement> commonWebElements = findAllElements(oBy);
+        if(commonWebElements.size() == 0){
+            throw new NoSuchElementException("no such element found for： " + oBy.toString());
+        }
+        return findAllElements(oBy).get(0);
     }
 
     public CommonWebElement findElement(String sTag) {
-        return new CommonWebElement(oWebDriver.findElement(getByFromString(sTag)), sTag, oWebDriver);
+        List<CommonWebElement> commonWebElements = findAllElements(getByFromString(sTag));
+        if(commonWebElements.size() == 0){
+            throw new NoSuchElementException("no such element found for： " + sTag);
+        }
+        return findAllElements(getByFromString(sTag)).get(0);
+
+    }
+
+    public List<CommonWebElement> findAllElements(By oBy) {
+        List<CommonWebElement> commonWebElements = new java.util.ArrayList<CommonWebElement>();
+        List<WebElement> lWebElement = oWebDriver.findElements(oBy);
+        for (WebElement oElement : lWebElement) {
+            if(Ignore_Hidden_Element ){
+                if(!oElement.isDisplayed()){
+                    continue;
+                }
+                commonWebElements.add(new CommonWebElement(oElement, oWebDriver));
+            }
+            else
+                commonWebElements.add(new CommonWebElement(oElement, oWebDriver));
+        }
+        return commonWebElements;
     }
 
     public static By getByFromString(String sTag) {
