@@ -9,7 +9,7 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/19/2017.
  */
 public class SelectPaymentPage extends WebBase {
-    public static final String URL = "https://patient.qa.heal.com/book-goTo/goTo-summary/select-payment";
+    public static final String URL = "https://patient.qa.heal.com/book-visit/visit-summary/select-payment";
 
     ///////////////////
     // Page Elements //
@@ -29,7 +29,8 @@ public class SelectPaymentPage extends WebBase {
     public CommonWebElement oTotalText = new CommonWebElement( "oTotalText", "xpath=//*[text()='Total']", oWebDriver );
     public CommonWebElement oCompleteBtn = new CommonWebElement( "oCompleteBtn", "xpath=//*[text()='Complete Booking'] | //*[text()='Request doctor']", oWebDriver );
     public CommonWebElement oPriceInfoText = new CommonWebElement( "oPriceInfoText", "xpath=//*[contains(@class,'float-right md-primary ng-binding')]", oWebDriver );
-
+    public CommonWebElement oApplyCardBtn = new CommonWebElement("oApplyCardBtn", "xpath=//button[text()='Apply Card']", oWebDriver);
+    public CommonWebElement oCompleteBookingBtn = new CommonWebElement("oCompleteBookingBtn", "xpath=//button[text()='Complete Booking']", oWebDriver);
     public CommonWebElement oCheckCircleEnabled = new CommonWebElement("oCheckCircleEnabled",
             "xpath=//*[@md-icon='ic_check_circle_24px' and @class='md-primary']"); // in progress, need to find out how to take the icon
     // when is disabled and also when is enabled
