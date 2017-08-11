@@ -93,11 +93,11 @@ public class WebBase {
         return oWebDriver;
     }
 
-    public void visit() {
-        visit(sHomeUrl);
+    public void goTo() {
+        goTo(sHomeUrl);
     }
 
-    public void visit(String url) {
+    public void goTo(String url) {
         oWebDriver.get(url);
     }
 

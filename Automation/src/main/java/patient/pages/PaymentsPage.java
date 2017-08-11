@@ -17,7 +17,7 @@ public class PaymentsPage extends WebBase {
     public CommonWebElement oPaymentsLabel = new CommonWebElement( "oPaymentsLabel", "xpath=//*[text()='Payments']", oWebDriver );
     public CommonWebElement oPaymentDetailLabel = new CommonWebElement( "oPaymentDetailLabel", "xpath=//*[text()='Payment details']", oWebDriver );
     public CommonWebElement oCardExpDate = new CommonWebElement( "oCardExpDate", "className=credit-card-expiry", oWebDriver );
-    public CommonWebElement oEditPaymentBtn = new CommonWebElement( "oEditPaymentBtn", "xpath=//*[text()='Edit payment']", oWebDriver );
+    public CommonWebElement oEditPaymentBtn = new CommonWebElement( "oEditPaymentBtn", "xpath=//*[text()='Edit Payment']", oWebDriver );
 
     //////////////////
     // Constructors //

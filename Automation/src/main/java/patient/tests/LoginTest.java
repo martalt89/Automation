@@ -71,30 +71,4 @@ public class LoginTest extends TestBase {
         System.out.println("Passed validations " + passed);
         System.out.println("Failed validations " + validate.getFailureCount());
     }
-
-    @Test (groups = { "regression" })
-//    @Parameters({ "url" })
-    public void loginWithValidCredentialsAngular() throws Exception {
-        CommonWebElement.setbMonitorMode(false);
-
-        WebDriver dr = DriverManager.getDriver();
-        LoginPage loginPage = new LoginPage(dr);
-        HomePage homePage = new HomePage(dr);
-        ManageProfilePage manageProfilePage= new ManageProfilePage(dr);
-        CreatePatientPage createPatientPage = new CreatePatientPage(dr);
-        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
-        Menu menu = new Menu(dr);
-
-//      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
-        loginPage.login();
-        homePage.selectFromMenu(menu.oProfilesLnk);
-        chooseProfilePage.selectMainProfile();
-        manageProfilePage.oRelationshipInput.selectAngular("Child");
-        manageProfilePage.oInsuranceProviderInput.selectAngular("GEHA");
-        manageProfilePage.oGenderInput.selectAngular("Female");
-
-        SysTools.sleepFor(13);
-        //homePage.validateTitle("Scheduled Visits");
-
-    }
 }
