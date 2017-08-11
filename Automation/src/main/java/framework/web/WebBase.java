@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
 /**
@@ -264,7 +265,16 @@ public class WebBase {
 
     public List<CommonWebElement> findAllElements(By oBy) {
         List<CommonWebElement> commonWebElements = new java.util.ArrayList<CommonWebElement>();
+        turnOnImplicitWaits();
+        if(Ignore_Hidden_Element ){
+            ExpectedConditions.visibilityOfElementLocated(oBy).apply(oWebDriver);
+        }
+        else{
+            ExpectedConditions.presenceOfElementLocated(oBy).apply(oWebDriver);
+        }
+
         List<WebElement> lWebElement = oWebDriver.findElements(oBy);
+        turnOffImplicitWaits();
         for (WebElement oElement : lWebElement) {
             if(Ignore_Hidden_Element ){
                 if(!oElement.isDisplayed()){
@@ -276,6 +286,14 @@ public class WebBase {
                 commonWebElements.add(new CommonWebElement(oElement, oWebDriver));
         }
         return commonWebElements;
+    }
+
+    private void turnOffImplicitWaits() {
+        oWebDriver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+    }
+
+    private void turnOnImplicitWaits() {
+        oWebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     public static By getByFromString(String sTag) {

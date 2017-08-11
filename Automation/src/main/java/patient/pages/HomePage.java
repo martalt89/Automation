@@ -54,4 +54,27 @@ public class HomePage extends WebBase {
     }
 
 
+    public void cancelVisit(int visitsIndex){
+        cancelVisit(visitsIndex, "Other", "automation");
+    }
+
+    public void cancelVisit(int visitsIndex, String reason, String notes){
+
+        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel Visit')])" +  "["+ String.valueOf(visitsIndex) +"]", oWebDriver);
+
+        oCancelVisitLnk.click();
+
+        //find first visible cancel visit slide up
+        CommonWebElement oCancelVisitSlideUp = findElement("css=.card-cancel-visit.slide-up.open");
+        CommonWebElement oSelectReasonLabel =  oCancelVisitSlideUp.findElement(By.xpath("//div[text()='Select a reason']"));
+        oSelectReasonLabel.click();
+        CommonWebElement oSelectReasonOption = findElement(By.xpath("//md-select-menu[@class='_md md-overflow']//md-option//div[text()='"+ reason +"']"));
+
+        oSelectReasonOption.jsClick();
+        CommonWebElement oNotes = oCancelVisitSlideUp.findElement(By.xpath("//input[@ng-model='vm.cancelVisitNote']"));
+        oNotes.sendKeys(notes);
+
+        CommonWebElement oSubmitBtn = oCancelVisitSlideUp.findElement(By.xpath("//button[contains(.,'Submit')]"));
+        oSubmitBtn.click();
+    }
 }

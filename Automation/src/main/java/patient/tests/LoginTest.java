@@ -32,7 +32,9 @@ public class LoginTest extends TestBase {
 
         Menu menu = new Menu(dr);
         menu.selectFromMenu(menu.oVisitsLnk);
-
+        //you can choose which visits to cancel, start from 1, count from left to right
+        homePage.cancelVisit(1, "Other", "automation");
+        menu.oLoadingBar.sync(10);
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.waitForPageReady();
         assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);

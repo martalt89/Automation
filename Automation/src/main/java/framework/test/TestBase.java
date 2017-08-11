@@ -228,7 +228,7 @@ public class TestBase
                       @Optional("") String username,
                       @Optional("chrome") String accessKey,
                       @Optional("") String saucelab_url,
-                      @Optional("60") String element_implicit_wait,
+                      @Optional("30") String element_implicit_wait,
                       @Optional("true") String maximizeBrowser)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
@@ -260,7 +260,7 @@ public class TestBase
             //iPageLoadTimeout = Integer.parseInt(oProp.getProperty("page_load_timeout", "90"));
 
             // Set global implicit wait value for CommonWebElement
-            framework.web.CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
+            CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
             logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
 
         }
