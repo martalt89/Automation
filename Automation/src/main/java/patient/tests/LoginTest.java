@@ -5,6 +5,7 @@ import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import org.openqa.selenium.WebDriver;
+import org.testng.Reporter;
 import patient.pages.*;
 import utilities.DriverManager;
 import org.testng.annotations.Test;
@@ -33,7 +34,10 @@ public class LoginTest extends TestBase {
         Menu menu = new Menu(dr);
         menu.selectFromMenu(menu.oVisitsLnk);
         //you can choose which visits to cancel, start from 1, count from left to right
+        String reason = "Other";
+        String notes = "automation";
         homePage.cancelVisit(1, "Other", "automation");
+        Reporter.log("cancel visit with reason: "+ reason +", notes: " + notes);
         menu.oLoadingBar.sync(10);
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.waitForPageReady();
