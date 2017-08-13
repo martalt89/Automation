@@ -12,7 +12,7 @@ import org.testng.annotations.Parameters;
  */
 
 public class LoginPage extends WebBase{
-    public static final String URL = "https://patient.qa.heal.com/login";
+    public static final String URL = "https://"+ baseUrl +"/login";
     ///////////////////
     // Page Elements //
     ///////////////////

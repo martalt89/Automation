@@ -1,5 +1,6 @@
 package patient.pages;
 
+import foundation.SysTools;
 import framework.exception.CommonException;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
@@ -13,7 +14,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class HomePage extends WebBase {
 
-    public static final String URL = "https://patient.qa.heal.com/visits";
+    public static final String URL = "https://" + baseUrl + "/visits";
     ///////////////////
     // Shared Pages  //
     ///////////////////
@@ -54,4 +55,28 @@ public class HomePage extends WebBase {
     }
 
 
+    public void cancelVisit(int visitsIndex){
+        cancelVisit(visitsIndex, "Other", "automation");
+    }
+
+    public void cancelVisit(int visitsIndex, String reason, String notes){
+
+        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel Visit')])" +  "["+ String.valueOf(visitsIndex) +"]", oWebDriver);
+
+        oCancelVisitLnk.click();
+
+        //find first visible cancel visit slide up
+        CommonWebElement oCancelVisitSlideUp = findElement("css=.card-cancel-visit.slide-up.open");
+        CommonWebElement oSelectReasonLabel =  oCancelVisitSlideUp.findElement(By.xpath("//div[text()='Select a reason']"));
+        oSelectReasonLabel.click();
+        SysTools.sleepFor(1);
+        CommonWebElement oSelectReasonOption = findElement(By.xpath("//md-select-menu[@class='_md md-overflow']//md-option//div[text()='"+ reason +"']"));
+
+        oSelectReasonOption.jsClick();
+        CommonWebElement oNotes = oCancelVisitSlideUp.findElement(By.xpath("//input[@ng-model='vm.cancelVisitNote']"));
+        oNotes.sendKeys(notes);
+
+        CommonWebElement oSubmitBtn = oCancelVisitSlideUp.findElement(By.xpath("//button[contains(.,'Submit')]"));
+        oSubmitBtn.click();
+    }
 }

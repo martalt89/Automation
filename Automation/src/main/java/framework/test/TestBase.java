@@ -212,7 +212,7 @@ public class TestBase
             ,"platform"
             ,"version"
             ,"screenResolution"
-            ,"url"
+            ,"baseUrl"
             ,"USERNAME"
             ,"ACCESS_KEY"
             ,"saucelab_url"
@@ -224,11 +224,11 @@ public class TestBase
                       @Optional("") String platform,
                       @Optional("") String version,
                       @Optional("chrome") String screenResolution,
-                      @Optional("patient.qa.heal.com") String url,
-                      @Optional("") String username,
-                      @Optional("chrome") String accessKey,
-                      @Optional("") String saucelab_url,
-                      @Optional("60") String element_implicit_wait,
+                      @Optional("patient.qa.heal.com") String baseUrl,
+                      @Optional("qaheal") String username,
+                      @Optional("") String accessKey,
+                      @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
+                      @Optional("30") String element_implicit_wait,
                       @Optional("true") String maximizeBrowser)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
@@ -238,7 +238,7 @@ public class TestBase
             logger.info("setup():  Environment mode:  {}", environment);
 
             this.environment = environment;
-            WebBase.baseUrl = url;
+            WebBase.baseUrl = baseUrl;
             // Grid server url
             if (environment.equalsIgnoreCase("remote"))
             {
@@ -260,7 +260,7 @@ public class TestBase
             //iPageLoadTimeout = Integer.parseInt(oProp.getProperty("page_load_timeout", "90"));
 
             // Set global implicit wait value for CommonWebElement
-            framework.web.CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
+            CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
             logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
 
         }

@@ -18,6 +18,7 @@ import org.testng.Reporter;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
@@ -299,6 +300,7 @@ public class CommonWebElement implements WebElement, Locatable {
         }
         return commonWebElements;
     }
+
 
 
     @Override
@@ -958,6 +960,22 @@ public class CommonWebElement implements WebElement, Locatable {
         waitForInvisible(iImplicitWait);
     }
 
+
+    public void sync(long iTimeOut){
+        try{
+            waitForVisible(iTimeOut);
+        }
+        catch (Exception e){
+            //do nothing
+        }
+
+        try{
+            waitForInvisible(iTimeOut);
+        }
+        catch (Exception e){
+            //do nothing
+        }
+    }
     /**
      * Wait to become enabled.  Used to determine if text fields/buttons are editable/clickable.
      *
