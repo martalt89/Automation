@@ -5,7 +5,7 @@ import framework.test.TestBase;
 import framework.test.TestData;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
-import framework.web.WebBase;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
@@ -15,7 +15,8 @@ import utilities.DriverManager;
 
 public class ScheduledVisitsTest extends TestBase {
     WebDriver dr = DriverManager.getDriver();
-    TestData testData = new TestData(TestData.PATIENT_SHEET);
+    private TestData patientTestData = new TestData(TestData.PATIENT_SHEET);
+    private AccountAPI accountAPI = new AccountAPI("mihaix5@heal.com", "Heal4325");
     private TestData addCardInputData = new TestData(TestData.CARD_SHEET);
     private String sExpirationMonth = Integer.toString(addCardInputData.iExpiryMonth);
     private String sExpirationYear = Integer.toString(addCardInputData.iExpiryYear);
@@ -44,16 +45,16 @@ public class ScheduledVisitsTest extends TestBase {
         homePage.selectFromMenu(menu.oSignOutLnk);
     }
 
-    //NOTE: TODO: Work in progress.
+
     @Test(groups = {"dev", "critical"})
     public void cancelVisit() {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
+        //pages
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
-        //pages
         HomePage homePage = new HomePage(dr);
         VisitsPage visitsPage = new VisitsPage(dr);
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
@@ -61,43 +62,48 @@ public class ScheduledVisitsTest extends TestBase {
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
         ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
+        CreatePatientPage createPatientPage = new CreatePatientPage(dr);
         AddCardPage addCardPage = new AddCardPage(dr);
         SelectPaymentPage selectPaymentPage = new SelectPaymentPage(dr);
         WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
-
         Menu menu = new Menu(dr);
         //Test steps
-        loginPage.login("mihaix1@heal.com", "Heal4325");
+        loginPage.login("mihaix5@heal.com", "Heal4325");
         homePage.selectFromMenu(menu.oBookVisitLnk);
         validate.verifyVisible("Check the 'Scheduled Visits' title is displayed", bookVisitPage.oPageTitle);
         //book visit
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        //TODO: before continue, if account is new and doesn't have patients, add a patient
-        //manageProfilePage.clickPatientByText(testData.sFirstname);
-        manageProfilePage.clickPatientByText("asd");
-        manageProfilePage.oContinueButton.click();
-        addressPage.typeAddressDetailsAndSubmit(false,"12846 Woodley ave", "", "Some instructions", "Home");
-        //addressPage.selectFirstSavedAddress();
-//        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
-        //visitDetailsPage.oSickOrInjuredText.click();
-        visitDetailsPage.oSymptomsInput.sendKeys("I'm testing this...");
-        //visitDetailsPage.oSelectDateInput.sendKeys("07/29/2017");
+        //check if account has patients. if not, add one patient
+        if(accountAPI.getPatientsNumber()==0){
+            chooseProfilePage.oAddPatientLabel.click();
+            manageProfilePage.typePatientDataFromExcel(patientTestData);
+            manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        } else {
+            chooseProfilePage.clickPatientByText(patientTestData.sFirstname);
+            chooseProfilePage.oContinueBtn.click();
+        }
+        //TODO: Update test data file with address details
+        addressPage.populateAddressDetails(false,"12846 Woodley Ave, Granada Hills, CA 91344, USA", "12", "Some instructions", "Home");
+        addressPage.oContinueBtn.click();
+        visitDetailsPage.selectServiceForVisit(VisitDetailsPage.SICK_SERVICE);
+        //TODO - does not find this element. Will investigate more
+        //visitDetailsPage.oSymptomsInput.sendKeys("I'm testing this...");
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
-        //TODO before continue, check if payment is added or not
-        if(validate.verifyVisible("Check the 'Edit payment' button is displayed", addCardPage.oCardNumberInput)){
+        //Check if account has Card
+        if(validate.verifyVisible("Verify if Card number input is visible", addCardPage.oCardNumberInput)){
             addCardPage.oCardNumberInput.sendKeys(addCardInputData.sCardNumber);
             addCardPage.oCardExpirationInput.sendKeys(sExpirationMonth + sExpirationYear);
             addCardPage.oCVCInput.sendKeys(addCardInputData.sCVC);
             selectPaymentPage.oApplyCardBtn.click();
         }
-        selectPaymentPage.oCompleteBookingBtn.click();
+        selectPaymentPage.oCompleteBookingBtn.clickAndWait(menu.oLoadingBar, false);
         validate.verifyVisible("Redirected on What to expect page after successful booking", whatToExpectPage.oThankYouTitle);
-
-        //cancel visit
-        //TODO: finish cancel visit flow
+        //cancel visits
         menu.selectFromMenu(menu.oVisitsLnk);
-        visitsPage.cancelVisit();
-
+        while(validate.verifyVisible("Check if Cancel visit button is visible",visitsPage.oCancelVisitBtn)) {
+            visitsPage.cancelVisit(); //TODO Fix. Not working properly when selecting menu item
+        }
+        validate.verifyVisible("Check that there are no open visits", visitsPage.oScheduledVisitsInfo);
     }
 }

@@ -1,5 +1,6 @@
 package patient.pages;
 
+import framework.test.TestData;
 import framework.web.CommonWebElement;
 import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,7 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/20/2017.
  */
 public class CreatePatientPage extends WebBase{
+    TestData patientData = new TestData(TestData.PATIENT_SHEET);
     public static final String URL = "https://patient.qa.heal.com/create-patient";
 
     ///////////////////
@@ -22,7 +24,7 @@ public class CreatePatientPage extends WebBase{
     public CommonWebElement oInsuranceLabel = new CommonWebElement( "oInsuranceLabel", "xpath=//*[text()='Insurance (Optional)']", oWebDriver );
     //Patient Info input
     public CommonWebElement oFirstNameInput = new CommonWebElement( "oFirstNameInput", "name=firstname", oWebDriver );
-    public CommonWebElement oLastNameNameInput = new CommonWebElement( "oLastNameInput", "name=lastname", oWebDriver );
+    public CommonWebElement oLastNameInput = new CommonWebElement( "oLastNameInput", "name=lastname", oWebDriver );
     public CommonWebElement oEmailInput = new CommonWebElement( "oFirstNameLabel", "name=username", oWebDriver );
     public CommonWebElement oPhoneNmbFlag = new CommonWebElement( "oPhoneNmbFlag", "className=selected-flag", oWebDriver );
     public CommonWebElement oPhoneNmbInput = new CommonWebElement( "oPhoneNmbInput", "name=phonenumber", oWebDriver );
@@ -59,5 +61,25 @@ public class CreatePatientPage extends WebBase{
         super(oTargetDriver, sUrl);
     }
 
+    /**
+     * Populates Patient info section from /profiles/create-patient page using data from Excel test data file
+     */
+    public void typePatientInfoFromExcel(TestData testData){
+        this.oFirstNameInput.sendKeys(testData.sFirstname);
+        this.oLastNameInput.sendKeys(testData.sLastname);
+        this.oEmailInput.sendKeys(testData.sEmail);
+        this.oPhoneNmbInput.sendKeys(testData.sPhoneNumber);
+        this.oDateOfBirthInput.sendKeys(testData.sDateOfBirth);
+        this.oRelationshipInput.selectByVisibleTextAngular(testData.sRelationship);
+        this.oGenderInput.selectByVisibleTextAngular(testData.sGender);
+    }
 
+    /**
+     * Types patient data from the Excel file in the input fields for creating/editing a profile
+     */
+    public void populateInsurance(String sInsurance, String sMemberId, String sGroupId){
+        this.oInsuranceProviderInput.selectByVisibleTextAngular(sInsurance);
+        this.oMemberIdInput.sendKeys(sMemberId);
+        this.oGroupIdInput.sendKeys(sGroupId);
+    }
 }
