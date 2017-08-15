@@ -11,8 +11,8 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.*;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Reporter;
 
 
@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  * Created by vahanmelikyan on 7/1/17.
  */
 public class CommonWebElement implements WebElement, Locatable {
-//    Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
+    Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
     private static int iImplicitWait = 30;
@@ -638,16 +638,14 @@ public class CommonWebElement implements WebElement, Locatable {
 
         // This code allows RemoteWebDriver to upload local file to remote node.
         if (!(oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver) && !(oWebDriver instanceof org.openqa.selenium.firefox.FirefoxDriver) && !(oWebDriver instanceof org.openqa.selenium.ie.InternetExplorerDriver)) {
-//            logger.trace("RomoteWebDriver found!");
-            Reporter.log("RomoteWebDriver found! <br>");
+            logger.trace("RomoteWebDriver found!");
             LocalFileDetector detector = new LocalFileDetector();
             file = detector.getLocalFile(arg0);
             ((RemoteWebDriver) oWebDriver).setFileDetector(detector);
         }
 
         waitForElement();
-//        logger.debug("Sending file {}", file.getAbsolutePath());
-        Reporter.log(String.format("Sending file {%s} <br>", file.getAbsolutePath()));
+        logger.debug("Sending file {}", file.getAbsolutePath());
         oWebElement.sendKeys(file.getAbsolutePath());
         if (iThrottleValue != 0)
             try {
@@ -677,8 +675,7 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param sJavascript (String) - Javascript.
      */
     public void click(String sJavascript) {
-//        logger.trace("Clicking with Javascript:  {}", sJavascript);
-        Reporter.log(String.format("Clicking with Javascript:  {%s} <br>", sJavascript));
+        logger.trace("Clicking with Javascript:  {}", sJavascript);
 
         waitForVisible();
         oJavascriptExecutor.executeScript(sJavascript + ".click()");
@@ -906,16 +903,10 @@ public class CommonWebElement implements WebElement, Locatable {
                 yLocation = (long) oJavascriptExecutor.executeScript("return arguments[0].offsetTop;", oWebElement);
             else
                 yLocation = getLocation().y;
-
-//            logger.trace("xOffsetFromTop:  {}", xOffsetFromTop);
-//            logger.trace("viewportHeight:  {}", viewportHeight);
-//            logger.trace("totalOffsetFromTop:  {}", totalOffsetFromTop);
-//            logger.trace("yLocation:  {}", yLocation);
-
-            Reporter.log(String.format("xOffsetFromTop:  {%s} ", xOffsetFromTop));
-            Reporter.log(String.format("viewportHeight:  {%s} ", viewportHeight));
-            Reporter.log(String.format("totalOffsetFromTop:  {%s} ", totalOffsetFromTop));
-            Reporter.log(String.format("yLocation:  {%s} ", yLocation));
+            logger.trace("xOffsetFromTop:  {}", xOffsetFromTop);
+            logger.trace("viewportHeight:  {}", viewportHeight);
+            logger.trace("totalOffsetFromTop:  {}", totalOffsetFromTop);
+            logger.trace("yLocation:  {}", yLocation);
 
             return (yLocation >= xOffsetFromTop) && (yLocation <= totalOffsetFromTop);
         } catch (Exception ex) {
@@ -935,8 +926,7 @@ public class CommonWebElement implements WebElement, Locatable {
     public CommonWebElement waitForElement(long iTimeOut) {
         WebElement oResult = null;
 
-//        logger.trace("waitForElement():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForElement():  {%s}, {%s} ", sElementName, oBy));
+        logger.trace("waitForElement():  {}, {}", sElementName, oBy);
 
         try {
             if (oBy != null) {
@@ -998,8 +988,7 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
     public CommonWebElement waitForVisible(long iTimeOut) {
-//        logger.trace("waitForVisible():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForVisible():  {%s}, {%s} ", sElementName, oBy));
+        logger.trace("waitForVisible():  {}, {}", sElementName, oBy);
 
         if (oBy != null) {
             waitForElement(iTimeOut);
@@ -1024,8 +1013,7 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
     public void waitForInvisible(long iTimeOut) {
-//        logger.trace("waitForInvisible():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForInvisible():  {%s}, {%s} ", sElementName, oBy));
+        logger.trace("waitForInvisible():  {}, {}", sElementName, oBy);
 
         if (oBy != null) {
             try {
@@ -1064,8 +1052,7 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param iTimeOut (long) - Wait timeout in seconds.
      */
     public void waitForEnabled(long iTimeOut) {
-//        logger.trace("waitForEnabled():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForEnabled():  {%s}, {%s} ", sElementName, oBy));
+        logger.trace("waitForEnabled():  {}, {}", sElementName, oBy);
 
         if (oBy != null) {
             waitForElement(iTimeOut);
@@ -1101,8 +1088,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
 
     public void waitForAttribute(String sName, String sValue, long iTimeOut) {
-//        logger.trace("waitForAttribute():  {}, {}", sElementName, oBy);
-        Reporter.log(String.format("waitForAttribute():  {%s}, {%s} ", sElementName, oBy));
+        logger.trace("waitForAttribute():  {}, {}", sElementName, oBy);
 
         if (oBy != null) {
             waitForElement(iTimeOut);

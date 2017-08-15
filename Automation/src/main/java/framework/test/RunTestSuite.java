@@ -12,6 +12,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.TestNG;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlInclude;
@@ -23,6 +25,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.uncommons.reportng.HTMLReporter;
 
 public class RunTestSuite {
+    //logging
+    private static Logger logger = LoggerFactory.getLogger(RunTestSuite.class);
+
     private static final String TEST_PACKAGE = "patient.tests";
 
     public static void main(String[] args) throws IOException {
@@ -42,9 +47,10 @@ public class RunTestSuite {
 
         suite.setParameters(processParameters(oExcel));
         oSuites.add(suite);
-        System.out.println(suite.toXml());
+        logger.info(suite.toXml());
         TestNG testng = new TestNG();
         testng.setXmlSuites(oSuites);
+        logger.info(testng.getOutputDirectory());
         DocumentBuilder docBuilder = null;
         try{
             docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

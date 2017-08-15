@@ -125,10 +125,24 @@
 			<artifactId>guice</artifactId>
 			<version>3.0</version>
 		</dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-api</artifactId>
-            <version>3.4.0</version>
-        </dependency>
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+
+	</dependencies>
 </project>

@@ -12,13 +12,12 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 import java.nio.file.Path;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -221,8 +220,8 @@ public class WebBase {
 
             Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
             FileUtils.copyFile(screenShot, fullFilePath.toFile());
-            Reporter.log(String.format("Screenshot sent to {%s} <img src='{%s}'></img>", fullFilePath.toAbsolutePath(), fullFilePath.toAbsolutePath()));
-
+            Reporter.log(String.format("Screenshot sent to {%s} <img src='%s'></img>", fullFilePath.toAbsolutePath(), "file:///" + fullFilePath.toAbsolutePath()));
+            Reporter.log("<a href='file:///" + fullFilePath.toAbsolutePath() + "' target=_blank>Failed Screen Shot</a>", true);
             // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
             try {
