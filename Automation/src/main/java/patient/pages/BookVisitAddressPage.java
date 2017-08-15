@@ -2,8 +2,11 @@ package patient.pages;
 
 import framework.web.CommonWebElement;
 import framework.web.WebBase;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
+
+import java.security.Key;
 
 /**
  * Created by mihai.muresan on 7/19/2017.
@@ -60,12 +63,14 @@ public class BookVisitAddressPage extends WebBase {
      * @param sAddressType (String) - Address type to be used
      */
     public void typeAddressDetailsAndSubmit(Boolean SavedAddress, String sAddress, String sAptSte, String sInstructions, String sAddressType)
-    {
-        if(SavedAddress) this.oSavedAddress.click();
-        else this.oAddressInput.sendKeys(sAddress);
+    {   //TODO: This is unstable. Needs more work
+        this.oAddressInput.click();
+        this.oAddressInput.sendKeys(sAddress);
+        this.oAddressInput.sendKeys(Keys.ENTER);
+        this.oAptSteInput.click();
         this.oAptSteInput.sendKeys(sAptSte);
         this.oInstructionsInput.sendKeys(sInstructions);
-        //TODO: Add code to select Address type from dropdown menu - currently there are some issues with this
+        this.oAddressTypeMenuButton.selectByVisibleTextAngular(sAddressType);
         this.oContinueBtn.click();
     }
 
