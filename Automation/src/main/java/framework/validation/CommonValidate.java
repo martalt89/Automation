@@ -22,7 +22,7 @@ import foundation.SysTools;
 public class CommonValidate
 {
 
-    public static final String SCREENSHOT_LOCATION = "/out/screenshots";
+    public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "test-output"  + System.getProperty("file.separator") +   "screenshots";
     //public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out" + System.getProperty("file.separator");
     private org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonValidate.class);
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
