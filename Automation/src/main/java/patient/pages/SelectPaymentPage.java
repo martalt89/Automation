@@ -31,6 +31,7 @@ public class SelectPaymentPage extends WebBase {
     public CommonWebElement oPriceInfoText = new CommonWebElement( "oPriceInfoText", "xpath=//*[contains(@class,'float-right md-primary ng-binding')]", oWebDriver );
     public CommonWebElement oApplyCardBtn = new CommonWebElement("oApplyCardBtn", "xpath=//button[text()='Apply Card']", oWebDriver);
     public CommonWebElement oCompleteBookingBtn = new CommonWebElement("oCompleteBookingBtn", "xpath=//button[text()='Complete Booking']", oWebDriver);
+    public CommonWebElement oVerifiedInsuranceText = new CommonWebElement("oVerifiedInsuranceText", "xpath=//*[text()='Total']", oWebDriver);
     public CommonWebElement oCheckCircleEnabled = new CommonWebElement("oCheckCircleEnabled",
             "xpath=//*[@md-icon='ic_check_circle_24px' and @class='md-primary']"); // in progress, need to find out how to take the icon
     // when is disabled and also when is enabled
