@@ -1,5 +1,6 @@
 package framework.validation;
 
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,9 +22,9 @@ import foundation.SysTools;
 public class CommonValidate
 {
 
-    //    public static final String SCREENSHOT_LOCATION = "/out/screenshots";
-    public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out" + System.getProperty("file.separator");
-    //    private org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonValidate.class);
+    public static final String SCREENSHOT_LOCATION = "/out/screenshots";
+    //public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out" + System.getProperty("file.separator");
+    private org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonValidate.class);
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;
     public int iVerificationsExecuted = 0;
@@ -46,7 +47,7 @@ public class CommonValidate
     public String getScreenshot()
     {
         if (bTakeShots)
-            return SysTools.getScreenshot(SCREENSHOT_LOCATION);
+            return SysTools.getScreenshot(Paths.get(System.getProperty("user.dir"), SCREENSHOT_LOCATION).toString());
         else
             return "";
     }

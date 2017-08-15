@@ -221,8 +221,8 @@ public class WebBase {
 
             Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
             FileUtils.copyFile(screenShot, fullFilePath.toFile());
-            Reporter.log(String.format("Screenshot sent to {%s} <img src='{%s}'></img>", fullFilePath.toAbsolutePath(), fullFilePath.toAbsolutePath()));
-
+            Reporter.log(String.format("Screenshot sent to {%s} <img src='%s'></img>", fullFilePath.toAbsolutePath(), "file:///" + fullFilePath.toAbsolutePath()));
+            Reporter.log("<a href='file:///" + fullFilePath.toAbsolutePath() + "' target=_blank>Failed Screen Shot</a>", true);
             // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
             try {
