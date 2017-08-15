@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class VisitsPage extends WebBase {
 
-    public static final String URL = "https://"+ baseUrl +"/login";
+    public static final String URL = "https://patient.qa.heal.com/login";
 
     ///////////////////
     // Shared Pages  //
