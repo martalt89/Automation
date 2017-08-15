@@ -32,16 +32,16 @@ public class LoginTest extends TestBase {
         assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Scheduled Visits");
 
         Menu menu = new Menu(dr);
-//        menu.selectFromMenu(menu.oVisitsLnk);
-//        //you can choose which visits to cancel, start from 1, count from left to right
-//        String reason = "Other";
-//        String notes = "automation";
-//        homePage.cancelVisit(1, "Other", "automation");
-//        Reporter.log("cancel visit with reason: "+ reason +", notes: " + notes);
-//        menu.oLoadingBar.sync(10);
+        menu.selectFromMenu(menu.oVisitsLnk);
+        //you can choose which visits to cancel, start from 1, count from left to right
+        String reason = "Other";
+        String notes = "automation";
+        homePage.cancelVisit(1, "Other", "automation");
+        Reporter.log("cancel visit with reason: "+ reason +", notes: " + notes);
+        menu.oLoadingBar.sync(10);
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.waitForPageReady();
-        assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL + "s");
+        assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
 
 
     }
