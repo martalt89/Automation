@@ -255,6 +255,7 @@ public class CommonWebElement implements WebElement, Locatable {
     public void click() {
         waitForEnabled();
         waitForVisible();
+        waitForClickable();
 
             //System.out.println("Clicking on... " + oBy.toString());
 
@@ -421,7 +422,6 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param bAppear (Boolean)
      *                true(will wait for the element to appear after the click)
      *                false(will wait for the element to disappear after the click)
-     *
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
         waitForEnabled();
@@ -442,6 +442,54 @@ public class CommonWebElement implements WebElement, Locatable {
                 element.waitForInvisible();
             }
         }
+    }
+    /**
+     * Perform javaScript click on an element and wait for another element to appear or disappear
+     *
+     * @param element (CommonWebElement) - Element to wait for appear or disappear
+     * @param bAppear (Boolean)
+     *                true(will wait for the element to appear after the click)
+     *                false(will wait for the element to disappear after the click)
+     */
+    public void jsClickAndWait(CommonWebElement element, Boolean bAppear) {
+
+        waitForEnabled();
+        //waitForVisible();
+        oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
+        if (iThrottleValue != 0)
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        if (bAppear){
+            element.waitForElement();
+        } else {
+            if (element.exists()){
+                element.waitForInvisible();
+            }
+        }
+    }
+
+    /**
+     * Set text in a given input field using javaScript
+     * @param sText - Text to set in the field
+     */
+    public void jsSendKeys(String... sText) {
+        waitForEnabled();
+        //waitForVisible();
+        String input = "";
+        for (int i = 0; i < sText.length ; i++) {
+            input = input + sText[i];
+        }
+        oJavascriptExecutor.executeScript("arguments[0].value='" + input + "'", oWebElement);
+        if (iThrottleValue != 0)
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
     }
 
     /**
@@ -642,6 +690,9 @@ public class CommonWebElement implements WebElement, Locatable {
             }
     }
 
+    /**
+     * Performs javaScript click() on the element
+     */
     public void jsClick() {
         waitForEnabled();
         //waitForVisible();
@@ -757,18 +808,48 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param sText (String) - Item text
      */
     public void selectByVisibleTextAngular(String sText) {
-        if (this.getTagName().contains("md-select")) //dropdown buttons have md-select tags
+        if (this.getTagName().contains("md-select") || this.getTagName().contains("md-select-value") ) //dropdown buttons have md-select or md-select-value tags
             this.click();
         else
-            throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> tag), instead found <%s> tag", this.getTagName()));
+            throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> or <md-select-value> tag), instead found <%s> tag", this.getTagName()));
         CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
         if (oMenuItem.isViewable()){
             oMenuItem.click();
         }else {
             oMenuItem.jsClick();
         }
-        SysTools.sleepFor(1);
+        //SysTools.sleepFor(1);
     }
+
+    /**
+     * Selects item from dropdown menu by the item text within specified parent/frame
+     *
+     * @param sText (String) - Item text
+     * @param oContext (CommonWebElement) - The parent element
+     */
+    public void selectFromContextByVisibleTextAngular(String sText, CommonWebElement oContext) {
+        if (this.getTagName().contains("md-select") || this.getTagName().contains("md-select-value") ) { //dropdown buttons have md-select or md-select-value tags
+            oContext.waitForElement();
+            this.click();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                //do nothing
+            }
+        }
+        else{
+            throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> or <md-select-value> tag), instead found <%s> tag", this.getTagName()));
+        }
+//        oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']")).waitForElement();
+        CommonWebElement oMenuItem = oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
+        oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']")).waitForElement();
+        if (oMenuItem.isViewable()){
+            oMenuItem.click();
+        }else {
+            oMenuItem.jsClick();
+        }
+    }
+
     /**
      * Selects item from dropdown menu by the value attribute.
      *
@@ -859,7 +940,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
         try {
             if (oBy != null) {
-                Wait<By> oWait = new FluentWait<By>(oBy)
+                Wait<By> oWait = new FluentWait<>(oBy)
                         .withTimeout(iTimeOut, java.util.concurrent.TimeUnit.SECONDS)
                         .pollingEvery(500, java.util.concurrent.TimeUnit.MICROSECONDS)
                         .ignoring(NoSuchElementException.class);
@@ -976,6 +1057,7 @@ public class CommonWebElement implements WebElement, Locatable {
             //do nothing
         }
     }
+
     /**
      * Wait to become enabled.  Used to determine if text fields/buttons are editable/clickable.
      *
@@ -989,7 +1071,7 @@ public class CommonWebElement implements WebElement, Locatable {
             waitForElement(iTimeOut);
 
             try {
-                Wait<WebElement> oWait = new FluentWait<WebElement>(oWebElement)
+                Wait<WebElement> oWait = new FluentWait<>(oWebElement)
                         .withTimeout(iTimeOut, java.util.concurrent.TimeUnit.SECONDS)
                         .pollingEvery(500, java.util.concurrent.TimeUnit.MICROSECONDS)
                         .ignoring(NoSuchElementException.class);
@@ -1012,6 +1094,12 @@ public class CommonWebElement implements WebElement, Locatable {
         waitForEnabled(iImplicitWait);
     }
 
+    public void waitForClickable(){
+        WebDriverWait wait = new WebDriverWait(oWebDriver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(oWebElement));
+    }
+
+
     public void waitForAttribute(String sName, String sValue, long iTimeOut) {
 //        logger.trace("waitForAttribute():  {}, {}", sElementName, oBy);
         Reporter.log(String.format("waitForAttribute():  {%s}, {%s} ", sElementName, oBy));
@@ -1022,7 +1110,7 @@ public class CommonWebElement implements WebElement, Locatable {
             String[] input = {sName, sValue};
 
             try {
-                Wait<String[]> oWait = new FluentWait<String[]>(input)
+                Wait<String[]> oWait = new FluentWait<>(input)
                         .withTimeout(iTimeOut, java.util.concurrent.TimeUnit.SECONDS)
                         .pollingEvery(500, java.util.concurrent.TimeUnit.MICROSECONDS)
                         .ignoring(NoSuchElementException.class);

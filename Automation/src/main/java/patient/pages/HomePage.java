@@ -9,6 +9,8 @@ import framework.web.WebBase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
+
 /**
  * Created by vahanmelikyan on 7/5/17.
  */
@@ -28,8 +30,10 @@ public class HomePage extends WebBase {
     public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
     public CommonWebElement oAccountOwnerAvatar = new CommonWebElement("oAccountOwnerAvatar", "css=profile-image[url='vm.user.avatarUrl'] ", oWebDriver);
 
-    public CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=//button[contains(.,'Cancel Visit')]", oWebDriver);
-    public CommonWebElement oCancelVisitSlideUp = new CommonWebElement("oCancelVisitSlideUp", "css=.card-cancel-visit.slide-up.open", oWebDriver );
+    public CommonWebElement oCancelVisitBtn = new CommonWebElement("oCancelVisitBtn", "xpath=//*[text()='Cancel Visit']", oWebDriver);
+    //public CommonWebElement oCancelVisitSlideUp = new CommonWebElement("oCancelVisitSlideUp", "css=.card-cancel-visit.slide-up.open", oWebDriver );
+    CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[1]", oWebDriver );
+
 
     //////////////////
     // Constructors //
@@ -54,29 +58,51 @@ public class HomePage extends WebBase {
         menu.selectFromMenu(menuItem);
     }
 
+    /**
+     * Cancel a single visit based on index of the visit
+     *
+     * @param iVisitsIndex - The index of the visit to cancel
+     */
+    public void cancelVisit(int iVisitsIndex){
 
-    public void cancelVisit(int visitsIndex){
-        cancelVisit(visitsIndex, "Other", "automation");
+        cancelVisit(iVisitsIndex, "Other", "automation");
     }
 
-    public void cancelVisit(int visitsIndex, String reason, String notes){
-
-        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel Visit')])" +  "["+ String.valueOf(visitsIndex) +"]", oWebDriver);
-
+    /**
+     * Cancel a single visit based on index of the visit and provide the reason and notes
+     *
+     * @param iVisitsIndex - The index of the visit to cancel
+     * @param sReason - Value should be a valid value from "Select a reason" list
+     * @param sNotes
+     */
+    public void cancelVisit(int iVisitsIndex, String sReason, String sNotes){
+        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel Visit')])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver);
         oCancelVisitLnk.click();
 
-        //find first visible cancel visit slide up
-        CommonWebElement oCancelVisitSlideUp = findElement("css=.card-cancel-visit.slide-up.open");
-        CommonWebElement oSelectReasonLabel =  oCancelVisitSlideUp.findElement(By.xpath("//div[text()='Select a reason']"));
-        oSelectReasonLabel.click();
-        SysTools.sleepFor(1);
-        CommonWebElement oSelectReasonOption = findElement(By.xpath("//md-select-menu[@class='_md md-overflow']//md-option//div[text()='"+ reason +"']"));
+        CommonWebElement oSelectReasonLabel =  oVisitCard.findElement(By.xpath("//md-select-value[@class='md-select-value']"));
+        oSelectReasonLabel.selectFromContextByVisibleTextAngular(sReason, oVisitCard);
+        CommonWebElement oNotes = oVisitCard.findElement(By.xpath("//input[@ng-model='vm.cancelVisitNote']"));
 
-        oSelectReasonOption.jsClick();
-        CommonWebElement oNotes = oCancelVisitSlideUp.findElement(By.xpath("//input[@ng-model='vm.cancelVisitNote']"));
-        oNotes.sendKeys(notes);
+        oNotes.jsSendKeys(sNotes);
 
-        CommonWebElement oSubmitBtn = oCancelVisitSlideUp.findElement(By.xpath("//button[contains(.,'Submit')]"));
-        oSubmitBtn.click();
+        CommonWebElement oSubmitBtn = oVisitCard.findElement(By.xpath("//button[contains(.,'Submit')]"));
+
+        oSubmitBtn.clickAndWait(menu.oLoadingBar, false);
     }
+
+    /**
+     * A handy method to cancel all of the visits
+     */
+    public void cancelAllVisits(){
+        List<CommonWebElement> visit = findAllElements(By.xpath("//*[@class='card-content']"));
+        int visits = 0;
+        for (int i = 0; i < visit.size(); i++) {
+            cancelVisit(1);
+            visits++;
+            System.out.println(visits + " Visits canceled.");
+        }
+        System.out.println(visits + " Total visits have been canceled.");
+    }
+
+
 }

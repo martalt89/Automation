@@ -2,7 +2,9 @@ package patient.pages;
 
 import framework.web.CommonWebElement;
 import framework.web.WebBase;
+import org.openqa.selenium.ElementNotSelectableException;
 import org.openqa.selenium.WebDriver;
+import org.testng.Reporter;
 import org.testng.annotations.Parameters;
 
 /**
@@ -28,7 +30,8 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oSymptomsInput = new CommonWebElement( "oAditionalInfoInput", "xpath=(//*[@name='symptoms'])[1]", oWebDriver );
     public CommonWebElement oSelectDateInput = new CommonWebElement( "oSelectDateInput", "className=md-datepicker-input", oWebDriver );
     //public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot')]/span)[1]", oWebDriver );
-    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//*[@class='layout-wrap ng-scope layout-align-center-start layout-row']/button/span)[1]", oWebDriver );
+//    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//*[@class='layout-wrap ng-scope layout-align-center-start layout-row']/button/span)[1]", oWebDriver );
+    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot-button') and not(contains(@disabled,'disabled'))])[1]", oWebDriver );
 
 
 
@@ -63,7 +66,17 @@ public class VisitDetailsPage extends WebBase {
     //////////////////
 
     public void selectFirstAvailableTimeSlot(){
-        oFirstAvailableTimeSlot.jsClick();
+        try {
+            try {
+                oFirstAvailableTimeSlot.waitForElement(10);
+            } catch (Exception e) {
+                //do nothing
+            }
+            oFirstAvailableTimeSlot.jsClick();
+        } catch (Exception e) {
+            Reporter.log("Seems like there are no available timeslots to select from. Please open timeslots.");
+            throw new ElementNotSelectableException("There are no available timeslots");
+        }
         //oFirstAvailableTimeSlot.click();
 
     }

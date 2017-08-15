@@ -11,7 +11,7 @@ import patient.PatientHelper;
 import patient.pages.*;
 
 
-public class BookVisitTest extends TestBase {
+public class VisitTest extends TestBase {
     private String sFullPrice = "$99";
     private String sPromo50PercentOffPrice = "$49.50";
     private String sPromo100PercentOffPrice = "$0";
@@ -26,38 +26,64 @@ public class BookVisitTest extends TestBase {
     private String gender = "Female";
 
 
+//    @Test
+//    public void teeest(){
+//
+//
+//        PatientHelper helper = new PatientHelper();
+//        System.out.println(helper.getNewVisitCode());
+//
+//    }
+//
+//    @Test
+//    public void multipleVisitsBook(){
+//        int numberOfVisitsToBook = 40;
+//        int numberOfVisitsBooked = 0;
+//        for (int i = 0; i < numberOfVisitsToBook; i++) {
+//            try {
+//                bookVisit();
+//                numberOfVisitsBooked++;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            System.out.println(numberOfVisitsBooked + " Visits Booked");
+//        }
+//        System.out.println(numberOfVisitsBooked + " Have been booked");
+//    }
+
+    @Test (groups = {"dev", "critical"})
+    public void cancelVisit(){
+        WebDriver dr = getDriver();
+
+
+    }
 
     @Test (groups = {"dev", "critical"})
     //@Parameters({ "url" })
     public void bookVisit() throws Exception {
 
-            CommonWebElement.setbMonitorMode(false);
-            WebDriver dr = getDriver();
-            CommonWebValidate validate = new CommonWebValidate(dr);
-            LoginPage loginPage = new LoginPage(dr);
-            loginPage.goTo();
-            loginPage.waitForPageLoad();
-            HomePage homePage = new HomePage(dr);
-            ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
-            BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
-            VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
-            VisitsPage visitsPage = new VisitsPage(dr);
-            SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
-            WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
-            BookVisitPage bookVisitPage = new BookVisitPage(dr);
-            Menu menu = new Menu(dr);
+        CommonWebElement.setbMonitorMode(false);
+        WebDriver dr = getDriver();
+        LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        HomePage homePage = new HomePage(dr);
+        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
+        BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
+        VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
+        VisitsPage visitsPage = new VisitsPage(dr);
+        SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        BookVisitPage bookVisitPage = new BookVisitPage(dr);
+        Menu menu = new Menu(dr);
 
 
         try {
             loginPage.login(); // Login on patient web app
             homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
-            // Verify page title
-            if (!validate.verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
-                System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
-            }
+            verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit"); // Verify page title
             bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
             chooseProfilePage.selectMainProfile();
-            //addressPage.typeAddressDetailsAndSubmit(false,"12846 Woodley ave", "", "Some instructions", "Home");
             addressPage.selectFirstSavedAddress();
             addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
             visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
@@ -66,17 +92,12 @@ public class BookVisitTest extends TestBase {
             visitDetailsPage.selectFirstAvailableTimeSlot();
             visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
             paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
-            validate.assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
-            validate.assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+            assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+            assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oGotItBtn.click();
-
-            System.out.println("Total number of validations executed : " + validate.getTotalCount());
-            int passed = validate.getTotalCount()-validate.getFailureCount();
-            System.out.println("Passed validations " + passed);
-            System.out.println("Failed validations " + validate.getFailureCount());
             System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
             menu.selectFromMenu(menu.oSignOutLnk);
             loginPage.oUserNameInput.waitForElement();
