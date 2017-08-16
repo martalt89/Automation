@@ -25,14 +25,15 @@ public class PatientAPI {
      * Patient info variables
      * - initialized using initPatientInfo() method
      */
-    public String sPatientIdFromInfo;
-    public String sPatientFirstname;
-    public String sPatientLastname;
-    public String sPatientEmail;
-    public String sPatientPhone;
-    public String sPatientDateOfBirth;
-    public String sPatientRelationship;
+    private String sPatientIdFromInfo;
+    private String sPatientFirstname;
+    private String sPatientLastname;
+    private String sPatientEmail;
+    private String sPatientPhone;
+    private String sPatientDateOfBirth;
+    private String sPatientRelationship;
 
+    //TODO - create enums with the values below
     /**
      * Relationship ids - Used when making POST requests on /patients
      * POST request is sending relationshipId param instead of the relationship string
@@ -107,7 +108,6 @@ public class PatientAPI {
             this.sPatientId = addPatientFromExcel();
             initPatientInfo(this.sPatientId);
         }
-
     }
 
     /**
@@ -125,6 +125,32 @@ public class PatientAPI {
         sPatientRelationship = restUtils.getJsonValue(patientJson, "relationship");
         sPatientDateOfBirth = restUtils.getJsonValue(patientJson, "dateOfBirth");
     }
+
+    //getters
+    public String getPatientFirstname(){
+        return this.sPatientFirstname;
+    }
+
+    public String getPatientLastname(){
+        return this.sPatientLastname;
+    }
+
+    public String getPatientEmail(){
+        return this.sPatientEmail;
+    }
+
+    public String getPatientRelationship(){
+        return this.sPatientRelationship;
+    }
+
+    public String getsPatientPhone(){
+        return this.sPatientPhone;
+    }
+
+    public String getPatientDateOfBirth(){
+        return this.sPatientDateOfBirth;
+    }
+
 
     /**
      * Gets relationshipId(used as param in POST requests on /patients) based on relationship string
@@ -233,8 +259,10 @@ public class PatientAPI {
      * @return (String) patientId
      * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
      */
-    private String addPatientFromExcel() throws InvalidArgumentException {
-        return addPatientPostRequest(addPatientPostParamsFromExcel());
+    public String addPatientFromExcel() throws InvalidArgumentException {
+        String patientId = addPatientPostRequest(addPatientPostParamsFromExcel());
+        initPatientInfo(patientId);
+        return patientId;
     }
 
     /**
@@ -244,7 +272,27 @@ public class PatientAPI {
      * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
      */
     public String addPatient(Map patientPostParams) throws InvalidArgumentException {
-        return addPatientPostRequest(patientPostParams);
+        String patientId =  addPatientPostRequest(patientPostParams);
+        return patientId;
+    }
+
+    /**
+     * Makes a GET request on /account
+     * @return (String) GET response
+     */
+
+    /**
+     * Makes a GET request on /patients
+     * @return (String) GET response
+     */
+    private String patientsGetRequest(){
+        String resource = "/v2/patients/";
+        Response getResponse = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL+resource);
+        return getResponse.asString();
     }
 
 
@@ -332,5 +380,16 @@ public class PatientAPI {
             }
         }
         return id;
+    }
+
+
+    /**
+     * Gets patients number
+     * @return (Integer) Patients number
+     */
+    public Integer getPatientsNumber() {
+        String response = patientsGetRequest();
+        JSONObject obj = new JSONObject(response);
+        return obj.getJSONArray("results").length();
     }
 }
