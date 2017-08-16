@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class ManageProfilePage extends WebBase{
     public static final String URL = "https://patient.qa.heal.com/profiles";
-    TestData patientData = new TestData(TestData.PATIENT_SHEET);
 
     ///////////////////
     // Page Elements //

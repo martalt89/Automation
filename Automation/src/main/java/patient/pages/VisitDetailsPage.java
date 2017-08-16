@@ -2,14 +2,21 @@ package patient.pages;
 
 import framework.web.CommonWebElement;
 import framework.web.WebBase;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
+
+import java.util.NoSuchElementException;
 
 /**
  * Created by mihai.muresan on 7/19/2017.
  */
 public class VisitDetailsPage extends WebBase {
-    public static final String URL = "https://patient.qa.heal.com/book-goTo/goTo-details";
+    public static final String URL = "https://patient.qa.heal.com/book-visit/visit-details";
+    public static final String SICK_SERVICE = "Sick or Injured";
+    public static final String ANNUAL_SERVICE = "Annual Physical";
+    public static final String OTHER_SERVICE = "Other";
 
     ///////////////////
     // Page Elements //
@@ -66,6 +73,28 @@ public class VisitDetailsPage extends WebBase {
         oFirstAvailableTimeSlot.jsClick();
         //oFirstAvailableTimeSlot.click();
 
+    }
+
+    /**
+     * Select a service for visit
+     * @param sService (String) Type of service
+     * @throws InvalidArgumentException if other argument except the ones in the switch
+     */
+    public void selectServiceForVisit(String sService) throws InvalidArgumentException{
+        try {
+            switch (sService) {
+                case SICK_SERVICE:
+                    this.oSickOrInjuredText.click();
+                case ANNUAL_SERVICE:
+                    this.oAnnualPhysicalText.click();
+                case OTHER_SERVICE:
+                    this.oOtherText.click();
+                default:
+                    throw new InvalidArgumentException("Invalid argument");
+            }
+        } catch (Exception ignored){
+
+        }
     }
 
 }

@@ -30,6 +30,7 @@ public class VisitsPage extends WebBase {
     public CommonWebElement oIcon1stPatient = new CommonWebElement("oIcon1stPatient", "xpath=//*[contains(@class,'patient')][1]", oWebDriver); // this works
     public CommonWebElement oIcon2ndPatient = new CommonWebElement("oIcon2ndPatient", "xpath=//*[contains(@class,'patient')][2]", oWebDriver); // this works
     public CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "className=card-content", oWebDriver);
+    public CommonWebElement oScheduledVisitsInfo = new CommonWebElement("oScheduledVisitsInfo", "xpath=//*[contains(text(),'your scheduled visits and active visits')]", oWebDriver);
     //Click Cancel goTo -> cancel goTo section
     public CommonWebElement oCancelQuestion = new CommonWebElement("oCancelQuestion", "xpath=//*[contains(text(),'cancel this goTo?')]", oWebDriver);
     public CommonWebElement oCancelReasonMenu = new CommonWebElement("oCancelReasonMenu", "xpath=(//*[@class='card-content'])[1]//md-select", oWebDriver);

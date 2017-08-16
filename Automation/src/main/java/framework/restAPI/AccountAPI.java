@@ -7,6 +7,8 @@ import com.stripe.model.Token;
 import framework.test.TestData;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -139,6 +141,30 @@ public class AccountAPI {
         response.prettyPrint();
     }
 
+    /**
+     * Makes a GET request on /account
+     * @return (String) GET response
+     */
+    private String accountGetRequest(){
+        String resource = "/v2/account/";
+        Response getResponse = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sUsername, sPassword)
+                .get(baseURI+resource);
+        return getResponse.asString();
+    }
+
+    /**
+     * Gets patients number
+     * @return (Integer) Patients number
+     */
+    public Integer getPatientsNumber() {
+        String response = accountGetRequest();
+        JSONObject obj = new JSONObject(response);
+        //substract -1 because [0] is the account info that's not actually a patient
+        return obj.getJSONArray("patients").length()-1;
+    }
     /**
      * Initializes account info variables
      */

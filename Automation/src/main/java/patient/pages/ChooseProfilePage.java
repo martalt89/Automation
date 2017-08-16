@@ -54,4 +54,25 @@ public class ChooseProfilePage extends WebBase {
         this.oMainProfileLink.click();
         this.oContinueBtn.click();
     }
+
+    /**
+     * Clicks an element that has the provided text
+     * @param sText Patient firstname
+     */
+    public void clickPatientByText(String sText)
+    {
+        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=//*[text()='"+sText+"']", oWebDriver );
+        oPatient.click();
+    }
+
+    /**
+     * Gets patient object from the patients list by providing patient name
+     * @param sText Patient firstname
+     * @return Patient object
+     */
+    public CommonWebElement getPatientByText(String sText)
+    {
+        return new CommonWebElement( "oElement", "xpath=//*[text()='"+sText+"']", oWebDriver );
+
+    }
 }
