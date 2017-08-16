@@ -27,8 +27,8 @@ import org.uncommons.reportng.HTMLReporter;
 public class RunTestSuite {
     //logging
     private static Logger logger = LoggerFactory.getLogger(RunTestSuite.class);
-
     private static final String TEST_PACKAGE = "patient.tests";
+
 
     public static void main(String[] args) throws IOException {
         String projDir = System.getProperty("user.dir");

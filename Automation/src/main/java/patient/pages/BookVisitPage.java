@@ -11,11 +11,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class BookVisitPage extends WebBase {
 
-    CommonWebValidate validate = new CommonWebValidate(oWebDriver);
-    ///////////////////
-    // Shared Pages  //
-    ///////////////////
-    Menu menu = new Menu(oWebDriver);
+    public static final String URL = "https://"+ baseUrl +"/book-visit";
 
     ///////////////////
     // Page Elements //
@@ -29,34 +25,17 @@ public class BookVisitPage extends WebBase {
     // Constructors //
     //////////////////
     public BookVisitPage(WebDriver oTargetDriver){
-        super(oTargetDriver);
+        super(oTargetDriver, URL);
     }
-    public BookVisitPage(){
 
+    public BookVisitPage(WebDriver oTargetDriver, String sUrl)
+    {
+        super(oTargetDriver, sUrl);
     }
+
     /////////////
     // Methods //
     /////////////
-    public void SelectFromMenu(CommonWebElement menuItem)
-    {
-        menu.selectFromMenu(menuItem);
-    }
-    /////////////////
-    // validations //
-    /////////////////
-    public void validateTitle(){
-        try {
-            validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), "Book Visit");
-        }catch (CommonException e) {
-            System.out.println("cannot validate " + oPageTitle.getText());
-        }
-    }
-    public void validateTitle(String sTitle){
-        try {
-            validate.assertEquals("Verifying Visits page title ", oPageTitle.getText(), sTitle);
-        }catch (CommonException e) {
-            System.out.println("cannot validate " + oPageTitle.getText());
-        }
-    }
+
 
 }

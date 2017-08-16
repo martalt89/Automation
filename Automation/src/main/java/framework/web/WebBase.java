@@ -2,6 +2,7 @@ package framework.web;
 
 import foundation.SysTools;
 import framework.exception.CommonException;
+import framework.test.TestBase;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;

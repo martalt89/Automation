@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.IAnnotationTransformer;
@@ -42,10 +45,21 @@ public class TestListener extends TestListenerAdapter {
     Date suiteStart = null;
     java.util.List<ITestResult> lAllTests = new ArrayList<ITestResult>();
 
+    protected ExtentReports extent;
+    protected ExtentTest test;
 
     public TestListener(Document resultXML)
     {
         oResultXML = resultXML;
+    }
+
+    @Override
+    public void onTestStart(ITestResult oResult) {
+        TestBase oTestBase = (TestBase)oResult.getInstance();
+        super.onTestStart(oResult);
+        logger.info("【" + oResult.getName() + " Start】");
+        extent= oTestBase.getextent();
+        test = extent.startTest(oResult.getName());
     }
 
     @Override
@@ -104,6 +118,8 @@ public class TestListener extends TestListenerAdapter {
             else
             {
                 String sScreenshotPath = oTestBase.handleException(oResult.getThrowable());
+                String img = test.addScreenCapture(sScreenshotPath);
+                test.log(LogStatus.INFO, "Image", "Image example: " + img);
                 sCause = "Unhandled exception:  [Screenshot:  " + sScreenshotPath + "]\n\n" + sException + "\n\n";
                 oResult.setAttribute("Cause", sCause);
                 oResult.setThrowable(new CommonException(sCause, oResult.getThrowable()));
@@ -139,6 +155,10 @@ public class TestListener extends TestListenerAdapter {
         {
             logger.error("onTestFailure():  Exception caught! ", ex);
         }
+
+        test.log(LogStatus.FAIL, oResult.getThrowable());
+        extent.endTest(test);
+        extent.flush();
     }
 
     @Override
@@ -163,6 +183,10 @@ public class TestListener extends TestListenerAdapter {
         {
            logger.error("onTestSuccess():  Exception caught! ", ex);
         }
+
+        test.log(LogStatus.PASS, oResult.getName() + ": PASS");
+        extent.endTest(test);
+        extent.flush();
     }
 
     @Override

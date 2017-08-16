@@ -1,10 +1,14 @@
 package framework.test;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ReporterType;
 import framework.exception.CommonException;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
@@ -46,6 +50,9 @@ public class TestBase
     //	private int iPageLoadTimeout = 90;
     private boolean bMaximizeBrowser = false;
     private String browser;
+
+    private static String reportLocation = "report/ExtentReport.html";
+    protected ExtentReports extent;
 
     /**
      * InheritableThreadLocal variables are needed when tests are ran in parallel.  They ensure threads do not share/contaminate each other's data.  
@@ -203,6 +210,10 @@ public class TestBase
     //  TestNG methods    //
     ////////////////////////	
 
+    public ExtentReports getextent(){
+        return extent;
+    }
+
     /**
      * Responsible for setting all the test class properties and instantiating an HealEntityManager to be shared by all tests.
      */
@@ -231,6 +242,12 @@ public class TestBase
                       @Optional("30") String element_implicit_wait,
                       @Optional("true") String maximizeBrowser)
     {
+        extent = new ExtentReports(reportLocation, true);
+        extent.startReporter(ReporterType.DB, reportLocation);
+        extent.addSystemInfo("Host Name", "vahanmelikyan");
+        extent.addSystemInfo("User Name", "vahan");
+        //extent.loadConfig(new File("C:\\extentReport\\extent-config.xml"));
+
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
         try
         {
@@ -277,7 +294,7 @@ public class TestBase
     @AfterClass(alwaysRun=true)
     public void teardown()
     {
-
+        extent.close();
     }
 
     /**
