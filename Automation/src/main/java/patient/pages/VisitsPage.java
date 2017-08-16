@@ -16,13 +16,7 @@ import java.util.List;
  */
 public class VisitsPage extends WebBase {
 
-    public static final String URL = "https://patient.qa.heal.com/login";
-
-    ///////////////////
-    // Shared Pages  //
-    ///////////////////
-    Menu menu = new Menu(oWebDriver);
-    HomePage homePage = new HomePage(oWebDriver);
+    public static final String URL = "https://" + baseUrl + "/visits";
 
     ///////////////////
     // Page Elements //
@@ -54,9 +48,6 @@ public class VisitsPage extends WebBase {
 
     public VisitsPage(WebDriver oTargetDriver, String sUrl) {
         super(oTargetDriver, sUrl);
-    }
-    public VisitsPage(){
-
     }
 
     /////////////

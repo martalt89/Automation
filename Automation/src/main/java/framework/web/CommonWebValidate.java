@@ -68,6 +68,7 @@ public class CommonWebValidate extends CommonValidate
             screenshot = WebBase.getScreenshot(oWebDriver, SCREENSHOT_LOCATION);
         }
 
+
         return screenshot;
     }
 
