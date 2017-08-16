@@ -7,24 +7,36 @@ import com.stripe.model.Token;
 import framework.test.TestData;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * REST calls on /account API
+ * Create & get account, add address, add payment methods
+ */
+
 public class AccountAPI {
     private TestData addCardInputData = new TestData(TestData.CARD_SHEET);
+    private TestData addAccountInputData = new TestData(TestData.ACCOUNT_SHEET);
     private RestUtils restUtils = new RestUtils();
+    private String baseURI = "https://patient.qa.heal.com/api";
+    private static final String APIkey = "pk_test_DIamIvBnKXe5LdP5fl1iR0v8";
+
+    /**
+     *  Account info variables
+     *  initialized using initAccountInfo() method
+     */
     public String sUsername;
     public String sPassword;
     private String sUserId;
-    private String baseURI = "https://patient.qa.heal.com/api";
-    private static final String APIkey = "pk_test_DIamIvBnKXe5LdP5fl1iR0v8";
+
     /**
      * Constructor
      * @param sAccUsername (String) Account sEmail
      * @param sAccPassword (String) Account sPassword
+     * @param bCreateAccount (Boolean) Account bCreateAccount
      */
     public AccountAPI(String sAccUsername, String sAccPassword, Boolean bCreateAccount){
         this.sUsername = sAccUsername;
@@ -43,17 +55,20 @@ public class AccountAPI {
         this.sPassword = sAccPassword;
     }
 
+    /**
+     * Makes a POST request on /account, which creates a new account
+     */
     private void createAccount(){
         String resourceAPI = "/v2/account";
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("campaign", new JsonObject());
-        jsonAsMap.put("firstName", "mihai");
-        jsonAsMap.put("lastName", "auto");
+        jsonAsMap.put("firstName", addAccountInputData.sFirstname);
+        jsonAsMap.put("lastName", addAccountInputData.sLastname);
         jsonAsMap.put("username", sUsername);
         jsonAsMap.put("password", sPassword);
-        jsonAsMap.put("password2", "Heal4325");
-        jsonAsMap.put("mobile", "+12015555555");
-        jsonAsMap.put("zipcode", "5840");
+        jsonAsMap.put("password2", sPassword);
+        jsonAsMap.put("mobile", addCardInputData.sPhoneNumber);
+        jsonAsMap.put("zipcode", addAccountInputData.sZipCode);
 
         Response response = RestAssured.given()
                 .contentType("application/json")
@@ -63,34 +78,41 @@ public class AccountAPI {
         response.prettyPrint();
     }
 
-    private Map getAccountByUsername(){
+    /**
+     * Get user's data in JSON format
+     * @return (Map) account resource info
+     */
+    public Map getAccountInfo(){
         String resourceAPI = "/v2/account";
         Map<String,String> accountInfoMap = new HashMap<>();
         Response getResponse = RestAssured.given()
                 .auth()
                 .preemptive()
-                .basic(sUsername, sPassword)
-                .param("username", sUsername)
+                .basic(this.sUsername, this.sPassword)
                 .log().all()
                 .get(baseURI + resourceAPI);
         getResponse.prettyPrint();
         String response = getResponse.asString();
 
         accountInfoMap.put("id", restUtils.getJsonValue(response, "id"));
+        accountInfoMap.put("status", restUtils.getJsonValue(response, "status"));
         return accountInfoMap;
     }
 
+    /**
+     * Makes a POST request on /account/address, which adds address to user account
+     */
     public void addAddress(){
         String resourceAPI = "/account/address";
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("address", "1 Market St");
-        jsonAsMap.put("addressType", "HOME");
-        jsonAsMap.put("city", "San Francisco");
-        jsonAsMap.put("country", "United States");
-        jsonAsMap.put("zipcode", "94105");
-        jsonAsMap.put("establishment", "");
-        jsonAsMap.put("unit", "2");
-        jsonAsMap.put("instruction", "gate code 4235");
+        jsonAsMap.put("address", addAccountInputData.sAddress);
+        jsonAsMap.put("addressType", addAccountInputData.sAddressType);
+        jsonAsMap.put("city", addAccountInputData.sCity);
+        jsonAsMap.put("country", addAccountInputData.sCountry);
+        jsonAsMap.put("zipcode", addAccountInputData.sZipCode);
+        jsonAsMap.put("establishment", addAccountInputData.sEstablishment);
+        jsonAsMap.put("unit", addAccountInputData.sUnit);
+        jsonAsMap.put("instruction", addAccountInputData.sInstruction);
 
         Response response = RestAssured.given()
                 .auth()
@@ -103,7 +125,10 @@ public class AccountAPI {
         response.prettyPrint();
     }
 
-
+    /**
+     * Makes a POST request to Stripe API, which generates a token in order to be used for adding card
+     * @return (String) stripe token
+     */
     private String createStripeToken() {
         Stripe.apiKey = APIkey;
         Map<String, Object> tokenParams = new HashMap<String, Object>();
@@ -121,12 +146,15 @@ public class AccountAPI {
         return null;
     }
 
+    /**
+     * Makes a POST request on /account/payment API, which creates card details. Uses stripe token
+     */
     public void createPayment(){
         String resourceAPI = "/account/payment";
         Map<String, Object> jsonAsMap = new HashMap<>();
         jsonAsMap.put("cardExpiryMonth", addCardInputData.iExpiryMonth);
         jsonAsMap.put("cardExpiryYear", addCardInputData.iExpiryYear);
-        jsonAsMap.put("cardLast", "4242"); // to do
+        jsonAsMap.put("cardLast", "4242");
         jsonAsMap.put("cardType", addCardInputData.sCardType);
         jsonAsMap.put("token", createStripeToken());
 
@@ -162,7 +190,6 @@ public class AccountAPI {
     public Integer getPatientsNumber() {
         String response = accountGetRequest();
         JSONObject obj = new JSONObject(response);
-        //substract -1 because [0] is the account info that's not actually a patient
         return obj.getJSONArray("patients").length()-1;
     }
     /**
@@ -170,7 +197,7 @@ public class AccountAPI {
      */
     private void initAccountInfo(){
         //init account info below
-        Map account = getAccountByUsername();
+        Map account = getAccountInfo();
         sUserId = (String) account.get("id");
 
 

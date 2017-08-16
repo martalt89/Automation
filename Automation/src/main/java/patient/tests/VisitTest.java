@@ -25,7 +25,9 @@ public class VisitTest extends TestBase {
     private String gender = "Female";
     private String symptoms = "IGNORE - Booked by automation test..";
 
-
+    /**
+     * This will run a test in loop for validation purposes
+     */
     @Test
     public void testLoop(){
         int numberOfVisitsToBook = 10;
@@ -33,7 +35,7 @@ public class VisitTest extends TestBase {
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                cancelVisit();
+                cancelVisit(); // put here the desired test to be run on loop
                 passedRuns++;
             } catch (Exception e) {
                 failedRuns++;
@@ -42,10 +44,13 @@ public class VisitTest extends TestBase {
             System.out.println("Passed " + passedRuns);
             System.out.println("Failed " + failedRuns);
         }
-        System.out.println(passedRuns + " Passed Runs");
-        System.out.println(failedRuns + " Failed Runs");
+        System.out.println(passedRuns + " Passed Runs"); // display how many times the test passed on given visits booked
+        System.out.println(failedRuns + " Failed Runs"); // display how many times the test failed on given visits booked
     }
 
+    /**
+     * Cancel an active visit
+     */
     @Test (groups = {"dev", "critical"})
     public void cancelVisit(){
         WebDriver dr = getDriver();
@@ -65,10 +70,11 @@ public class VisitTest extends TestBase {
 
     }
 
+    /**
+     * Book visit
+     */
     @Test (groups = {"dev", "critical"})
-    //@Parameters({ "url" })
     public void bookVisit() throws Exception {
-
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
@@ -108,6 +114,10 @@ public class VisitTest extends TestBase {
             loginPage.oUserNameInput.waitForElement();
     }
 
+    /**
+     * Book visit with credit card
+     * @throws Exception
+     */
     @Test (groups = {"dev", "critical"})
     //@Parameters({ "url" })
     public void bookVisitWithCreditCard() throws Exception {
@@ -151,7 +161,10 @@ public class VisitTest extends TestBase {
         loginPage.oUserNameInput.waitForElement();
     }
 
-
+    /**
+     * Book visit with promo code 50% percent off
+     * @throws Exception
+     */
     @Test (groups = {"dev", "critical"})
     public void BookVisitWith50PercentPromo() throws Exception {
         CommonWebElement.setbMonitorMode(false);
@@ -201,6 +214,10 @@ public class VisitTest extends TestBase {
         loginPage.oUserNameInput.waitForElement();
     }
 
+    /**
+     * Book visit with promo code 100% off
+     * @throws Exception
+     */
     @Test (groups = {"dev", "critical"})
     public void BookVisitWith100PercentPromo() throws Exception {
         CommonWebElement.setbMonitorMode(false);
@@ -250,6 +267,10 @@ public class VisitTest extends TestBase {
         loginPage.oUserNameInput.waitForElement();
     }
 
+    /**
+     * Book visit with insurance. this will use real eligible insurance or can be used for also adding a new test insurance
+     * @throws Exception
+     */
     @Test (groups = {"dev", "critical"})
     public void BookVisitWithInsurance() throws Exception {
         CommonWebElement.setbMonitorMode(false);
@@ -306,7 +327,7 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.waitForElement();
 
             assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
-            assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+            assertEquals("Verifying 'What To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
 
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);

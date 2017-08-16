@@ -16,7 +16,10 @@ public class PaymentsTest extends TestBase {
     private String sExpirationMonth = Integer.toString(addCardInputData.iExpiryMonth);
     private String sExpirationYear = Integer.toString(addCardInputData.iExpiryYear);
 
-
+    /**
+     * Add / edit payment details
+     * @throws Exception
+     */
     @Test (groups = { "dev" , "critical" })
     public void editPayments() throws Exception {
 

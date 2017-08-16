@@ -30,6 +30,13 @@ public class TestData {
     public String sCardNumber;
     public String sCVC;
     public String sCardType;
+    public String sAddress;
+    public String sAddressType;
+    public String sCity;
+    public String sCountry;
+    public String sEstablishment;
+    public String sUnit;
+    public String sInstruction;
 
 
     public static final String ACCOUNT_SHEET = "Account";
@@ -83,6 +90,14 @@ public class TestData {
                         sConfirmPassword = testDataFromExcel.get("ConfirmPassword");
                         sPhoneNumber = testDataFromExcel.get("PhoneNumber");
                         sZipCode = testDataFromExcel.get("ZipCode");
+                        sAddress = testDataFromExcel.get("Address");
+                        sAddressType = testDataFromExcel.get("AddressType");
+                        sCity =  testDataFromExcel.get("City");
+                        sCountry = testDataFromExcel.get("Country");
+                        sEstablishment = testDataFromExcel.get("Establishment");
+                        sUnit = testDataFromExcel.get("Unit");
+                        sInstruction = testDataFromExcel.get("Instruction");
+
                 }
 
                 if (sSheetName.equals(PATIENT_SHEET)) {
