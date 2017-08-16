@@ -19,13 +19,19 @@ public class VisitDetailsPage extends WebBase {
     public static final String OTHER_SERVICE = "Other";
 
     ///////////////////
+    // Shared Pages  //
+    ///////////////////
+    Menu menu = new Menu(oWebDriver);
+
+
+    ///////////////////
     // Page Elements //
     ///////////////////
 
     public CommonWebElement oBookVisitTitle = new CommonWebElement( "oBookVisitTitle", "xpath=//*[text()='Book Visit']", oWebDriver );
     public CommonWebElement oVisitDetailsTitle = new CommonWebElement( "oVisitDetailsTitle", "xpath=//*[text()='Visit Details']", oWebDriver );
     public CommonWebElement oSelectServiceText = new CommonWebElement( "oSelectServiceText", "xpath=//*[contains(text(),'Select a Service')]", oWebDriver );
-    public CommonWebElement oSickOrInjuredText = new CommonWebElement( "oSickOrInjuredText", "xpath=//*[text()='Sick or Injured']", oWebDriver );
+    public CommonWebElement oSickOrInjuredText = new CommonWebElement( "oSickOrInjuredText", "xpath=//*[@role='button' and contains(.,'Sick or Injured')]", oWebDriver );
     //public CommonWebElement oSickOrInjuredText = new CommonWebElement( "oSickOrInjuredText", "xpath=(//*[@class='ng-isolate-scope'])[2]", oWebDriver );
     public CommonWebElement oAnnualPhysicalText = new CommonWebElement( "oAnnualPhysicalText", "xpath=//*[text()='Annual Physical']", oWebDriver );
     public CommonWebElement oOtherText = new CommonWebElement( "oOtherText", "xpath=//*[text()='Other']", oWebDriver );
@@ -84,11 +90,14 @@ public class VisitDetailsPage extends WebBase {
         try {
             switch (sService) {
                 case SICK_SERVICE:
-                    this.oSickOrInjuredText.click();
+                    Thread.sleep(400);
+                    this.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
                 case ANNUAL_SERVICE:
-                    this.oAnnualPhysicalText.click();
+                    Thread.sleep(400);
+                    this.oAnnualPhysicalText.clickAndWait(menu.oLoadingBar, false);
                 case OTHER_SERVICE:
-                    this.oOtherText.click();
+                    Thread.sleep(400);
+                    this.oOtherText.clickAndWait(menu.oLoadingBar, false);
                 default:
                     throw new InvalidArgumentException("Invalid argument");
             }

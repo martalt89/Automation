@@ -41,9 +41,12 @@ public class RegisterTest extends TestBase {
 
     @Test
     public void registerAccount() throws Exception {
-        WebDriver dr = DriverManager.getDriver();
-        RegisterPage registerPage = new RegisterPage(dr);
+        WebDriver dr = getDriver();
         HomePage homePage = new HomePage(dr);
+        RegisterPage registerPage = new RegisterPage(dr);
+        registerPage.goTo();
+        registerPage.waitForPageLoad();
+
         registerPage.oFirstNameInput.sendKeys(RegisterPage.sRegisterFirstName);
         registerPage.oLastNameNameInput.sendKeys(RegisterPage.sRegisterLastName);
         registerPage.oEmailInput.sendKeys(RegisterPage.sRegisterUserEmail);
@@ -52,13 +55,8 @@ public class RegisterTest extends TestBase {
         registerPage.oPhoneNmbInput.sendKeys(RegisterPage.sRegisterPhoneNo);
         registerPage.oZipcodeInput.sendKeys(RegisterPage.sRegisterZipCode);
         registerPage.oCreateAcctBtn.click();
+        assertEquals("Verifying page url ", homePage.getCurrentUrl(), RegisterPage.URL);
+        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
     }
-
-//    @Test(groups = {"dev"})
-//    public void testWithExcelTestData() throws Exception {
-//        WebDriver dr = DriverManager.getDriver();
-//        RegisterPage registerPage = new RegisterPage(dr);
-//        registerPage.registerValidData();
-//
-//    }
 }

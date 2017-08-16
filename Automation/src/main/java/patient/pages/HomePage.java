@@ -29,10 +29,8 @@ public class HomePage extends WebBase {
     public CommonWebElement oAccountOwnerFirstName = new CommonWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-gt-xs show-xs ng-binding')]",oWebDriver );
     public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
     public CommonWebElement oAccountOwnerAvatar = new CommonWebElement("oAccountOwnerAvatar", "css=profile-image[url='vm.user.avatarUrl'] ", oWebDriver);
-
-    public CommonWebElement oCancelVisitBtn = new CommonWebElement("oCancelVisitBtn", "xpath=//*[text()='Cancel Visit']", oWebDriver);
-    //public CommonWebElement oCancelVisitSlideUp = new CommonWebElement("oCancelVisitSlideUp", "css=.card-cancel-visit.slide-up.open", oWebDriver );
-    CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[1]", oWebDriver );
+    public CommonWebElement oSelectReason = new CommonWebElement("oSelectReason", "xpath=(//md-select-value[@class='md-select-value'])[1]", oWebDriver );
+    public CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[1]", oWebDriver );
 
 
     //////////////////
@@ -53,6 +51,11 @@ public class HomePage extends WebBase {
     /////////////
     // Methods //
     /////////////
+    public void selectFromMenu(String sMenuItem)
+    {
+        menu.selectFromMenu(sMenuItem);
+    }
+
     public void selectFromMenu(CommonWebElement menuItem)
     {
         menu.selectFromMenu(menuItem);
@@ -73,11 +76,14 @@ public class HomePage extends WebBase {
      *
      * @param iVisitsIndex - The index of the visit to cancel
      * @param sReason - Value should be a valid value from "Select a reason" list
-     * @param sNotes
+     * @param sNotes - The text to type in Notes field
      */
     public void cancelVisit(int iVisitsIndex, String sReason, String sNotes){
-        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel Visit')])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver);
+        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel')])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver);
+        if (menu.oLoadingBar.exists())
+        menu.oLoadingBar.waitForInvisible();
         oCancelVisitLnk.click();
+        oSelectReason.waitForElement();
 
         CommonWebElement oSelectReasonLabel =  oVisitCard.findElement(By.xpath("//md-select-value[@class='md-select-value']"));
         oSelectReasonLabel.selectFromContextByVisibleTextAngular(sReason, oVisitCard);

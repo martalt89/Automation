@@ -34,6 +34,8 @@ import foundation.SysTools;
  */
 public class TestListener extends TestListenerAdapter {
 
+    private static String path = System.getProperty("user.dir");
+    private static String separator = System.getProperty("file.separator");
     Logger logger = LoggerFactory.getLogger(TestListener.class);
     Document oResultXML;
     java.util.List<ITestResult> lConfigFailures = new ArrayList<ITestResult>();
@@ -127,7 +129,7 @@ public class TestListener extends TestListenerAdapter {
             iSuiteVerificationFailTotal = iSuiteVerificationFailTotal +  oTestBase.getValidate().getFailureCount();
             iSuiteVerificationPassTotal = iSuiteVerificationPassTotal + oTestBase.getValidate().getTotalCount() - oTestBase.getValidate().getFailureCount();
 
-            BufferedWriter out = new BufferedWriter(new FileWriter("c:/qa/atf/out/logs/err_count.txt"));
+            BufferedWriter out = new BufferedWriter(new FileWriter(path + separator + "out" + separator + "logs" + separator + "err_count.txt"));
             out.write(iSuiteVerificationFailTotal + "");
             out.close();
 

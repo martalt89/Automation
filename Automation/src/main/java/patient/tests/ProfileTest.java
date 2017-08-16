@@ -113,7 +113,7 @@ public class ProfileTest extends TestBase {
         Menu menu = new Menu(dr);
 
         //Test steps
-        loginPage.login("mihaix3@heal.com", "Heal4325");
+        loginPage.login();
         homePage.selectFromMenu(menu.oProfilesLnk);
         validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         //add patient

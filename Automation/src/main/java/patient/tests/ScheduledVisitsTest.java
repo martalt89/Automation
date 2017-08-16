@@ -79,11 +79,11 @@ public class ScheduledVisitsTest extends TestBase {
             manageProfilePage.typePatientDataFromExcel(patientTestData);
             manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
         } else {
-            chooseProfilePage.clickPatientByText(patientTestData.sFirstname);
+            chooseProfilePage.selectProfileByName(patientTestData.sFirstname);
             chooseProfilePage.oContinueBtn.click();
         }
         //TODO: Update test data file with address details
-        addressPage.populateAddressDetails(false,"12846 Woodley Ave, Granada Hills, CA 91344, USA", "12", "Some instructions", "Home");
+        //addressPage.populateAddressDetails(false,"12846 Woodley Ave, Granada Hills, CA 91344, USA", "12", "Some instructions", "Home");
         addressPage.oContinueBtn.click();
         visitDetailsPage.selectServiceForVisit(VisitDetailsPage.SICK_SERVICE);
         //TODO - does not find this element. Will investigate more

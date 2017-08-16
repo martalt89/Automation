@@ -14,7 +14,7 @@ public class RegisterPage extends WebBase {
 
     public static SysTools sysTools = new SysTools();
 
-    public static final String URL = "https://patient.qa.heal.com/register";
+    public static final String URL = "https://"+ baseUrl + "/register";
     public static final String sRegisterFirstName = "QA_fn";
     public static final String sRegisterLastName = "QA_ln";
     public static final String sRegisterUserEmail = "qa_auto_test_" + sysTools.getTimestamp("yyyy_MM_dd_HH-mm") +"@heal.com";

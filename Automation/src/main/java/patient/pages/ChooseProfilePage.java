@@ -59,10 +59,11 @@ public class ChooseProfilePage extends WebBase {
      * Clicks an element that has the provided text
      * @param sText Patient firstname
      */
-    public void clickPatientByText(String sText)
+    public void selectProfileByName(String sText)
     {
-        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=//*[text()='"+sText+"']", oWebDriver );
+        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=(//div[@role='button' and contains(.,'" + sText +"')])[1]", oWebDriver );
         oPatient.click();
+        oContinueBtn.clickAndWait(menu.oLoadingBar, false);
     }
 
     /**

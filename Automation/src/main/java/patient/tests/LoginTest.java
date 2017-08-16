@@ -13,14 +13,16 @@ import org.testng.annotations.Test;
 public class LoginTest extends TestBase {
 
 
-    @Test (groups = { "devv","smoke", "regression", "critical" })
+    @Test (groups = {"smoke", "regression", "critical" })
 //    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
-    CommonWebElement.setbMonitorMode(false);
+
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
+
         assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
 
         loginPage.login();
@@ -30,7 +32,7 @@ public class LoginTest extends TestBase {
 
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Scheduled Visits");
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
 
         Menu menu = new Menu(dr);
 
@@ -46,9 +48,11 @@ public class LoginTest extends TestBase {
     public void checkMenuLinksLoggedIn() throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
         HomePage homePage = new HomePage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         VisitsPage visitsPage = new VisitsPage(dr);

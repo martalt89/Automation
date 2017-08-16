@@ -7,7 +7,6 @@ import framework.web.CommonWebValidate;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
-import patient.PatientHelper;
 import patient.pages.*;
 
 
@@ -24,37 +23,45 @@ public class VisitTest extends TestBase {
     private String phoneNumber = "18182123842";
     private String relationship = "Friend";
     private String gender = "Female";
+    private String symptoms = "IGNORE - Booked by automation test..";
 
 
-//    @Test
-//    public void teeest(){
-//
-//
-//        PatientHelper helper = new PatientHelper();
-//        System.out.println(helper.getNewVisitCode());
-//
-//    }
-//
-//    @Test
-//    public void multipleVisitsBook(){
-//        int numberOfVisitsToBook = 40;
-//        int numberOfVisitsBooked = 0;
-//        for (int i = 0; i < numberOfVisitsToBook; i++) {
-//            try {
-//                bookVisit();
-//                numberOfVisitsBooked++;
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            System.out.println(numberOfVisitsBooked + " Visits Booked");
-//        }
-//        System.out.println(numberOfVisitsBooked + " Have been booked");
-//    }
+    @Test
+    public void testLoop(){
+        int numberOfVisitsToBook = 10;
+        int passedRuns = 0;
+        int failedRuns = 0;
+        for (int i = 0; i < numberOfVisitsToBook; i++) {
+            try {
+                cancelVisit();
+                passedRuns++;
+            } catch (Exception e) {
+                failedRuns++;
+                e.printStackTrace();
+            }
+            System.out.println("Passed " + passedRuns);
+            System.out.println("Failed " + failedRuns);
+        }
+        System.out.println(passedRuns + " Passed Runs");
+        System.out.println(failedRuns + " Failed Runs");
+    }
 
     @Test (groups = {"dev", "critical"})
     public void cancelVisit(){
         WebDriver dr = getDriver();
+        CommonWebElement.setbMonitorMode(false);
+        LoginPage loginPage = new LoginPage(dr);
+        HomePage homePage = new HomePage(dr);
 
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+
+        loginPage.login();
+        homePage.selectFromMenu("visits");
+        homePage.cancelVisit(1);
+        homePage.selectFromMenu("sign out");
+            verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
+            assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");
 
     }
 
@@ -71,29 +78,27 @@ public class VisitTest extends TestBase {
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
         BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
         VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
-        VisitsPage visitsPage = new VisitsPage(dr);
         SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
         WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         Menu menu = new Menu(dr);
 
-
-        try {
             loginPage.login(); // Login on patient web app
             homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
-            verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit"); // Verify page title
+                verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit"); // Verify page title
             bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
             chooseProfilePage.selectMainProfile();
             addressPage.selectFirstSavedAddress();
             addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
             visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-            visitDetailsPage.oSymptomsInput.sendKeys("I'm testing this...");
-            //visitDetailsPage.oSelectDateInput.sendKeys("07/29/2017");
+            visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
+
             visitDetailsPage.selectFirstAvailableTimeSlot();
             visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
             paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
-            assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
-            assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+            whatToExpectPage.oNextBtn.waitForElement();
+                assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+                assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
@@ -101,12 +106,52 @@ public class VisitTest extends TestBase {
             System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
             menu.selectFromMenu(menu.oSignOutLnk);
             loginPage.oUserNameInput.waitForElement();
-        } catch (Exception e) {
-            menu.selectFromMenu(menu.oSignOutLnk);
-            loginPage.oUserNameInput.waitForElement();
-            e.printStackTrace();
-        }
     }
+
+    @Test (groups = {"dev", "critical"})
+    //@Parameters({ "url" })
+    public void bookVisitWithCreditCard() throws Exception {
+
+        CommonWebElement.setbMonitorMode(false);
+        WebDriver dr = getDriver();
+        LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        HomePage homePage = new HomePage(dr);
+        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
+        BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
+        VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
+        SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        BookVisitPage bookVisitPage = new BookVisitPage(dr);
+        Menu menu = new Menu(dr);
+
+        loginPage.login(); // Login on patient web app
+        homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
+        verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit"); // Verify page title
+        bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
+        chooseProfilePage.selectProfileByName("Credit Card");
+        addressPage.selectFirstSavedAddress();
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
+
+        visitDetailsPage.selectFirstAvailableTimeSlot();
+        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.waitForElement();
+            assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+            assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oGotItBtn.click();
+        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.oUserNameInput.waitForElement();
+    }
+
+
     @Test (groups = {"dev", "critical"})
     public void BookVisitWith50PercentPromo() throws Exception {
         CommonWebElement.setbMonitorMode(false);
@@ -119,7 +164,6 @@ public class VisitTest extends TestBase {
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
         BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
         VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
-        VisitsPage visitsPage = new VisitsPage(dr);
         SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
         WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
@@ -128,26 +172,38 @@ public class VisitTest extends TestBase {
         loginPage.login(); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectMainProfile();
+        chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
-
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-        visitDetailsPage.oSymptomsInput.sendKeys("headache");
+        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
-        validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+            validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
         paymentPage.oPromoCodeLink.click();
         paymentPage.oPromoCodeInput.sendKeys("50PERCENT", Keys.TAB);
-        paymentPage.oPriceInfoText.waitForVisible();
+        menu.oLoadingBar.waitForInvisible();
 
-        validate.assertEquals("Verifying 50% promo price ", paymentPage.oPriceInfoText.getText(), sPromo50PercentOffPrice);
+            validate.assertEquals("Verifying 50% promo price ", paymentPage.oPriceInfoText.getText(), sPromo50PercentOffPrice);
+
+        paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.waitForElement();
+            assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+            assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oGotItBtn.click();
+        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.oUserNameInput.waitForElement();
     }
+
     @Test (groups = {"dev", "critical"})
     public void BookVisitWith100PercentPromo() throws Exception {
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
@@ -157,31 +213,41 @@ public class VisitTest extends TestBase {
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
         BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
         VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
-        VisitsPage visitsPage = new VisitsPage(dr);
         SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
-        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
         Menu menu = new Menu(dr);
 
         loginPage.login(); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectMainProfile();
+        chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
-
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-        visitDetailsPage.oSymptomsInput.sendKeys("headache");
+        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
-        validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+            validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
         paymentPage.oPromoCodeLink.click();
         paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
-        paymentPage.oPriceInfoText.waitForVisible();
+        menu.oLoadingBar.waitForInvisible();
 
-        validate.assertEquals("Verifying 100% promo price ", paymentPage.oPriceInfoText.getText(), sPromo100PercentOffPrice);
+            validate.assertEquals("Verifying 100% promo price ", paymentPage.oPriceInfoText.getText(), sPromo100PercentOffPrice);
+
+        paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.waitForElement();
+        assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+        assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oGotItBtn.click();
+        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.oUserNameInput.waitForElement();
     }
 
     @Test (groups = {"dev", "critical"})
@@ -206,40 +272,49 @@ public class VisitTest extends TestBase {
 
         loginPage.login(); // Login on patient web app
 
-        homePage.selectFromMenu(menu.oProfilesLnk);
-        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        manageProfilePage.oAddPatientbtn.click();
-        //manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
-        manageProfilePage.oFirstNameInput.sendKeys(firstName);
-        manageProfilePage.oLastNameInput.sendKeys(lastaName);
-        manageProfilePage.oEmailInput.sendKeys(email);
-        manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
-        manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
-        manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
-        manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
-        manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
-        manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
-        manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
-        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+//        homePage.selectFromMenu(menu.oProfilesLnk);
+//        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+//        manageProfilePage.oAddPatientbtn.click();
+//        //manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
+//        manageProfilePage.oFirstNameInput.sendKeys(firstName);
+//        manageProfilePage.oLastNameInput.sendKeys(lastaName);
+//        manageProfilePage.oEmailInput.sendKeys(email);
+//        manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
+//        manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
+//        manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
+//        manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
+//        manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
+//        manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
+//        manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
+//        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectMainProfile();
+
+        chooseProfilePage.selectProfileByName("Insurance");
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
-
-        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-        visitDetailsPage.oSymptomsInput.sendKeys("headache");
+        visitDetailsPage.selectServiceForVisit("SICK_SERVICE");
+        //visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
-        validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
-        //validate.verifyTextEquals("Verifying 'Verified' insurance tag", paymentPage.oVerifiedInsuranceText, "Verified");
-        validate.verifyVisible("Verify 'Verified Icon' is displayed", paymentPage.oCheckCircleEnabled);
+            validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
         paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.waitForElement();
 
-        validate.assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+            assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+            assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oGotItBtn.click();
+        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.oUserNameInput.waitForElement();
     }
 
 }
