@@ -88,7 +88,7 @@ public class ProfileTest extends TestBase {
         manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
             assertEquals("Verify if added patient name is in patients profiles list", manageProfilePage.getPatientByText(testData.sFirstname).getText(), testData.sFirstname);
-        menu.oSignOutLnk.clickAndWait(menu.oLoadingBar, false);
+        menu.selectFromMenu("Sign out");
 
 
 
