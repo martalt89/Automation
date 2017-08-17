@@ -8,7 +8,6 @@ import framework.test.TestData;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +66,7 @@ public class AccountAPI {
         jsonAsMap.put("username", sUsername);
         jsonAsMap.put("password", sPassword);
         jsonAsMap.put("password2", sPassword);
-        jsonAsMap.put("mobile", addCardInputData.sPhoneNumber);
+        jsonAsMap.put("mobile", addAccountInputData.sPhoneNumber);
         jsonAsMap.put("zipcode", addAccountInputData.sZipCode);
 
         Response response = RestAssured.given()
@@ -199,7 +198,5 @@ public class AccountAPI {
         //init account info below
         Map account = getAccountInfo();
         sUserId = (String) account.get("id");
-
-
     }
 }
