@@ -288,6 +288,13 @@ public class TestBase
 
     }
 
+
+//    @AfterSuite(alwaysRun=true)
+//    public void closeReport()
+//    {
+//        extent.close();
+//    }
+
     /**
      * Post test class clean up.  Close HealEntityManager.
      */

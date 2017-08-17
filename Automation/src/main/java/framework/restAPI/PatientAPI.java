@@ -25,7 +25,7 @@ public class PatientAPI {
      * Patient info variables
      * - initialized using initPatientInfo() method
      */
-    private String sPatientIdFromInfo;
+    public String sPatientIdFromInfo;
     private String sPatientFirstname;
     private String sPatientLastname;
     private String sPatientEmail;

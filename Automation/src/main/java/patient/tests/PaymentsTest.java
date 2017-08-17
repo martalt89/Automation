@@ -25,7 +25,7 @@ public class PaymentsTest extends TestBase {
 
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
@@ -50,6 +50,6 @@ public class PaymentsTest extends TestBase {
         addCardPage.oApplyCardBtn.clickAndWait(paymentsPage.oPaymentsLabel, true);
 
         // Validate the new card details
-        validate.assertEquals("Verifying card expiration date ", paymentsPage.oCardExpDate.getText(), sExpirationMonth + "/" + sExpirationYear);
+        assertEquals("Verifying card expiration date ", paymentsPage.oCardExpDate.getText(), sExpirationMonth + "/" + sExpirationYear);
     }
 }

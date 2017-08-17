@@ -106,7 +106,7 @@ public class ManageProfilePage extends WebBase{
      */
     public void clickPatientByText(String sText)
     {
-        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=//*[text()='"+sText+"']", oWebDriver );
+        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=(//*[text()='"+sText+"'])[1]", oWebDriver );
         oPatient.click();
     }
 
