@@ -30,7 +30,12 @@ public class HomePage extends WebBase {
     public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
     public CommonWebElement oAccountOwnerAvatar = new CommonWebElement("oAccountOwnerAvatar", "css=profile-image[url='vm.user.avatarUrl'] ", oWebDriver);
     public CommonWebElement oSelectReason = new CommonWebElement("oSelectReason", "xpath=(//md-select-value[@class='md-select-value'])[1]", oWebDriver );
-    public CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[1]", oWebDriver );
+//    public CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel')])[1]", oWebDriver);
+//    public CommonWebElement oSelectReasonLabel = new CommonWebElement("oSelectReasonLabel", "xpath=(//*[@class='card-content'])[1]//md-select-value[@class='md-select-value']", oWebDriver );
+//    public CommonWebElement oNotes = new CommonWebElement("oNotes", "xpath=(//*[@class='card-content'])[1]//input[@ng-model='vm.cancelVisitNote']", oWebDriver );
+//    public CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=(//*[@class='card-content'])[1]//button[contains(.,'Submit')]", oWebDriver );
+//    public CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[1]", oWebDriver );
+
 
 
     //////////////////
@@ -80,19 +85,16 @@ public class HomePage extends WebBase {
      */
     public void cancelVisit(int iVisitsIndex, String sReason, String sNotes){
         CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel')])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver);
-        if (menu.oLoadingBar.exists())
-        menu.oLoadingBar.waitForInvisible();
+        CommonWebElement oSelectReasonLabel = new CommonWebElement("oSelectReasonLabel", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//md-select-value[@class='md-select-value']", oWebDriver );
+        CommonWebElement oNotes = new CommonWebElement("oNotes", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//input[@ng-model='vm.cancelVisitNote']", oWebDriver );
+        CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//button[contains(.,'Submit')]", oWebDriver );
+        CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver );
+
+        if(menu.oLoadingBar.exists()) menu.oLoadingBar.waitForInvisible();
         oCancelVisitLnk.click();
-        oSelectReason.waitForElement();
-
-        CommonWebElement oSelectReasonLabel =  oVisitCard.findElement(By.xpath("//md-select-value[@class='md-select-value']"));
+        oSelectReasonLabel.waitForVisible();
         oSelectReasonLabel.selectFromContextByVisibleTextAngular(sReason, oVisitCard);
-        CommonWebElement oNotes = oVisitCard.findElement(By.xpath("//input[@ng-model='vm.cancelVisitNote']"));
-
         oNotes.jsSendKeys(sNotes);
-
-        CommonWebElement oSubmitBtn = oVisitCard.findElement(By.xpath("//button[contains(.,'Submit')]"));
-
         oSubmitBtn.clickAndWait(menu.oLoadingBar, false);
     }
 

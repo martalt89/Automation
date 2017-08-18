@@ -30,12 +30,12 @@ public class VisitTest extends TestBase {
      */
     @Test
     public void testLoop(){
-        int numberOfVisitsToBook = 10;
+        int numberOfVisitsToBook = 20;
         int passedRuns = 0;
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                cancelVisit(); // put here the desired test to be run on loop
+                bookVisit(); // put here the desired test to be run on loop
                 passedRuns++;
             } catch (Exception e) {
                 failedRuns++;
@@ -293,6 +293,21 @@ public class VisitTest extends TestBase {
 
         loginPage.login(); // Login on patient web app
 
+//        homePage.selectFromMenu(menu.oProfilesLnk);
+//        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+//        manageProfilePage.oAddPatientbtn.click();
+//        //manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
+//        manageProfilePage.oFirstNameInput.sendKeys(firstName);
+//        manageProfilePage.oLastNameInput.sendKeys(lastaName);
+//        manageProfilePage.oEmailInput.sendKeys(email);
+//        manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
+//        manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
+//        manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
+//        manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
+//        manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
+//        manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
+//        manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
+//        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
