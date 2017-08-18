@@ -48,7 +48,7 @@ public class TestListener extends TestListenerAdapter {
     java.util.List<ITestResult> lAllTests = new ArrayList<ITestResult>();
 
     protected ExtentReports extent;
-    protected ExtentTest test;
+    protected volatile ExtentTest test;
 
     public TestListener(Document resultXML)
     {
