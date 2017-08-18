@@ -392,4 +392,20 @@ public class PatientAPI {
         JSONObject obj = new JSONObject(response);
         return obj.getJSONArray("results").length();
     }
+
+    /**
+     * Removes a patient from account by patientId
+     * DELETE /v2/patient/{patientId}
+     */
+    public void deletePatient(String sId){
+        // this does not work yet, need input from Backend
+        String resource = "/v2/patient/";
+        RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(this.sAccUsername, this.sAccPassword)
+                .log().all()
+                .delete(baseURL+resource+ sId);
+    }
+
 }

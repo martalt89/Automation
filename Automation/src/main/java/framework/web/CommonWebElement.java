@@ -828,18 +828,17 @@ public class CommonWebElement implements WebElement, Locatable {
         if (this.getTagName().contains("md-select") || this.getTagName().contains("md-select-value") ) { //dropdown buttons have md-select or md-select-value tags
             oContext.waitForElement();
             this.click();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                //do nothing
-            }
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                //do nothing
+//            }
         }
         else{
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> or <md-select-value> tag), instead found <%s> tag", this.getTagName()));
         }
-//        oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']")).waitForElement();
         CommonWebElement oMenuItem = oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
-        oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']")).waitForElement();
+        oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
         if (oMenuItem.isViewable()){
             oMenuItem.click();
         }else {
