@@ -215,6 +215,10 @@ public class TestListener extends TestListenerAdapter {
         {
             logger.error("onTestSkipped():  Exception caught! ", ex);
         }
+
+        test.log(LogStatus.SKIP, oResult.getName() + ": Skip");
+        extent.endTest(test);
+        extent.flush();
     }
 
     @Override
