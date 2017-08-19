@@ -5,6 +5,7 @@ import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import org.openqa.selenium.WebDriver;
+import org.testng.Reporter;
 import patient.pages.*;
 import utilities.DriverManager;
 import org.testng.annotations.Test;
@@ -12,23 +13,34 @@ import org.testng.annotations.Test;
 public class LoginTest extends TestBase {
 
 
-    @Test (groups = { "devv","smoke", "regression", "critical" })
+    @Test (groups = {"smoke", "regression", "critical" })
 //    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
 
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
-        loginPage.visit();
-        loginPage.waitForPageLoad();
+        loginPage.goTo();
+        loginPage.waitForPageReady();
+
         assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
 
         loginPage.login();
 
         HomePage homePage = new HomePage(dr);
-        homePage.waitForPageLoad();
+        homePage.waitForPageReady();
+
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
+
+        Menu menu = new Menu(dr);
+
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.waitForPageReady();
+        assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
+
+
     }
 
     @Test (groups = { "regression"})
@@ -36,9 +48,11 @@ public class LoginTest extends TestBase {
     public void checkMenuLinksLoggedIn() throws Exception {
         CommonWebElement.setbMonitorMode(false);
 
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
         HomePage homePage = new HomePage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         VisitsPage visitsPage = new VisitsPage(dr);
@@ -55,37 +69,11 @@ public class LoginTest extends TestBase {
             System.out.println("cannot validate " + visitsPage.oPageTitle.getText());
         }
         homePage.selectFromMenu(menu.oProfilesLnk);
-        homePage.selectFromMenu(menu.oPaymentMethodLnk);
+        homePage.selectFromMenu(menu.oPaymentsLnk);
         homePage.selectFromMenu(menu.oSignOutLnk);
         System.out.println("Total number of validations executed : " + validate.getTotalCount());
         int passed = validate.getTotalCount()-validate.getFailureCount();
         System.out.println("Passed validations " + passed);
         System.out.println("Failed validations " + validate.getFailureCount());
-    }
-
-    @Test (groups = { "regression" })
-//    @Parameters({ "url" })
-    public void loginWithValidCredentialsAngular() throws Exception {
-        CommonWebElement.setbMonitorMode(false);
-
-        WebDriver dr = DriverManager.getDriver();
-        LoginPage loginPage = new LoginPage(dr);
-        HomePage homePage = new HomePage(dr);
-        ManageProfilePage manageProfilePage= new ManageProfilePage(dr);
-        CreatePatientPage createPatientPage = new CreatePatientPage(dr);
-        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
-        Menu menu = new Menu(dr);
-
-//      loginPage.login("AutoTest_18-62Years@heal.com","Heal@123"); //dev username and password
-        loginPage.login();
-        homePage.selectFromMenu(menu.oProfilesLnk);
-        chooseProfilePage.selectMainProfile();
-        manageProfilePage.oRelationshipInput.selectAngular("Child");
-        manageProfilePage.oInsuranceProviderInput.selectAngular("GEHA");
-        manageProfilePage.oGenderInput.selectAngular("Female");
-
-        SysTools.sleepFor(13);
-        //homePage.validateTitle("Scheduled Visits");
-
     }
 }

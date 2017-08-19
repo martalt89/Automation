@@ -1,9 +1,13 @@
 package patient.pages;
 
+import framework.test.TestData;
 import framework.web.CommonWebElement;
 import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by mihai.muresan on 7/13/2017.
@@ -20,19 +24,19 @@ public class ManageProfilePage extends WebBase{
     public CommonWebElement oProfileImage = new CommonWebElement( "oProfileImage", "className=profile-image", oWebDriver );
     public CommonWebElement oPatientInfoLabel = new CommonWebElement( "oPatientInfoLabel", "xpath=//*[text()='Patient Info']", oWebDriver );
     public CommonWebElement oInsuranceLabel = new CommonWebElement( "oInsuranceLabel", "xpath=//*[text()='Insurance (Optional)']", oWebDriver );
-    public CommonWebElement oContiuneButton = new CommonWebElement("oContinueButton", "xpath=//*[text()='Continue']", oWebDriver);
+    public CommonWebElement oContinueButton = new CommonWebElement("oContinueButton", "xpath=//*[text()='Continue']", oWebDriver);
     public CommonWebElement oErrorBox = new CommonWebElement("oErrorBox", "xpath=//*[contains(@class,'error')]/div", oWebDriver);
-    public CommonWebElement oSubtitile = new CommonWebElement("oSubtitile", "xpath=//h5", oWebDriver);
+    public CommonWebElement oSubtitle = new CommonWebElement("oSubtitle", "xpath=//h5", oWebDriver);
     public CommonWebElement oAddPatientbtn = new CommonWebElement("oAddPatientbtn", "xpath=//*[@class='create-patient-link']", oWebDriver);
     //Patient Info input
-    public CommonWebElement oFirstNameInput = new CommonWebElement( "oFirstNameInput", "name=firstname", oWebDriver );
-    public CommonWebElement oLastNameInput = new CommonWebElement( "oLastNameInput", "name=lastname", oWebDriver );
-    public CommonWebElement oEmailInput = new CommonWebElement( "oFirstNameLabel", "name=email", oWebDriver );
+    public CommonWebElement oFirstNameInput = new CommonWebElement( "oFirstNameInput", "xpath=//*[@name='firstname']", oWebDriver );
+    public CommonWebElement oLastNameInput = new CommonWebElement( "oLastNameInput", "xpath=//*[@name='lastname']", oWebDriver );
+    public CommonWebElement oEmailInput = new CommonWebElement( "oFirstNameLabel", "xpath=//*[@name='email']", oWebDriver );
     public CommonWebElement oPhoneNmbFlag = new CommonWebElement( "oPhoneNmbFlag", "className=selected-flag", oWebDriver );
-    public CommonWebElement oPhoneNmbInput = new CommonWebElement( "oPhoneNmbInput", "name=phonenumber", oWebDriver );
-    public CommonWebElement oRelationshipInput = new CommonWebElement( "oRelationshipInput", "name=relationship", oWebDriver );
-    public CommonWebElement oDateOfBirthInput = new CommonWebElement( "oDateOfBirthInput", "name=dateOfBirth", oWebDriver );
-    public CommonWebElement oGenderInput = new CommonWebElement( "oGenderInput", "name=gender", oWebDriver );
+    public CommonWebElement oPhoneNmbInput = new CommonWebElement( "oPhoneNmbInput", "xpath=//*[@name='phonenumber']", oWebDriver );
+    public CommonWebElement oRelationshipInput = new CommonWebElement( "oRelationshipInput", "xpath=//*[@name='relationship']", oWebDriver );
+    public CommonWebElement oDateOfBirthInput = new CommonWebElement( "oDateOfBirthInput", "xpath=//*[@name='dateOfBirth']", oWebDriver );
+    public CommonWebElement oGenderInput = new CommonWebElement( "oGenderInput", "xpath=//*[@name='gender']", oWebDriver );
     //Relationship dropdown items
     public CommonWebElement oRelationshipMenuSpouse = new CommonWebElement( "oRelationshipMenuSpouse", "xpath=//*[text()='Spouse']", oWebDriver );
     public CommonWebElement oRelationshipMenuPartner = new CommonWebElement( "oRelationshipMenuPartner", "xpath=//*[text()='Partner']", oWebDriver );
@@ -54,9 +58,9 @@ public class ManageProfilePage extends WebBase{
     public CommonWebElement oGenderFemale = new CommonWebElement( "oGenderFemale", "xpath=//*[text()='Female']", oWebDriver );
     public CommonWebElement oGenderOther = new CommonWebElement( "oGenderOther", "xpath=//*[text()='Other']", oWebDriver );
     //Insurance input
-    public CommonWebElement oInsuranceProviderInput = new CommonWebElement( "oInsuranceProviderInput", "name=payer", oWebDriver );
-    public CommonWebElement oMemberIdInput = new CommonWebElement( "oMemberIdInput", "name=memberId", oWebDriver );
-    public CommonWebElement oGroupIdInput = new CommonWebElement( "oGroupIdInput", "name=groupId", oWebDriver );
+    public CommonWebElement oInsuranceProviderInput = new CommonWebElement( "oInsuranceProviderInput", "xpath=//*[@name='payer']", oWebDriver );
+    public CommonWebElement oMemberIdInput = new CommonWebElement( "oMemberIdInput", "xpath=//*[@name='memberId']", oWebDriver );
+    public CommonWebElement oGroupIdInput = new CommonWebElement( "oGroupIdInput", "xpath=//*[@name='groupId']", oWebDriver );
     public CommonWebElement oSaveAndContinueBtn = new CommonWebElement( "oSaveAndContinueBtn", "xpath=//*[@type='submit']", oWebDriver );
     //Insurance provider dropdown items
     public CommonWebElement oProviderAetna = new CommonWebElement( "oProviderAetna", "xpath=//*[text()='aetna']", oWebDriver );
@@ -90,6 +94,44 @@ public class ManageProfilePage extends WebBase{
     public ManageProfilePage(WebDriver oTargetDriver, String sUrl)
     {
         super(oTargetDriver, sUrl);
+    }
+
+    /////////////
+    // Methods //
+    /////////////
+
+    /**
+     * Clicks an element that has the provided text
+     * @param sText Patient firstname
+     */
+    public void clickPatientByText(String sText)
+    {
+        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=(//*[text()='"+sText+"'])[1]", oWebDriver );
+        oPatient.click();
+    }
+
+    /**
+     * Gets patient object from the patients list by providing patient name
+     * @param sText Patient firstname
+     * @return Patient object
+     */
+    public CommonWebElement getPatientByText(String sText)
+    {
+        return new CommonWebElement( "oElement", "xpath=//*[text()='"+sText+"']", oWebDriver );
+
+    }
+
+    /**
+     * Types patient data from the Excel file in the input fields for creating/editing a profile
+     */
+    public void typePatientDataFromExcel(TestData testData){
+        this.oFirstNameInput.sendKeys(testData.sFirstname);
+        this.oLastNameInput.sendKeys(testData.sLastname);
+        this.oEmailInput.sendKeys(testData.sEmail);
+        this.oPhoneNmbInput.sendKeys(testData.sPhoneNumber);
+        this.oDateOfBirthInput.sendKeys(testData.sDateOfBirth);
+        this.oRelationshipInput.selectByVisibleTextAngular(testData.sRelationship);
+        this.oGenderInput.selectByVisibleTextAngular(testData.sGender);
     }
 
 

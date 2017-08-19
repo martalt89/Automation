@@ -1,28 +1,21 @@
 package framework.test;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.IAnnotationTransformer;
-import org.testng.IMethodInstance;
-import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
-import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
-import org.testng.annotations.ITestAnnotation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.ProcessingInstruction;
@@ -34,6 +27,8 @@ import foundation.SysTools;
  */
 public class TestListener extends TestListenerAdapter {
 
+    private static String path = System.getProperty("user.dir");
+    private static String separator = System.getProperty("file.separator");
     Logger logger = LoggerFactory.getLogger(TestListener.class);
     Document oResultXML;
     java.util.List<ITestResult> lConfigFailures = new ArrayList<ITestResult>();
@@ -42,15 +37,24 @@ public class TestListener extends TestListenerAdapter {
     Date suiteStart = null;
     java.util.List<ITestResult> lAllTests = new ArrayList<ITestResult>();
 
-
+    private  TestBase oTestBase;
     public TestListener(Document resultXML)
     {
         oResultXML = resultXML;
     }
 
     @Override
+    public void onTestStart(ITestResult oResult) {
+        oTestBase = (TestBase)oResult.getInstance();
+        super.onTestStart(oResult);
+        logger.info("【" + oResult.getName() + " Start】");
+
+    }
+
+    @Override
     public void onTestFailure(ITestResult oResult)
     {
+        ExtentTest test = oTestBase.getExtentTest();
         try
         {
             logger.trace("onTestFailure():  {}", oResult.getName());
@@ -104,6 +108,8 @@ public class TestListener extends TestListenerAdapter {
             else
             {
                 String sScreenshotPath = oTestBase.handleException(oResult.getThrowable());
+                String img = test.addScreenCapture(sScreenshotPath);
+                test.log(LogStatus.INFO, "Image", "Image example: " + img);
                 sCause = "Unhandled exception:  [Screenshot:  " + sScreenshotPath + "]\n\n" + sException + "\n\n";
                 oResult.setAttribute("Cause", sCause);
                 oResult.setThrowable(new CommonException(sCause, oResult.getThrowable()));
@@ -127,7 +133,7 @@ public class TestListener extends TestListenerAdapter {
             iSuiteVerificationFailTotal = iSuiteVerificationFailTotal +  oTestBase.getValidate().getFailureCount();
             iSuiteVerificationPassTotal = iSuiteVerificationPassTotal + oTestBase.getValidate().getTotalCount() - oTestBase.getValidate().getFailureCount();
 
-            BufferedWriter out = new BufferedWriter(new FileWriter("c:/qa/atf/out/logs/err_count.txt"));
+            BufferedWriter out = new BufferedWriter(new FileWriter(path + separator + "out" + separator + "logs" + separator + "err_count.txt"));
             out.write(iSuiteVerificationFailTotal + "");
             out.close();
 
@@ -139,11 +145,15 @@ public class TestListener extends TestListenerAdapter {
         {
             logger.error("onTestFailure():  Exception caught! ", ex);
         }
+
+        test.log(LogStatus.FAIL, oResult.getThrowable());
+
     }
 
     @Override
     public void onTestSuccess(ITestResult oResult)
     {
+        ExtentTest test = oTestBase.getExtentTest();
         try
         {
             logger.trace("onTestSuccess():  {}", oResult.getName());
@@ -163,11 +173,14 @@ public class TestListener extends TestListenerAdapter {
         {
            logger.error("onTestSuccess():  Exception caught! ", ex);
         }
+
+        test.log(LogStatus.PASS, oResult.getName() + ": PASS");
     }
 
     @Override
     public void onTestSkipped(ITestResult oResult)
     {
+        ExtentTest test = oTestBase.getExtentTest();
         try
         {
             if (lConfigFailures.size() > 0)
@@ -189,6 +202,8 @@ public class TestListener extends TestListenerAdapter {
         {
             logger.error("onTestSkipped():  Exception caught! ", ex);
         }
+
+        test.log(LogStatus.SKIP, oResult.getName() + ": Skip");
     }
 
     @Override

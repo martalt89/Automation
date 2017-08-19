@@ -16,7 +16,11 @@ public class VisitsAPI {
     private RestUtils restUtils = new RestUtils();
     public String sAccUsername;
     public String sAccPassword;
+    public String sPatientId;
 
+
+    private AccountAPI accountAPI = new AccountAPI(sAccUsername, sAccPassword);
+    private PatientAPI patientAPI = new PatientAPI(sAccUsername, sAccPassword, (String) accountAPI.getAccountInfo().get("id"));
 
     /**
      * Constructor
@@ -26,12 +30,14 @@ public class VisitsAPI {
     public VisitsAPI(String sAccUsername, String sAccPassword){
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
+
+
     }
 
     public void createVisit(){
-        String resourceAPI = "/v4/patient/visit";
+        String resourceAPI = "/v4/patient/goTo";
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("patientId", "0001501691831758-2f663b05b4c-0001"); // todo: need patient id from Create patient component
+        jsonAsMap.put("patientId", patientAPI.sPatientIdFromInfo);
         jsonAsMap.put("serviceCode", "SICK_ADULT");
         jsonAsMap.put("timeSlotId", "0001501121464233-784f435902cb-4572"); // todo: list all available time slots, put them in test data
         jsonAsMap.put("promoCode", null);
@@ -61,5 +67,7 @@ public class VisitsAPI {
                 .put(baseURI + resourceAPI);
         response.prettyPrint();
     }
+
+
 
 }

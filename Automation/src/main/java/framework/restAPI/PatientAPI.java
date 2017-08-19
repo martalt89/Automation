@@ -1,10 +1,12 @@
 package framework.restAPI;
 
-import com.google.gson.JsonObject;
 import com.sun.javaws.exceptions.InvalidArgumentException;
+import framework.restAPI.RestUtils;
 import framework.test.TestData;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,42 +21,53 @@ public class PatientAPI {
     private TestData addPatientInputData = new TestData(TestData.PATIENT_SHEET);
     private String baseURL = "https://patient.qa.heal.com/api";
 
-    //patient info
+    /**
+     * Patient info variables
+     * - initialized using initPatientInfo() method
+     */
     public String sPatientIdFromInfo;
-    public String sPatientFirstname;
-    public String sPatientLastname;
-    public String sPatientEmail;
-    public String sPatientPhone;
-    public String sPatientDateOfBirth;
-    public String sPatientRelationship;
+    private String sPatientFirstname;
+    private String sPatientLastname;
+    private String sPatientEmail;
+    private String sPatientPhone;
+    private String sPatientDateOfBirth;
+    private String sPatientRelationship;
 
-    //sRelationship ids
-    public static final String SPOUSE = "0001433013870063-d279fc27ffff816b-0006";
-    public static final String PARTNER = "0001433013870063-d279fc27ffff816b-0007";
-    public static final String GRANDPARENT = "0001433013870063-d279fc27ffff816b-0011";
-    public static final String GRANDCHILD = "0001433013870063-d279fc27ffff816b-0009";
-    public static final String CHILD = "0001433013870063-d279fc27ffff816b-0008";
-    public static final String PARENT = "0001433013870063-d279fc27ffff816b-0010";
-    public static final String SIBLING = "0001433013870063-d279fc27ffff816b-0005";
-    public static final String OTHER_RELATIONSHIP = "0001433013870063-d279fc27ffff816b-0014";
-    public static final String YOU = "0001433013870063-d279fc27ffff816b-0004";
-    public static final String FRIEND = "0001433013870063-d279fc27ffff816b-0013";
-    public static final String COWORKER = "0001433013870063-d279fc27ffff816b-0012";
-    public static final String ASSISTED_LIVING_RESIDENT = "0001433013870063-d279fc27ffff816b-0015";
-    public static final String SKILLED_NURSING_FACILITY = "0001433013870063-d279fc27ffff816b-0016";
+    //TODO - create enums with the values below
+    /**
+     * Relationship ids - Used when making POST requests on /patients
+     * POST request is sending relationshipId param instead of the relationship string
+     */
+    private static final String SPOUSE = "0001433013870063-d279fc27ffff816b-0006";
+    private static final String PARTNER = "0001433013870063-d279fc27ffff816b-0007";
+    private static final String GRANDPARENT = "0001433013870063-d279fc27ffff816b-0011";
+    private static final String GRANDCHILD = "0001433013870063-d279fc27ffff816b-0009";
+    private static final String CHILD = "0001433013870063-d279fc27ffff816b-0008";
+    private static final String PARENT = "0001433013870063-d279fc27ffff816b-0010";
+    private static final String SIBLING = "0001433013870063-d279fc27ffff816b-0005";
+    private static final String OTHER_RELATIONSHIP = "0001433013870063-d279fc27ffff816b-0014";
+    private static final String YOU = "0001433013870063-d279fc27ffff816b-0004";
+    private static final String FRIEND = "0001433013870063-d279fc27ffff816b-0013";
+    private static final String COWORKER = "0001433013870063-d279fc27ffff816b-0012";
+    private static final String ASSISTED_LIVING_RESIDENT = "0001433013870063-d279fc27ffff816b-0015";
+    private static final String SKILLED_NURSING_FACILITY = "0001433013870063-d279fc27ffff816b-0016";
 
-    //sGender ids
-    public static final String FEMALE = "0001433013870063-d279fc27ffff816b-0002";
-    public static final String MALE = "0001433013870063-d279fc27ffff816b-0001";
-    public static final String OTHER_GENDER = "0001433013870063-d279fc27ffff816b-0003";
+    /**
+     * Gender ids - Used when making POST requests on /patients
+     * POST request is sending genderId param instead of the gender string
+     */
+    private static final String FEMALE = "0001433013870063-d279fc27ffff816b-0002";
+    private static final String MALE = "0001433013870063-d279fc27ffff816b-0001";
+    private static final String OTHER_GENDER = "0001433013870063-d279fc27ffff816b-0003";
 
     //for constructors
     private String sAccUsername;
     private String sAccPassword;
     private String sPatientId;
 
+
     /**
-     * Constructor - Initializes patient info variables
+     * Constructor - Initializes patient info variables using patient id
      * @param sAccUsername (String) Account sEmail
      * @param sAccPassword (String) Account sPassword
      * @param sPatientId (String) Patient id
@@ -63,7 +76,7 @@ public class PatientAPI {
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
         this.sPatientId = sPatientId;
-        initPatientInfo();
+        initPatientInfo(this.sPatientId);
     }
 
     /**
@@ -77,131 +90,322 @@ public class PatientAPI {
     }
 
     /**
+     * Constructor - Initializes patient info variables after adding a patient using test data from Excel
+     * @param sAccUsername (String) Account sEmail
+     * @param sAccPassword (String) Account sPassword
+     * @param bAddPatientFromExcel (Boolean)
+     *                    If True:
+     *                      - a patient will be added using addPatientFromExcel() method.
+     *                      - addPatientFromExcel() returns patientId that will initialize sPatientId
+     *                    If False:
+     *                      - patient will not be added and another constructor will be invoked
      *
-     * @param sRelationship (String) Relationship string i.g Spouse (taken from Excel test data file)
-     * @return (String) Relationship Id
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
      */
-    public String getRelationshipId(String sRelationship) throws InvalidArgumentException {
-        String id;
+    public PatientAPI(String sAccUsername, String sAccPassword, Boolean bAddPatientFromExcel) throws InvalidArgumentException {
+        this(sAccUsername, sAccPassword);
+        if(bAddPatientFromExcel) {
+            this.sPatientId = addPatientFromExcel();
+            initPatientInfo(this.sPatientId);
+        }
+    }
+
+    /**
+     * Initializes patient info variables using a provided patient id
+     * - getPatientAsJson(patientId) returns a JSON string containing patient info
+     * @param patientId (String) Patient id
+     */
+    private void initPatientInfo(String patientId){
+        String patientJson = getPatientAsJson(patientId);
+        sPatientIdFromInfo = patientId;
+        sPatientFirstname = restUtils.getJsonValue(patientJson, "firstName");
+        sPatientLastname = restUtils.getJsonValue(patientJson, "lastName");
+        sPatientEmail = restUtils.getJsonValue(patientJson, "email");
+        sPatientPhone = restUtils.getJsonValue(patientJson, "phone");
+        sPatientRelationship = restUtils.getJsonValue(patientJson, "relationship");
+        sPatientDateOfBirth = restUtils.getJsonValue(patientJson, "dateOfBirth");
+    }
+
+    //getters
+    public String getPatientFirstname(){
+        return this.sPatientFirstname;
+    }
+
+    public String getPatientLastname(){
+        return this.sPatientLastname;
+    }
+
+    public String getPatientEmail(){
+        return this.sPatientEmail;
+    }
+
+    public String getPatientRelationship(){
+        return this.sPatientRelationship;
+    }
+
+    public String getsPatientPhone(){
+        return this.sPatientPhone;
+    }
+
+    public String getPatientDateOfBirth(){
+        return this.sPatientDateOfBirth;
+    }
+
+
+    /**
+     * Gets relationshipId(used as param in POST requests on /patients) based on relationship string
+     * @param sRelationship (String) Relationship string i.g Spouse (taken from Excel test data file)
+     * @return (String) relationshipId
+     * @throws InvalidArgumentException if provided argument is incorrect/invalid
+     */
+    private String getRelationshipId(String sRelationship) throws InvalidArgumentException {
+        String sRelationshipId;
         switch (sRelationship){
             case "Spouse":
-                id = SPOUSE; break;
+                sRelationshipId = SPOUSE; break;
             case "Partner":
-                id = PARTNER; break;
+                sRelationshipId = PARTNER; break;
             case "Grandparent":
-                id = GRANDPARENT; break;
+                sRelationshipId = GRANDPARENT; break;
             case "Grandchild":
-                id = GRANDCHILD; break;
+                sRelationshipId = GRANDCHILD; break;
             case "Child":
-                id = CHILD; break;
+                sRelationshipId = CHILD; break;
             case "Parent":
-                id = PARENT; break;
+                sRelationshipId = PARENT; break;
             case "Sibling":
-                id = SIBLING; break;
+                sRelationshipId = SIBLING; break;
             case "Other":
-                id = OTHER_RELATIONSHIP; break;
+                sRelationshipId = OTHER_RELATIONSHIP; break;
             case "You":
-                id = YOU; break;
+                sRelationshipId = YOU; break;
             case "Friend":
-                id = FRIEND; break;
+                sRelationshipId = FRIEND; break;
             case "Coworker":
-                id = COWORKER; break;
+                sRelationshipId = COWORKER; break;
             case "Assisted Living Resident":
-                id = ASSISTED_LIVING_RESIDENT; break;
+                sRelationshipId = ASSISTED_LIVING_RESIDENT; break;
             case "Skilled Nursing Facility":
-                id = SKILLED_NURSING_FACILITY; break;
+                sRelationshipId = SKILLED_NURSING_FACILITY; break;
             default:
                 throw new InvalidArgumentException(new String[]{"Invalid argument for sRelationship: ", sRelationship});
         }
-        return id;
+        return sRelationshipId;
     }
 
     /**
-     *
+     * Gets genderId(used as param in POST requests on /patients) based on gender string
      * @param sGender (String) Gender string i.g Male (taken from Excel file)
-     * @return Gender id
-     * @throws InvalidArgumentException
+     * @return (String) genderId
+     * @throws InvalidArgumentException if provided argument is incorrect/invalid
      */
-    public String getGenderId(String sGender) throws InvalidArgumentException {
-        String id;
+    private String getGenderId(String sGender) throws InvalidArgumentException {
+        String genderId;
         switch (sGender){
             case "Male":
-                id = MALE; break;
+                genderId = MALE; break;
             case "Female":
-                id = FEMALE; break;
+                genderId = FEMALE; break;
             case "Other":
-                id = OTHER_GENDER; break;
+                genderId = OTHER_GENDER; break;
             default:
                 throw new InvalidArgumentException(new String[]{"Invalid argument for sGender: ", sGender });
         }
-        return id;
+        return genderId;
+    }
+
+    //////////////////
+    // POST METHODS //
+    //////////////////
+
+    /**
+     * Creates a map containing POST params for add patient request, taken from Excel test data file
+     * @return (Map) POST params for add patient request
+     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
+     */
+    private Map addPatientPostParamsFromExcel() throws InvalidArgumentException {
+        Map<String, Object> postParams = new HashMap<>();
+        postParams.put("emailRegex", "{}");
+        postParams.put("bHasMedicareMedicaid", addPatientInputData.bHasMedicareMedicaid);
+        postParams.put("firstName", addPatientInputData.sFirstname);
+        postParams.put("lastName", addPatientInputData.sLastname);
+        postParams.put("email", addPatientInputData.sEmail);
+        postParams.put("phone", addPatientInputData.sPhoneNumber);
+        postParams.put("dateOfBirth", addPatientInputData.sDateOfBirth);
+        postParams.put("relationshipId", getRelationshipId(addPatientInputData.sRelationship));
+        postParams.put("genderId", getGenderId(addPatientInputData.sGender));
+        return postParams;
     }
 
     /**
-     * Adds a patient to the specified user account
-     * @return (String) POST response
-     * @throws InvalidArgumentException
+     * Makes a POST request on /patients, which adds a new patient
+     * @param postParams (Map) POST request params
+     * @return (String) patientId
      */
-    public String addPatient() throws InvalidArgumentException {
+    private String addPatientPostRequest(Map postParams){
         String resource = "/v2/patients";
-        Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("emailRegex", new JsonObject());
-        jsonAsMap.put("bHasMedicareMedicaid", addPatientInputData.bHasMedicareMedicaid);
-        jsonAsMap.put("firstName", addPatientInputData.sFirstname);
-        jsonAsMap.put("lastName", addPatientInputData.sLastname);
-        jsonAsMap.put("email", addPatientInputData.sEmail);
-        jsonAsMap.put("phone", addPatientInputData.sPhoneNumber);
-        jsonAsMap.put("dateOfBirth", addPatientInputData.sDateOfBirth);
-        jsonAsMap.put("relationshipId", getRelationshipId(addPatientInputData.sRelationship));
-        jsonAsMap.put("genderId", getGenderId(addPatientInputData.sGender));
         Response response = RestAssured.given()
                 .auth()
                 .preemptive()
-                .basic(sAccUsername, sAccPassword)
+                .basic(this.sAccUsername, this.sAccPassword)
                 .contentType("application/json")
-                .body(jsonAsMap)
+                .body(postParams)
                 .post(baseURL+resource);
-        return response.asString();
+        return restUtils.getJsonValue(response.asString(),"patient","patientId");
     }
 
     /**
-     * Collects useful patient info from the GET /patient/id request
-     * {sPatientIdFromInfo, sFirstname, sLastname, sEmail, phone, sRelationship, date of birth}
-     * @return (Map) - Patient info
+     * Adds a patient using data from Excel test data file
+     * @return (String) patientId
+     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
      */
-    private Map collectPatientInfo(){
-        Map<String,String> patientInfoMap = new HashMap<>();
+    public String addPatientFromExcel() throws InvalidArgumentException {
+        String patientId = addPatientPostRequest(addPatientPostParamsFromExcel());
+        initPatientInfo(patientId);
+        return patientId;
+    }
+
+    /**
+     * Adds a patient using data from Excel test data file
+     * @param patientPostParams (Map) POST request params
+     * @return (String) patientId
+     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
+     */
+    public String addPatient(Map patientPostParams) throws InvalidArgumentException {
+        String patientId =  addPatientPostRequest(patientPostParams);
+        return patientId;
+    }
+
+    /**
+     * Makes a GET request on /account
+     * @return (String) GET response
+     */
+
+    /**
+     * Makes a GET request on /patients
+     * @return (String) GET response
+     */
+    private String patientsGetRequest(){
         String resource = "/v2/patients/";
         Response getResponse = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
+                .get(baseURL+resource);
+        return getResponse.asString();
+    }
+
+
+    /////////////////
+    // GET METHODS //
+    /////////////////
+
+    /**
+     * Gets patient info in JSON format from /patients/patientId
+     * @param sPatientId (String) Id of the patient
+     * @return (String) Patient info as JSON string
+     */
+    private String getPatientAsJson(String sPatientId){
+        String resource = "/v2/patients/";
+        Response getResponse = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(this.sAccUsername, this.sAccPassword)
                 .get(baseURL+resource+ sPatientId);
-        String response = getResponse.asString();
-        patientInfoMap.put("id", restUtils.getJsonValue(response, "id"));
-        patientInfoMap.put("firstName", restUtils.getJsonValue(response, "firstName"));
-        patientInfoMap.put("lastName", restUtils.getJsonValue(response, "lastName"));
-        patientInfoMap.put("email", restUtils.getJsonValue(response, "email"));
-        patientInfoMap.put("phone", restUtils.getJsonValue(response, "phone"));
-        patientInfoMap.put("sRelationship", restUtils.getJsonValue(response, "sRelationship"));
-        patientInfoMap.put("sDateOfBirth", restUtils.getJsonValue(response, "sDateOfBirth"));
-        return patientInfoMap;
+        return getResponse.asString();
     }
 
     /**
-     * Initializes patient info variables
+     * Gets all patients info in JSON string format from /patients
+     * @return (String) All patients info as JSON String
      */
-    private void initPatientInfo(){
-        Map patient = collectPatientInfo();
-        sPatientIdFromInfo = (String) patient.get("id");
-        sPatientFirstname = (String) patient.get("firstName");
-        sPatientLastname = (String) patient.get("lastName");
-        sPatientEmail = (String) patient.get("email");
-        sPatientPhone = (String) patient.get("phone");
-        sPatientRelationship = (String) patient.get("sRelationship");
-        sPatientDateOfBirth = (String) patient.get("sDateOfBirth");
+    private String getPatientsAsJson(){
+        String resource = "/v2/patients/";
+        Response getResponse = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(this.sAccUsername, this.sAccPassword)
+                .get(baseURL+resource);
+        return getResponse.asString();
     }
 
+    /**(Work in progress)
+     * Gets patientId by providing patient firstname and lastname
+     * @param sFn (String) Patient firstname
+     * @param sLn (String) Patient lastname
+     * @return (String) patientId
+     */
+    public String getPatientIdByFnLn(String sFn, String sLn) {
+        //TODO - WIP
+        String resource = "/v2/patients/";
+        Response getResponse = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL+resource);
+        String response = getResponse.asString();
+        String id = null;
+        JSONObject obj = new JSONObject(response);
+        JSONArray patients = obj.getJSONArray("results");
+        for (int i = 0; i < patients.length(); i++) {
+            JSONObject patient = patients.getJSONObject(i);
+            if (patient.get("patientFirstName").toString().equals(sFn) && patient.get("patientLastName").toString().equals(sLn)) {
+                id = patient.getString("patientId");
+            }
+        }
+        return id;
+    }
+
+    /**(Work in progress)
+     * Gets patientId by providing patient email
+     * @param sEmail (String) Patient email
+     * @return (String) patientId
+     */
+    public String getPatientIdByEmail(String sEmail) {
+        //TODO - WIP
+        String resource = "/v2/account/";
+        Response getResponse = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL+resource);
+        String response = getResponse.asString();
+        String id = null;
+        JSONObject obj = new JSONObject(response);
+        JSONArray patients = obj.getJSONArray("patients");
+        for (int i = 0; i < patients.length(); i++) {
+            JSONObject patient = patients.getJSONObject(i);
+            if (patient.get("email").toString().equals(sEmail)) {
+                id = patient.getString("id");
+            }
+        }
+        return id;
+    }
+
+
+    /**
+     * Gets patients number
+     * @return (Integer) Patients number
+     */
+    public Integer getPatientsNumber() {
+        String response = patientsGetRequest();
+        JSONObject obj = new JSONObject(response);
+        return obj.getJSONArray("results").length();
+    }
+
+    /**
+     * Removes a patient from account by patientId
+     * DELETE /v2/patient/{patientId}
+     */
+    public void deletePatient(String sId){
+        // this does not work yet, need input from Backend
+        String resource = "/v2/patient/";
+        RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(this.sAccUsername, this.sAccPassword)
+                .log().all()
+                .delete(baseURL+resource+ sId);
+    }
 
 }

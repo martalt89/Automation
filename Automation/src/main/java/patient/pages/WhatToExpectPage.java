@@ -20,7 +20,7 @@ public class WhatToExpectPage extends WebBase {
     public CommonWebElement oBackBtn = new CommonWebElement( "oBackBtn", "xpath=//*[text()='Back']", oWebDriver );
     public CommonWebElement oGotItBtn = new CommonWebElement( "oGotItBtn", "xpath=//*[text()='Got It']", oWebDriver );
 
-    public CommonWebElement oThankYouTitle = new CommonWebElement( "oThankYouTitle", "xpath=//*[contains(text(),'Thank you for')]", oWebDriver );
+    public CommonWebElement oThankYouTitle = new CommonWebElement( "oThankYouTitle", "xpath=//*[contains(text(),'Thank you for choosing Heal.')]", oWebDriver );
     public CommonWebElement oHeartHandsLogo = new CommonWebElement( "oHeartHandsLogo", "xpath=//img", oWebDriver );
     public CommonWebElement oWhatToExpectTitle = new CommonWebElement( "oWhatToExpectTitle", "xpath=//*[text()='What to Expect']", oWebDriver );
     public CommonWebElement oScreen1Row1Text = new CommonWebElement( "oScreen1Row1Text", "xpath=//*[contains(text(),'Thanks for booking')]", oWebDriver );

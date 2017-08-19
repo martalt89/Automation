@@ -21,7 +21,7 @@
             <!--<class name="patient.tests.AddCardTest" />-->
             <class name="patient.tests.LoginTest" />
             <!--<class name="patient.tests.RegisterTest" />-->
-            <!--<class name="patient.tests.VisitsTest" />-->
+            <!--<class napatient.tests.VisitsActivityTestvityTestTest" />-->
             <class name="patient.tests.VisitTests" />
             <!--<class name="patient.tests.ChooseProfileTest" />-->
             <!--<class name="patient.tests.ManageProfileTest" />-->

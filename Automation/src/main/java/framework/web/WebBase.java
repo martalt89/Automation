@@ -2,6 +2,7 @@ package framework.web;
 
 import foundation.SysTools;
 import framework.exception.CommonException;
+import framework.test.TestBase;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.Augmenter;
@@ -12,27 +13,31 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 import java.nio.file.Path;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
 /**
  * Created by vahanmelikyan on 6/29/17.
  */
 public class WebBase {
 
+    private static Logger logger = LoggerFactory.getLogger(WebBase.class);
+
     public static final int IMPLICIT_WAIT = 60;
-    //public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
     public volatile static String baseUrl = "";
 
     public WebDriver oWebDriver;
     public String sBrowserType;
     public String sHomeUrl;
     public String sWindowHandle = "";
+    public volatile static boolean Ignore_Hidden_Element = true;
 
     public WebBase() {
     }
@@ -90,11 +95,11 @@ public class WebBase {
         return oWebDriver;
     }
 
-    public void visit() {
-        visit(sHomeUrl);
+    public void goTo() {
+        goTo(sHomeUrl);
     }
 
-    public void visit(String url) {
+    public void goTo(String url) {
         oWebDriver.get(url);
     }
 
@@ -217,21 +222,19 @@ public class WebBase {
 
             Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
             FileUtils.copyFile(screenShot, fullFilePath.toFile());
-            Reporter.log(String.format("Screenshot sent to {%s} <img src='{%s}'></img>", fullFilePath.toAbsolutePath(), fullFilePath.toAbsolutePath()));
-
-            // Write page source to file
+              // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
             try {
                 out.println(oDriver.getPageSource());
             } catch (Exception ex) {
-                Reporter.log(String.format("Failed to dump page source to file:  {%s} <br>", ex));
+                logger.error(String.format("Failed to dump page source to file:  {%s} <br>", ex));
             } finally {
                 out.close();
             }
 
             return fullFilePath.toAbsolutePath().toString();
         } catch (Exception ex) {
-            Reporter.log(String.format("Failed to capture screenshot:  {%s} <br>", ex));
+            logger.error(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";
         }
     }
@@ -243,11 +246,53 @@ public class WebBase {
      * @return (WebElement) - Found element
      */
     public CommonWebElement findElement(org.openqa.selenium.By oBy) {
-        return new CommonWebElement(oWebDriver.findElement(oBy), oBy, oWebDriver);
+        List<CommonWebElement> commonWebElements = findAllElements(oBy);
+        if(commonWebElements.size() == 0){
+            throw new NoSuchElementException("no such element found for： " + oBy.toString());
+        }
+        return findAllElements(oBy).get(0);
     }
 
     public CommonWebElement findElement(String sTag) {
-        return new CommonWebElement(oWebDriver.findElement(getByFromString(sTag)), sTag, oWebDriver);
+        List<CommonWebElement> commonWebElements = findAllElements(getByFromString(sTag));
+        if(commonWebElements.size() == 0){
+            throw new NoSuchElementException("no such element found for： " + sTag);
+        }
+        return findAllElements(getByFromString(sTag)).get(0);
+
+    }
+
+    public List<CommonWebElement> findAllElements(By oBy) {
+        List<CommonWebElement> commonWebElements = new java.util.ArrayList<CommonWebElement>();
+        turnOnImplicitWaits();
+        if(Ignore_Hidden_Element ){
+            ExpectedConditions.visibilityOfElementLocated(oBy).apply(oWebDriver);
+        }
+        else{
+            ExpectedConditions.presenceOfElementLocated(oBy).apply(oWebDriver);
+        }
+
+        List<WebElement> lWebElement = oWebDriver.findElements(oBy);
+        turnOffImplicitWaits();
+        for (WebElement oElement : lWebElement) {
+            if(Ignore_Hidden_Element ){
+                if(!oElement.isDisplayed()){
+                    continue;
+                }
+                commonWebElements.add(new CommonWebElement(oElement, oWebDriver));
+            }
+            else
+                commonWebElements.add(new CommonWebElement(oElement, oWebDriver));
+        }
+        return commonWebElements;
+    }
+
+    private void turnOffImplicitWaits() {
+        oWebDriver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+    }
+
+    private void turnOnImplicitWaits() {
+        oWebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     public static By getByFromString(String sTag) {
@@ -432,5 +477,9 @@ public class WebBase {
         waitForPageLoad(IMPLICIT_WAIT);
     }
 
+    public void waitForPageReady(){
+        waitForUrl(sHomeUrl);
+        waitForPageLoad();
+    }
 
 }
