@@ -1,31 +1,21 @@
 package framework.test;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
-import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.IAnnotationTransformer;
-import org.testng.IMethodInstance;
-import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
-import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
-import org.testng.annotations.ITestAnnotation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.ProcessingInstruction;
@@ -47,9 +37,7 @@ public class TestListener extends TestListenerAdapter {
     Date suiteStart = null;
     java.util.List<ITestResult> lAllTests = new ArrayList<ITestResult>();
 
-    protected ExtentReports extent;
-    protected volatile ExtentTest test;
-
+    private  TestBase oTestBase;
     public TestListener(Document resultXML)
     {
         oResultXML = resultXML;
@@ -57,16 +45,16 @@ public class TestListener extends TestListenerAdapter {
 
     @Override
     public void onTestStart(ITestResult oResult) {
-        TestBase oTestBase = (TestBase)oResult.getInstance();
+        oTestBase = (TestBase)oResult.getInstance();
         super.onTestStart(oResult);
         logger.info("【" + oResult.getName() + " Start】");
-        extent= oTestBase.getextent();
-        test = extent.startTest(oResult.getName());
+
     }
 
     @Override
     public void onTestFailure(ITestResult oResult)
     {
+        ExtentTest test = oTestBase.getExtentTest();
         try
         {
             logger.trace("onTestFailure():  {}", oResult.getName());
@@ -159,13 +147,13 @@ public class TestListener extends TestListenerAdapter {
         }
 
         test.log(LogStatus.FAIL, oResult.getThrowable());
-        extent.endTest(test);
-        extent.flush();
+
     }
 
     @Override
     public void onTestSuccess(ITestResult oResult)
     {
+        ExtentTest test = oTestBase.getExtentTest();
         try
         {
             logger.trace("onTestSuccess():  {}", oResult.getName());
@@ -187,13 +175,12 @@ public class TestListener extends TestListenerAdapter {
         }
 
         test.log(LogStatus.PASS, oResult.getName() + ": PASS");
-        extent.endTest(test);
-        extent.flush();
     }
 
     @Override
     public void onTestSkipped(ITestResult oResult)
     {
+        ExtentTest test = oTestBase.getExtentTest();
         try
         {
             if (lConfigFailures.size() > 0)
@@ -217,8 +204,6 @@ public class TestListener extends TestListenerAdapter {
         }
 
         test.log(LogStatus.SKIP, oResult.getName() + ": Skip");
-        extent.endTest(test);
-        extent.flush();
     }
 
     @Override

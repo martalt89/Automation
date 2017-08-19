@@ -13,12 +13,10 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Reporter;
 
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
@@ -955,7 +953,7 @@ public class CommonWebElement implements WebElement, Locatable {
                 oResult = oWebElement;
         } catch (org.openqa.selenium.TimeoutException ex) {
             String sText = "Name:  " + sElementName + ", Tag:  " + (sElementTag != null ? sElementTag : oBy.toString());
-            throw new CommonException("Timeout looking for element.  " + sText, ex);
+            throw new NoSuchElementException("Timeout looking for element.  " + sText, ex);
         } catch (Exception ex) {
             throw new CommonException("Unhandled exception", ex);
         }

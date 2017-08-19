@@ -1,13 +1,14 @@
 package framework.test;
 
-import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.ReporterType;
 import framework.exception.CommonException;
 import framework.web.CommonWebElement;
@@ -52,7 +53,8 @@ public class TestBase
     private static String browser;
 
     private static String reportLocation = "report/ExtentReport.html";
-    protected static ExtentReports extent;
+    private static ExtentReports extent;
+
 
     /**
      * InheritableThreadLocal variables are needed when tests are ran in parallel.  They ensure threads do not share/contaminate each other's data.  
@@ -66,6 +68,7 @@ public class TestBase
     private static final InheritableThreadLocal oValidate = new InheritableThreadLocal();
     private static final InheritableThreadLocal oRemoteNode = new InheritableThreadLocal();
     private static final InheritableThreadLocal oException = new InheritableThreadLocal();
+    private static final InheritableThreadLocal oExtentTest = new InheritableThreadLocal();
 
     ////////////////////////
     //  Constructors      //
@@ -127,6 +130,14 @@ public class TestBase
             return (WebDriver)oCurrentDriver.get();
         else
             throw getException();
+    }
+
+    public ExtentTest getExtentTest(){
+        return (ExtentTest)oExtentTest.get();
+    }
+
+    public void setExtentTest(ExtentTest test){
+        oExtentTest.set(test);
     }
 
     /**
@@ -255,6 +266,7 @@ public class TestBase
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
         try
         {
+
             // Env mode
             logger.info("setup():  Environment mode:  {}", environment);
 
@@ -321,7 +333,7 @@ public class TestBase
      * @throws Exception
      */
     @BeforeMethod(alwaysRun=true)
-    public void beforeMethod() throws Exception
+    public void beforeMethod(Method oMethod) throws Exception
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
@@ -329,6 +341,10 @@ public class TestBase
 
         try
         {
+
+            ExtentTest test = extent.startTest(oMethod.getName());
+            setExtentTest(test);
+
             WebDriver oDriver = null;
 
             if (environment.equalsIgnoreCase("remote"))
@@ -375,6 +391,11 @@ public class TestBase
             unsetRemoteNode();
             unsetException();
             quitDriver();
+
+            ExtentTest test = getExtentTest();
+            extent.endTest(test);
+            extent.flush();
+
         }
         catch (Exception ex)
         {
@@ -416,6 +437,7 @@ public class TestBase
         }
         catch(Exception e)
         {
+            logger.error("handleException Error:  ", ex);
         }
         return "";
     }
@@ -467,7 +489,7 @@ public class TestBase
      *
      * @throws Exception
      */
-    public WebDriver StartWebDriver(String sBrowserType) throws Exception
+    public synchronized WebDriver StartWebDriver(String sBrowserType) throws Exception
     {
         try
         {
@@ -519,7 +541,7 @@ public class TestBase
      *
      * @throws Exception
      */
-    public WebDriver StartRemoteWebDriver(String sBrowser, String sGridUrl) throws Exception
+    public synchronized WebDriver StartRemoteWebDriver(String sBrowser, String sGridUrl) throws Exception
     {
 
         DesiredCapabilities oRequestCapability;
