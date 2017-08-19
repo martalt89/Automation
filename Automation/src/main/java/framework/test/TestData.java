@@ -47,9 +47,6 @@ public class TestData {
      * Initializes class variables with the values from Excel file
      * @param sSheetName (String) Sheet name from the Excel file
      */
-    public TestData(String sSheetName){
-        initFromExcel(sSheetName);
-    }
     private String projDri = System.getProperty("user.dir");
     private String fileSeparator = System.getProperty("file.separator");
     private String fileExcelName = "test_data.xlsx";
@@ -60,11 +57,20 @@ public class TestData {
             "framework" + fileSeparator +
             "test" + fileSeparator + fileExcelName;
 
+    public TestData(String sSheetName){
+        String sFileName = fileExcelPath;
+        initFromExcel(sFileName, sSheetName);
+    }
+    public TestData(String sFileName, String sSheetName){
+        sFileName = fileExcelPath + sFileName;
+        initFromExcel(sFileName, sSheetName);
+    }
 
-    private void initFromExcel(String sSheetName) {
+    private void initFromExcel(String sFileName, String sSheetName) {
         Map<String,String> testDataFromExcel = new HashMap<>();
         try {
-            String sFilePath = fileExcelPath;
+//            String sFilePath = fileExcelPath;
+            String sFilePath = sFileName;
             FileInputStream file = new FileInputStream(sFilePath);
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheet(sSheetName);
