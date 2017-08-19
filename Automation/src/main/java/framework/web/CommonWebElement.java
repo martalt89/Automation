@@ -1018,7 +1018,7 @@ public class CommonWebElement implements WebElement, Locatable {
                 Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
                 oWait.until(ExpectedConditions.invisibilityOfElementLocated(oBy));
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new CommonException("Timeout waiting for element " + sElementName + " to disappear!", ex);
+                throw new ElementNotVisibleException("Timeout waiting for element " + sElementName + " to disappear!", ex);
             }
         }
     }
@@ -1069,7 +1069,7 @@ public class CommonWebElement implements WebElement, Locatable {
 //                });
                 oWait.until((Function<WebElement, Boolean>) oWebElement -> oWebElement.isEnabled());
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new CommonException("Timeout waiting for element " + sElementName + " to be enabled", ex);
+                throw new ElementNotInteractableException("Timeout waiting for element " + sElementName + " to be enabled", ex);
             }
         }
         return;
