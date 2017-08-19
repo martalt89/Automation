@@ -14,12 +14,13 @@ import patient.pages.*;
 public class ProfileTest extends TestBase {
     TestData testData = new TestData(TestData.PATIENT_SHEET);
 
-    String firstName = "Priyanka";
-    String lastaName = "Halder";
-    String insuranceID = "JQU397M89484";
+    String firstName = "Vahan";
+    String lastaName = "Melikyan";
+    String insuranceID = "JQU056M90707";
     String insuranceGroup = "A45878";
     String insuranceProvider = "Anthem";
     String email = "test@test.com";
+    String dob = "06/10/1985";
     String phoneNumber = "18182123842";
     String relationship = "Friend";
     String gender = "Female";
@@ -47,7 +48,7 @@ public class ProfileTest extends TestBase {
         manageProfilePage.oLastNameInput.sendKeys(lastaName);
         manageProfilePage.oEmailInput.sendKeys(email);
         manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
-        manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
+        manageProfilePage.oDateOfBirthInput.sendKeys(dob);
         manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
         manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
         manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
