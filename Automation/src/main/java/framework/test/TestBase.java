@@ -615,6 +615,8 @@ public class TestBase
                 capabilities.setCapability("version", version);
                 capabilities.setCapability("platform", platform);
                 capabilities.setCapability("screenResolution", screenResolution);
+                capabilities.setCapability("seleniumVersion", "3.4.0");
+
                 break;
             case "chrome":
                 capabilities = DesiredCapabilities.chrome();
