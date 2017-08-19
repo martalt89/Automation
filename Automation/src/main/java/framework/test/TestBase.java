@@ -421,9 +421,6 @@ public class TestBase
 
             if (!(ex instanceof NullPointerException))
             {
-                if(ex instanceof framework.exception.CommonException)    		// No screenshot necessary.  
-                    return "";
-
                 Throwable cause = ex.getCause();
                 if (cause instanceof ScreenshotException)
                     return getScreenshotFromException((ScreenshotException)cause);
