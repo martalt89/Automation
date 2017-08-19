@@ -6,6 +6,8 @@ import framework.exception.CommonException;
 import framework.validation.CommonValidate;
 import org.openqa.selenium.WebDriver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import foundation.SysTools;
 import org.testng.Reporter;
 
@@ -22,7 +24,7 @@ import foundation.SysTools;
  * */
 public class CommonWebValidate extends CommonValidate
 {
-    private static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonWebValidate.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonWebValidate.class);
     private WebDriver oWebDriver = null;
     private CommonWebElement oCommonWebElement = null;
 

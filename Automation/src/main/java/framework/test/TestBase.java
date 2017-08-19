@@ -39,7 +39,7 @@ import org.testng.annotations.*;
 
 public class TestBase
 {
-    Logger logger = LoggerFactory.getLogger(TestBase.class);
+    private static Logger logger = LoggerFactory.getLogger(TestBase.class);
     ////////////////////////
     //  Class members     //
     ////////////////////////	

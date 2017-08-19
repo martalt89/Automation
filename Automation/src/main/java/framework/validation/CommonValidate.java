@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import foundation.SysTools;
 import org.testng.Reporter;
 
-import foundation.SysTools;
 
 
 /**
@@ -23,7 +22,6 @@ public class CommonValidate
 {
 
     public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out"  + System.getProperty("file.separator") +   "screenshots";
-    //public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out" + System.getProperty("file.separator");
     private org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CommonValidate.class);
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;
@@ -75,6 +73,7 @@ public class CommonValidate
             org.testng.Assert.assertEquals(oActual, oExpected);
 //            logger.info("{} - verifyEquals(\"{}\", \"{}\") success!", oArray);
             Reporter.log(String.format("{%s} - verifyEquals(\"{%s}\", \"{%s}\") success! <br>", oArray));
+
             return true;
         }
         catch(AssertionError ex)

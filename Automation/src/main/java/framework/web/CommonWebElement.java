@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * Created by vahanmelikyan on 7/1/17.
  */
 public class CommonWebElement implements WebElement, Locatable {
-    Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
     private static int iImplicitWait = 30;
