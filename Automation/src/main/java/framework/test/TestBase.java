@@ -15,6 +15,7 @@ import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
 import framework.validation.*;
+import framework.test.RetryAnalyzer;
 import foundation.*;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;

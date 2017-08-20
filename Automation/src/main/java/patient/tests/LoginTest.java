@@ -1,19 +1,21 @@
 package patient.tests;
 
 import foundation.SysTools;
+//import framework.test.RetryAnalyzer;
+//import framework.test.RetryAnalyzer;
 import framework.test.TestBase;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import org.openqa.selenium.WebDriver;
 import org.testng.Reporter;
 import patient.pages.*;
-import utilities.DriverManager;
 import org.testng.annotations.Test;
 
 public class LoginTest extends TestBase {
 
 
     @Test (groups = {"smoke", "regression", "critical" })
+//    @Test (retryAnalyzer = framework.test.RetryAnalyzer.class)
 //    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
 
