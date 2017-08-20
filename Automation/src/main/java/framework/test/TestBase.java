@@ -363,7 +363,7 @@ public class TestBase
 
             // Store WebDriver, Validate, and RemoteNode instances in the InheritableThreadLocal variable so each thread has own copy.  A must for parallel execution.
             setDriver(oDriver);
-            setValidate(new CommonWebValidate(oDriver, true));
+            setValidate(new CommonWebValidate(oDriver, true, test));
 
         }
         //  We want to catch all exceptions here and return because if beforeMethod() fails (e.g., due to WebDriver instantiation error), subsequent tests in the same
