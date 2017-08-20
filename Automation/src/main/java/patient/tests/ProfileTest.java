@@ -52,8 +52,8 @@ public class ProfileTest extends TestBase {
         manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
         manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
         manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
-        manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
-        manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
+        manageProfilePage.oMemberIdInput.jsSendKeys(insuranceID);  //insurance ID
+        manageProfilePage.oGroupIdInput.jsSendKeys(insuranceGroup);  //group ID
         manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
         if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Choose Profile")) {
             System.out.println("Successfully added REAL insurance.");
