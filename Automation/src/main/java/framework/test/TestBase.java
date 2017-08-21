@@ -1,19 +1,23 @@
 package framework.test;
 
-import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.ReporterType;
+
+
 import framework.exception.CommonException;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
 import framework.web.WebBase;
 import framework.validation.*;
+import framework.test.RetryAnalyzer;
 import foundation.*;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;
@@ -38,7 +42,7 @@ import org.testng.annotations.*;
 
 public class TestBase
 {
-    Logger logger = LoggerFactory.getLogger(TestBase.class);
+    private static Logger logger = LoggerFactory.getLogger(TestBase.class);
     ////////////////////////
     //  Class members     //
     ////////////////////////	
@@ -52,7 +56,8 @@ public class TestBase
     private static String browser;
 
     private static String reportLocation = "report/ExtentReport.html";
-    protected static ExtentReports extent;
+    private static ExtentReports extent;
+
 
     /**
      * InheritableThreadLocal variables are needed when tests are ran in parallel.  They ensure threads do not share/contaminate each other's data.  
@@ -66,6 +71,7 @@ public class TestBase
     private static final InheritableThreadLocal oValidate = new InheritableThreadLocal();
     private static final InheritableThreadLocal oRemoteNode = new InheritableThreadLocal();
     private static final InheritableThreadLocal oException = new InheritableThreadLocal();
+    private static final InheritableThreadLocal oExtentTest = new InheritableThreadLocal();
 
     ////////////////////////
     //  Constructors      //
@@ -127,6 +133,14 @@ public class TestBase
             return (WebDriver)oCurrentDriver.get();
         else
             throw getException();
+    }
+
+    public ExtentTest getExtentTest(){
+        return (ExtentTest)oExtentTest.get();
+    }
+
+    public void setExtentTest(ExtentTest test){
+        oExtentTest.set(test);
     }
 
     /**
@@ -237,6 +251,7 @@ public class TestBase
             ,"ACCESS_KEY"
             ,"saucelab_url"
             ,"element_implicit_wait"
+            ,"retryLimit"
             ,"maximize_browser"
     })
     public void setup(@Optional("local") String environment,
@@ -249,12 +264,14 @@ public class TestBase
                       @Optional("") String accessKey,
                       @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
                       @Optional("30") String element_implicit_wait,
+                      @Optional("1") String retryLimit,
                       @Optional("true") String maximizeBrowser)
     {
 
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
         try
         {
+
             // Env mode
             logger.info("setup():  Environment mode:  {}", environment);
 
@@ -283,6 +300,9 @@ public class TestBase
             // Set global implicit wait value for CommonWebElement
             CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
             logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
+
+            RetryAnalyzer.setRetryLimit(Integer.parseInt(retryLimit));
+            logger.info("setup(): Set retryLimit: {}", retryLimit);
 
         }
         catch(Exception ex)
@@ -321,7 +341,7 @@ public class TestBase
      * @throws Exception
      */
     @BeforeMethod(alwaysRun=true)
-    public void beforeMethod() throws Exception
+    public void beforeMethod(Method oMethod) throws Exception
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
@@ -329,6 +349,12 @@ public class TestBase
 
         try
         {
+            ExtentTest test = getExtentTest();
+            if(test == null){
+                test = extent.startTest(oMethod.getName());
+                setExtentTest(test);
+            }
+
             WebDriver oDriver = null;
 
             if (environment.equalsIgnoreCase("remote"))
@@ -344,7 +370,7 @@ public class TestBase
 
             // Store WebDriver, Validate, and RemoteNode instances in the InheritableThreadLocal variable so each thread has own copy.  A must for parallel execution.
             setDriver(oDriver);
-            setValidate(new CommonWebValidate(oDriver, true));
+            setValidate(new CommonWebValidate(oDriver, true, test));
 
         }
         //  We want to catch all exceptions here and return because if beforeMethod() fails (e.g., due to WebDriver instantiation error), subsequent tests in the same
@@ -375,6 +401,11 @@ public class TestBase
             unsetRemoteNode();
             unsetException();
             quitDriver();
+
+            ExtentTest test = getExtentTest();
+            extent.endTest(test);
+            extent.flush();
+
         }
         catch (Exception ex)
         {
@@ -400,9 +431,6 @@ public class TestBase
 
             if (!(ex instanceof NullPointerException))
             {
-                if(ex instanceof framework.exception.CommonException)    		// No screenshot necessary.  
-                    return "";
-
                 Throwable cause = ex.getCause();
                 if (cause instanceof ScreenshotException)
                     return getScreenshotFromException((ScreenshotException)cause);
@@ -416,6 +444,7 @@ public class TestBase
         }
         catch(Exception e)
         {
+            logger.error("handleException Error:  ", ex);
         }
         return "";
     }
@@ -467,7 +496,7 @@ public class TestBase
      *
      * @throws Exception
      */
-    public WebDriver StartWebDriver(String sBrowserType) throws Exception
+    public synchronized WebDriver StartWebDriver(String sBrowserType) throws Exception
     {
         try
         {
@@ -519,7 +548,7 @@ public class TestBase
      *
      * @throws Exception
      */
-    public WebDriver StartRemoteWebDriver(String sBrowser, String sGridUrl) throws Exception
+    public synchronized WebDriver StartRemoteWebDriver(String sBrowser, String sGridUrl) throws Exception
     {
 
         DesiredCapabilities oRequestCapability;

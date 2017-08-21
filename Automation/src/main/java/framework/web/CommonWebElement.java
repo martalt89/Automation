@@ -13,19 +13,17 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Reporter;
 
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**
  * Created by vahanmelikyan on 7/1/17.
  */
 public class CommonWebElement implements WebElement, Locatable {
-    Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
     private static int iImplicitWait = 30;
@@ -824,6 +822,7 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param oContext (CommonWebElement) - The parent element
      */
     public void selectFromContextByVisibleTextAngular(String sText, CommonWebElement oContext) {
+        CommonWebElement oListItem = new CommonWebElement("oListItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
         if (this.getTagName().contains("md-select") || this.getTagName().contains("md-select-value") ) { //dropdown buttons have md-select or md-select-value tags
             //oContext.waitForElement();
             this.click();
@@ -832,14 +831,19 @@ public class CommonWebElement implements WebElement, Locatable {
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> or <md-select-value> tag), instead found <%s> tag", this.getTagName()));
         }
 
-       // CommonWebElement oMenuItem = new CommonWebElement(oContext, oBy., oWebDriver);
-       // oMenuItem.waitForElement();
-        SysTools.sleepFor(1);
-        CommonWebElement oMenuItem = oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
-       // oMenuItem.waitForElement();
-        System.out.println("Element found start clicking on the element");
-//        oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
-        oMenuItem.waitForElement();
+        int count = 0;
+        int maxTries = 3;
+
+        CommonWebElement oMenuItem;
+        while (true) {
+            try {
+                oMenuItem = oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
+                break;
+            } catch (Exception e) {
+                SysTools.sleepFor(1);
+                if (++count == maxTries) throw e;
+            }
+        }
         if (oMenuItem.isViewable()){
             oMenuItem.click();
         }else {
@@ -955,7 +959,7 @@ public class CommonWebElement implements WebElement, Locatable {
                 oResult = oWebElement;
         } catch (org.openqa.selenium.TimeoutException ex) {
             String sText = "Name:  " + sElementName + ", Tag:  " + (sElementTag != null ? sElementTag : oBy.toString());
-            throw new CommonException("Timeout looking for element.  " + sText, ex);
+            throw new NoSuchElementException("Timeout looking for element.  " + sText, ex);
         } catch (Exception ex) {
             throw new CommonException("Unhandled exception", ex);
         }
@@ -1020,7 +1024,7 @@ public class CommonWebElement implements WebElement, Locatable {
                 Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
                 oWait.until(ExpectedConditions.invisibilityOfElementLocated(oBy));
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new CommonException("Timeout waiting for element " + sElementName + " to disappear!", ex);
+                throw new ElementNotVisibleException("Timeout waiting for element " + sElementName + " to disappear!", ex);
             }
         }
     }
@@ -1071,7 +1075,7 @@ public class CommonWebElement implements WebElement, Locatable {
 //                });
                 oWait.until((Function<WebElement, Boolean>) oWebElement -> oWebElement.isEnabled());
             } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new CommonException("Timeout waiting for element " + sElementName + " to be enabled", ex);
+                throw new ElementNotInteractableException("Timeout waiting for element " + sElementName + " to be enabled", ex);
             }
         }
         return;

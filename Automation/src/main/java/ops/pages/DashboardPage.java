@@ -137,4 +137,85 @@ public class DashboardPage extends WebBase{
         }
     }
 
+    /**
+     * Gets Status element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Status element
+     */
+    public CommonWebElement getStatusByVisitCode(String sVisitCode){
+        return new CommonWebElement("oStatus", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[2]",oWebDriver);
+    }
+
+    /**
+     * Gets Service element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Service element
+     */
+    public CommonWebElement getServiceByVisitCode(String sVisitCode){
+        return new CommonWebElement("oService", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[4]",oWebDriver);
+    }
+
+    /**
+     * Gets Patient element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Patient element
+     */
+    public CommonWebElement getPatientByVisitCode(String sVisitCode){
+        return new CommonWebElement("oPatient", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[5]",oWebDriver);
+    }
+
+    /**
+     * Gets Address element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Address element
+     */
+    public CommonWebElement getAddressByVisitCode(String sVisitCode){
+        return new CommonWebElement("oAddress", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[6]",oWebDriver);
+    }
+
+    /**
+     * Gets Doctor element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Doctor element
+     */
+    public CommonWebElement getDoctorByVisitCode(String sVisitCode){
+        return new CommonWebElement("oDoctor", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[7]",oWebDriver);
+    }
+
+    /**
+     * Gets Assistant element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Assistant element
+     */
+    public CommonWebElement getAssistantByVisitCode(String sVisitCode){
+        return new CommonWebElement("oAssistant", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[8]",oWebDriver);
+    }
+
+    /**
+     * Gets Requested time slot element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Requested time slot element
+     */
+    public CommonWebElement getRequestedTimeSlotByVisitCode(String sVisitCode){
+        return new CommonWebElement("oRequestedTimeSlot", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[9]",oWebDriver);
+    }
+
+    /**
+     * Gets Scheduled date element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Scheduled date element
+     */
+    public CommonWebElement getScheduledDateByVisitCode(String sVisitCode){
+        return new CommonWebElement("oScheduledDate", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[10]",oWebDriver);
+    }
+
+    /**
+     * Gets Reschedules element from the table row that contains the specified visit code
+     * @param sVisitCode (String) Visit code
+     * @return (CommonWebElement) Reschedules element
+     */
+    public CommonWebElement getReschedulesByVisitCode(String sVisitCode){
+        return new CommonWebElement("oReschedules", "//tr[td[3]/a[text()='" + sVisitCode + "']]/td[11]",oWebDriver);
+    }
+
 }

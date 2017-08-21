@@ -28,8 +28,9 @@ import static framework.validation.CommonValidate.SCREENSHOT_LOCATION;
  */
 public class WebBase {
 
+    private static Logger logger = LoggerFactory.getLogger(WebBase.class);
+
     public static final int IMPLICIT_WAIT = 60;
-    //public static final String SCREENSHOT_LOCATION = "/Automation/out/screenshots";
     public volatile static String baseUrl = "";
 
     public WebDriver oWebDriver;
@@ -221,21 +222,19 @@ public class WebBase {
 
             Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
             FileUtils.copyFile(screenShot, fullFilePath.toFile());
-            Reporter.log(String.format("Screenshot sent to {%s} <img src='%s'></img>", fullFilePath.toAbsolutePath(), "file:///" + fullFilePath.toAbsolutePath()));
-            Reporter.log("<a href='file:///" + fullFilePath.toAbsolutePath() + "' target=_blank>Failed Screen Shot</a>", true);
-            // Write page source to file
+              // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
             try {
                 out.println(oDriver.getPageSource());
             } catch (Exception ex) {
-                Reporter.log(String.format("Failed to dump page source to file:  {%s} <br>", ex));
+                logger.error(String.format("Failed to dump page source to file:  {%s} <br>", ex));
             } finally {
                 out.close();
             }
 
             return fullFilePath.toAbsolutePath().toString();
         } catch (Exception ex) {
-            Reporter.log(String.format("Failed to capture screenshot:  {%s} <br>", ex));
+            logger.error(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";
         }
     }

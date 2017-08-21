@@ -14,12 +14,13 @@ import patient.pages.*;
 public class ProfileTest extends TestBase {
     TestData testData = new TestData(TestData.PATIENT_SHEET);
 
-    String firstName = "Priyanka";
-    String lastaName = "Halder";
-    String insuranceID = "JQU397M89484";
+    String firstName = "Vahan";
+    String lastaName = "Melikyan";
+    String insuranceID = "JQU056M90707";
     String insuranceGroup = "A45878";
     String insuranceProvider = "Anthem";
     String email = "test@test.com";
+    String dob = "06/10/1985";
     String phoneNumber = "18182123842";
     String relationship = "Friend";
     String gender = "Female";
@@ -29,7 +30,8 @@ public class ProfileTest extends TestBase {
     public void addInsuranceToExistingPatient() {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+//        CommonWebValidate validate = new CommonWebValidate(dr);
+        CommonWebValidate validate = getValidate();
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
@@ -40,21 +42,21 @@ public class ProfileTest extends TestBase {
         //Test steps
         loginPage.login();
         homePage.selectFromMenu(menu.oProfilesLnk);
-        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         manageProfilePage.oAddPatientbtn.click();
         //manageProfilePage.oContinueButton.clickAndWait(menu.oLoadingBar, false);
         manageProfilePage.oFirstNameInput.sendKeys(firstName);
         manageProfilePage.oLastNameInput.sendKeys(lastaName);
         manageProfilePage.oEmailInput.sendKeys(email);
         manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
-        manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
+        manageProfilePage.oDateOfBirthInput.sendKeys(dob);
         manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
         manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
         manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
-        manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
-        manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
+        manageProfilePage.oMemberIdInput.jsSendKeys(insuranceID);  //insurance ID
+        manageProfilePage.oGroupIdInput.jsSendKeys(insuranceGroup);  //group ID
         manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Choose Profile")) {
+        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Patient details")) {
             System.out.println("Successfully added REAL insurance.");
         } else {
             System.out.println("Could not add REAL insurance. Trying with TEST insurance...");
