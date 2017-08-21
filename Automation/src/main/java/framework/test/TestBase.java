@@ -263,6 +263,7 @@ public class TestBase
                       @Optional("") String accessKey,
                       @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
                       @Optional("30") String element_implicit_wait,
+                      @Optional("1") String retryLimit,
                       @Optional("true") String maximizeBrowser)
     {
 
@@ -298,6 +299,9 @@ public class TestBase
             // Set global implicit wait value for CommonWebElement
             CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
             logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
+
+            RetryAnalyzer.setRetryLimit(Integer.parseInt(retryLimit));
+            logger.info("setup(): Set retryLimit: {}", retryLimit);
 
         }
         catch(Exception ex)
@@ -344,9 +348,11 @@ public class TestBase
 
         try
         {
-
-            ExtentTest test = extent.startTest(oMethod.getName());
-            setExtentTest(test);
+            ExtentTest test = getExtentTest();
+            if(test == null){
+                test = extent.startTest(oMethod.getName());
+                setExtentTest(test);
+            }
 
             WebDriver oDriver = null;
 

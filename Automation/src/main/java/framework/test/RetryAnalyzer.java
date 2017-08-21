@@ -6,7 +6,18 @@ import org.testng.ITestResult;
 public class RetryAnalyzer implements IRetryAnalyzer {
     //TODO - Get the value from the excel sheet
     int counter = 0;
-    int retryLimit = 2;
+    static int retryLimit = 1;
+
+
+
+    public static int getRetryLimit() {
+        return retryLimit;
+    }
+
+    public static void setRetryLimit(int retryLimit) {
+        RetryAnalyzer.retryLimit = retryLimit;
+    }
+
 	/*
 	 *
 	 * This method decides how many times a test needs to be rerun.

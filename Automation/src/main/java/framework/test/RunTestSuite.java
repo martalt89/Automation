@@ -62,8 +62,6 @@ public class RunTestSuite {
         Document resultXML = docBuilder.newDocument();
         TestListener oTestListener = new TestListener(resultXML);
         AnnotationTransformer oAnnotationTransformer = new AnnotationTransformer();
-        HTMLReporter oReportNGListener = new org.uncommons.reportng.HTMLReporter();
-        testng.addListener(oReportNGListener);
         testng.addListener(oTestListener);
         testng.addListener(oAnnotationTransformer);
 

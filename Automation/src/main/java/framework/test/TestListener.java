@@ -147,7 +147,6 @@ public class TestListener extends TestListenerAdapter {
         }
 
         test.log(LogStatus.FAIL, oResult.getThrowable());
-
     }
 
     @Override
@@ -174,7 +173,7 @@ public class TestListener extends TestListenerAdapter {
            logger.error("onTestSuccess():  Exception caught! ", ex);
         }
 
-        test.log(LogStatus.PASS, oResult.getName() + ": PASS");
+        //test.log(LogStatus.PASS, oResult.getName() + ": PASS");
     }
 
     @Override
@@ -203,7 +202,7 @@ public class TestListener extends TestListenerAdapter {
             logger.error("onTestSkipped():  Exception caught! ", ex);
         }
 
-        test.log(LogStatus.SKIP, oResult.getName() + ": Skip");
+        //test.log(LogStatus.SKIP, oResult.getName() + ": Skip");
     }
 
     @Override
