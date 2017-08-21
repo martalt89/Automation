@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class OpsLoginPage extends WebBase{
 
-    public static final String URL = "https://"+ baseUrl +"/login";
+    public static final String URL = "https://ops.qa.heal.com/login";
 
     ///////////////////
     // Page Elements //
