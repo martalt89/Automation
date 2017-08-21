@@ -109,7 +109,7 @@ public class TestListener extends TestListenerAdapter {
             {
                 String sScreenshotPath = oTestBase.handleException(oResult.getThrowable());
                 String img = test.addScreenCapture(sScreenshotPath);
-                test.log(LogStatus.INFO, "Image", "Image example: " + img);
+                test.log(LogStatus.ERROR, "Exception Image", "Image example: " + img);
                 sCause = "Unhandled exception:  [Screenshot:  " + sScreenshotPath + "]\n\n" + sException + "\n\n";
                 oResult.setAttribute("Cause", sCause);
                 oResult.setThrowable(new CommonException(sCause, oResult.getThrowable()));
