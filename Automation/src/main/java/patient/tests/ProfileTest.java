@@ -30,7 +30,8 @@ public class ProfileTest extends TestBase {
     public void addInsuranceToExistingPatient() {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+//        CommonWebValidate validate = new CommonWebValidate(dr);
+        CommonWebValidate validate = getValidate();
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
@@ -41,7 +42,7 @@ public class ProfileTest extends TestBase {
         //Test steps
         loginPage.login();
         homePage.selectFromMenu(menu.oProfilesLnk);
-        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         manageProfilePage.oAddPatientbtn.click();
         //manageProfilePage.oContinueButton.clickAndWait(menu.oLoadingBar, false);
         manageProfilePage.oFirstNameInput.sendKeys(firstName);
