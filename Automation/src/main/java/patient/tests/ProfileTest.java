@@ -56,7 +56,7 @@ public class ProfileTest extends TestBase {
         manageProfilePage.oMemberIdInput.jsSendKeys(insuranceID);  //insurance ID
         manageProfilePage.oGroupIdInput.jsSendKeys(insuranceGroup);  //group ID
         manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Choose Profile")) {
+        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Patient details")) {
             System.out.println("Successfully added REAL insurance.");
         } else {
             System.out.println("Could not add REAL insurance. Trying with TEST insurance...");
