@@ -251,6 +251,7 @@ public class TestBase
             ,"ACCESS_KEY"
             ,"saucelab_url"
             ,"element_implicit_wait"
+            ,"retryLimit"
             ,"maximize_browser"
     })
     public void setup(@Optional("local") String environment,
