@@ -6,10 +6,51 @@ import org.openqa.selenium.WebDriver;
 
 public class VisitSummaryPage extends WebBase{
     public static final String URL = "https://ops.qa.heal.com/dashboard";
-
     ///////////////////
     // Page Elements //
     ///////////////////
+
+    //cancel reasons
+    public static final String HEAL_LACK_TRIAGE = "HEAL: Lack of medical triage";
+    public static final String HEAL_LEGAL_GUARDIAN = "HEAL: Legal Guardian not present";
+    public static final String HEAL_NO_CAPACITY = "HEAL: No capacity";
+    public static final String HEAL_OTHER_REASON = "HEAL: Other";
+    public static final String HEAL_PAT_NOT_RESPOND = "HEAL: Patient did not respond";
+    public static final String HEAL_PAT_NO_SHOW = "HEAL: Patient no show";
+    public static final String HEAL_PAT_SURROUNDING = "HEAL: Patient surrounding is unsafe OR not private";
+    public static final String HEAL_ER = "HEAL: Referred to ER by Heal";
+    public static final String HEAL_SERVICE = "HEAL: Service not offered";
+    public static final String PAT_BOOKED_MISTAKE = "PATIENT: Booked by mistake";
+    public static final String PAT_DOCTOR_LATE = "PATIENT: Doctor arrived late or no-show";
+    public static final String PAT_DOCTOR_GENDER = "PATIENT: Doctor gender preference not met";
+    public static final String PAT_WRONG_INFO = "PATIENT: Entered wrong information";
+    public static final String PAT_GOING_ER = "PATIENT: Going to ER or Doctor’s office";
+    public static final String PAT_OTHER = "PATIENT: Other";
+    public static final String PAT_BETTER = "PATIENT: Patient feels better";
+    public static final String PAT_PRIMARY_DOC = "PATIENT: Primary Doctor not available";
+    public static final String PAT_REBOOKED = "PATIENT: Rebooked";
+    public static final String PAT_UNKNOWN = "PATIENT: Unknown (User refused to provide a reason)";
+    //doctors
+    public static final String DR_ABE = "Dr. Abe Malkin";
+    public static final String DR_KIM = "Dr. Kim Samuel";
+    public static final String DR_MITTON = "Dr. Mitton Bryan";
+    public static final String DR_NILES = "Dr. Niles Gabriel";
+    //medical assistants
+    public static final String MA_KETTEL = "Kettelborough Michael";
+    public static final String MA_WONG = "Wong James";
+    //insurances
+    public static final String AETNA = "aetna";
+    public static final String ANTHEM = "Anthem Blue Cross";
+    public static final String BLUE = "BlueShield";
+    public static final String CIGNA = "Cigna";
+    public static final String MERITAIN = "Meritain Health (aetna)";
+    public static final String NIPPON = "Nippon Life Benefits (aetna)";
+    public static final String PREMERA = "Premera BlueCross";
+    public static final String UMR = "UMR (United Healthcare)";
+    public static final String UNITED = "United Healthcare";
+    public static final String NALC = "NALC (Cigna)";
+    public static final String GEHA = "GEHA";
+
 
     public CommonWebElement oCloseVisitSummaryBtn = new CommonWebElement("oCloseVisitSummaryBtn", "xpath=//*[contains(@class,'close-card-button')]",oWebDriver);
     public CommonWebElement oEmail = new CommonWebElement("oEmail", "xpath=//*[@class='email']",oWebDriver);
@@ -19,6 +60,50 @@ public class VisitSummaryPage extends WebBase{
     public CommonWebElement oActionsMenuCancelVisit = new CommonWebElement("oActionsMenuCancelVisit", "xpath=//li/a[text()='Cancel Visit']",oWebDriver);
     public CommonWebElement oActionsMenuChangeProvider = new CommonWebElement("oActionsMenuChangeProvider", "xpath=//li/a[text()='Change Provider']",oWebDriver);
     public CommonWebElement oActionsMenuAddInsurance = new CommonWebElement("oActionsMenuAddInsurance", "xpath=//li/a[text()='Add Insurance']",oWebDriver);
+
+    //actions - start visit modal
+    public CommonWebElement oSelectStartTimeTitle = new CommonWebElement("oSelectStartTimeTitle", "xpath=//*[@class='modal-title']",oWebDriver);
+    public CommonWebElement oStartTimeXBtn = new CommonWebElement("oStartTimeXBtn", "xpath=//*[@class='close']",oWebDriver);
+    public CommonWebElement oStartTimeInput = new CommonWebElement("oStartTimeInput", "xpath=//*[@class='modal-body']//input",oWebDriver);
+    public CommonWebElement oStarVisitCancelBtn = new CommonWebElement("oStartVisitCancelBtn", "xpath=//*[@class='modal-footer']//button[1]",oWebDriver);
+    public CommonWebElement oStartVisitSubmitBtn = new CommonWebElement("oStartVisitSubmitBtn", "xpath=//*[@class='modal-footer']//button[2]",oWebDriver);
+
+    //actions - cancel visit modal
+    public CommonWebElement oCancelVisitTitle = new CommonWebElement("oCancelVisitTitle", "xpath=//*[@class='modal-title']",oWebDriver);
+    public CommonWebElement oReasonText = new CommonWebElement("oReasonText", "xpath=//*[@class='row-label'][text()='Reason for Cancellation:']",oWebDriver);
+    public CommonWebElement oReasonInput = new CommonWebElement("oReasonInput", "xpath=//*[@class='modal-row-content']/select",oWebDriver);
+    public CommonWebElement oNotesText = new CommonWebElement("oNotesText", "xpath=//*[@class='row-label'][text()='Notes (optional):']",oWebDriver);
+    public CommonWebElement oNotesInput = new CommonWebElement("oNotesInput", "xpath=//*[@class='modal-row-content']/input",oWebDriver);
+    public CommonWebElement oReebookingText = new CommonWebElement("oReebookingText", "xpath=//*[@class='row-label'][text()='Rebooking:']",oWebDriver);
+    public CommonWebElement oReebookingOCAdminRadioBtn = new CommonWebElement("oReebookingOCAdminRadioBtn", "xpath=//*[@class='radio-btn'][1]",oWebDriver);
+    public CommonWebElement oReebookingPatientRadioBtn = new CommonWebElement("oReebookingPatientRadioBtn", "xpath=//*[@class='radio-btn'][2]",oWebDriver);
+    public CommonWebElement oReebookingNARadioBtn = new CommonWebElement("oReebookingNARadioBtn", "xpath=//*[@class='radio-btn'][3]",oWebDriver);
+    public CommonWebElement oCancelVisitBtn = new CommonWebElement("oCancelVisitBtn", "xpath=//*[@class='modal-footer']/button",oWebDriver);
+
+    //actions - change provider modal
+    public CommonWebElement oChangeProviderTitle = new CommonWebElement("oChangeProviderTitle", "xpath=//*[@class='modal-header']//h4",oWebDriver);
+    public CommonWebElement oChooseDoctorText = new CommonWebElement("oChooseDoctorText", "xpath=//*[@class='modal-body']//label[text()='Choose Doctor']",oWebDriver);
+    public CommonWebElement oChooseMedicalAssistantText = new CommonWebElement("oChooseMedicalAssistantText", "xpath=//*[@class='modal-body']//label[text()='Choose Medical Assistant]",oWebDriver);
+    public CommonWebElement oSelectTimeSlotText = new CommonWebElement("oSelectTimeSlotText", "xpath=//*[@class='modal-body']//label[text()='Select Time Slot']",oWebDriver);
+    public CommonWebElement oEnterManualTimeText = new CommonWebElement("oEnterManualTimeText", "xpath=//*[@class='modal-body']//label[text()='Enter Manual Time']",oWebDriver);
+    public CommonWebElement oChooseDoctorInput = new CommonWebElement("oChooseDoctorInput", "xpath=//*[@class='modal-body']/div[1]/select",oWebDriver);
+    public CommonWebElement oChooseMedicalAssistantInput = new CommonWebElement("oChooseMedicalAssistantInput", "xpath=//*[@class='modal-body']/div[2]/select",oWebDriver);
+    public CommonWebElement oSelectTimeSlot = new CommonWebElement("oSelectTimeSlot", "xpath=//*[@class='timeSection']//select",oWebDriver);
+    public CommonWebElement oEnterTimeInput = new CommonWebElement("oEnterTimeInput", "xpath=//*[@class='timeSection']//input",oWebDriver);
+    public CommonWebElement oPatientConsentCheckbox = new CommonWebElement("oPatientConsentCheckbox", "xpath=//*[@class='modal-body']//input[@type='checkbox']",oWebDriver);
+    public CommonWebElement oForceAssignBtn = new CommonWebElement("oForceAssignBtn", "xpath=//*[@class='modal-footer']/button[1]",oWebDriver);
+    public CommonWebElement oCancelProviderBtn = new CommonWebElement("oCancelProviderBtn", "xpath=//*[@class='modal-footer']/button[2]",oWebDriver);
+    public CommonWebElement oChangetBtn = new CommonWebElement("oChangetBtn", "xpath=//*[@class='modal-footer']/button[3]",oWebDriver);
+
+    //actions - Update Insurance modal
+    public CommonWebElement oPayerText = new CommonWebElement("oPayerText", "xpath=//*[@class='modal-body']//label[text()='Payer']",oWebDriver);
+    public CommonWebElement oPayerInput = new CommonWebElement("oPayerInput", "xpath=//*[@class='modal-body']//select",oWebDriver);
+    public CommonWebElement oMemberId = new CommonWebElement("oMemberId", "xpath=//*[@class='modal-body']//label[text()='Member Id']",oWebDriver);
+    public CommonWebElement oMemberIdInput = new CommonWebElement("oMemberIdInput", "xpath=//input[@placeholder='Enter Member Id']",oWebDriver);
+    public CommonWebElement oGroupId = new CommonWebElement("oGroupId", "xpath=//*[@class='modal-body']//label[text()='Group Id']",oWebDriver);
+    public CommonWebElement oGroupIdInput = new CommonWebElement("oGroupIdInput", "xpath=//input[@placeholder='Enter Group Id']",oWebDriver);
+    public CommonWebElement oCancelInsuranceBtn = new CommonWebElement("oCancelInsuranceBtn", "xpath=//*[@class='modal-footer']/button[1]",oWebDriver);
+    public CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=//*[@class='modal-footer']/button[2]",oWebDriver);
 
     public CommonWebElement oVisitId = new CommonWebElement("oVisitId", "xpath=//*[@class='status-container']/div[1]",oWebDriver);
     public CommonWebElement oVisitStatus = new CommonWebElement("oVisitStatus", "xpath=//*[@class='status-container']/div[3]",oWebDriver);
@@ -185,5 +270,79 @@ public class VisitSummaryPage extends WebBase{
         this.oPatientEditEmailBtn.click();
         this.oPatientEditEmailField.sendKeys(sEmail);
         this.oPatientEditEmailCheckBtn.click();
+    }
+
+    //Actions methods
+    //start visit methods
+    /**
+     * Opens Visit start time modal from Actions -> Start Visit
+     */
+    public void openStartVisitModal(){
+        this.oActionsBtn.click();
+        this.oActionsMenuStartVisit.click();
+    }
+
+    //todo: also add methods for selecting date/time from the calendar
+    /**
+     * Sets a visit start time on Actions -> Start Visit modal
+     * @param sStartTime (String) Start time in "mm/dd/yyyy hh:mm AM/PM" format. e.g. 08/22/2017 1:47 AM
+     */
+    public void editVisitStartTime(String sStartTime){
+        openStartVisitModal();
+        this.oStartTimeInput.sendKeys(sStartTime);
+        this.oStartVisitSubmitBtn.click();
+    }
+
+    //cancel visit methods
+    public void selectCancelReason(String sReason){
+        this.oReasonInput.selectByValue(sReason,false);
+    }
+
+    public void editCancelNotes(String sNotes){
+        this.oNotesInput.sendKeys(sNotes);
+    }
+
+    //change provider methods
+
+    /**
+     * Selects a doctor on Actions -> Change Provider modal
+     * @param sProviderName (String) Provider name
+     */
+    public void changeProvider(String sProviderName){
+        this.oChooseDoctorInput.selectByValue(sProviderName,false);
+    }
+
+    /**
+     * Types data in Enter Manual Time input from Change Provider modal
+     * @param sDateTime (String) Date and time in "mm/dd/yyyy hh:mm AM/PM" format. e.g. 08/22/2017 1:47 AM
+     */
+    public void editManualTime(String sDateTime){
+        this.oEnterTimeInput.sendKeys(sDateTime);
+    }
+
+    //update insurance methods
+
+    /**
+     * Selects a payer on Actions -> Add Insurance modal
+     * @param sPayer (String) Payer
+     */
+    public void selectPayer(String sPayer){
+        this.oPayerInput.selectByValue(sPayer,false);
+    }
+
+    /**
+     * Edits Member Id field from Actions -> Add Insurance modal
+     * @param sMemberId (String) Member Id
+     */
+    public void editMemberId(String sMemberId){
+        this.oMemberIdInput.sendKeys(sMemberId);
+    }
+
+    /**
+     * Edits Group Id field from Actions -> Add Insurance modal
+     * @param sGroupId (String) Group Id
+     */
+    public void editGroupId(String sGroupId){
+        this.oMemberIdInput.sendKeys(sGroupId);
     }
 }
