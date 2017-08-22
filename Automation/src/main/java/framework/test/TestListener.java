@@ -109,7 +109,7 @@ public class TestListener extends TestListenerAdapter {
             {
                 String sScreenshotPath = oTestBase.handleException(oResult.getThrowable());
                 String img = test.addScreenCapture(sScreenshotPath);
-                test.log(LogStatus.INFO, "Image", "Image example: " + img);
+                test.log(LogStatus.ERROR, "Exception Image", "Exception Screenshot: " + img);
                 sCause = "Unhandled exception:  [Screenshot:  " + sScreenshotPath + "]\n\n" + sException + "\n\n";
                 oResult.setAttribute("Cause", sCause);
                 oResult.setThrowable(new CommonException(sCause, oResult.getThrowable()));
@@ -147,7 +147,6 @@ public class TestListener extends TestListenerAdapter {
         }
 
         test.log(LogStatus.FAIL, oResult.getThrowable());
-
     }
 
     @Override
@@ -174,7 +173,7 @@ public class TestListener extends TestListenerAdapter {
            logger.error("onTestSuccess():  Exception caught! ", ex);
         }
 
-        test.log(LogStatus.PASS, oResult.getName() + ": PASS");
+        //test.log(LogStatus.PASS, oResult.getName() + ": PASS");
     }
 
     @Override
@@ -203,7 +202,7 @@ public class TestListener extends TestListenerAdapter {
             logger.error("onTestSkipped():  Exception caught! ", ex);
         }
 
-        test.log(LogStatus.SKIP, oResult.getName() + ": Skip");
+        //test.log(LogStatus.SKIP, oResult.getName() + ": Skip");
     }
 
     @Override

@@ -64,6 +64,7 @@ public class VisitTest extends TestBase {
         loginPage.login();
         homePage.selectFromMenu("visits");
         homePage.cancelVisit(1);
+//        homePage.cancelVisit(1);
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");
@@ -138,7 +139,7 @@ public class VisitTest extends TestBase {
 
         loginPage.login(); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
-        verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit"); // Verify page title
+        verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book a house call"); // Verify page title
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
@@ -169,7 +170,7 @@ public class VisitTest extends TestBase {
     public void BookVisitWith50PercentPromo() throws Exception {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+//        CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageLoad();
@@ -193,13 +194,13 @@ public class VisitTest extends TestBase {
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
-            validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+            assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
         paymentPage.oPromoCodeLink.click();
         paymentPage.oPromoCodeInput.sendKeys("50PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 
-            validate.assertEquals("Verifying 50% promo price ", paymentPage.oPriceInfoText.getText(), sPromo50PercentOffPrice);
+            assertEquals("Verifying 50% promo price ", paymentPage.oPriceInfoText.getText(), sPromo50PercentOffPrice);
 
         paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.waitForElement();
@@ -222,7 +223,7 @@ public class VisitTest extends TestBase {
     public void BookVisitWith100PercentPromo() throws Exception {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+//        CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageLoad();
@@ -246,13 +247,13 @@ public class VisitTest extends TestBase {
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
-            validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+            assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
         paymentPage.oPromoCodeLink.click();
         paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 
-            validate.assertEquals("Verifying 100% promo price ", paymentPage.oPriceInfoText.getText(), sPromo100PercentOffPrice);
+            assertEquals("Verifying 100% promo price ", paymentPage.oPriceInfoText.getText(), sPromo100PercentOffPrice);
 
         paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.waitForElement();
@@ -275,7 +276,7 @@ public class VisitTest extends TestBase {
     public void BookVisitWithInsurance() throws Exception {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+//        CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageLoad();
@@ -321,7 +322,7 @@ public class VisitTest extends TestBase {
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
-            validate.assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+            assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
         paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.waitForElement();

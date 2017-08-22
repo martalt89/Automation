@@ -61,10 +61,10 @@ public class RunTestSuite {
 
         Document resultXML = docBuilder.newDocument();
         TestListener oTestListener = new TestListener(resultXML);
-
-        HTMLReporter oReportNGListener = new org.uncommons.reportng.HTMLReporter();
-        testng.addListener(oReportNGListener);
+        AnnotationTransformer oAnnotationTransformer = new AnnotationTransformer();
         testng.addListener(oTestListener);
+        testng.addListener(oAnnotationTransformer);
+
         testng.run();
     }
 
@@ -165,7 +165,7 @@ public class RunTestSuite {
                 if (oTestRow[2] != null && !oTestRow[2].equals(""))
                 {
                     oTest.setName(sTestName + "_" + oTestRow[2]);
-                    oGroups = new ArrayList<String>();
+                    oGroups = new ArrayList<>();
                     oGroups.add((String)oTestRow[2]);
                     oTest.setIncludedGroups(oGroups);
                 }

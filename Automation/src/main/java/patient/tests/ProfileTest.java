@@ -30,7 +30,8 @@ public class ProfileTest extends TestBase {
     public void addInsuranceToExistingPatient() {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
+//        CommonWebValidate validate = new CommonWebValidate(dr);
+        CommonWebValidate validate = getValidate();
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
@@ -41,7 +42,7 @@ public class ProfileTest extends TestBase {
         //Test steps
         loginPage.login();
         homePage.selectFromMenu(menu.oProfilesLnk);
-        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         manageProfilePage.oAddPatientbtn.click();
         //manageProfilePage.oContinueButton.clickAndWait(menu.oLoadingBar, false);
         manageProfilePage.oFirstNameInput.sendKeys(firstName);
@@ -52,10 +53,10 @@ public class ProfileTest extends TestBase {
         manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
         manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
         manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
-        manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
-        manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
+        manageProfilePage.oMemberIdInput.jsSendKeys(insuranceID);  //insurance ID
+        manageProfilePage.oGroupIdInput.jsSendKeys(insuranceGroup);  //group ID
         manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Choose Profile")) {
+        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Patient details")) {
             System.out.println("Successfully added REAL insurance.");
         } else {
             System.out.println("Could not add REAL insurance. Trying with TEST insurance...");

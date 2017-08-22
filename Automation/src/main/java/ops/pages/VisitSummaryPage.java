@@ -26,25 +26,59 @@ public class VisitSummaryPage extends WebBase{
     //details
     public CommonWebElement oDetailsBtn = new CommonWebElement("oDetailsBtn", "xpath=//*[@class='card-section-header']//*[text()='Details']",oWebDriver);
     public CommonWebElement oDetailsDateReqestedText = new CommonWebElement("oDetailsDateReqestedText", "xpath=//label[text()='Date Requested']",oWebDriver);
-    public CommonWebElement oDetailsDateReqested = new CommonWebElement("oDetailsDateReqested", "xpath=//div[@class='collapsible-section opened'][1]//li[1]/div",oWebDriver);
+    public CommonWebElement oDetailsDateReqested = new CommonWebElement("oDetailsDateReqested", "xpath=//*[contains(@class,'collapsible-section')][1]//li[1]/div",oWebDriver);
     public CommonWebElement oDetailsRequestedTimeText = new CommonWebElement("oDetailsRequestedTimeText", "xpath=//label[text()='Requested Time Slot']",oWebDriver);
-    public CommonWebElement oDetailsRequestedTimeSlot = new CommonWebElement("oDetailsRequestedTimeSlot", "xpath=//div[@class='collapsible-section opened'][1]//li[2]/div",oWebDriver);
+    public CommonWebElement oDetailsRequestedTimeSlot = new CommonWebElement("oDetailsRequestedTimeSlot", "xpath=//*[contains(@class,'collapsible-section')][1]//li[2]/div",oWebDriver);
     public CommonWebElement oDetailsTimeScheduledText = new CommonWebElement("oDetailsTimeScheduledText", "xpath=//label[text()='System Time Scheduled For']",oWebDriver);
-    public CommonWebElement oDetailsTimeScheduled = new CommonWebElement("oDetailsTimeScheduled", "xpath=//div[@class='collapsible-section opened'][1]//li[3]/div",oWebDriver);
+    public CommonWebElement oDetailsTimeScheduled = new CommonWebElement("oDetailsTimeScheduled", "xpath=//*[contains(@class,'collapsible-section')][1]//li[3]/div",oWebDriver);
     public CommonWebElement oDetailsSymptomsText = new CommonWebElement("oDetailsSymptomsText", "xpath=//label[text()='Symptoms']",oWebDriver);
-    public CommonWebElement oDetailsSymptoms = new CommonWebElement("oDetailsSymptoms", "xpath=//div[@class='collapsible-section opened'][1]//li[4]/div",oWebDriver);
+    public CommonWebElement oDetailsSymptoms = new CommonWebElement("oDetailsSymptoms", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]/div",oWebDriver);
+    public CommonWebElement oDetailsEditSymptomsBtn = new CommonWebElement("oDetailsEditSymptomsBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oDetailsEditSymptomsCheckBtn = new CommonWebElement("oDetailsEditSymptomsCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oDetailsEditSymptomsCircleBtn = new CommonWebElement("oDetailsEditSymptomsCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
+    public CommonWebElement oDetailsEditSymptomsField = new CommonWebElement("oDetailsEditSymptomsField", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]//input",oWebDriver);
     public CommonWebElement oDetailsVisitNotesText = new CommonWebElement("oDetailsVisitNotesText", "xpath=//label[text()='Visit Notes']",oWebDriver);
-    public CommonWebElement oDetailsVisitNotes = new CommonWebElement("oDetailsVisitNotes", "xpath=//div[@class='collapsible-section opened'][1]//li[5]/div",oWebDriver);
-    public CommonWebElement oDetailsVisitLocationText = new CommonWebElement("oDetailsVisitLocationText", "xpath=//label[text()='Location']",oWebDriver);
-    public CommonWebElement oDetailsVisitLocation = new CommonWebElement("oDetailsVisitLocation", "xpath=//div[@class='collapsible-section opened'][1]//li[5]/div",oWebDriver);
+    public CommonWebElement oDetailsVisitNotes = new CommonWebElement("oDetailsVisitNotes", "xpath=//*[contains(@class,'collapsible-section')][1]//li[5]/div",oWebDriver);
+    public CommonWebElement oDetailsEditVisitNotesBtn = new CommonWebElement("oDetailsEditVisitNotesBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[5]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oDetailsEditVisitNotesCheckBtn = new CommonWebElement("oDetailsEditVisitNotesCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[5]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oDetailsEditVisitNotesCircleBtn = new CommonWebElement("oDetailsEditVisitNotesCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[5]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
+    public CommonWebElement oDetailsEditVisitNotesField = new CommonWebElement("oDetailsEditVisitNotesField", "xpath=//*[contains(@class,'collapsible-section')][1]//li[5]//input",oWebDriver);
+    public CommonWebElement oDetailsLocationText = new CommonWebElement("oDetailsLocationText", "xpath=//label[text()='Location']",oWebDriver);
+    public CommonWebElement oDetailsLocation = new CommonWebElement("oDetailsLocation", "xpath=//*[contains(@class,'collapsible-section')][1]//li[6]/div",oWebDriver);
 
     //patient
     public CommonWebElement oPatientBtn = new CommonWebElement("oPatientBtn", "xpath=//*[@class='card-section-header']//*[text()='Patient']",oWebDriver);
     public CommonWebElement oRelationshipText = new CommonWebElement("oRelationshipText", "xpath=//label[text()='Relationship']",oWebDriver);
     public CommonWebElement oPatientNameText = new CommonWebElement("oPatientNameText", "xpath=//label[text()='Patient Name']",oWebDriver);
+    public CommonWebElement oPatientName = new CommonWebElement("oPatientName", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]/div",oWebDriver);
+    public CommonWebElement oPatientEditNameBtn = new CommonWebElement("oPatientEditNameBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oPatientEditNameCheckBtn = new CommonWebElement("oPatientEditNameCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oPatientEditNameCircleBtn = new CommonWebElement("oPatientEditNameCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
+    public CommonWebElement oPatientEditFirstNameField = new CommonWebElement("oPatientEditFirstNameField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//input[1]",oWebDriver);
+    public CommonWebElement oPatientEditLastNameField = new CommonWebElement("oPatientEditLastNameField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//input[2]",oWebDriver);
+
     public CommonWebElement oPatientDateBirthText = new CommonWebElement("oPatientDateBirthText", "xpath=//label[text()='Patient Date Of Birth']",oWebDriver);
+    public CommonWebElement oPatientDateBirth = new CommonWebElement("oPatientDateBirth", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]/div",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthBtn = new CommonWebElement("oPatientEditDateBirthBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthCheckBtn = new CommonWebElement("oPatientEditDateBirthCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthCircleBtn = new CommonWebElement("oPatientEditDateBirthCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthField = new CommonWebElement("oPatientEditDateBirthField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//input",oWebDriver);
+
     public CommonWebElement oPhoneNumberText = new CommonWebElement("oPhoneNumberText", "xpath=//label[text()='Phone Number']",oWebDriver);
-    public CommonWebElement oEmailText = new CommonWebElement("oEmailText", "xpath=//label[text()='Email']",oWebDriver);
+    public CommonWebElement oPhoneNumber = new CommonWebElement("oPhoneNumber", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]/div",oWebDriver);
+    public CommonWebElement oPatientEdiPhoneNoBtn = new CommonWebElement("oPatientEditPhoneNoBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oPatientEditPhoneNoCheckBtn = new CommonWebElement("oPatientEditPhoneNoCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oPatientEditPhoneNoCircleBtn = new CommonWebElement("oPatientEdiPhoneNoCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
+    public CommonWebElement oPatientEditPhoneNoField = new CommonWebElement("oPatientEditPhoneNoField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//input",oWebDriver);
+
+
+    public CommonWebElement oPatientEmailText = new CommonWebElement("oPatientEmailText", "xpath=//label[text()='Email']",oWebDriver);
+    public CommonWebElement oPatientEmail = new CommonWebElement("oPatientEmail", "xpath=//*[contains(@class,'collapsible-section')][2]//li[5]/div",oWebDriver);
+    public CommonWebElement oPatientEditEmailBtn = new CommonWebElement("oPatientEditEmailBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[5]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oPatientEditEmailCheckBtn = new CommonWebElement("oPatientEditEmailCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[5]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oPatientEditEmailCircleBtn = new CommonWebElement("oPatientEdiEmailCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[5]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
+    public CommonWebElement oPatientEditEmailField = new CommonWebElement("oPatientEditEmailField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[5]//input",oWebDriver);
+
     public CommonWebElement oProxyNumberText = new CommonWebElement("oProxyNumberText", "xpath=//label[text()='Proxy Number']",oWebDriver);
     public CommonWebElement oGenderText = new CommonWebElement("oGenderText", "xpath=//label[text()='Gender']",oWebDriver);
     public CommonWebElement oChartIdText = new CommonWebElement("oChartIdText", "xpath=//label[text()='Chart Id']",oWebDriver);
@@ -90,4 +124,66 @@ public class VisitSummaryPage extends WebBase{
     // Methods //
     /////////////
 
+    /**
+     * Edits patient symptoms from visit summary modal, Details section
+     * @param sSymptom (String) Symptoms
+     */
+    public void editSymptoms(String sSymptom){
+        this.oDetailsEditSymptomsBtn.click();
+        this.oDetailsEditSymptomsField.sendKeys(sSymptom);
+        this.oDetailsEditSymptomsCheckBtn.click();
+
+    }
+
+    /**
+     * Edits patient visit notes from visit summary modal, Details section
+     * @param sNotes (String) Visit notes
+     */
+    public void editVisitNotes(String sNotes){
+        this.oDetailsEditVisitNotesBtn.click();
+        this.oDetailsEditVisitNotesField.sendKeys(sNotes);
+        this.oDetailsEditVisitNotesCheckBtn.click();
+    }
+
+    /**
+     * Edits patient firstname, lastname from visit summary modal, Patient section
+     * @param sFirstname (String) Patient Firstname
+     * @param sLastname (String) Patient Lastname
+     */
+    public void editPatientName(String sFirstname, String sLastname){
+        this.oPatientEditNameBtn.click();
+        this.oPatientEditFirstNameField.sendKeys(sFirstname);
+        this.oPatientEditLastNameField.sendKeys(sLastname);
+        this.oPatientEditNameCheckBtn.click();
+    }
+
+    /**
+     * Edits patient date of birth from visit summary modal, Patient section
+     * @param sDateOfBirth (String) Patient date of birth
+     */
+    public void editPatientDateOfBirth(String sDateOfBirth){
+        this.oPatientEditDateBirthBtn.click();
+        this.oPatientEditDateBirthField.sendKeys(sDateOfBirth);
+        this.oPatientEditDateBirthCheckBtn.click();
+    }
+
+    /**
+     * Edits patient phone number from visit summary modal, Patient section
+     * @param sPhoneNo (String) Patient phone number
+     */
+    public void editPatientPhoneNo(String sPhoneNo){
+        this.oPatientEdiPhoneNoBtn.click();
+        this.oPatientEditPhoneNoField.sendKeys(sPhoneNo);
+        this.oPatientEditPhoneNoCheckBtn.click();
+    }
+
+    /**
+     * Edits patient email from visit summary modal, Patient section
+     * @param sEmail (String) Patient email
+     */
+    public void editPatientEmail(String sEmail){
+        this.oPatientEditEmailBtn.click();
+        this.oPatientEditEmailField.sendKeys(sEmail);
+        this.oPatientEditEmailCheckBtn.click();
+    }
 }

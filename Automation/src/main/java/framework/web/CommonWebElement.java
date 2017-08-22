@@ -822,6 +822,7 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param oContext (CommonWebElement) - The parent element
      */
     public void selectFromContextByVisibleTextAngular(String sText, CommonWebElement oContext) {
+        CommonWebElement oListItem = new CommonWebElement("oListItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
         if (this.getTagName().contains("md-select") || this.getTagName().contains("md-select-value") ) { //dropdown buttons have md-select or md-select-value tags
             //oContext.waitForElement();
             this.click();
@@ -830,14 +831,19 @@ public class CommonWebElement implements WebElement, Locatable {
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> or <md-select-value> tag), instead found <%s> tag", this.getTagName()));
         }
 
-       // CommonWebElement oMenuItem = new CommonWebElement(oContext, oBy., oWebDriver);
-       // oMenuItem.waitForElement();
-        SysTools.sleepFor(1);
-        CommonWebElement oMenuItem = oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
-       // oMenuItem.waitForElement();
-        System.out.println("Element found start clicking on the element");
-//        oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
-        oMenuItem.waitForElement();
+        int count = 0;
+        int maxTries = 3;
+
+        CommonWebElement oMenuItem;
+        while (true) {
+            try {
+                oMenuItem = oContext.findElement(By.xpath("//md-option/div[text()='" + sText + "']"));
+                break;
+            } catch (Exception e) {
+                SysTools.sleepFor(1);
+                if (++count == maxTries) throw e;
+            }
+        }
         if (oMenuItem.isViewable()){
             oMenuItem.click();
         }else {

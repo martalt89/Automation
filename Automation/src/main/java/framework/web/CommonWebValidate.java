@@ -2,6 +2,8 @@ package framework.web;
 
 import java.util.regex.Pattern;
 
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import framework.exception.CommonException;
 import framework.validation.CommonValidate;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +13,8 @@ import org.slf4j.LoggerFactory;
 import foundation.SysTools;
 import org.testng.Reporter;
 
-import foundation.SysTools;
+import org.testng.Assert;
+
 
 
 /**
@@ -37,6 +40,12 @@ public class CommonWebValidate extends CommonValidate
     public CommonWebValidate(WebDriver oDriver, boolean bTakeScreenshot)
     {
         super(bTakeScreenshot);
+        oWebDriver = oDriver;
+    }
+
+    public CommonWebValidate(WebDriver oDriver, boolean bTakeScreenshot, ExtentTest test)
+    {
+        super(bTakeScreenshot, test);
         oWebDriver = oDriver;
     }
 
@@ -90,21 +99,19 @@ public class CommonWebValidate extends CommonValidate
 
         try
         {
-            org.testng.Assert.assertEquals(oTarget.isDisplayed(), true);
-            logger.info("{} - verifyVisible(\"{}\") success!", sComment, oTarget.getElementName());
+            Assert.assertEquals(oTarget.isDisplayed(), true);
+            oExtentTest.log(LogStatus.PASS, String.format("{%s} - verifyVisible(\"{%s}\") success!", sComment, oTarget.getElementName()));
             return true;
         }
         catch(AssertionError ex)
         {
-            logger.error("{} - verifyVisible(\"{}\") failed!", sComment, oTarget.getElementName());
-            Reporter.log(String.format("{%s} - verifyVisible(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
+            oExtentTest.log(LogStatus.FAIL, String.format("{%s} - verifyVisible(\"{%s}\") failed!", sComment, oTarget.getElementName()));
             vFailures.add(sComment + " - verifyVisible(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyVisible() failed! Target element not found!");
-            Reporter.log(String.format("{%s} - verifyVisible(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
+            oExtentTest.log(LogStatus.ERROR, String.format("{%s} - verifyVisible(\"{%s}\") failed!", sComment, oTarget.getElementName()));
             vFailures.add(sComment + " - verifyVisible() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -126,15 +133,13 @@ public class CommonWebValidate extends CommonValidate
 
         try
         {
-            org.testng.Assert.assertEquals(oTarget.isDisplayed(3), false);
-//            logger.info("{} - verifyInvisible(\"{}\") success!", sComment, oTarget.getElementName());
-            Reporter.log(String.format("{%s} - verifyInvisible(\"{%s}\") success! <br>", sComment, oTarget.getElementName()));
+            Assert.assertEquals(oTarget.isDisplayed(3), false);
+            oExtentTest.log(LogStatus.PASS, String.format("{%s} - verifyInvisible(\"{%s}\") success!", sComment, oTarget.getElementName()));
             return true;
         }
         catch(AssertionError ex)
         {
-//            logger.error("{} - verifyInvisible(\"{}\") failed!", sComment, oTarget.getElementName());
-            Reporter.log(String.format("{%s} - verifyInvisible(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
+            oExtentTest.log(LogStatus.FAIL, String.format("{%s} - verifyInvisible(\"{%s}\") fail!", sComment, oTarget.getElementName()));
             vFailures.add(sComment + "- verifyInvisible(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -157,21 +162,18 @@ public class CommonWebValidate extends CommonValidate
         try
         {
             org.testng.Assert.assertEquals(oTarget.isViewable(), true);
-//            logger.info("{} - verifyViewable(\"{}\") success!", sComment, oTarget.getElementName());
-            Reporter.log(String.format("{%s} - verifyViewable(\"{%s}\") success! <br>", sComment, oTarget.getElementName()));
+            oExtentTest.log(LogStatus.PASS, String.format("{%s} - verifyViewable(\"{%s}\") success!", sComment, oTarget.getElementName()));
             return true;
         }
         catch(AssertionError ex)
         {
-//            logger.error("{} - verifyViewable(\"{}\") failed!", sComment, oTarget.getElementName());
-            Reporter.log(String.format("{%s} - verifyViewable(\"{%s}\") failed! <br>", sComment, oTarget.getElementName()));
+            oExtentTest.log(LogStatus.FAIL, String.format("{%s} - verifyViewable(\"{%s}\") fail!", sComment, oTarget.getElementName()));
             vFailures.add(sComment + " - verifyViewable(" + oTarget.getElementName() + ") failed!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyViewable() failed! Target element not found!");
-            Reporter.log("{} - verifyViewable() failed! Target element not found! <br>");
+            oExtentTest.log(LogStatus.ERROR, String.format("{%s} - verifyViewable(\"{%s}\") fail!", sComment, oTarget.getElementName()));
             vFailures.add(sComment + " - verifyViewable() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -203,22 +205,19 @@ public class CommonWebValidate extends CommonValidate
             oLink.click();
             oStartPage.waitForPageLoad();
             sActualURL = oStartPage.getCurrentUrl();
-            org.testng.Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
-//            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
-            Reporter.log("sComment" + String.format(" - verifyLink(\"{%s}\", \"{%s}\") success! <br>", oLink.getElementName(), sExpectedURL));
+            Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
+            oExtentTest.log(LogStatus.PASS, String.format(" - verifyLink(\"{%s}\", \"{%s}\") success! <br>", oLink.getElementName(), sExpectedURL));
             return true;
         }
         catch(AssertionError ex)
         {
-//            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
-            Reporter.log("sComment" + String.format(" - verifyLink failed! Actual: \"{%s}\"  Expected: \"{%s}\" <br>", sActualURL, sExpectedURL));
+            oExtentTest.log(LogStatus.FAIL, String.format(" - verifyLink failed! Actual: \"{%s}\"  Expected: \"{%s}\" <br>", sActualURL, sExpectedURL));
             vFailures.add(sComment + " - verifyLink failed! Actual: \"" + sActualURL + "\"  Expected: \"" + sExpectedURL + "\"   [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyLinkNavigation() failed! Target element not found!");
-            Reporter.log("{} - verifyLinkNavigation() failed! Target element not found! <br>");
+            oExtentTest.log(LogStatus.ERROR, "verifyLinkNavigation() failed! Target element not found!");
             vFailures.add(sComment + " - verifyLinkNavigation() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -251,24 +250,21 @@ public class CommonWebValidate extends CommonValidate
             oStartPage.getPopup();
             oStartPage.waitForUrlNot("");
             sActualURL = oStartPage.getCurrentUrl();
-            org.testng.Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
-//            logger.info(sComment + " - verifyLink(\"{}\", \"{}\") success!", oLink.getElementName(), sExpectedURL);
-            Reporter.log("sComment" + String.format(" - verifyLink(\"{%s}\", \"{%s}\") success! <br>", oLink.getElementName(), sExpectedURL));
+            Assert.assertEquals(Pattern.matches(sExpectedURL, sActualURL), true);
+            oExtentTest.log(LogStatus.PASS, String.format(" - verifyLink(\"{%s}\", \"{%s}\") success!", oLink.getElementName(), sExpectedURL));
             oStartPage.closePopup();
             return true;
         }
         catch(AssertionError ex)
         {
-//            logger.error(sComment + " - verifyLink failed! Actual: \"{}\"  Expected: \"{}\"", sActualURL, sExpectedURL);
-            Reporter.log("sComment" + String.format(" - verifyLink failed! Actual: \"{%s}\"  Expected: \"{%s}\" <br>", sActualURL, sExpectedURL));
+            oExtentTest.log(LogStatus.FAIL, String.format(" - verifyLink failed! Actual: \"{%s}\"  Expected: \"{%s}\"", sActualURL, sExpectedURL));
             vFailures.add(sComment + " - verifyLink failed! Actual: \"" + sActualURL + "\"  Expected: \"" + sExpectedURL + "\"   [Screenshot:  " + getScreenshot() + "]");
             oStartPage.closePopup();
             return false;
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyLinkPopup() failed! Target element not found!");
-            Reporter.log("{} - verifyLinkPopup() failed! Target element not found! <br>");
+            oExtentTest.log(LogStatus.ERROR, "verifyLinkPopup() failed! Target element not found!");
             vFailures.add(sComment + " - verifyLinkPopup() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -300,8 +296,7 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyAttribute() failed! Target element not found!");
-            Reporter.log("{} - verifyAttribute() failed! Target element not found! <br>");
+            oExtentTest.log(LogStatus.ERROR, "verifyAttribute() failed! Target element not found!");
             vFailures.add(sComment + " - verifyAttribute() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -333,8 +328,7 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyCssValue() failed! Target element not found!");
-            Reporter.log("{} - verifyCssValue() failed! Target element not found! <br>");
+            oExtentTest.log(LogStatus.ERROR, String.format("verifyCssValue()  Failure:  {%s} ", ex.getMessage()));
             vFailures.add(sComment + " - verifyCssValue() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -393,8 +387,7 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyTextEquals() failed! Target element not found!");
-            Reporter.log("{} - verifyTextEquals() failed! Target element not found! <br>");
+            oExtentTest.log(LogStatus.ERROR, String.format("verifyTextEquals()  Failure:  {%s} ", ex.getMessage()));
             vFailures.add(sComment + " - verifyTextEquals() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -425,8 +418,7 @@ public class CommonWebValidate extends CommonValidate
         }
         catch(CommonException ex)
         {
-//            logger.error("{} - verifyTextMatches() failed! Target element not found!");
-            Reporter.log("{} - verifyTextMatches() failed! Target element not found! <br>");
+            oExtentTest.log(LogStatus.ERROR, String.format("verifyTextMatches()  Failure:  {%s} ", ex.getMessage()));
             vFailures.add(sComment + " - verifyTextMatches() failed!  Target element not found!  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
@@ -434,8 +426,7 @@ public class CommonWebValidate extends CommonValidate
 
     public void logFailure(String message)
     {
-//        logger.error("Failure:  {}", message);
-        Reporter.log(String.format("Failure:  {%s} <br>", message));
+        oExtentTest.log(LogStatus.FAIL, String.format("Failure:  {%s} ", message));
         vFailures.add("Failure:  " + message + "  [Screenshot:  " + getScreenshot() + "]");
     }
 }
