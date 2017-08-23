@@ -6,7 +6,6 @@ import framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 import patient.pages.HomePage;
 import patient.pages.RegisterPage;
-import utilities.DriverManager;
 import org.testng.annotations.Test;
 /**
  * Created by mihai.muresan on 7/10/2017.
@@ -15,7 +14,7 @@ public class RegisterTest extends TestBase {
 
     @Test
     public void checkRegisterPageElements() throws Exception {
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         RegisterPage registerPage = new RegisterPage(dr);
         CommonWebValidate validate = new CommonWebValidate(dr);
         validate.verifyVisible("Verify register First name input is displayed", registerPage.oFirstNameInput);
@@ -32,7 +31,7 @@ public class RegisterTest extends TestBase {
 
     @Test
     public void registerInvalidInput() throws Exception {
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         RegisterPage registerPage = new RegisterPage(dr);
         CommonWebValidate validate = new CommonWebValidate(dr);
         registerPage.oCreateAcctBtn.click();

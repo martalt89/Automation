@@ -5,16 +5,13 @@ import framework.test.TestBase;
 import framework.test.TestData;
 import framework.web.CommonWebElement;
 import framework.web.CommonWebValidate;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import patient.pages.*;
-import utilities.DriverManager;
 
 public class ScheduledVisitsTest extends TestBase {
-    WebDriver dr = DriverManager.getDriver();
     private TestData patientTestData = new TestData(TestData.PATIENT_SHEET);
     private AccountAPI accountAPI = new AccountAPI("mihaix5@heal.com", "Heal4325");
     private TestData addCardInputData = new TestData(TestData.CARD_SHEET);
@@ -25,7 +22,7 @@ public class ScheduledVisitsTest extends TestBase {
     @Parameters({ "url" })
     public void accessVisitPage() throws Exception {
         CommonWebElement.setbMonitorMode(false);
-        WebDriver dr = DriverManager.getDriver();
+        WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
