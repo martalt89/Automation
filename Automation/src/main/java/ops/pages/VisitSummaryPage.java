@@ -295,7 +295,7 @@ public class VisitSummaryPage extends WebBase{
 
     //cancel visit methods
     public void selectCancelReason(String sReason){
-        this.oReasonInput.selectByValue(sReason,false);
+        this.oReasonInput.select(sReason,false);
     }
 
     public void editCancelNotes(String sNotes){
@@ -309,7 +309,7 @@ public class VisitSummaryPage extends WebBase{
      * @param sProviderName (String) Provider name
      */
     public void changeProvider(String sProviderName){
-        this.oChooseDoctorInput.selectByValue(sProviderName,false);
+        this.oChooseDoctorInput.select(sProviderName,false);
     }
 
     /**
@@ -327,7 +327,7 @@ public class VisitSummaryPage extends WebBase{
      * @param sPayer (String) Payer
      */
     public void selectPayer(String sPayer){
-        this.oPayerInput.selectByValue(sPayer,false);
+        this.oPayerInput.select(sPayer,false);
     }
 
     /**

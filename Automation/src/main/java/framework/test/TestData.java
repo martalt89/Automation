@@ -37,6 +37,11 @@ public class TestData {
     public String sEstablishment;
     public String sUnit;
     public String sInstruction;
+    public String sPayer;
+    public String sMemberId;
+    public String sGroupId;
+    public String sPhone;
+    public String sState;
 
 
     public static final String ACCOUNT_SHEET = "Account";
@@ -103,6 +108,8 @@ public class TestData {
                         sEstablishment = testDataFromExcel.get("Establishment");
                         sUnit = testDataFromExcel.get("Unit");
                         sInstruction = testDataFromExcel.get("Instruction");
+                        sPhone = testDataFromExcel.get("Phone");
+                        sState = testDataFromExcel.get("State");
 
                 }
 
@@ -116,6 +123,11 @@ public class TestData {
                         sDateOfBirth = testDataFromExcel.get("DateOfBirth");
                         sRelationship = testDataFromExcel.get("Relationship");
                         sGender = testDataFromExcel.get("Gender");
+                        sPayer = testDataFromExcel.get("Payer");
+                        sMemberId = testDataFromExcel.get("MemberId");
+                        sGroupId = testDataFromExcel.get("GroupId");
+                        sPhone = testDataFromExcel.get("Phone");
+
                 }
 
             if (sSheetName.equals(CARD_SHEET)){

@@ -14,6 +14,29 @@ import org.testng.annotations.Test;
  *  Created by adrian.rosu on 18/08/2017.
  */
 public class VisitsTest extends TestBase{
+    /**
+     * This will run a test in loop for validation purposes
+     */
+    @Test
+    public void testLoop(){
+        int numberOfVisitsToBook = 10;
+        int passedRuns = 0;
+        int failedRuns = 0;
+        for (int i = 0; i < numberOfVisitsToBook; i++) {
+            try {
+                createNewVisitTest(); // put here the desired test to be run on loop
+                passedRuns++;
+            } catch (Exception e) {
+                failedRuns++;
+                e.printStackTrace();
+            }
+            System.out.println("Passed " + passedRuns);
+            System.out.println("Failed " + failedRuns);
+        }
+        System.out.println(passedRuns + " Passed Runs"); // display how many times the test passed on given visits booked
+        System.out.println(failedRuns + " Failed Runs"); // display how many times the test failed on given visits booked
+    }
+
     @Test (groups = {"smoke", "regression", "critical" })
 
     public void viewAllVisitsTest() throws Exception{
@@ -34,7 +57,7 @@ public class VisitsTest extends TestBase{
 
     @Test (groups = {"smoke", "regression", "critical" })
     public void createNewVisitTest() throws Exception{
-        CommonWebElement.setbMonitorMode(false);
+        CommonWebElement.setbMonitorMode(true);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
@@ -48,10 +71,17 @@ public class VisitsTest extends TestBase{
 
         visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
 
-        // method that creates user in Create user card
-        createVisitPage.createUser("Adrian", "Rosu", "2015555555", "adrian.rosu@heal.com", "90210");
+        // end-to-end flow for creating a visit in OPS
+        createVisitPage.createUser();
+        createVisitPage.createPatient(false);
+        createVisitPage.createAddress();
+        createVisitPage.addVisitDetails();
+        createVisitPage.selectPayment();
+        createVisitPage.visitSummary();
 
-        // todo create patient -> create address -> add visit details -> add payments -> visit summary
+        verifyVisible("Checking if title was displayed", createVisitPage.oVisitPriceTitle);
+        verifyEquals("Verify correct visit price", createVisitPage.oVisitPriceLabel, "99$");
 
     }
+    // todo visit with insurance, promo codes
 }

@@ -502,7 +502,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oAction.click().perform();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -756,7 +756,7 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param returnSelected (boolean) - Optional parameter to indicate whether to return the selected WebElement.
      * @return (CommonWebElement)
      */
-    public CommonWebElement selectByValue(String sSelection, Boolean[] returnSelected) {
+    public CommonWebElement selectByValue(String sSelection, Boolean... returnSelected) {
         waitForElement();
         org.openqa.selenium.support.ui.Select oSelect = new org.openqa.selenium.support.ui.Select(this);
         oSelect.selectByValue(sSelection);
@@ -767,7 +767,7 @@ public class CommonWebElement implements WebElement, Locatable {
                 e.printStackTrace();
             }
 
-        if (returnSelected.length > 0 && returnSelected[0] == true)
+        if (returnSelected.length > 0 && returnSelected[0])
             return new CommonWebElement(oSelect.getFirstSelectedOption(), oWebElement, oWebDriver);
         else
             return null;
