@@ -282,6 +282,12 @@ public class VisitSummaryPage extends WebBase{
         this.oActionsMenuStartVisit.click();
     }
 
+    public void startVisit(String sDateTime){
+        openStartVisitModal();
+        this.oStartTimeInput.sendKeys(sDateTime);
+        this.oStartVisitSubmitBtn.click();
+    }
+
     //todo: also add methods for selecting date/time from the calendar
     /**
      * Sets a visit start time on Actions -> Start Visit modal
@@ -302,14 +308,40 @@ public class VisitSummaryPage extends WebBase{
         this.oNotesInput.sendKeys(sNotes);
     }
 
+    /**
+     * Cancels a visit from Actions -> Cancel Visit
+     * @param sReason (String) Visit Reason (From dropdown menu)
+     * @param sNotes (String) Aditional notes/comments
+     */
+    public void cancelVisit(String sReason, String sNotes){
+        this.oActionsBtn.click();
+        this.selectCancelReason(sReason);
+        this.editCancelNotes(sNotes);
+        this.oCancelVisitBtn.click();
+    }
     //change provider methods
+
+    public void openChangeProviderModal(){
+        this.oActionsBtn.click();
+        this.oActionsMenuChangeProvider.click();
+    }
 
     /**
      * Selects a doctor on Actions -> Change Provider modal
-     * @param sProviderName (String) Provider name
+     * @param sDoctorName (String) Provider name
      */
-    public void changeProvider(String sProviderName){
-        this.oChooseDoctorInput.select(sProviderName,false);
+    public void chooseDoctor(String sDoctorName){
+        openChangeProviderModal();
+        this.oChooseDoctorInput.select(sDoctorName,false);
+    }
+
+    /**
+     * Selects a doctor on Actions -> Change Provider modal
+     * @param sMAName (String) Medical Assistant name
+     */
+    public void chooseMedicalAssistant(String sMAName){
+        openChangeProviderModal();
+        this.oChooseDoctorInput.select(sMAName,false);
     }
 
     /**
@@ -345,4 +377,18 @@ public class VisitSummaryPage extends WebBase{
     public void editGroupId(String sGroupId){
         this.oMemberIdInput.sendKeys(sGroupId);
     }
+
+    /**
+     * Adds/Updates insurance from Actions -> Add insurance
+     * @param sPayer (String) Insurance payer
+     * @param sMemberId (String) Member ID
+     * @param sGroupId (String) Group ID
+     */
+    public void updateInsurance(String sPayer, String sMemberId, String sGroupId){
+        this.selectPayer(sPayer);
+        this.editMemberId(sMemberId);
+        this.editGroupId(sGroupId);
+        this.oSubmitBtn.click();
+    }
+
 }
