@@ -35,9 +35,9 @@ public class RunTestSuite {
         String fileExcelName = "Run.xlsx";
         String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
 
-        ///////////////////////////////////
-        //  Read test suite from excel   //
-        ///////////////////////////////////
+        ////////////////////////////////////////
+        //  Read test suite from excel file   //
+        ////////////////////////////////////////
 
         File oExcel = new File(fileExcelPath);
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
