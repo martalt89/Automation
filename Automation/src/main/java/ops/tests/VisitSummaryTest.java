@@ -97,4 +97,32 @@ public class VisitSummaryTest extends TestBase  {
             visit.updateInsurance(VisitSummaryPage.BLUE, "COST_ESTIMATES_025", "BC001");
             verifyTextMatches("Verify symptoms are saved", visit.oDetailsEditSymptomsField, sSymptoms);
         }
+
+        @Test(groups = {"dev", "critical"})
+        public void refundVisitTotalRefund() {
+            CommonWebElement.setbMonitorMode(false);
+            WebDriver dr = getDriver();
+            CommonWebValidate validate = new CommonWebValidate(dr);
+            OpsLoginPage loginPage = new OpsLoginPage(dr);
+            VisitSummaryPage visit = new VisitSummaryPage(dr);
+            loginPage.goTo();
+            loginPage.waitForPageReady();
+            loginPage.login();
+            dr.navigate().to(visit_url);
+            visit.selectTotalRefund("Automated test");
+        }
+
+        @Test(groups = {"dev", "critical"})
+        public void refundVisitPartialRefund() {
+            CommonWebElement.setbMonitorMode(false);
+            WebDriver dr = getDriver();
+            CommonWebValidate validate = new CommonWebValidate(dr);
+            OpsLoginPage loginPage = new OpsLoginPage(dr);
+            VisitSummaryPage visit = new VisitSummaryPage(dr);
+            loginPage.goTo();
+            loginPage.waitForPageReady();
+            loginPage.login();
+            dr.navigate().to(visit_url);
+            visit.selectPartialRefund("50","Automated test");
+        }
 }

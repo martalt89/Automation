@@ -107,4 +107,23 @@ public class OpsVisitsPage extends WebBase {
         return new CommonWebElement("oRow" + Integer.toString(iNumber), "xpath=//tbody/tr["+iNumber+"]", oWebDriver);
     }
 
+    public void filterVisits(String sFilterText){
+        this.oFilterResultsTextInput.sendKeys(sFilterText);
+    }
+
+    public String getVisitCodeBy(String sStatus){
+        CommonWebElement oVisitCode = new CommonWebElement("oVisitCode", "xpath=(//tr[td[2]//b[text()='"+sStatus+"']]/td[3])[1]" ,oWebDriver);
+        return oVisitCode.getText();
+    }
+
+    public String getVisitCodeBy(String sStatus, String sPatientName){
+        CommonWebElement oVisitCode = new CommonWebElement("oVisitCode", "xpath=//tr[td//b='"+sStatus+"' and td='"+sPatientName+"']/td[3]" ,oWebDriver);
+        return oVisitCode.getText();
+    }
+
+    public String getStatusByVisitCode(String sVisitCode){
+        CommonWebElement oVisitCode = new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[2]//b" ,oWebDriver);
+        return oVisitCode.getText();
+    }
+
 }
