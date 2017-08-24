@@ -482,4 +482,16 @@ public class WebBase {
         waitForPageLoad();
     }
 
+    public void scrollPage(String sDirection) {
+        switch (sDirection) {
+            case "Up":
+                ((JavascriptExecutor) oWebDriver)
+                        .executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+                break;
+            case "Down":
+                ((JavascriptExecutor) oWebDriver)
+                        .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+                break;
+        }
+    }
 }

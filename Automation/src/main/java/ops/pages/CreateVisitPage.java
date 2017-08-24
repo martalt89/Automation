@@ -39,7 +39,8 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oZipCodeLabel = new CommonWebElement("oZipCodeLabel", "xpath=//label[text()='Zipcode']", oWebDriver);
 
         // text fields
-    public CommonWebElement oEnterKeywordField = new CommonWebElement("oEnterKeywordField", "xpath=//*[contains(@class,'form-control tt-input')]", oWebDriver);
+    public CommonWebElement oEnterKeywordField = new CommonWebElement("oEnterKeywordField", "xpath=//*[contains(@placeholder,'Enter Keyword')]", oWebDriver);
+    public CommonWebElement oSearch1StSugestion = new CommonWebElement("oSearch1StSugestion", "xpath=//*[@class='tt-dataset tt-dataset-user_accounts']/div[1]", oWebDriver);
     public CommonWebElement oFirstNameField = new CommonWebElement("oFirstNameField", "xpath=//*[contains(@placeholder,'Enter First Name')]", oWebDriver);
     public CommonWebElement oLastNameField = new CommonWebElement("oLastNameField", "xpath=//*[contains(@placeholder,'Enter Last Name')]", oWebDriver);
     public CommonWebElement oPhoneField = new CommonWebElement("oPhoneField", "xpath=//*[contains(@placeholder,'Enter Phone Number')]", oWebDriver);
@@ -86,7 +87,7 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oOtherGenderOption = new CommonWebElement("oOtherGenderOption", "xpath=//*[@class='radio-group']/input[3]", oWebDriver);
 
         // buttons
-    public CommonWebElement oSelectPatientProfile = new CommonWebElement("oSelectPatientProfile", "xpath=//*[@id='react-create-visit-component']//*[@class='patient-name']", oWebDriver);
+    public CommonWebElement oSelectPatientProfile = new CommonWebElement("oSelectPatientProfile", "xpath=//*[@class='patient-list']/div[1]", oWebDriver);
     public CommonWebElement oCreatePatientBtn = new CommonWebElement("oCreatePatientBtn", "xpath=//button[text()='Create Patient']", oWebDriver);
     public CommonWebElement oChooseDifferentPatientBtn = new CommonWebElement("oChooseDifferentPatientBtn", "xpath=//button[text()='Choose Different Patient']", oWebDriver);
     public CommonWebElement oSavePatientBtn = new CommonWebElement("oCreateUserBtn", "xpath=//button[text()='Save Patient']", oWebDriver);
@@ -99,7 +100,7 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oEditAddressTitle = new CommonWebElement("oEditAddressTitle", "xpath=//h2[text()='Edit' and text()=' Address']", oWebDriver);
 
         // buttons
-    public CommonWebElement oSelectFirstAddressBtn = new CommonWebElement("oSelectFirstAddressBtn", "xpath=//button[@class='address-option btn btn-default btn-block'][1]", oWebDriver);
+    public CommonWebElement oSelectFirstAddressBtn = new CommonWebElement("oSelectFirstAddressBtn", "xpath=//button[contains(@class,'address-option btn btn-default')][1]", oWebDriver);
     public CommonWebElement oCancelBtn = new CommonWebElement("oCancelBtn", "xpath=//button[text()='Cancel']", oWebDriver);
     public CommonWebElement oCreateAddressBtn = new CommonWebElement("oCreateAddressBtn", "xpath=//button[text()='Create Address']", oWebDriver);
     public CommonWebElement oSaveAddressBtn = new CommonWebElement("oSaveAddressBtn", "xpath=//button[text()='Save Address']", oWebDriver);
@@ -178,10 +179,12 @@ public class CreateVisitPage extends WebBase {
 
         // labels
     public CommonWebElement oNoPromoLabel = new CommonWebElement("oNoPromoLabel", "xpath=//div[text()='No Promo Code.']", oWebDriver);
+    public CommonWebElement oPromoCodeLabel = new CommonWebElement("oPromoCodeLabel", "xpath=//div[text()='Promo Code']", oWebDriver);
     public CommonWebElement oVisitPriceLabel = new CommonWebElement("oVisitPriceLabel", "xpath=//div[text()='Visit Price']", oWebDriver);
     public CommonWebElement oDiscountLabel = new CommonWebElement("oDiscountLabel", "xpath=//div[text()='Discount']", oWebDriver);
     public CommonWebElement oTotalFeeLabel = new CommonWebElement("oTotalFeeLabel", "xpath=//div[text()='Your visit has a flat fee of']", oWebDriver);
 
+    public CommonWebElement oPromo = new CommonWebElement("oPromo", "xpath=//*[contains(@class,'visit-details')]/div[1]/span/div[2]", oWebDriver);
     public CommonWebElement oPrice = new CommonWebElement("oPrice", "xpath=//*[contains(@class,'visit-details')]/div[2]/div[2]", oWebDriver);
     public CommonWebElement oDiscount = new CommonWebElement("oDiscount", "xpath=//*[contains(@class,'visit-details')]/div[3]/div[2]", oWebDriver);
     public CommonWebElement oTotal = new CommonWebElement("oTotal", "xpath=//*[contains(@class,'visit-details')]/div[4]/div[2]", oWebDriver);
@@ -200,6 +203,15 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oAddVisitDetailsMenu = new CommonWebElement("oAddVisitDetailsMenu", "xpath=//*[contains(@class,'no-data') and text()='Add Visit Details']", oWebDriver);
     public CommonWebElement oSelectPaymentMenu = new CommonWebElement("oSelectPaymentMenu", "xpath=//*[contains(@class,'no-data') and text()='Select Payment']", oWebDriver);
     public CommonWebElement oVisitSummaryMenu = new CommonWebElement("oVisitSummaryMenu", "xpath=//*[contains(@class,'no-data') and text()='Visit Summary']", oWebDriver);
+
+    // CARDS
+    public CommonWebElement oAddressCard = new CommonWebElement("oAddressCard", "xpath=//*[contains(@class,'address-card')]", oWebDriver);
+    public CommonWebElement oUserCard = new CommonWebElement("oUserCard", "xpath=//div[@class='pane']/*[contains(@class,'patient-card')]", oWebDriver);
+    public CommonWebElement oPatientCard = new CommonWebElement("oPatientCard", "xpath=//div[@class='pane selectable']/*[contains(@class,'patient-card')]", oWebDriver);
+
+
+        // messages
+    public CommonWebElement oCreateVisitSuccessMessage = new CommonWebElement("oCreateVisitSuccessMessage", "xpath=//*[contains(@class,'toast-message') and text()='Successfully Created Visit']", oWebDriver);
 
 
     //////////////////
@@ -277,10 +289,8 @@ public class CreateVisitPage extends WebBase {
         this.oRelationShipDropDown.select(td.sRelationship, true);
 
         this.setPatientGender(td.sGender);
-
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
-        if(bHasInsurance) {
+        this.scrollPage("Down");
+               if(bHasInsurance) {
             this.oPayerDropDown.select(td.sPayer, true);
             this.oMemberIdField.sendKeys(td.sMemberId);
             this.oGroupIdField.sendKeys(td.sGroupId);
@@ -289,8 +299,7 @@ public class CreateVisitPage extends WebBase {
         this.oCreatePatientBtn.clickAndWait(oSavePatientBtn, true);
 
         this.oSavePatientBtn.click();
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+        this.scrollPage("Up");
     }
     public void createAddress(){
         this.oSelectAddressMenu.click();
@@ -303,41 +312,74 @@ public class CreateVisitPage extends WebBase {
         this.oEstablishmentField.sendKeys(testData.sEstablishment);
         this.oInstructionsField.sendKeys(testData.sInstruction);
         this.oCreateAddressBtn.clickAndWait(oEditAddressTitle, true);
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        //wait for toast message
+        this.oSelectFirstAddressBtn.waitForVisible();
+        this.scrollPage("Down");
         this.oSaveAddressBtn.click();
+        this.oAddVisitDetailsMenu.waitForEnabled(5); // add visit details does not work - remains disabled
+
 
     }
     public void addVisitDetails() throws Exception{
-        this.oAddVisitDetailsMenu.clickAndWait(oSelectVisitServiceTitle, true);
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+        this.oAddVisitDetailsMenu.clickAndWait(oEnterVisitDetailsTitle, true);
+        this.scrollPage("Up");
         this.oSickAdultService.click();
         this.oSymptomsField.sendKeys("headache");
         this.oTimeSlotDropDown.selectByValue("1", true);
         this.oSaveBtn.click();
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        this.scrollPage("Down");
         this.oSaveBtn.click();
     }
 
     private TestData tdc = new TestData(TestData.CARD_SHEET);
     public void selectPayment(){
         this.oSelectPaymentMenu.clickAndWait(oCreatePaymentTitle, true);
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+        this.scrollPage("Up");
         this.oCardNumberField.sendKeys(tdc.sCardNumber);
         this.oExpDateField.sendKeys(Integer.toString(tdc.iExpiryMonth)+Integer.toString(tdc.iExpiryYear));
         this.oCVCField.sendKeys(tdc.sCVC);
         this.oCreatePaymentBtn.click();
         this.oFirstCardOption.click();
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        this.scrollPage("Down");
     }
+
+    public void select1stAvailablePayment(){
+        this.oSelectPaymentMenu.clickAndWait(oCreatePaymentTitle, true);
+        this.scrollPage("Up");
+        this.oFirstCardOption.click();
+        this.scrollPage("Down");
+    }
+
     public void visitSummary(){
         this.oVisitSummaryMenu.clickAndWait(oVisitPriceTitle, true);
-        ((JavascriptExecutor) oWebDriver)
-                .executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+        this.scrollPage("Up");
     }
+
+    public void searchExistentUser(){
+        this.oEnterKeywordField.sendKeys(testData.sEmail);
+        this.oSearch1StSugestion.clickAndWait(oEditUserTitle, true);
+        // on edit the phone is not correctly saved, I have to updated it again on Edit User. Bug.
+        this.oPhoneField.sendKeys(testData.sPhone);
+        // also, after saving, invalid zip code error is displayed. Another bug.
+        this.oSaveUserBtn.click();
+    }
+
+    public void selectFirstPatient(){
+        this.oSelectPatientMenu.clickAndWait(oCreatePatientTitle, true);
+        this.oSelectPatientProfile.click();
+        this.scrollPage("Down");
+    }
+
+    public void selectFirstAddress() {
+        this.oSelectAddressMenu.click();
+        this.scrollPage("Up");
+        this.oSelectFirstAddressBtn.clickAndWait(oAddressCard, true);
+        this.scrollPage("Down");
+    }
+
+
+
+
 
 }
