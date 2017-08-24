@@ -16,7 +16,6 @@ public class DashboardTest extends TestBase {
     public void checkDashboardElements() {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         DashboardPage dashboardPage = new DashboardPage(dr);
         OpsMenu menu = new OpsMenu(dr);
@@ -63,7 +62,7 @@ public class DashboardTest extends TestBase {
 
     @Test(groups = {"dev", "critical"})
     public void searchZipcode() {
-        CommonWebElement.setbMonitorMode(false);
+        CommonWebElement.setbMonitorMode(true);
         WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         OpsLoginPage loginPage = new OpsLoginPage(dr);

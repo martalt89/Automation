@@ -17,6 +17,7 @@ public class DashboardPage extends WebBase{
     ///////////////////
 
     public CommonWebElement oOperationsViewTitle = new CommonWebElement("oOperationsViewTitle", "xpath=//h1[text()='Operations View']",oWebDriver);
+    public CommonWebElement oVisitsContainer = new CommonWebElement("oVisitsContainer", "xpath=//*[@class='griddle-container']", oWebDriver);
 
     //city names
     public CommonWebElement oLosAngelesTitle = new CommonWebElement("oLosAngelesTitle", "xpath=//*[contains(@class, 'market-name') and text()='LOS ANGELES']",oWebDriver);

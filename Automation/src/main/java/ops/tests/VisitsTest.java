@@ -57,7 +57,7 @@ public class VisitsTest extends TestBase{
 
     @Test (groups = {"smoke", "regression", "critical" })
     public void createNewVisitTest() throws Exception{
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);

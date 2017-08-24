@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 public class OpsLoginPage extends WebBase{
 
     public static final String URL = "https://ops.qa.heal.com/login";
+    DashboardPage dashboardPage = new DashboardPage(oWebDriver);
 
     ///////////////////
     // Page Elements //
@@ -44,6 +45,7 @@ public class OpsLoginPage extends WebBase{
         this.oUserNameInput.sendKeys("mayur+oc@heal.com");
         this.oPasswordInput.sendKeys("Heal@123");
         this.oLoginBtn.click();
+        dashboardPage.oVisitsContainer.waitForElement();
     }
 
     /**
@@ -57,6 +59,7 @@ public class OpsLoginPage extends WebBase{
         this.oUserNameInput.sendKeys(sUsername);
         this.oPasswordInput.sendKeys(sPassword);
         this.oLoginBtn.click();
+        dashboardPage.oVisitsContainer.waitForElement();
     }
 
 }

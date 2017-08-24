@@ -1,5 +1,7 @@
 package ops.tests;
 
+import foundation.SysTools;
+import framework.restAPI.VisitsAPI;
 import framework.test.TestBase;
 import framework.test.TestData;
 import framework.web.CommonWebElement;
@@ -13,13 +15,13 @@ import org.testng.annotations.Test;
 //NOTE: Work in progress
 public class VisitSummaryTest extends TestBase  {
         TestData testData = new TestData(TestData.PATIENT_SHEET);
-        private String visit_id = "SF-FCVBK";
-        private String visit_url = "https://ops.qa.heal.com/dashboard#"+visit_id;
+        private String visit_id = "LA-QVRUS";
+        private String  visit_url = "https://ops.qa.heal.com/dashboard#"+visit_id;
         private String visit_time = "08/24/2017 8:32 AM";
 
         @Test(groups = {"dev", "critical"})
         public void startVisit() {
-            CommonWebElement.setbMonitorMode(false);
+            CommonWebElement.setbMonitorMode(true);
             WebDriver dr = getDriver();
             CommonWebValidate validate = new CommonWebValidate(dr);
             OpsLoginPage loginPage = new OpsLoginPage(dr);
@@ -30,6 +32,7 @@ public class VisitSummaryTest extends TestBase  {
             loginPage.login();
             dr.navigate().to(visit_url);
             visit.startVisit(visit_time);
+            SysTools.sleepFor(10);
         }
 
         @Test(groups = {"dev", "critical"})
@@ -51,12 +54,13 @@ public class VisitSummaryTest extends TestBase  {
         public void changeProvider() {
             CommonWebElement.setbMonitorMode(false);
             WebDriver dr = getDriver();
-            CommonWebValidate validate = new CommonWebValidate(dr);
             OpsLoginPage loginPage = new OpsLoginPage(dr);
             VisitSummaryPage visit = new VisitSummaryPage(dr);
             OpsMenu menu = new OpsMenu(dr);
             loginPage.goTo();
             loginPage.waitForPageReady();
+            VisitsAPI visitsAPI = new VisitsAPI("vahan+qa@heal.com", "Heal4325");
+            visitsAPI.createVisit();
             loginPage.login();
             dr.navigate().to(visit_url);
             visit.chooseDoctor(VisitSummaryPage.DR_NILES);
@@ -77,9 +81,10 @@ public class VisitSummaryTest extends TestBase  {
             loginPage.goTo();
             loginPage.waitForPageReady();
             loginPage.login();
-            dr.navigate().to(visit_url);
+            visit.selectVisit(visit_id);
+            //dr.navigate().to(visit_url);
             visit.editSymptoms(sSymptoms);
-            verifyTextMatches("Verify symptoms are saved", visit.oDetailsEditSymptomsField, sSymptoms);
+            verifyTextMatches("Verify symptoms are saved", visit.oDetailsSymptoms, sSymptoms);
         }
 
         @Test(groups = {"dev", "critical"})

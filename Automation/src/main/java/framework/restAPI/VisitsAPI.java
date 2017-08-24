@@ -14,8 +14,8 @@ public class VisitsAPI {
     private String baseURI = "https://patient.qa.heal.com/api";
     private TestData accountTestData = new TestData(TestData.ACCOUNT_SHEET);
     private RestUtils restUtils = new RestUtils();
-    public String sAccUsername;
-    public String sAccPassword;
+    public String sAccUsername = "";
+    public String sAccPassword = "";
     public String sPatientId;
 
 
@@ -30,8 +30,6 @@ public class VisitsAPI {
     public VisitsAPI(String sAccUsername, String sAccPassword){
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
-
-
     }
 
     public void createVisit(){

@@ -2,7 +2,10 @@ package ops.pages;
 
 import framework.web.CommonWebElement;
 import framework.web.WebBase;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class VisitSummaryPage extends WebBase{
     public static final String URL = "https://ops.qa.heal.com/dashboard";
@@ -209,6 +212,14 @@ public class VisitSummaryPage extends WebBase{
     // Methods //
     /////////////
 
+
+    public void selectVisit(String sVisitCode) {
+        CommonWebElement oVisitTD = new CommonWebElement("oVisitTD", "xpath=//tr[./td/a='"+ sVisitCode +"']", oWebDriver);
+        oVisitTD.waitForElement();
+        oVisitTD.click();
+    }
+
+
     /**
      * Edits patient symptoms from visit summary modal, Details section
      * @param sSymptom (String) Symptoms
@@ -285,7 +296,7 @@ public class VisitSummaryPage extends WebBase{
     public void startVisit(String sDateTime){
         openStartVisitModal();
         this.oStartTimeInput.sendKeys(sDateTime);
-        this.oStartVisitSubmitBtn.click();
+        this.oStartVisitSubmitBtn.jsClick();
     }
 
     //todo: also add methods for selecting date/time from the calendar
