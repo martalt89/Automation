@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class OpsLoginPage extends WebBase{
 
-    public static final String URL = "https://ops.qa.heal.com/login";
+    public static final String URL = "https://ops"+ baseUrl +"/login";
     DashboardPage dashboardPage = new DashboardPage(oWebDriver);
 
     ///////////////////

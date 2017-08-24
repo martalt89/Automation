@@ -10,7 +10,7 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/13/2017.
  */
 public class ManageProfilePage extends WebBase{
-    public static final String URL = "https://patient.qa.heal.com/profiles";
+    public static final String URL = "https://patient" + baseUrl + "/profiles";
 
     ///////////////////
     // Page Elements //

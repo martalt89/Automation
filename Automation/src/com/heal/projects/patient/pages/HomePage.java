@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class HomePage extends WebBase {
 
-    public static final String URL = "https://" + baseUrl + "/visits";
+    public static final String URL = "https://patient" + baseUrl + "/visits";
     ///////////////////
     // Shared Pages  //
     ///////////////////

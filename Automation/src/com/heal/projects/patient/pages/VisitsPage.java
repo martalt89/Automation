@@ -12,7 +12,7 @@ import org.testng.Reporter;
  */
 public class VisitsPage extends WebBase {
 
-    public static final String URL = "https://" + baseUrl + "/visits";
+    public static final String URL = "https://patient" + baseUrl + "/visits";
 
     ///////////////////
     // Page Elements //

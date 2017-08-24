@@ -11,7 +11,7 @@ import org.testng.annotations.Parameters;
  */
 public class CreatePatientPage extends WebBase{
     TestData patientData = new TestData(TestData.PATIENT_SHEET);
-    public static final String URL = "https://patient.qa.heal.com/create-patient";
+    public static final String URL = "https://patient" + baseUrl + "/create-patient";
 
     ///////////////////
     // Page Elements //

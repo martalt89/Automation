@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
  *  Created by adrian.rosu on 21/08/2017.
  */
 public class CreateVisitPage extends WebBase {
-    public static final String URL = "https://"+ baseUrl +"/visits";
+    public static final String URL = "https://ops"+ baseUrl +"/visits";
 
     ///////////////////
     // Page Elements //

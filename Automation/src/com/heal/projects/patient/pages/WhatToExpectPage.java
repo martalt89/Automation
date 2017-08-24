@@ -9,7 +9,7 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/18/2017.
  */
 public class WhatToExpectPage extends WebBase {
-    public static final String URL = "https://patient.qa.heal.com/login";
+    public static final String URL = "https://patient" + baseUrl + "/login";
 
     ///////////////////
     // Page Elements //

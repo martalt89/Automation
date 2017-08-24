@@ -9,7 +9,7 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/17/2017.
  */
 public class AddCardPage extends WebBase {
-    public static final String URL = "https://patient.qa.heal.com/payments/add-card";
+    public static final String URL = "https://patient" + baseUrl + "/payments/add-card";
 
     ///////////////////
     // Page Elements //
