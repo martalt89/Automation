@@ -63,6 +63,7 @@ public class VisitSummaryPage extends WebBase{
     public CommonWebElement oActionsMenuCancelVisit = new CommonWebElement("oActionsMenuCancelVisit", "xpath=//li/a[text()='Cancel Visit']",oWebDriver);
     public CommonWebElement oActionsMenuChangeProvider = new CommonWebElement("oActionsMenuChangeProvider", "xpath=//li/a[text()='Change Provider']",oWebDriver);
     public CommonWebElement oActionsMenuAddInsurance = new CommonWebElement("oActionsMenuAddInsurance", "xpath=//li/a[text()='Add Insurance']",oWebDriver);
+    public CommonWebElement oActionsRefundVisit = new CommonWebElement("oActionsRefundVisit", "xpath=//li/a[text()='Refund Visit']",oWebDriver);
 
     //actions - start visit modal
     public CommonWebElement oSelectStartTimeTitle = new CommonWebElement("oSelectStartTimeTitle", "xpath=//*[@class='modal-title']",oWebDriver);
@@ -107,6 +108,18 @@ public class VisitSummaryPage extends WebBase{
     public CommonWebElement oGroupIdInput = new CommonWebElement("oGroupIdInput", "xpath=//input[@placeholder='Enter Group Id']",oWebDriver);
     public CommonWebElement oCancelInsuranceBtn = new CommonWebElement("oCancelInsuranceBtn", "xpath=//*[@class='modal-footer']/button[1]",oWebDriver);
     public CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=//*[@class='modal-footer']/button[2]",oWebDriver);
+
+    //actions - Refund visit
+    public CommonWebElement oPatientInformationText = new CommonWebElement("oPatientInformationText", "xpath=//*[@class='modal-body']//div[text()='Patient Information']",oWebDriver);
+    public CommonWebElement oTotalRefundCheckbox = new CommonWebElement("oPatientName", "xpath=//input[@type='radio' and @id='TOTAL']",oWebDriver);
+    public CommonWebElement oPartianRefundCheckbox = new CommonWebElement("oPartianRefundCheckbox", "xpath=//input[@type='radio' and @id='PARTIAL']",oWebDriver);
+    public CommonWebElement oRefundReasonInput = new CommonWebElement("oRefundReasonInput", "xpath=//*[contains(@class,'refund-reason')]//input",oWebDriver);
+    public CommonWebElement oRefundAmountInput = new CommonWebElement("oRefundAmountInput", "xpath=//*[contains(@class,'partial-amount')]//input",oWebDriver);
+    public CommonWebElement oProcessRefundBtn = new CommonWebElement("oProcessRefundBtn", "xpath=//*[@class='modal-row']//button",oWebDriver);
+    public CommonWebElement oRefundModalOriginal = new CommonWebElement("oRefundModalOriginal", "xpath=//*[contains(@class,'middle-container')]/div[2]/div[2]",oWebDriver);
+    public CommonWebElement oRefundModalDiscount = new CommonWebElement("oRefundModalDiscount", "xpath=//*[contains(@class,'middle-container')]/div[3]/div[2]",oWebDriver);
+    public CommonWebElement oRefundModalCharged = new CommonWebElement("oRefundModalCharged", "xpath=//*[contains(@class,'middle-container')]/div[4]/div[2]",oWebDriver);
+    public CommonWebElement oRefundModalRefunded = new CommonWebElement("oRefundModalRefunded", "xpath=//*[contains(@class,'middle-container')]/div[5]/div[2]",oWebDriver);
 
     public CommonWebElement oVisitId = new CommonWebElement("oVisitId", "xpath=//*[@class='status-container']/div[1]",oWebDriver);
     public CommonWebElement oVisitStatus = new CommonWebElement("oVisitStatus", "xpath=//*[@class='status-container']/div[3]",oWebDriver);
@@ -402,4 +415,28 @@ public class VisitSummaryPage extends WebBase{
         this.oSubmitBtn.click();
     }
 
+    //refund methods
+    public void openRefundVisitModal(){
+        this.oActionsBtn.click();
+        this.oActionsRefundVisit.click();
+    }
+
+    public CommonWebElement getModalElementByText(String sText) {
+        return new CommonWebElement("oElement", "xpath=//*[@class='modal-body']//div[text()='" + sText + "']",oWebDriver);
+    }
+
+    public void selectTotalRefund(String sReason){
+        this.openRefundVisitModal();
+        this.oTotalRefundCheckbox.click();
+        this.oRefundReasonInput.sendKeys(sReason);
+        this.oProcessRefundBtn.click();
+    }
+
+    public void selectPartialRefund(String sAmount, String sReason){
+        this.openRefundVisitModal();
+        this.oTotalRefundCheckbox.click();
+        this.oRefundAmountInput.sendKeys(sAmount);
+        this.oRefundReasonInput.sendKeys(sReason);
+        this.oProcessRefundBtn.click();
+    }
 }
