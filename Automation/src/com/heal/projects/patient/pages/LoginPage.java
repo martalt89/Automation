@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
  */
 
 public class LoginPage extends WebBase{
-    public static final String URL = "https://"+ baseUrl +"/login";
+    public static final String URL = "https://patient" + baseUrl + "/login";
     ///////////////////
     // Page Elements //
     ///////////////////

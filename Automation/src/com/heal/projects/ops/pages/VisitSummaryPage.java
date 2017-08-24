@@ -5,7 +5,7 @@ import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 
 public class VisitSummaryPage extends WebBase{
-    public static final String URL = "https://ops.qa.heal.com/dashboard";
+    public static final String URL = "https://ops"+ baseUrl +"/dashboard";
     ///////////////////
     // Page Elements //
     ///////////////////

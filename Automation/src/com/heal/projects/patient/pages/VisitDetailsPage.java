@@ -10,7 +10,7 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/19/2017.
  */
 public class VisitDetailsPage extends WebBase {
-    public static final String URL = "https://patient.qa.heal.com/book-visit/visit-details";
+    public static final String URL = "https://patient" + baseUrl + "/book-visit/visit-details";
     public static final String SICK_SERVICE = "Sick or Injured";
     public static final String ANNUAL_SERVICE = "Annual Physical";
     public static final String OTHER_SERVICE = "Other";

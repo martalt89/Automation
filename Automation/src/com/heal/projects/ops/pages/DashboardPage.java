@@ -10,7 +10,7 @@ import org.testng.annotations.Parameters;
 import java.util.List;
 
 public class DashboardPage extends WebBase{
-    public static final String URL = "https://ops.qa.heal.com/dashboard";
+    public static final String URL = "https://ops"+ baseUrl +"/dashboard";
 
     ///////////////////
     // Page Elements //

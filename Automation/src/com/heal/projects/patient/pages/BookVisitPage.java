@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class BookVisitPage extends WebBase {
 
-    public static final String URL = "https://"+ baseUrl +"/book-visit";
+    public static final String URL = "https://patient" + baseUrl + "/book-visit";
 
     ///////////////////
     // Page Elements //

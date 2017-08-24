@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 public class OpsVisitsPage extends WebBase {
 
-    public static final String URL = "https://"+ baseUrl +"/visits";
+    public static final String URL = "https://ops"+ baseUrl +"/visits";
 
     ///////////////////
     // Page Elements //

@@ -3,19 +3,15 @@ package com.heal.projects.ops.pages;
 
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
-import java.util.Iterator;
-import java.util.List;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.testng.annotations.Parameters;
+
 /**
  *  Created by david.wheeler on 24/08/2017.
  */
 
 public class OpsMarketsPage extends WebBase {
 
-    public static final String URL = "https://"+ baseUrl +"/markets";
+    public static final String URL = "https://ops"+ baseUrl +"/markets";
 
     ///////////////////
     // Page Elements //
