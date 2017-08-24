@@ -2,6 +2,7 @@ package com.heal.projects.ops.tests;
 
 import com.heal.projects.ops.pages.CreateVisitPage;
 import com.heal.projects.ops.pages.OpsLoginPage;
+import com.heal.projects.ops.pages.OpsMenu;
 import com.heal.projects.ops.pages.OpsVisitsPage;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;

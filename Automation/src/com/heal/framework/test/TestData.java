@@ -55,11 +55,18 @@ public class TestData {
     private String projDri = System.getProperty("user.dir");
     private String fileSeparator = System.getProperty("file.separator");
     private String fileExcelName = "test_data.xlsx";
+//    private String fileExcelPath = projDri + fileSeparator +
+//            "src" + fileSeparator +
+//            "main" + fileSeparator +
+//            "java" + fileSeparator +
+//            "src/framework" + fileSeparator +
+//            "test" + fileSeparator + fileExcelName;
+
     private String fileExcelPath = projDri + fileSeparator +
             "src" + fileSeparator +
-            "main" + fileSeparator +
-            "java" + fileSeparator +
-            "src/framework" + fileSeparator +
+            "com" + fileSeparator +
+            "heal" + fileSeparator +
+            "framework" + fileSeparator +
             "test" + fileSeparator + fileExcelName;
 
     public TestData(String sSheetName){
