@@ -4,7 +4,7 @@ import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
 
-public class VisitSummaryPage extends WebBase{
+public class VisitDetailsModalPage extends WebBase{
     public static final String URL = "https://ops"+ baseUrl +"/dashboard";
     ///////////////////
     // Page Elements //
@@ -207,15 +207,15 @@ public class VisitSummaryPage extends WebBase{
     // Constructors //
     //////////////////
 
-    public VisitSummaryPage(WebDriver oTargetDriver)
+    public VisitDetailsModalPage(WebDriver oTargetDriver)
     {
         super(oTargetDriver, URL);
     }
-    public VisitSummaryPage(WebDriver oTargetDriver, String sUrl)
+    public VisitDetailsModalPage(WebDriver oTargetDriver, String sUrl)
     {
         super(oTargetDriver, sUrl);
     }
-    public VisitSummaryPage(){
+    public VisitDetailsModalPage(){
         super();
     }
 
@@ -302,6 +302,11 @@ public class VisitSummaryPage extends WebBase{
         this.oStartVisitSubmitBtn.click();
     }
 
+    public void startVisit(){
+        openStartVisitModal();
+        this.oStartVisitSubmitBtn.click();
+    }
+
     //todo: also add methods for selecting date/time from the calendar
     /**
      * Sets a visit start time on Actions -> Start Visit modal
@@ -344,17 +349,10 @@ public class VisitSummaryPage extends WebBase{
      * Selects a doctor on Actions -> Change Provider modal
      * @param sDoctorName (String) Provider name
      */
-    public void chooseDoctor(String sDoctorName){
+    public void chooseDoctorAndMA(String sDoctorName, String sMAName){
         openChangeProviderModal();
+        //todo: fix -  test sometimes fail b/c menu data is loading
         this.oChooseDoctorInput.select(sDoctorName,false);
-    }
-
-    /**
-     * Selects a doctor on Actions -> Change Provider modal
-     * @param sMAName (String) Medical Assistant name
-     */
-    public void chooseMedicalAssistant(String sMAName){
-        openChangeProviderModal();
         this.oChooseDoctorInput.select(sMAName,false);
     }
 
@@ -367,7 +365,10 @@ public class VisitSummaryPage extends WebBase{
     }
 
     //update insurance methods
-
+    public void openAddInsuranceModal(){
+        this.oActionsBtn.click();
+        this.oActionsMenuAddInsurance.click();
+    }
     /**
      * Selects a payer on Actions -> Add Insurance modal
      * @param sPayer (String) Payer
@@ -399,6 +400,7 @@ public class VisitSummaryPage extends WebBase{
      * @param sGroupId (String) Group ID
      */
     public void updateInsurance(String sPayer, String sMemberId, String sGroupId){
+        this.openAddInsuranceModal();
         this.selectPayer(sPayer);
         this.editMemberId(sMemberId);
         this.editGroupId(sGroupId);
@@ -429,6 +431,9 @@ public class VisitSummaryPage extends WebBase{
         this.oProcessRefundBtn.click();
     }
 
-
+    public void switchToUrlWithVisitCode(String sUrlWithVisitCode){
+        oWebDriver.navigate().to(sUrlWithVisitCode);
+        oWebDriver.navigate().refresh();
+    }
 
 }
