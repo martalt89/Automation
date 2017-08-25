@@ -14,13 +14,9 @@ public class VisitsAPI {
     private String baseURI = "https://patient.qa.heal.com/api";
     private TestData accountTestData = new TestData(TestData.ACCOUNT_SHEET);
     private RestUtils restUtils = new RestUtils();
-    public String sAccUsername = "";
-    public String sAccPassword = "";
-    public String sPatientId;
 
-
-    private AccountAPI accountAPI = new AccountAPI(sAccUsername, sAccPassword);
-    private PatientAPI patientAPI = new PatientAPI(sAccUsername, sAccPassword, (String) accountAPI.getAccountInfo().get("id"));
+    private String sAccUsername;
+    private String sAccPassword;
 
     /**
      * Constructor
@@ -30,21 +26,22 @@ public class VisitsAPI {
     public VisitsAPI(String sAccUsername, String sAccPassword){
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
+
     }
 
-    public void createVisit(){
-        String resourceAPI = "/v4/patient/goTo";
+    private Map createVisitPostParams(){
+        PatientAPI patientAPI = new PatientAPI(sAccUsername, sAccPassword);
         Map<String, Object> jsonAsMap = new HashMap<>();
-        jsonAsMap.put("patientId", patientAPI.sPatientIdFromInfo);
+        jsonAsMap.put("patientId", patientAPI.getPatientIdByEmail(sAccUsername));
         jsonAsMap.put("serviceCode", "SICK_ADULT");
-        jsonAsMap.put("timeSlotId", "0001501121464233-784f435902cb-4572"); // todo: list all available time slots, put them in test data
+        jsonAsMap.put("timeSlotId", "0001501121465155-784f435902cb-11052"); // todo: list all available time slots, put them in test data
         jsonAsMap.put("promoCode", null);
         jsonAsMap.put("paymentId", "0001501850382645-2f663b05b4c-0001"); // todo: find out where to extract paymentId
         jsonAsMap.put("addressLongitude", "-122.39483660000002");
         jsonAsMap.put("addressLatitude", "37.7938462");
         jsonAsMap.put("addressId", "0001502109172052-2f663b05b4c-0001");
         jsonAsMap.put("establishment", "");
-        jsonAsMap.put("address", "1 Market St"); // todo: put the address on test data - patient sheet
+        jsonAsMap.put("address", accountTestData.sAddress);
         jsonAsMap.put("city", "San Francisco");
         jsonAsMap.put("unit", "2");
         jsonAsMap.put("country", "United States");
@@ -54,18 +51,27 @@ public class VisitsAPI {
         jsonAsMap.put("latitude", 37.7938462);
         jsonAsMap.put("longitude", -122.39483660000002);
         jsonAsMap.put("defaultAddress", false);
+        return jsonAsMap;
+    }
+
+    public String createVisit(){
+        String resourceAPI = "/v4/patient/visit";
+        String sessionId = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get("https://patient.qa.heal.com/api/v2/patients")
+                .cookie("SESSION");
 
         Response response = RestAssured.given()
                 .auth()
                 .preemptive()
-                .basic(sAccUsername, sAccUsername)
+                .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
-                .body(jsonAsMap)
-                .log().all()
-                .put(baseURI + resourceAPI);
-        response.prettyPrint();
+                .cookie("SESSION", sessionId)
+                .body(createVisitPostParams())
+                .post(baseURI + resourceAPI);
+        return restUtils.getJsonValue(response.asString(),"visitCode");
     }
-
-
 
 }
