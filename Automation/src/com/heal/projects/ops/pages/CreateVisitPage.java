@@ -230,20 +230,21 @@ public class CreateVisitPage extends WebBase {
      *
      */
 
-    public static final String sRandomUserEmail = "qa_auto_test_" + SysTools.getTimestamp("yyyy_MM_dd_HH-mm") +"@heal.com";
+
     private TestData testData = new TestData(TestData.ACCOUNT_SHEET);
-    public void createUser()
+    public void createUser(String sEmail)
     {
         this.oFirstNameField.sendKeys(testData.sFirstname);
         this.oLastNameField.sendKeys(testData.sLastname);
         this.oPhoneField.sendKeys(testData.sPhone);
-        this.oEmailField.sendKeys(sRandomUserEmail);
+        this.oEmailField.sendKeys(sEmail);
         this.oZipCodeField.sendKeys(testData.sZipCode);
         this.oCreateUserBtn.clickAndWait(oEditUserTitle, true);
         // on edit the phone is not correctly saved, I have to updated it again on Edit User. Bug.
         this.oPhoneField.sendKeys(testData.sPhone);
         // also, after saving, invalid zip code error is displayed. Another bug.
         this.oSaveUserBtn.click();
+        //System.out.println(sRandomUserEmail);
     }
 
     private void setPatientGender(String sGender){
@@ -274,7 +275,7 @@ public class CreateVisitPage extends WebBase {
     }
 
     private TestData td = new TestData(TestData.PATIENT_SHEET);
-    public void createPatient(Boolean bHasInsurance){
+    public void createPatient(Boolean bHasInsurance) throws Exception {
         this.oSelectPatientMenu.clickAndWait(oCreatePatientTitle, true);
         this.oFirstNameField.sendKeys(td.sFirstname);
         this.oLastNameField.sendKeys(td.sLastname);
@@ -292,11 +293,14 @@ public class CreateVisitPage extends WebBase {
         }
 
         this.oCreatePatientBtn.clickAndWait(oSavePatientBtn, true);
+        Thread.sleep(3000);
+        this.oSavePatientBtn.waitForClickable();
 
         this.oSavePatientBtn.click();
+        Thread.sleep(3000);
         this.scrollPage("Up");
     }
-    public void createAddress(){
+    public void createAddress() throws Exception {
         this.oSelectAddressMenu.click();
         this.setAddressType(testData.sAddressType);
         this.oAddress1Field.sendKeys(testData.sAddress);
@@ -311,16 +315,21 @@ public class CreateVisitPage extends WebBase {
         //wait for toast message
         this.oSelectFirstAddressBtn.waitForVisible();
         this.scrollPage("Down");
-        this.oSaveAddressBtn.click();
-        this.oAddVisitDetailsMenu.waitForEnabled(5); // add visit details does not work - remains disabled
+
+        Thread.sleep(8000);
+
+        //this.oSaveAddressBtn.click();
+        //Thread.sleep(5000);
 
 
     }
     public void addVisitDetails() throws Exception{
         this.oAddVisitDetailsMenu.clickAndWait(oEnterVisitDetailsTitle, true);
+        Thread.sleep(5000);
         this.scrollPage("Up");
         this.oSickAdultService.click();
         this.oSymptomsField.sendKeys("headache");
+        Thread.sleep(3000);
         this.oTimeSlotDropDown.selectByValue("1", true);
         this.oSaveBtn.click();
         this.scrollPage("Down");
@@ -346,7 +355,7 @@ public class CreateVisitPage extends WebBase {
         this.scrollPage("Down");
     }
 
-    public void visitSummary(){
+    public void visitSummary() throws Exception {
         this.oVisitSummaryMenu.clickAndWait(oVisitPriceTitle, true);
         this.scrollPage("Up");
     }
