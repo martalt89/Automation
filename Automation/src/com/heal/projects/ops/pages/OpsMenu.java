@@ -21,7 +21,7 @@ public class OpsMenu extends WebBase{
     public CommonWebElement oDashboardLink = new CommonWebElement("oDashboardLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Dashboard']",oWebDriver);
     public CommonWebElement oUserAccountsLink = new CommonWebElement("oUserAccountsLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='User Accounts']",oWebDriver);
     public CommonWebElement oPatientsLink = new CommonWebElement("oPatientsLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Patients']",oWebDriver);
-    public CommonWebElement oVisitsLink = new CommonWebElement("oVisitsLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Visits']",oWebDriver);
+    public CommonWebElement oVisitsLink = new CommonWebElement("oVisitsLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Visits']|//*[contains(@id,'sidebar-nav')]//span[text()='Visits']",oWebDriver);
     public CommonWebElement oCampaignBookingsLink = new CommonWebElement("oCampaignBookingsLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Campaign Bookings']",oWebDriver);
     public CommonWebElement oWebBookingsLink = new CommonWebElement("oWebBookingsLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Web Bookings']",oWebDriver);
     public CommonWebElement oDoctorsLink = new CommonWebElement("oDoctorsLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Doctors']",oWebDriver);
