@@ -1,11 +1,13 @@
 package com.heal.projects.ops.tests;
 
+import com.heal.framework.foundation.SysTools;
 import com.heal.projects.ops.pages.CreateVisitPage;
 import com.heal.projects.ops.pages.OpsLoginPage;
 import com.heal.projects.ops.pages.OpsMenu;
 import com.heal.projects.ops.pages.OpsVisitsPage;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
+import com.heal.projects.patient.pages.VisitsPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -17,14 +19,17 @@ public class VisitsTest extends TestBase{
     /**
      * This will run a test in loop for validation purposes
      */
+    private static  String sRandomUserEmail = "qa_auto_test_" + SysTools.getTimestamp("yyyy_MM_dd_HH-mm") +"@heal.com";
     @Test
     public void testLoop(){
-        int numberOfVisitsToBook = 10;
+        int numberOfVisitsToBook = 1;
         int passedRuns = 0;
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                createNewVisitTest(); // put here the desired test to be run on loop
+                createVisitWith50PercentPromoTest(); // put here the desired test to be run on loop
+                createVisitWith100PercentPromoTest();
+                createVisitWithInsuranceTest();
                 passedRuns++;
             } catch (Exception e) {
                 failedRuns++;
@@ -45,12 +50,14 @@ public class VisitsTest extends TestBase{
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
         CreateVisitPage createVisitPage = new CreateVisitPage(dr);
+        OpsMenu opsMenu = new OpsMenu(dr);
 
         loginPage.goTo();
         loginPage.waitForPageLoad();
         loginPage.login("mayur+oc@heal.com", "Heal@123");
 
-        dr.navigate().to("https://ops.qa.heal.com/visits"); // temporary until Navigation Menu page object is done
+        // Go to Visits page
+        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
 
         verifyVisible("Checking if the correct page was loaded", visitsPage.oAllVisitsTitle);
     }
@@ -80,7 +87,7 @@ public class VisitsTest extends TestBase{
         visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
 
         // E2E flow for creating a visit in OPS
-        createVisitPage.createUser();
+        createVisitPage.createUser(sRandomUserEmail);
         createVisitPage.createPatient(false);
         createVisitPage.createAddress();
         createVisitPage.addVisitDetails();
@@ -107,7 +114,7 @@ public class VisitsTest extends TestBase{
      */
     @Test (groups = {"smoke", "regression", "critical" })
     public void createVisitWith50PercentPromoTest() throws Exception{
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
@@ -126,11 +133,15 @@ public class VisitsTest extends TestBase{
         visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
 
         // search an existent user (from excel data file) - select address - add visit details and payment
-        createVisitPage.searchExistentUser();
-        createVisitPage.selectFirstPatient();
-        createVisitPage.selectFirstAddress();
+        //createVisitPage.searchExistentUser();
+        createVisitPage.createUser(sRandomUserEmail);
+        //createVisitPage.selectFirstPatient();
+        createVisitPage.createPatient(false);
+        //createVisitPage.selectFirstAddress();
+        createVisitPage.createAddress();
         createVisitPage.addVisitDetails();
-        createVisitPage.select1stAvailablePayment();
+        //createVisitPage.select1stAvailablePayment();
+        createVisitPage.selectPayment();
         createVisitPage.visitSummary();
 
         // apply promo code
@@ -160,7 +171,7 @@ public class VisitsTest extends TestBase{
      */
     @Test (groups = {"smoke", "regression", "critical" })
     public void createVisitWith100PercentPromoTest() throws Exception{
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
@@ -179,11 +190,15 @@ public class VisitsTest extends TestBase{
         visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
 
         // search an existent user (from excel data file) - select address - add visit details and payment
-        createVisitPage.searchExistentUser();
-        createVisitPage.selectFirstPatient();
-        createVisitPage.selectFirstAddress();
+        //createVisitPage.searchExistentUser();
+        createVisitPage.createUser(sRandomUserEmail);
+        //createVisitPage.selectFirstPatient();
+        createVisitPage.createPatient(false);
+        //createVisitPage.selectFirstAddress();
+        createVisitPage.createAddress();
         createVisitPage.addVisitDetails();
-        createVisitPage.select1stAvailablePayment();
+        //createVisitPage.select1stAvailablePayment();
+        createVisitPage.selectPayment();
         createVisitPage.visitSummary();
 
         // apply promo code
@@ -212,7 +227,7 @@ public class VisitsTest extends TestBase{
      */
     @Test (groups = {"smoke", "regression", "critical" })
     public void createVisitWithInsuranceTest() throws Exception {
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
@@ -231,17 +246,29 @@ public class VisitsTest extends TestBase{
         visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
 
         //createVisitPage.searchExistentUser(); // user from excel is not displayed anymore
-        createVisitPage.createUser();
+        createVisitPage.createUser(sRandomUserEmail);
+
+        //createVisitPage.selectFirstPatient();
+
         createVisitPage.createPatient(true);
         //createVisitPage.selectFirstAddress();
         createVisitPage.createAddress();
-        createVisitPage.addVisitDetails();  // for some reason Add Visit details remains disabled
+        createVisitPage.addVisitDetails();
         createVisitPage.selectPayment();
         createVisitPage.visitSummary();
 
+        verifyTextEquals("Verify correct visit price", createVisitPage.oPrice, "$99");
 
         createVisitPage.oBookVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
-        // todo finish visit with insurance (add assertions)
+        // Verify success message
+        verifyTextMatches("Verify book visit success message", opsMenu.oToastMessage, "Successfully Created Visit");
+
+        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
+
+        visitsPage.filterVisits(sRandomUserEmail);
+
+        verifyVisible("Verify if insured badge is displayed", visitsPage.oInsuredBadge);
+
     }
 
 }
