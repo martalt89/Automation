@@ -4,7 +4,6 @@
 .idea/dictionaries
 target/
 test-output/
-out/
 report/
 
 # Sensitive or high-churn files:
@@ -48,3 +47,4 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/report/extent.db
