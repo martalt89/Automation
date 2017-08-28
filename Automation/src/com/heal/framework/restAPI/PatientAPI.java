@@ -275,10 +275,6 @@ public class PatientAPI {
         return patientId;
     }
 
-    /**
-     * Makes a GET request on /account
-     * @return (String) GET response
-     */
 
     /**
      * Makes a GET request on /patients
