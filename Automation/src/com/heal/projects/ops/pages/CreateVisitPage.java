@@ -229,8 +229,6 @@ public class CreateVisitPage extends WebBase {
      * Creates new user when adding a visit.
      *
      */
-
-
     private TestData testData = new TestData(TestData.ACCOUNT_SHEET);
     public void createUser(String sEmail)
     {
@@ -275,6 +273,7 @@ public class CreateVisitPage extends WebBase {
     }
 
     private TestData td = new TestData(TestData.PATIENT_SHEET);
+
     public void createPatient(Boolean bHasInsurance) throws Exception {
         this.oSelectPatientMenu.clickAndWait(oCreatePatientTitle, true);
         this.oFirstNameField.sendKeys(td.sFirstname);
