@@ -32,7 +32,9 @@ public class OpsMenu extends WebBase{
     public CommonWebElement oEligibilityToolLink = new CommonWebElement("oEligibilityToolLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Eligibility Tool']",oWebDriver);
     public CommonWebElement oProvidersScheduleLink = new CommonWebElement("oProvidersScheduleLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Providers Schedule']",oWebDriver);
     public CommonWebElement oZipcodeSearch = new CommonWebElement("oZipcodeSearch", "xpath=//*[contains(@class,'zipcode')]/input",oWebDriver);
+    public CommonWebElement oToastContainer = new CommonWebElement("oToastContainer", "xpath=//*[@id='toast-container']",oWebDriver);
     public CommonWebElement oToastMessage = new CommonWebElement("oToastMessage", "xpath=//*[@class='toast-message']",oWebDriver);
+    public CommonWebElement oToastTitle = new CommonWebElement("oToastTitle", "xpath=//*[@class='toast-title']",oWebDriver);
     public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='loading-screen layout-fill ng-scope layout-column']",oWebDriver);
 
     //////////////////
