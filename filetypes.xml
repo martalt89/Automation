@@ -1,9 +1,0 @@
-<application>
-  <component name="FileTypeManager" version="17">
-    <extensionMap>
-      <mapping pattern="HealValidation" type="CLASS" />
-      <mapping pattern="HealValidate" type="CLASS" />
-      <mapping pattern="vaildate" type="CLASS" />
-    </extensionMap>
-  </component>
-</application>
