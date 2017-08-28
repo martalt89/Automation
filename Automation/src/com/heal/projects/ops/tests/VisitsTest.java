@@ -164,7 +164,7 @@ public class VisitsTest extends TestBase{
         }
 
     /**
-     * Book visit with 50 percent promo code from OPS
+     * Book visit with 100 percent promo code from OPS
      * This tests will search for a user, select existent patient, address, payment methods, applies promo code
      * and finally books home visit
      * Note: User account, patient, address and payment info will be loaded from test_data excel file

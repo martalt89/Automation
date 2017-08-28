@@ -62,8 +62,8 @@ public class VisitTest extends TestBase {
 
         loginPage.login();
         homePage.selectFromMenu("visits");
-        homePage.cancelVisit(1);
 //        homePage.cancelVisit(1);
+        homePage.cancelAllVisits();
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");
