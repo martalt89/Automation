@@ -57,6 +57,7 @@ public class VisitDetailsModalPage extends WebBase{
     //actions
     public CommonWebElement oActionsBtn = new CommonWebElement("oActionsBtn", "xpath=//button[text()='Actions']",oWebDriver);
     public CommonWebElement oActionsMenuStartVisit = new CommonWebElement("oActionsMenuStartVisit", "xpath=//li/a[text()='Start Visit']",oWebDriver);
+    public CommonWebElement oActionsMenuEndVisit = new CommonWebElement("oActionsMenuEndVisit", "xpath=//li/a[text()='End Visit']",oWebDriver);
     public CommonWebElement oActionsMenuCancelVisit = new CommonWebElement("oActionsMenuCancelVisit", "xpath=//li/a[text()='Cancel Visit']",oWebDriver);
     public CommonWebElement oActionsMenuChangeProvider = new CommonWebElement("oActionsMenuChangeProvider", "xpath=//*[text()='Change Provider']",oWebDriver);
     public CommonWebElement oActionsMenuAddInsurance = new CommonWebElement("oActionsMenuAddInsurance", "xpath=//li/a[text()='Add Insurance']",oWebDriver);
@@ -308,13 +309,29 @@ public class VisitDetailsModalPage extends WebBase{
         openStartVisitModal();
         this.oStartVisitSubmitBtn.click();
     }
-
     //todo: also add methods for selecting date/time from the calendar
     /**
      * Sets a visit start time on Actions -> Start Visit modal
      * @param sStartTime (String) Start time in "mm/dd/yyyy hh:mm AM/PM" format. e.g. 08/22/2017 1:47 AM
      */
     public void editVisitStartTime(String sStartTime){
+        openStartVisitModal();
+        this.oStartTimeInput.sendKeys(sStartTime);
+        this.oStartVisitSubmitBtn.click();
+    }
+
+    //end visit methods
+    public void openEndVisitModal(){
+        this.oActionsBtn.click();
+        this.oActionsMenuEndVisit.click();
+    }
+
+    public void endVisit(){
+        openEndVisitModal();
+        this.oStartVisitSubmitBtn.click();
+    }
+
+    public void endVisit(String sStartTime){
         openStartVisitModal();
         this.oStartTimeInput.sendKeys(sStartTime);
         this.oStartVisitSubmitBtn.click();
@@ -355,9 +372,9 @@ public class VisitDetailsModalPage extends WebBase{
      */
     public void chooseDoctorAndMA(String sDoctorName, String sMAName){
         openChangeProviderModal();
-        //todo: fix -  test sometimes fail b/c menu data is loading
         this.oChooseDoctorInput.select(sDoctorName,false);
-        this.oChooseDoctorInput.select(sMAName,false);
+        this.oChooseMedicalAssistantInput.select(sMAName,false);
+        this.oChangetBtn.click();
     }
     public void chooseDoctor(String sDoctorName){
         openChangeProviderModal();
@@ -445,4 +462,8 @@ public class VisitDetailsModalPage extends WebBase{
         waitForPageReady(sUrlWithVisitCode);
     }
 
+    public CommonWebElement getChangeProviderToastMessage(String sVisitId, String sDoctorName) {
+
+        return new CommonWebElement("oToastMessage", "xpath=//*[text()='Successfully changed the provider for Visit '"+sVisitId+"' to '"+sDoctorName+"', MD']",oWebDriver);
+    }
 }

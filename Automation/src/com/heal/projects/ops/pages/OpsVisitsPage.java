@@ -119,9 +119,15 @@ public class OpsVisitsPage extends WebBase {
         return oVisitCode.getText();
     }
 
-    public String getStatusByVisitCode(String sVisitCode){
-        CommonWebElement oVisitCode = new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[2]//b" ,oWebDriver);
-        return oVisitCode.getText();
+    public CommonWebElement getStatusByVisitCode(String sVisitCode){
+        return new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[2]//b" ,oWebDriver);
     }
 
+    public CommonWebElement getDoctorByVisitCode(String sVisitCode){
+        return new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[7]" ,oWebDriver);
+    }
+
+    public CommonWebElement getMedicalAssistantByVisitCode(String sVisitCode){
+        return new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[8]" ,oWebDriver);
+    }
 }
