@@ -481,6 +481,11 @@ public class WebBase {
         waitForPageLoad();
     }
 
+    public void waitForPageReady(String url){
+        waitForUrl(url);
+        waitForPageLoad();
+    }
+
     public void scrollPage(String sDirection) {
         switch (sDirection) {
             case "Up":

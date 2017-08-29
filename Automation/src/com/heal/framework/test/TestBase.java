@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -53,6 +54,8 @@ public class TestBase
     private boolean bMaximizeBrowser = false;
     private static String browser;
 
+
+    private static HashMap<String, String> parameters;
     private static String reportLocation = "report/ExtentReport.html";
     private static ExtentReports extent;
 
@@ -97,6 +100,15 @@ public class TestBase
     public String getBrowser()
     {
         return browser;
+    }
+
+
+    public static HashMap<String, String> getParameters() {
+        return parameters;
+    }
+
+    public static void setParameters(HashMap<String, String> parameters) {
+        TestBase.parameters = parameters;
     }
 
     /**
@@ -258,7 +270,6 @@ public class TestBase
                       @Optional("") String version,
                       @Optional("chrome") String screenResolution,
                       @Optional(".qa.heal.com") String baseUrl,
-//                      @Optional("patient.qa.heal.com") String baseUrl,
                       @Optional("qaheal") String username,
                       @Optional("") String accessKey,
                       @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
@@ -358,15 +369,12 @@ public class TestBase
             WebDriver oDriver = null;
 
             if (environment.equalsIgnoreCase("remote"))
-                oDriver = StartRemoteWebDriver(browser, saucelab_url);
+                oDriver = StartRemoteWebDriver(parameters);
             else
                 oDriver = StartWebDriver(browser);
 
             // Only supported for Firefox in current release.
             //oDriver.manage().timeouts().pageLoadTimeout(iPageLoadTimeout, java.util.concurrent.TimeUnit.SECONDS);
-
-            if (bMaximizeBrowser)
-                oDriver.manage().window().maximize();
 
             // Store WebDriver, Validate, and RemoteNode instances in the InheritableThreadLocal variable so each thread has own copy.  A must for parallel execution.
             setDriver(oDriver);
@@ -540,60 +548,21 @@ public class TestBase
     /**
      * Instantiate RemoteWebDriver based on browser type.  This is used for Grid.
      *
-     * @param sBrowser
-     * (String)
      *
      * @return
      * (WebDriver)
      *
      * @throws Exception
      */
-    public synchronized WebDriver StartRemoteWebDriver(String sBrowser, String sGridUrl) throws Exception
-    {
+    public synchronized WebDriver StartRemoteWebDriver(HashMap<String, String> parameters) throws Exception    {
 
-        DesiredCapabilities oRequestCapability;
+        DesiredCapabilities oRequestCapability = getDesiredCapabilities(parameters);
         RemoteWebDriver oRemoteWebDriver;
-        String[] aBrowserInfo = sBrowser.split("\\|");   // Browser info consist of BrowserType|Version
-
-        switch (aBrowserInfo[0].toUpperCase())
-        {
-            case "CHROME":
-                oRequestCapability = DesiredCapabilities.chrome();
-                oRequestCapability.setCapability("chrome.switches", java.util.Arrays.asList("--start-maximized"));
-                break;
-            case "IE":
-                oRequestCapability = DesiredCapabilities.internetExplorer();
-                oRequestCapability.setCapability("nativeEvents", false);
-                break;
-            case "FIREFOX":
-                FirefoxProfile profile = new FirefoxProfile();
-                oRequestCapability = DesiredCapabilities.firefox();
-                oRequestCapability.setCapability(org.openqa.selenium.firefox.FirefoxDriver.PROFILE, profile);
-                break;
-            case "ANDROID":
-                oRequestCapability = DesiredCapabilities.android();
-                break;
-            case "SAFARI":
-                oRequestCapability = DesiredCapabilities.safari();
-                break;
-            case "HTML":
-                oRequestCapability = DesiredCapabilities.htmlUnit();
-                break;
-            default:
-                return null;
-        }
-
         try
         {
-            if (aBrowserInfo.length > 1)
-                oRequestCapability.setCapability("version", aBrowserInfo[1]);
-            oRequestCapability.setPlatform(Platform.ANY);
-            oRemoteWebDriver =  new RemoteWebDriver(new URL(sGridUrl), oRequestCapability);
+            oRemoteWebDriver =  new RemoteWebDriver(new URL(this.saucelab_url), oRequestCapability);
             Capabilities oTargetCapability = oRemoteWebDriver.getCapabilities();
-            //logger.trace("Target driver capabilities:  {}", oTargetCapability.toString());
-            if (!aBrowserInfo[0].equalsIgnoreCase("Chrome"))
-                oRemoteWebDriver.manage().window().maximize();
-
+            logger.trace("Target driver capabilities:  {}", oTargetCapability.toString());
             return oRemoteWebDriver;
         }
         catch (Exception e)
@@ -602,44 +571,49 @@ public class TestBase
         }
     }
 
-    private  DesiredCapabilities getDesiredCapabilities(String browserName, String platform, String version, String screenResolution) {
+    private  DesiredCapabilities getDesiredCapabilities( HashMap<String, String> parameters) {
+        String browserName = parameters.get("browserName");
+        String platform = parameters.get("platform");
         DesiredCapabilities capabilities = null;
+        if(platform.equalsIgnoreCase("iphone") || platform.equalsIgnoreCase("android")){
+            capabilities = platform.equalsIgnoreCase("iphone") ? DesiredCapabilities.iphone() : DesiredCapabilities.android();
+            capabilities.setCapability("browserName", parameters.get("browserName"));
+            capabilities.setCapability("appiumVersion", parameters.get("appiumVersion"));
+            capabilities.setCapability("deviceName", parameters.get("deviceName"));
+            capabilities.setCapability("deviceOrientation", parameters.get("deviceOrientation"));
+            capabilities.setCapability("platformVersion", parameters.get("platformVersion"));
+            capabilities.setCapability("platformName", parameters.get("platformName"));
+            capabilities.setCapability("version", parameters.get("version"));
+            return capabilities;
+        }
+
         switch (browserName.toLowerCase()) {
             case "ie":
                 capabilities = DesiredCapabilities.internetExplorer();
-                capabilities.setCapability("version", version);
-                capabilities.setCapability("platform", platform);
-                capabilities.setCapability("screenResolution", screenResolution);
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
                 break;
             case "firefox":
                 capabilities = DesiredCapabilities.firefox();
-                capabilities.setCapability("version", version);
-                capabilities.setCapability("platform", platform);
-                capabilities.setCapability("screenResolution", screenResolution);
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
                 break;
             case "safari":
                 capabilities = DesiredCapabilities.safari();
-                capabilities.setCapability("version", version);
-                capabilities.setCapability("platform", platform);
-                capabilities.setCapability("screenResolution", screenResolution);
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
                 capabilities.setCapability("seleniumVersion", "3.4.0");
 
                 break;
             case "chrome":
                 capabilities = DesiredCapabilities.chrome();
-                capabilities.setCapability("version", version);
-                capabilities.setCapability("platform", platform);
-                capabilities.setCapability("screenResolution", screenResolution);
-                break;
-            case "iphone":
-                capabilities = DesiredCapabilities.iphone();
-                capabilities.setCapability("browserName", "Safari");
-                capabilities.setCapability("appiumVersion", "1.6.4");
-                capabilities.setCapability("deviceName", "iPhone 7 Simulator");
-                capabilities.setCapability("deviceOrientation", "portrait");
-                capabilities.setCapability("platformVersion", "10.3");
-                capabilities.setCapability("platformName", "iOS");
-                capabilities.setCapability("version", version);
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
+                capabilities.setCapability("seleniumVersion", "3.4.0");
                 break;
             default:
                 break;
