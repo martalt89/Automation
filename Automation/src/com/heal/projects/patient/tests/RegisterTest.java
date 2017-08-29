@@ -55,6 +55,6 @@ public class RegisterTest extends TestBase {
         registerPage.oCreateAcctBtn.click();
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), RegisterPage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Book a house call");
     }
 }

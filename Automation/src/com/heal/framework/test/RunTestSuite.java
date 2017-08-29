@@ -235,6 +235,7 @@ public class RunTestSuite {
 
         }
         driverExcel.close();
+        TestBase.setParameters(params);
         return params;
     }
 

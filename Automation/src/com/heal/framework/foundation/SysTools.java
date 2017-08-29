@@ -3,6 +3,7 @@ package com.heal.framework.foundation;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
@@ -210,4 +211,14 @@ public class SysTools
         }
         return visitCode;
     }
+
+
+
+    public static String healTime10MinAhead(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, 10);
+        Timestamp later = new Timestamp(cal.getTime().getTime());
+        return new SimpleDateFormat("MM/dd/yyyy h:mm a").format(later);
+    }
+
 }

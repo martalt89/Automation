@@ -7,6 +7,7 @@ import com.heal.projects.ops.pages.DashboardPage;
 import com.heal.projects.ops.pages.OpsLoginPage;
 import com.heal.projects.ops.pages.OpsMenu;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LoginTest extends TestBase{
@@ -22,9 +23,10 @@ public class LoginTest extends TestBase{
         loginPage.waitForPageReady();
         loginPage.login();
         verifyVisible("Verify Menu", menu.oMenuArea);
-        verifyVisible("Verify Zipcode box", menu.oZipcodeSearch);
+        verifyVisible("Verify Zipcode search", menu.oZipcodeSearch);
         //check that Dashboard is displayed after login
-        verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
+        verifyVisible("Verify Dashboard page title is displayed", loginPage.oPasswordInput);
+//        verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
     }
 //
 //    @Test(groups = {"dev", "critical"})
