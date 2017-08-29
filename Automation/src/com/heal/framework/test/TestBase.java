@@ -577,7 +577,7 @@ public class TestBase
         DesiredCapabilities capabilities = null;
         if(platform.equalsIgnoreCase("iphone") || platform.equalsIgnoreCase("android")){
             capabilities = platform.equalsIgnoreCase("iphone") ? DesiredCapabilities.iphone() : DesiredCapabilities.android();
-            capabilities.setCapability("browserName", parameters.get("browser"));
+            capabilities.setCapability("browserName", parameters.get("browserName"));
             capabilities.setCapability("appiumVersion", parameters.get("appiumVersion"));
             capabilities.setCapability("deviceName", parameters.get("deviceName"));
             capabilities.setCapability("deviceOrientation", parameters.get("deviceOrientation"));
