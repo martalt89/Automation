@@ -381,8 +381,6 @@ public class CreateVisitPage extends WebBase {
         this.scrollPage("Down");
     }
 
-
-
-
+    //todo remove all sleeps and put methods for wait
 
 }

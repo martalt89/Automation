@@ -3,7 +3,9 @@ package com.heal.framework.restAPI;
 import com.heal.framework.test.TestData;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import io.restassured.RestAssured;
+import io.restassured.http.Cookies;
 import io.restassured.response.Response;
+import org.json.Cookie;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +21,7 @@ public class PatientAPI {
     private RestUtils restUtils = new RestUtils();
     private TestData addPatientInputData = new TestData(TestData.PATIENT_SHEET);
     private String baseURL = "https://patient.qa.heal.com/api";
+    private String baseURLAPIv3 = "http://apiv3.qa.heal.com";
 
     /**
      * Patient info variables
@@ -393,18 +396,36 @@ public class PatientAPI {
     }
 
     /**
-     * Removes a patient from account by patientId
-     * DELETE /v2/patient/{patientId}
+     * JSON parameters to be send on login call
+     * @return (Map) user and password credentials
      */
-    public void deletePatient(String sId){
-        // this does not work yet, need input from Backend
-        String resource = "/v2/patient/";
-        RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(this.sAccUsername, this.sAccPassword)
-                .log().all()
-                .delete(baseURL+resource+ sId);
+    private Map loginPostParams() {
+        Map<String, Object> jsonAsMap = new HashMap<>();
+        jsonAsMap.put("username", sAccUsername);
+        jsonAsMap.put("password", sAccPassword);
+        return jsonAsMap;
     }
 
+
+    /**
+     * Removes a patient from account by patientId
+     * DELETE /v2/patient/{patientId}
+     *
+     * This method makes a login, takes the cookies and pass them to DELETE request
+     */
+    public void deletePatient(String sId){
+        String resourceLogin = "/login/";
+        String resourcePatient = "/v2/patient/";
+        Map<String, String> allCookies = RestAssured.given()
+                .header("Origin", "http://localhost.getheal.com")
+                .header("Content-Type", "application/json")
+                .body(loginPostParams())
+                .post(baseURLAPIv3 + resourceLogin)
+                .cookies();
+        RestAssured.given()
+                .header("Origin", "http://localhost.getheal.com")
+                .header("Content-Type", "application/json")
+                .cookies(allCookies)
+                .delete(baseURLAPIv3 + resourcePatient + sId);
+    }
 }
