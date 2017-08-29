@@ -1,5 +1,6 @@
 package com.heal.projects.ops.tests;
 
+import com.heal.framework.foundation.SysTools;
 import com.heal.framework.restAPI.PatientAPI;
 import com.heal.framework.restAPI.VisitsAPI;
 import com.heal.framework.test.TestBase;
@@ -86,6 +87,28 @@ public class VisitDetailsModalTest extends TestBase  {
             verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.DR_NILES);
             verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.MA_KETTEL);
         }
+
+    @Test(groups = {"dev", "critical"})
+    public void changeProviderManualTimeSet() {
+
+        CommonWebElement.setbMonitorMode(false);
+        WebDriver dr = getDriver();
+        OpsLoginPage loginPage = new OpsLoginPage(dr);
+        VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
+        OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageReady();
+        loginPage.login();
+        visit.switchToUrlWithVisitCode(sDashboardAndVisitCodeURL);
+        SysTools.sleepFor(2);
+        visit.waitForPageReady(sDashboardAndVisitCodeURL);
+        visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_NILES, VisitDetailsModalPage.MA_KETTEL);
+        visit.editManualTime(SysTools.healTime10MinAhead());
+        visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
+        visitsPage.filterVisits(visit_id);
+        verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.DR_NILES);
+        verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.MA_KETTEL);
+    }
 
         @Test(groups = {"dev", "critical"})
         public void editVisitSymptoms() {

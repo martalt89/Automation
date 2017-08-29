@@ -40,8 +40,8 @@ public class OpsLoginPage extends WebBase{
 
     public void login()
     {
-        this.oUserNameInput.sendKeys("mayur+oc@heal.com");
-        this.oPasswordInput.sendKeys("Heal@123");
+        this.oUserNameInput.sendKeys("vahan+oc@heal.com");
+        this.oPasswordInput.sendKeys("Heal4325");
         this.oLoginBtn.click();
         dashboardPage.oVisitsContainer.waitForElement();
     }
