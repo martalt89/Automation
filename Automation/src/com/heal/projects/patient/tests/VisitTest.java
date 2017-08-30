@@ -51,20 +51,18 @@ public class VisitTest extends TestBase {
     /**
      * Cancel an active visit
      */
-    @Test (groups = {"dev", "critical"})
+    @Test (groups = {"dev", "critical"}, priority = 1)
     public void cancelVisit(){
         WebDriver dr = getDriver();
         CommonWebElement.setbMonitorMode(false);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
-        VisitsAPI visitsAPI = new VisitsAPI("vahan+qa@heal.com","Heal4325!");
-        visitsAPI.createVisit();
         loginPage.goTo();
         loginPage.waitForPageLoad();
         loginPage.login();
         homePage.selectFromMenu("visits");
-//        homePage.cancelVisit(1);
-        homePage.cancelAllVisits();
+        homePage.cancelVisit(1);
+//        homePage.cancelAllVisits();
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");

@@ -61,7 +61,7 @@ public class LoginTest extends TestBase {
         verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book a house call");
 
         homePage.selectFromMenu(menu.oVisitsLnk);
-        verifyMatches("Verifying Visits page title ", visitsPage.oPageTitle.getText(), "Book a house call");
+        verifyMatches("Verifying Visits page title ", visitsPage.oPageTitle.getText(), "Your activity");
         homePage.selectFromMenu(menu.oProfilesLnk);
         homePage.selectFromMenu(menu.oPaymentsLnk);
         homePage.selectFromMenu(menu.oSignOutLnk);
