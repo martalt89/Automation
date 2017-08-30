@@ -7,6 +7,7 @@ import com.stripe.exception.*;
 import com.stripe.model.Token;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class AccountAPI {
     public String sUsername;
     public String sPassword;
     private String sUserId;
-
+    
     /**
      * Constructor
      * @param sAccUsername (String) Account sEmail
@@ -191,6 +192,91 @@ public class AccountAPI {
         JSONObject obj = new JSONObject(response);
         return obj.getJSONArray("patients").length()-1;
     }
+
+    public double getAddressLatitude(String sAddress){
+        double latitudeAddress = 0;
+        String response = accountGetRequest();
+        JSONObject obj = new JSONObject(response);
+        JSONArray addresses = obj.getJSONArray("addresses");
+        for (int i = 0; i < addresses.length(); i++) {
+            JSONObject address = addresses.getJSONObject(i);
+            if (address.get("address").toString().equals(sAddress)) {
+                latitudeAddress = address.getDouble("latitudeAddress");
+            }
+        }
+        return latitudeAddress;
+    }
+
+    public double getAddressLongitude(String sAddress){
+        double longitudeAddress = 0;
+        String response = accountGetRequest();
+        JSONObject obj = new JSONObject(response);
+        JSONArray addresses = obj.getJSONArray("addresses");
+        for (int i = 0; i < addresses.length(); i++) {
+            JSONObject address = addresses.getJSONObject(i);
+            if (address.get("address").toString().equals(sAddress)) {
+                longitudeAddress = address.getDouble("longitudeAddress");
+            }
+        }
+        return longitudeAddress;
+    }
+
+    public String getAddressZipcode(String sAddress){
+        String zipcode = null;
+        String response = accountGetRequest();
+        JSONObject obj = new JSONObject(response);
+        JSONArray addresses = obj.getJSONArray("addresses");
+        for (int i = 0; i < addresses.length(); i++) {
+            JSONObject address = addresses.getJSONObject(i);
+            if (address.get("address").toString().equals(sAddress)) {
+                zipcode = address.getString("zipcode");
+            }
+        }
+        return zipcode;
+    }
+
+    public String getAddressCity(String sAddress){
+        String city = null;
+        String response = accountGetRequest();
+        JSONObject obj = new JSONObject(response);
+        JSONArray addresses = obj.getJSONArray("addresses");
+        for (int i = 0; i < addresses.length(); i++) {
+            JSONObject address = addresses.getJSONObject(i);
+            if (address.get("address").toString().equals(sAddress)) {
+                city = address.getString("city");
+            }
+        }
+        return city;
+    }
+
+    public String getAddressId(String sAddress){
+        String id = null;
+        String response = accountGetRequest();
+        JSONObject obj = new JSONObject(response);
+        JSONArray addresses = obj.getJSONArray("addresses");
+        for (int i = 0; i < addresses.length(); i++) {
+            JSONObject address = addresses.getJSONObject(i);
+            if (address.get("address").toString().equals(sAddress)) {
+                id = address.getString("id");
+            }
+        }
+        return id;
+    }
+
+    public String getAddressType(String sAddress){
+        String addressType = null;
+        String response = accountGetRequest();
+        JSONObject obj = new JSONObject(response);
+        JSONArray addresses = obj.getJSONArray("addresses");
+        for (int i = 0; i < addresses.length(); i++) {
+            JSONObject address = addresses.getJSONObject(i);
+            if (address.get("address").toString().equals(sAddress)) {
+                addressType = address.getString("addressType");
+            }
+        }
+        return addressType;
+    }
+
     /**
      * Initializes account info variables
      */
@@ -199,4 +285,5 @@ public class AccountAPI {
         Map account = getAccountInfo();
         sUserId = (String) account.get("id");
     }
+
 }
