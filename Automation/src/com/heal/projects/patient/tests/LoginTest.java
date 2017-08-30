@@ -47,7 +47,6 @@ public class LoginTest extends TestBase {
         CommonWebElement.setbMonitorMode(false);
 
         WebDriver dr = getDriver();
-        CommonWebValidate validate = new CommonWebValidate(dr);
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageLoad();
@@ -59,19 +58,13 @@ public class LoginTest extends TestBase {
         loginPage.login();
         homePage.selectFromMenu(menu.oHomeLnk);
         homePage.selectFromMenu(menu.oBookVisitLnk);
-        if (!validate.verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book Visit")){
-            System.out.println("cannot validate " + bookVisitPage.oPageTitle.getText());
-        }
+        verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book a house call");
+
         homePage.selectFromMenu(menu.oVisitsLnk);
-        if (!validate.verifyMatches("Verifying Visits page title ", visitsPage.oPageTitle.getText(), "Scheduled Visits")){
-            System.out.println("cannot validate " + visitsPage.oPageTitle.getText());
-        }
+        verifyMatches("Verifying Visits page title ", visitsPage.oPageTitle.getText(), "Book a house call");
         homePage.selectFromMenu(menu.oProfilesLnk);
         homePage.selectFromMenu(menu.oPaymentsLnk);
         homePage.selectFromMenu(menu.oSignOutLnk);
-        System.out.println("Total number of validations executed : " + validate.getTotalCount());
-        int passed = validate.getTotalCount()-validate.getFailureCount();
-        System.out.println("Passed validations " + passed);
-        System.out.println("Failed validations " + validate.getFailureCount());
+
     }
 }

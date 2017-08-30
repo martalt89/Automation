@@ -25,8 +25,7 @@ public class LoginTest extends TestBase{
         verifyVisible("Verify Menu", menu.oMenuArea);
         verifyVisible("Verify Zipcode search", menu.oZipcodeSearch);
         //check that Dashboard is displayed after login
-        verifyVisible("Verify Dashboard page title is displayed", loginPage.oPasswordInput);
-//        verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
+        verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
     }
 //
 //    @Test(groups = {"dev", "critical"})

@@ -9,7 +9,7 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/20/2017.
  */
 public class ResetPasswordPage extends WebBase {
-    public static final String URL = "https://resetpassword.qa.heal.com/";
+    public static final String URL = "https://resetpassword" + baseUrl;
 
     ///////////////////
     // Page Elements //
@@ -30,10 +30,11 @@ public class ResetPasswordPage extends WebBase {
     public CommonWebElement oMobileInput = new CommonWebElement( "oMobileInput", "xpath=//*[@id='mobile", oWebDriver );
     public CommonWebElement oReqDoctorBtn = new CommonWebElement( "oReqDoctorBtn", "xpath=//button[text()='Request doctor']", oWebDriver );
     //forgot password section
-    public CommonWebElement oForgotPasswordTitle = new CommonWebElement( "oForgotPasswordTitle", "xpath=//*[text()='Forgot Password']", oWebDriver );
-    public CommonWebElement oSendLinkText = new CommonWebElement( "oSendLinkText", "xpath=//*[contains(text(),'We'll send you')]", oWebDriver );
+    public CommonWebElement oForgotPasswordTitle = new CommonWebElement( "oForgotPasswordTitle", "xpath=//*[text()='Forgot password']", oWebDriver );
+    public CommonWebElement oForgotPasswordSubTitle = new CommonWebElement( "oForgotPasswordSubTitle", "xpath=(//div[@class='container']//p)[3]", oWebDriver );
+    public CommonWebElement oSendLinkText = new CommonWebElement( "oSendLinkText", "xpath=//*[contains(text(),'link to reset your password.')]", oWebDriver );
     public CommonWebElement oEmailInput = new CommonWebElement( "oEmailInput", "name=email", oWebDriver );
-    public CommonWebElement oSubmitBtn = new CommonWebElement( "oSubmitBtn", "xpath=//*[text()='Forgot Password']", oWebDriver );
+    public CommonWebElement oSubmitBtn = new CommonWebElement( "oSubmitBtn", "xpath=//input[@type='submit']", oWebDriver );
     public CommonWebElement oInvalidEmailError = new CommonWebElement( "oInvalidEmailError", "xpath=//*[contains(text(),'enter a valid email')]", oWebDriver );
 
     //////////////////

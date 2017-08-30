@@ -19,7 +19,7 @@ public class LoginPage extends WebBase{
     public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "name=password", oWebDriver);
     public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//button[@type='submit']", oWebDriver);
     public CommonWebElement oRememberMe = new CommonWebElement("oRememberMe", "className=md-icon", oWebDriver);
-    public CommonWebElement oForgotYourPasswordLnk = new CommonWebElement("oForgotYourPasswordLnk", "linkText=Forgot Password", oWebDriver);
+    public CommonWebElement oForgotYourPasswordLnk = new CommonWebElement("oForgotYourPasswordLnk", "xpath=//a[@ui-sref='reset']", oWebDriver);
     public CommonWebElement oWarningMsg = new CommonWebElement("oWarningMsg","className=error-messages",oWebDriver);
     public CommonWebElement oRegisterBtn = new CommonWebElement("oRegisterNtm", "xpath=//*[text()='Register']", oWebDriver);
 
@@ -48,7 +48,7 @@ public class LoginPage extends WebBase{
     {
         this.oUserNameInput.sendKeys("vahan+qa@heal.com");
 //        this.oUserNameInput.sendKeys("mihaix10@heal.com");
-        this.oPasswordInput.sendKeys("Heal4325");
+        this.oPasswordInput.sendKeys("Heal4325!");
         this.oLoginBtn.click();
     }
 

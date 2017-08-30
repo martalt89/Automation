@@ -1,5 +1,6 @@
 package com.heal.projects.patient.tests;
 
+import com.heal.framework.restAPI.VisitsAPI;
 import com.heal.projects.patient.pages.*;
 import com.heal.framework.foundation.SysTools;
 import com.heal.framework.test.TestBase;
@@ -56,10 +57,10 @@ public class VisitTest extends TestBase {
         CommonWebElement.setbMonitorMode(false);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
-
+        VisitsAPI visitsAPI = new VisitsAPI("vahan+qa@heal.com","Heal4325!");
+        visitsAPI.createVisit();
         loginPage.goTo();
         loginPage.waitForPageLoad();
-
         loginPage.login();
         homePage.selectFromMenu("visits");
 //        homePage.cancelVisit(1);

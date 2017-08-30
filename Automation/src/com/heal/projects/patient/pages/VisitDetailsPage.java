@@ -38,7 +38,7 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oSymptomsInput = new CommonWebElement( "oAditionalInfoInput", "xpath=(//*[@name='symptoms'])[1]", oWebDriver );
     public CommonWebElement oSelectDateInput = new CommonWebElement( "oSelectDateInput", "className=md-datepicker-input", oWebDriver );
     //public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot')]/span)[1]", oWebDriver );
-    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//*[@class='layout-wrap ng-scope layout-align-center-start layout-row']/button/span)[1]", oWebDriver );
+    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot') and not(@disabled)]/span)[1]", oWebDriver );
 
 
 

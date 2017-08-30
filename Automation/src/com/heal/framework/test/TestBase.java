@@ -546,7 +546,7 @@ public class TestBase
     }
 
     /**
-     * Instantiate RemoteWebDriver based on browser type.  This is used for Grid.
+     * Instantiate RemoteWebDriver based on browser type.  This is used for Saucelab.
      *
      *
      * @return
