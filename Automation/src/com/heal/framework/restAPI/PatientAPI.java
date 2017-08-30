@@ -409,7 +409,7 @@ public class PatientAPI {
      *
      * This method makes a login, takes the cookies and pass them to DELETE request
      */
-    public void deletePatient(String sId){
+    public String deletePatient(String sId){
         String resourceLogin = "/login/";
         String resourcePatient = "/v2/patient/";
         Map<String, String> allCookies = RestAssured.given()
@@ -418,10 +418,12 @@ public class PatientAPI {
                 .body(loginPostParams())
                 .post(baseURLAPIv3 + resourceLogin)
                 .cookies();
-        RestAssured.given()
+        Response deleteResponse = RestAssured.given()
                 .header("Origin", "http://localhost.getheal.com")
                 .header("Content-Type", "application/json")
                 .cookies(allCookies)
                 .delete(baseURLAPIv3 + resourcePatient + sId);
+        return restUtils.getJsonValue(deleteResponse.asString(),"status");
     }
+
 }
