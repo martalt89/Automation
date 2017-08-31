@@ -24,7 +24,7 @@ public class HomePage extends WebBase {
     ///////////////////
     public CommonWebElement oAccountOwnerName = new CommonWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-xs ng-binding')]",oWebDriver );
     public CommonWebElement oAccountOwnerFirstName = new CommonWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-gt-xs show-xs ng-binding')]",oWebDriver );
-    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//*[contains(@class,'title')]",oWebDriver);
+    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//div[@class='layout-wrap layout-align-start-center layout-row']//h2",oWebDriver);
     public CommonWebElement oAccountOwnerAvatar = new CommonWebElement("oAccountOwnerAvatar", "css=profile-image[url='vm.user.avatarUrl'] ", oWebDriver);
     public CommonWebElement oSelectReason = new CommonWebElement("oSelectReason", "xpath=(//md-select-value[@class='md-select-value'])[1]", oWebDriver );
 //    public CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel')])[1]", oWebDriver);
