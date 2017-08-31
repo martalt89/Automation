@@ -63,8 +63,8 @@ public class PatientAPI {
     private static final String OTHER_GENDER = "0001433013870063-d279fc27ffff816b-0003";
 
     //for constructors
-    private String sAccUsername;
-    private String sAccPassword;
+    private String sAccUsername = "";
+    private String sAccPassword = "";
     private String sPatientId;
 
 
@@ -375,6 +375,7 @@ public class PatientAPI {
             JSONObject patient = patients.getJSONObject(i);
             if (patient.get("email").toString().equals(sEmail)) {
                 id = patient.getString("id");
+                break;
             }
         }
         return id;

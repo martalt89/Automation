@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 public class VisitDetailsModalTest extends TestBase  {
         private TestData testDataPatient = new TestData(TestData.PATIENT_SHEET);
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
+
         private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
 //        private VisitsAPI visitsAPI = new VisitsAPI("mihai.muresan@heal.com", "Heal4325");
         private String visit_id = visitsAPI.createVisit();
@@ -29,6 +30,7 @@ public class VisitDetailsModalTest extends TestBase  {
 
         @Test(groups = {"dev", "critical"}
         ,dependsOnMethods = { "changeProvider" })
+//        @Test(groups = {"dev", "critical"})
         public void startVisit() {
             CommonWebElement.setbMonitorMode(false);
             WebDriver dr = getDriver();
@@ -41,7 +43,6 @@ public class VisitDetailsModalTest extends TestBase  {
             loginPage.login();
             visit.switchToUrlWithVisitCode(sDashboardAndVisitCodeURL);
             //need to add a doctor before starting the visit
-            visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_NILES, VisitDetailsModalPage.MA_KETTEL);
             visit.startVisit();
             visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
             verifyTextEquals("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus, "STARTED");
@@ -82,6 +83,8 @@ public class VisitDetailsModalTest extends TestBase  {
             loginPage.login();
             visit.switchToUrlWithVisitCode(sDashboardAndVisitCodeURL);
             visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_NILES, VisitDetailsModalPage.MA_KETTEL);
+            visit.editManualTime(SysTools.healTime10MinAhead()); // setting the visit schedule time 10 minutes ahead of the current time
+            visit.oChangetBtn.click();
             visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
             visitsPage.filterVisits(visit_id);
             verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.DR_NILES);
@@ -100,7 +103,6 @@ public class VisitDetailsModalTest extends TestBase  {
         loginPage.waitForPageReady();
         loginPage.login();
         visit.switchToUrlWithVisitCode(sDashboardAndVisitCodeURL);
-        SysTools.sleepFor(2);
         visit.waitForPageReady(sDashboardAndVisitCodeURL);
         visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_NILES, VisitDetailsModalPage.MA_KETTEL);
         visit.editManualTime(SysTools.healTime10MinAhead());

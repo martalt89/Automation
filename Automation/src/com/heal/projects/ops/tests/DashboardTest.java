@@ -62,7 +62,7 @@ public class DashboardTest extends TestBase {
 
     @Test(groups = {"dev", "critical"})
     public void searchZipcode() {
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         CommonWebValidate validate = new CommonWebValidate(dr);
         OpsLoginPage loginPage = new OpsLoginPage(dr);

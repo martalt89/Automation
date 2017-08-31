@@ -19,6 +19,7 @@ public class VisitsAPI {
 
     private String sAccUsername;
     private String sAccPassword;
+    private PatientAPI patientAPI = new PatientAPI(sAccUsername, sAccPassword);
     private String sPatientId; //this can be set by using getPatientIdByEmail or getPatientIdByFnLn from PatientAPI
     /**
      * Constructor
@@ -66,10 +67,18 @@ public class VisitsAPI {
      * @return - String id
      */
     public String getTimeSlotID() {
+
+        AccountAPI accountAPI = new AccountAPI(sAccUsername, sAccPassword);
+        PatientAPI patientAPI = new PatientAPI(sAccUsername, sAccPassword);
+
+//        patientAPI.getPatientIdByEmail(sAccUsername);
+
         Map<String, String> params = new HashMap<>();
+//        params.put("latitude", String.valueOf(accountAPI.getAddressLatitude(accountTestData.sAddress)));
         params.put("latitude", "34.3040026");
+//        params.put("longitude", String.valueOf(accountAPI.getAddressLongitude(accountTestData.sAddress)));
         params.put("longitude", "-118.5003491");
-        params.put("patientId", this.sPatientId);
+        params.put("patientId", patientAPI.getPatientIdByEmail(sAccUsername));
         params.put("serviceCode", "SICK_ADULT");
         params.put("zipcode", accountTestData.sZipCode);
         Response response = RestAssured.given()
@@ -102,15 +111,25 @@ public class VisitsAPI {
                 .get("https://patient.qa.heal.com/api/v2/patients")
                 .cookie("SESSION");
 
-        Response response = RestAssured.given()
+//        Response response = RestAssured.given()
+//                .auth()
+//                .preemptive()
+//                .basic(sAccUsername, sAccPassword)
+//                .contentType("application/json")
+//                .cookie("SESSION", sessionId)
+//                .body(createVisitPostParams())
+//                .post(baseURI + resourceAPI);
+//        return restUtils.getJsonValue(response.asString(),"visitCode");
+        String response = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
                 .cookie("SESSION", sessionId)
                 .body(createVisitPostParams())
-                .post(baseURI + resourceAPI);
-        return restUtils.getJsonValue(response.asString(),"visitCode");
+                .post(baseURI + resourceAPI)
+                .asString();
+        return restUtils.getJsonValue(response,"visitCode");
     }
 
     public String createVisit(String sPatientID){

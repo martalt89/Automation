@@ -1,5 +1,6 @@
 package com.heal.projects.ops.pages;
 
+import com.heal.framework.foundation.SysTools;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
@@ -371,10 +372,12 @@ public class VisitDetailsModalPage extends WebBase{
      * @param sDoctorName (String) Provider name
      */
     public void chooseDoctorAndMA(String sDoctorName, String sMAName){
+        //CommonWebElement selectTiems = new CommonWebElement("selectTiems", );
+
         openChangeProviderModal();
+        this.oChooseDoctorInput.waitForVisible();
         this.oChooseDoctorInput.select(sDoctorName,false);
         this.oChooseMedicalAssistantInput.select(sMAName,false);
-        this.oChangetBtn.click();
     }
     public void chooseDoctor(String sDoctorName){
         openChangeProviderModal();

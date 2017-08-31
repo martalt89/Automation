@@ -1,6 +1,7 @@
 package com.heal.projects.ops.tests;
 
 import com.heal.framework.foundation.SysTools;
+import com.heal.framework.restAPI.AccountAPI;
 import com.heal.projects.ops.pages.CreateVisitPage;
 import com.heal.projects.ops.pages.OpsLoginPage;
 import com.heal.projects.ops.pages.OpsMenu;
@@ -41,6 +42,14 @@ public class VisitsTest extends TestBase{
         System.out.println(passedRuns + " Passed Runs"); // display how many times the test passed on given visits booked
         System.out.println(failedRuns + " Failed Runs"); // display how many times the test failed on given visits booked
     }
+
+
+    @Test
+    public void sandBox(){
+        AccountAPI accountAPI = new AccountAPI("vahan+qa@heal.com","Heal4325!");
+        System.out.println(accountAPI.getPatientsNumber());
+    }
+
 
     @Test (groups = {"smoke", "regression", "critical" })
 

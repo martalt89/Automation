@@ -28,8 +28,9 @@ public class AccountAPI {
      *  Account info variables
      *  initialized using initAccountInfo() method
      */
-    public String sUsername;
-    public String sPassword;
+
+    public String sUsername = "";
+    public String sPassword = "";
     private String sUserId;
     
     /**
@@ -189,6 +190,7 @@ public class AccountAPI {
      */
     public Integer getPatientsNumber() {
         String response = accountGetRequest();
+        System.out.println("this is the response" + response);
         JSONObject obj = new JSONObject(response);
         return obj.getJSONArray("patients").length()-1;
     }

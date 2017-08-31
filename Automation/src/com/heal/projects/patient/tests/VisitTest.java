@@ -30,7 +30,7 @@ public class VisitTest extends TestBase {
      */
     @Test
     public void testLoop(){
-        int numberOfVisitsToBook = 20;
+        int numberOfVisitsToBook = 1;
         int passedRuns = 0;
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
@@ -61,8 +61,8 @@ public class VisitTest extends TestBase {
         loginPage.waitForPageLoad();
         loginPage.login();
         homePage.selectFromMenu("visits");
-        homePage.cancelVisit(1);
-//        homePage.cancelAllVisits();
+//        homePage.cancelVisit(1);
+        homePage.cancelAllVisits();
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");
