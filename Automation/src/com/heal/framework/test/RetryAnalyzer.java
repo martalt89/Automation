@@ -4,7 +4,7 @@ import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
-    //TODO - Get the value from the excel sheet
+
     int counter = 0;
     static int retryLimit = 1;
 

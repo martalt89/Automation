@@ -64,6 +64,8 @@ public class VisitDetailsModalTest extends TestBase  {
             visit.switchToUrlWithVisitCode(sDashboardAndVisitCodeURL);
             //need to add a doctor before starting the visit
             visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_NILES, VisitDetailsModalPage.MA_KETTEL);
+            visit.oChangetBtn.click();
+            //todo add validation on the success green message
             visit.startVisit();
             visit.cancelVisit(VisitDetailsModalPage.HEAL_OTHER_REASON,"Cancel visit with auto tests");
             visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);

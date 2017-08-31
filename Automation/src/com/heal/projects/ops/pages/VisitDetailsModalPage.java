@@ -71,7 +71,7 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oStartTimeXBtn = new CommonWebElement("oStartTimeXBtn", "xpath=//*[@class='close']",oWebDriver);
     public CommonWebElement oStartTimeInput = new CommonWebElement("oStartTimeInput", "xpath=//*[@class='modal-body']//input",oWebDriver);
     public CommonWebElement oStarVisitCancelBtn = new CommonWebElement("oStartVisitCancelBtn", "xpath=//*[@class='modal-footer']//button[1]",oWebDriver);
-    public CommonWebElement oStartVisitSubmitBtn = new CommonWebElement("oStartVisitSubmitBtn", "xpath=//*[@class='modal-footer']//button[2]",oWebDriver);
+    public CommonWebElement oStartVisitSubmitBtn = new CommonWebElement("oStartVisitSubmitBtn", "xpath=//button[contains(@class,'btn-success')]",oWebDriver);
 
     //actions - cancel visit modal
     public CommonWebElement oCancelVisitTitle = new CommonWebElement("oCancelVisitTitle", "xpath=//*[@class='modal-title']",oWebDriver);
@@ -99,6 +99,8 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oForceAssignBtn = new CommonWebElement("oForceAssignBtn", "xpath=//*[@class='modal-footer']/button[1]",oWebDriver);
     public CommonWebElement oCancelProviderBtn = new CommonWebElement("oCancelProviderBtn", "xpath=//*[@class='modal-footer']/button[2]",oWebDriver);
     public CommonWebElement oChangetBtn = new CommonWebElement("oChangetBtn", "xpath=//*[@class='modal-footer']/button[3]",oWebDriver);
+    public CommonWebElement oProviderListLoading = new CommonWebElement("oChangetBtn", "xpath=//*[contains(.,'Loading')]",oWebDriver);
+
 
     //actions - Update Insurance modal
     public CommonWebElement oPayerText = new CommonWebElement("oPayerText", "xpath=//*[@class='modal-body']//label[text()='Payer']",oWebDriver);
@@ -375,6 +377,7 @@ public class VisitDetailsModalPage extends WebBase{
         //CommonWebElement selectTiems = new CommonWebElement("selectTiems", );
 
         openChangeProviderModal();
+        this.oProviderListLoading.waitForInvisible();
         this.oChooseDoctorInput.waitForVisible();
         this.oChooseDoctorInput.select(sDoctorName,false);
         this.oChooseMedicalAssistantInput.select(sMAName,false);
