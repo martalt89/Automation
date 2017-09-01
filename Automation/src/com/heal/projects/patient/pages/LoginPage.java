@@ -47,8 +47,7 @@ public class LoginPage extends WebBase{
     public void login()
     {
         this.oUserNameInput.sendKeys("vahan+qa@heal.com");
-//        this.oUserNameInput.sendKeys("mihaix10@heal.com");
-        this.oPasswordInput.sendKeys("Heal4325");
+        this.oPasswordInput.sendKeys("Heal4325!");
         this.oLoginBtn.click();
     }
 
