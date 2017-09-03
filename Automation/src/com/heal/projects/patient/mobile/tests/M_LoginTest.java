@@ -14,6 +14,31 @@ public class M_LoginTest  extends TestBase {
 
 
     @Test
+    public void launchTest(){
+        WebDriver dr = getDriver();
+        M_HomePage homePage = new M_HomePage(dr);
+        verifyVisible("Verify Register Button is displayed", homePage.oRegisterBtn);
+    }
+
+    @Test
+    public void loginPageValidations(){
+        WebDriver dr = getDriver();
+        M_HomePage homePage = new M_HomePage(dr);
+        verifyVisible("Verify Register Button is displayed", homePage.oRegisterBtn);
+        homePage.clickSettingsButton();
+
+        M_SettingsPage settingsPage = new M_SettingsPage(dr);
+        settingsPage.setEnv("qa");
+
+        homePage.clickLoginButton();
+        M_LoginPage loginPage = new M_LoginPage(dr);
+        assertEquals("verify email field is displayed", loginPage.oEmailInput.isDisplayed(), true);
+        assertEquals("verify password field is displayed", loginPage.oPasswordInput.isDisplayed(), true);
+        assertEquals("verify Text forgot password", loginPage.oForgotPasswordText.getText(), "Forgot password");
+        assertEquals("verify login button is displayed", loginPage.oLoginBtn.isDisplayed(), true);
+    }
+
+    @Test
     public void loginWithValidCredentials(){
 
         WebDriver dr = getDriver();
@@ -27,9 +52,10 @@ public class M_LoginTest  extends TestBase {
 
         homePage.clickLoginButton();
         M_LoginPage loginPage = new M_LoginPage(dr);
-        assertEquals("verfiy Text forgot password", loginPage.oForgotPasswordText.getText(), "Forgot password");
+        assertEquals("verify Text forgot password", loginPage.oForgotPasswordText.getText(), "Forgot password");
 
         loginPage.login();
+        loginPage.oProgressBar.sync(60);
     }
 
 }

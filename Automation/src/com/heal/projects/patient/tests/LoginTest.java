@@ -20,8 +20,8 @@ public class LoginTest extends TestBase {
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
-
         assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
+        assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL + "s");
 
         loginPage.login();
 

@@ -9,10 +9,10 @@ import org.openqa.selenium.WebDriver;
  * Created by vahanmelikyan on 9/3/2017.
  */
 public class M_SettingsPage  extends WebBase {
-    public CommonWebElement oBackBtn = new CommonWebElement("oBackBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id//back_button']", oWebDriver);
-    public CommonWebElement oDevRadioBtn = new CommonWebElement("oDevRadioBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id/activity_settings_radio_button_dev']", oWebDriver);
-    public CommonWebElement oDev1RadioBtn = new CommonWebElement("oDev1RadioBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id/activity_settings_radio_button_dev_1']", oWebDriver);
-    public CommonWebElement oQARadioBtn = new CommonWebElement("oQARadioBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id/activity_settings_radio_button_qa']", oWebDriver);
+    public CommonWebElement oBackBtn = new CommonWebElement("oBackBtn", "xpath=//android.widget.ImageView[@resource-id='com.getheal.patient.debug:id/back_button']", oWebDriver);
+    public CommonWebElement oDevRadioBtn = new CommonWebElement("oDevRadioBtn", "xpath=//android.widget.RadioButton[@resource-id='com.getheal.patient.debug:id/activity_settings_radio_button_dev']", oWebDriver);
+    public CommonWebElement oDev1RadioBtn = new CommonWebElement("oDev1RadioBtn", "xpath=//android.widget.RadioButton[@resource-id='com.getheal.patient.debug:id/activity_settings_radio_button_dev_1']", oWebDriver);
+    public CommonWebElement oQARadioBtn = new CommonWebElement("oQARadioBtn", "xpath=//android.widget.RadioButton[@resource-id='com.getheal.patient.debug:id/activity_settings_radio_button_qa']", oWebDriver);
 
 
 
