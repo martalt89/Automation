@@ -9,10 +9,10 @@ import org.openqa.selenium.WebDriver;
  */
 public class M_LoginPage extends WebBase {
 
-    public CommonWebElement oEmailInput = new CommonWebElement("oEmailInput", "xpath=//android.widget.EditText[@resource-id='com.getheal.patient.debug:id/email']", oWebDriver);
-    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "xpath=//android.widget.EditText[@resource-id='com.getheal.patient.debug:id/password']", oWebDriver);
-    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id/log_in_button']", oWebDriver);
-    public CommonWebElement oForgotPasswordText = new CommonWebElement("oForgotPasswordText", "xpath=//android.widget.TextView[@resource-id='com.getheal.patient.debug:id/forgot_password_text']", oWebDriver);
+    public CommonWebElement oEmailInput = new CommonWebElement("oEmailInput", "xpath=//android.widget.EditText[1]", oWebDriver);
+    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "xpath=//android.widget.EditText[2]", oWebDriver);
+    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button", oWebDriver);
+    public CommonWebElement oForgotPasswordText = new CommonWebElement("oForgotPasswordText", "xpath=//android.widget.TextView[@text='Forgot password']", oWebDriver);
 
     public CommonWebElement oProgressBar= new CommonWebElement("oProgressBar", "xpath=//android.widget.ProgressBar", oWebDriver);
     //////////////////

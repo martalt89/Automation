@@ -9,9 +9,9 @@ import org.openqa.selenium.WebDriver;
  */
 public class M_HomePage extends WebBase {
 
-    public CommonWebElement oSettingsBtn = new CommonWebElement("oSettingsBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id/settingsButton']", oWebDriver);
-    public CommonWebElement oRegisterBtn = new CommonWebElement("oRegisterBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id/register_btn']", oWebDriver);
-    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button[@resource-id='com.getheal.patient.debug:id/login_btn']", oWebDriver);
+    public CommonWebElement oSettingsBtn = new CommonWebElement("oSettingsBtn", "xpath=//android.widget.Button[1]", oWebDriver);
+    public CommonWebElement oRegisterBtn = new CommonWebElement("oRegisterBtn", "xpath=//android.widget.Button[2]", oWebDriver);
+    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button[3]", oWebDriver);
 
 
     //////////////////
