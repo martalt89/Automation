@@ -27,7 +27,7 @@ public class M_LoginTest  extends TestBase {
 
         homePage.clickLoginButton();
         M_LoginPage loginPage = new M_LoginPage(dr);
-        assertEquals("verfiy Text forgot password", loginPage.oForgotPasswordText.getText(), "Forgot password");
+        assertEquals("Verify Text Forgot password", loginPage.oForgotPasswordText.getText(), "Forgot password");
 
         loginPage.login();
     }
