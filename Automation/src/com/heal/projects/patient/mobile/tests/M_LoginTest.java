@@ -1,5 +1,6 @@
 package com.heal.projects.patient.mobile.tests;
 
+import com.heal.framework.foundation.SysTools;
 import com.heal.framework.test.TestBase;
 import com.heal.projects.patient.mobile.pages.M_HomePage;
 import com.heal.projects.patient.mobile.pages.M_LoginPage;
@@ -30,6 +31,7 @@ public class M_LoginTest  extends TestBase {
         assertEquals("Verify Text Forgot password", loginPage.oForgotPasswordText.getText(), "Forgot password");
 
         loginPage.login();
+        SysTools.sleepFor(8);
     }
 
 }

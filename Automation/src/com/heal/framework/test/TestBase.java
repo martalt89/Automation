@@ -523,8 +523,10 @@ public class TestBase
                     DesiredCapabilities capabilities =  DesiredCapabilities.android();
                     capabilities.setCapability("platformName", "Android");
                     capabilities.setCapability("deviceName", "any");
+                    capabilities.setCapability("app", "/Users/vahanmelikyan/Downloads/app-patient-debug.apk");
                     capabilities.setCapability("appPackage", "com.getheal.patient.debug");
                     capabilities.setCapability("appActivity", "com.getheal.patient.activities.InitialActivity");
+                    capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
                     return new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
                     /* return new org.openqa.selenium.chrome.ChromeDriver(); */
 
