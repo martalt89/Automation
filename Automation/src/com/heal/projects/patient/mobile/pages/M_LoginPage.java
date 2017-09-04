@@ -14,6 +14,7 @@ public class M_LoginPage extends WebBase {
     public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button", oWebDriver);
     public CommonWebElement oForgotPasswordText = new CommonWebElement("oForgotPasswordText", "xpath=//android.widget.TextView[@text='Forgot password']", oWebDriver);
 
+    public CommonWebElement oProgressBar= new CommonWebElement("oProgressBar", "xpath=//android.widget.ProgressBar", oWebDriver);
     //////////////////
     // Constructors //
     //////////////////
