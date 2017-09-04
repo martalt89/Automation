@@ -47,7 +47,7 @@ public class TestListener extends TestListenerAdapter {
     public void onTestStart(ITestResult oResult) {
         oTestBase = (TestBase)oResult.getInstance();
         super.onTestStart(oResult);
-        logger.info("【" + oResult.getName() + " Start】");
+        logger.info("[" + oResult.getName() + " Start]");
 
     }
 
