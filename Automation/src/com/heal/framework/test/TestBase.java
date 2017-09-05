@@ -18,10 +18,12 @@ import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.ReporterType;
 
 import com.heal.framework.foundation.*;
+import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -517,24 +519,17 @@ public class TestBase
                         System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
                     }
                     return new org.openqa.selenium.chrome.ChromeDriver();
-                case "IE":
-                    DesiredCapabilities dc = DesiredCapabilities.internetExplorer();
-                    dc.setCapability("nativeEvents", true);
-                    return new org.openqa.selenium.ie.InternetExplorerDriver(dc);
-                case "FIREFOX":
-//					FirefoxProfile profile = new FirefoxProfile(new java.io.File(sFirefoxProfile));
-                    FirefoxProfile profile = new FirefoxProfile();
-                    profile.setEnableNativeEvents(false);
-                    return new org.openqa.selenium.firefox.FirefoxDriver(profile);
-//                case "ANDROID":
-//                    return new org.openqa.selenium.android.AndroidDriver();
-                case "SAFARI":
-                    return new org.openqa.selenium.safari.SafariDriver();
-                case "HTML":
-                    DesiredCapabilities dCaps = DesiredCapabilities.phantomjs();
-                    dCaps.setJavascriptEnabled(true);
-                    dCaps.setCapability("takesScreenshot", false);
-                    return new PhantomJSDriver(dCaps);
+                case "ANDROID":
+                    DesiredCapabilities capabilities =  DesiredCapabilities.android();
+                    capabilities.setCapability("platformName", "Android");
+                    capabilities.setCapability("deviceName", "any");
+                    capabilities.setCapability("app", "/Users/vahanmelikyan/Downloads/app-patient-debug.apk");
+                    capabilities.setCapability("appPackage", "com.getheal.patient.debug");
+                    capabilities.setCapability("appActivity", "com.getheal.patient.activities.InitialActivity");
+                    capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
+                    return new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
+                    /* return new org.openqa.selenium.chrome.ChromeDriver(); */
+
                 default:
                     throw new CommonException("Browser type " + sBrowserType + " not found!");
             }

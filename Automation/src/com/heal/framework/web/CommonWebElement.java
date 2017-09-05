@@ -380,7 +380,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void sendKeys(CharSequence... arg0) {
-        //waitForVisible();
+        waitForVisible();
         waitForEnabled();
         oWebElement.clear();
         oWebElement.sendKeys(arg0);
