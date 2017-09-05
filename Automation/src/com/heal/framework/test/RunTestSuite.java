@@ -32,8 +32,8 @@ public class RunTestSuite {
     private static final String Run_File = "Run_File";
 
     public static void main(String[] args) throws IOException {
-        //String projDir = System.getProperty("user.dir");
-        //String fileSeparator = System.getProperty("file.separator");
+        String projDir = System.getProperty("user.dir");
+        String fileSeparator = System.getProperty("file.separator");
         //String fileExcelName = "Run.xlsx";
         //String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
 
@@ -43,7 +43,7 @@ public class RunTestSuite {
         //  Read test suite from excel file   //
         ////////////////////////////////////////
 
-        File oExcel = new File(argMap.get(Run_File));
+        File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
 
         XmlSuite suite = readFromExcel(oExcel);

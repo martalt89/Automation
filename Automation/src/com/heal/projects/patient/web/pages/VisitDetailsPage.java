@@ -35,7 +35,8 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oAditionalInfoText = new CommonWebElement( "oAditionalInfoText", "xpath=//*[contains(text(),'Additional Info')]", oWebDriver );
     public CommonWebElement oSelectDateText = new CommonWebElement( "oSelectDateText", "xpath=//*[text()='Select Date']", oWebDriver );
     public CommonWebElement oSelectTimeText = new CommonWebElement( "oSelectDateText", "xpath=//*[text()='Select a Time']", oWebDriver );
-    public CommonWebElement oSymptomsInput = new CommonWebElement( "oAditionalInfoInput", "xpath=(//*[@name='symptoms'])[1]", oWebDriver );
+//    public CommonWebElement oSymptomsInput = new CommonWebElement( "oSymptomsInput", "xpath=//textarea[@name='symptoms']", oWebDriver );
+    public CommonWebElement oSymptomsInput = new CommonWebElement( "oSymptomsInput", "xpath=(//*[@name='symptoms'])[2]", oWebDriver );
     public CommonWebElement oSelectDateInput = new CommonWebElement( "oSelectDateInput", "className=md-datepicker-input", oWebDriver );
     //public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot')]/span)[1]", oWebDriver );
     public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//*[@class='layout-wrap ng-scope layout-align-center-start layout-row']/button/span)[1]", oWebDriver );
