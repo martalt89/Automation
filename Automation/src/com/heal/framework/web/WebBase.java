@@ -50,7 +50,7 @@ public class WebBase {
 
         oWebDriver = oTargetDriver;
 
-        sWindowHandle = oWebDriver.getWindowHandle();
+        //sWindowHandle = oWebDriver.getWindowHandle();
 
         if (oWebDriver instanceof org.openqa.selenium.chrome.ChromeDriver) {
             sBrowserType = "Chrome";

@@ -28,18 +28,22 @@ public class RunTestSuite {
     private static Logger logger = LoggerFactory.getLogger(RunTestSuite.class);
     private static final String DEFAULT_PACKAGE = "com.heal.projects";
 
+    //Identifier for Arguments
+    private static final String Run_File = "Run_File";
 
     public static void main(String[] args) throws IOException {
         String projDir = System.getProperty("user.dir");
         String fileSeparator = System.getProperty("file.separator");
-        String fileExcelName = "Run.xlsx";
-        String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
+        //String fileExcelName = "Run.xlsx";
+        //String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
+
+        HashMap<String, String> argMap = Arguments.parseArguments(args);
 
         ////////////////////////////////////////
         //  Read test suite from excel file   //
         ////////////////////////////////////////
 
-        File oExcel = new File(fileExcelPath);
+        File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
 
         XmlSuite suite = readFromExcel(oExcel);

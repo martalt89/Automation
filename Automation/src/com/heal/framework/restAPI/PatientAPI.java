@@ -63,8 +63,8 @@ public class PatientAPI {
     private static final String OTHER_GENDER = "0001433013870063-d279fc27ffff816b-0003";
 
     //for constructors
-    private String sAccUsername;
-    private String sAccPassword;
+    private String sAccUsername = "";
+    private String sAccPassword = "";
     private String sPatientId;
 
 
@@ -375,6 +375,7 @@ public class PatientAPI {
             JSONObject patient = patients.getJSONObject(i);
             if (patient.get("email").toString().equals(sEmail)) {
                 id = patient.getString("id");
+                break;
             }
         }
         return id;
@@ -409,7 +410,7 @@ public class PatientAPI {
      *
      * This method makes a login, takes the cookies and pass them to DELETE request
      */
-    public void deletePatient(String sId){
+    public String deletePatient(String sId){
         String resourceLogin = "/login/";
         String resourcePatient = "/v2/patient/";
         Map<String, String> allCookies = RestAssured.given()
@@ -418,10 +419,12 @@ public class PatientAPI {
                 .body(loginPostParams())
                 .post(baseURLAPIv3 + resourceLogin)
                 .cookies();
-        RestAssured.given()
+        Response deleteResponse = RestAssured.given()
                 .header("Origin", "http://localhost.getheal.com")
                 .header("Content-Type", "application/json")
                 .cookies(allCookies)
                 .delete(baseURLAPIv3 + resourcePatient + sId);
+        return restUtils.getJsonValue(deleteResponse.asString(),"status");
     }
+
 }
