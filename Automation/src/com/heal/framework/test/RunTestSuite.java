@@ -43,7 +43,8 @@ public class RunTestSuite {
         //  Read test suite from excel file   //
         ////////////////////////////////////////
 
-        File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
+        File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + "patient_web_run.xlsx");
+//        File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
 
         XmlSuite suite = readFromExcel(oExcel);
