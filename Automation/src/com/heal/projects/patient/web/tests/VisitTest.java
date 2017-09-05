@@ -98,8 +98,7 @@ public class VisitTest extends TestBase {
             addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
             visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
 
-            visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
-
+            visitDetailsPage.setSymptoms(symptoms);
             visitDetailsPage.selectFirstAvailableTimeSlot();
             visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
             paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
@@ -139,14 +138,13 @@ public class VisitTest extends TestBase {
 
         loginPage.login(); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
-        verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book a house call"); // Verify page title
+        verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit"); // Verify page title
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
-
+        visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
@@ -190,7 +188,7 @@ public class VisitTest extends TestBase {
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
+        visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
@@ -243,7 +241,7 @@ public class VisitTest extends TestBase {
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
+        visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
@@ -294,22 +292,6 @@ public class VisitTest extends TestBase {
 
         loginPage.login(); // Login on patient web app
 
-//        homePage.selectFromMenu(menu.oProfilesLnk);
-//        validate.verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-//        manageProfilePage.oAddPatientbtn.click();
-//        //manageProfilePage.oContiuneButton.clickAndWait(menu.oLoadingBar, false);
-//        manageProfilePage.oFirstNameInput.sendKeys(firstName);
-//        manageProfilePage.oLastNameInput.sendKeys(lastaName);
-//        manageProfilePage.oEmailInput.sendKeys(email);
-//        manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
-//        manageProfilePage.oDateOfBirthInput.sendKeys("09/08/1984");
-//        manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
-//        manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
-//        manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
-//        manageProfilePage.oMemberIdInput.sendKeys(insuranceID);  //insurance ID
-//        manageProfilePage.oGroupIdInput.sendKeys(insuranceGroup);  //group ID
-//        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
 
@@ -317,8 +299,7 @@ public class VisitTest extends TestBase {
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.selectServiceForVisit("SICK_SERVICE");
-        //visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
-        visitDetailsPage.oSymptomsInput.sendKeys(symptoms);
+        visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
         visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
 
