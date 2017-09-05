@@ -2,9 +2,11 @@ package com.heal.projects.patient.tests;
 
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
-import com.heal.projects.patient.pages.HomePage;
-import com.heal.projects.patient.pages.LoginPage;
-import com.heal.projects.patient.pages.ResetPasswordPage;
+//import com.heal.projects.patient.pages.HomePage;
+//import com.heal.projects.patient.pages.LoginPage;
+//import com.heal.projects.patient.pages.ResetPasswordPage;
+import com.heal.projects.patient.web.pages.LoginPage;
+import com.heal.projects.patient.web.pages.ResetPasswordPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
