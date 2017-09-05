@@ -29,7 +29,7 @@ public class LoginTest extends TestBase {
 
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Your activity");
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Visits");
 
         Menu menu = new Menu(dr);
 
@@ -57,10 +57,10 @@ public class LoginTest extends TestBase {
         loginPage.login();
         homePage.selectFromMenu(menu.oHomeLnk);
         homePage.selectFromMenu(menu.oBookVisitLnk);
-        verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book a house call");
+        verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book Visit");
 
         homePage.selectFromMenu(menu.oVisitsLnk);
-        verifyMatches("Verifying Visits page title ", visitsPage.oPageTitle.getText(), "Your activity");
+        verifyMatches("Verifying Visits page title ", visitsPage.oPageTitle.getText(), "Visits");
         homePage.selectFromMenu(menu.oProfilesLnk);
         homePage.selectFromMenu(menu.oPaymentsLnk);
         homePage.selectFromMenu(menu.oSignOutLnk);
