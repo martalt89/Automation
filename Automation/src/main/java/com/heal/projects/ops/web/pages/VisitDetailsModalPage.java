@@ -36,6 +36,7 @@ public class VisitDetailsModalPage extends WebBase{
     public static final String DR_KIM = "Dr. Kim Samuel";
     public static final String DR_MITTON = "Dr. Mitton Bryan";
     public static final String DR_NILES = "Dr. Niles Gabriel";
+    public static final String DR_VAHAN = "Dr. Melikyan Vahan";
     //medical assistants
     public static final String MA_KETTEL = "Kettelborough Michael";
     public static final String MA_WONG = "Wong James";
@@ -64,15 +65,12 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oActionsMenuAddInsurance = new CommonWebElement("oActionsMenuAddInsurance", "xpath=//li/a[text()='Add Insurance']",oWebDriver);
     public CommonWebElement oActionsRefundVisit = new CommonWebElement("oActionsRefundVisit", "xpath=//li/a[text()='Refund Visit']",oWebDriver);
     public CommonWebElement oActionDropDown = new CommonWebElement("oActionDropDown", "xpath=//ul[@role='menu']",oWebDriver);
-
-
     //actions - start visit modal
     public CommonWebElement oSelectStartTimeTitle = new CommonWebElement("oSelectStartTimeTitle", "xpath=//*[@class='modal-title']",oWebDriver);
     public CommonWebElement oStartTimeXBtn = new CommonWebElement("oStartTimeXBtn", "xpath=//*[@class='close']",oWebDriver);
     public CommonWebElement oStartTimeInput = new CommonWebElement("oStartTimeInput", "xpath=//*[@class='modal-body']//input",oWebDriver);
     public CommonWebElement oStarVisitCancelBtn = new CommonWebElement("oStartVisitCancelBtn", "xpath=//*[@class='modal-footer']//button[1]",oWebDriver);
     public CommonWebElement oStartVisitSubmitBtn = new CommonWebElement("oStartVisitSubmitBtn", "xpath=//button[contains(@class,'btn-success')]",oWebDriver);
-
     //actions - cancel visit modal
     public CommonWebElement oCancelVisitTitle = new CommonWebElement("oCancelVisitTitle", "xpath=//*[@class='modal-title']",oWebDriver);
     public CommonWebElement oReasonText = new CommonWebElement("oReasonText", "xpath=//*[@class='row-label'][text()='Reason for Cancellation:']",oWebDriver);
@@ -84,6 +82,12 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oReebookingPatientRadioBtn = new CommonWebElement("oReebookingPatientRadioBtn", "xpath=//*[@class='radio-btn'][2]",oWebDriver);
     public CommonWebElement oReebookingNARadioBtn = new CommonWebElement("oReebookingNARadioBtn", "xpath=//*[@class='radio-btn'][3]",oWebDriver);
     public CommonWebElement oCancelVisitBtn = new CommonWebElement("oCancelVisitBtn", "xpath=//*[@class='modal-footer']/button",oWebDriver);
+    //status badge
+    public CommonWebElement oQeuedIcon = new CommonWebElement("oQeuedIcon", "xpath=//*[@class='status badge' and .='QUEUED']",oWebDriver);
+    public CommonWebElement oAssignedIcon = new CommonWebElement("oAssignedIcon", "xpath=//*[@class='status badge' and .='DOCTOR_ASSIGNED']",oWebDriver);
+    public CommonWebElement oStartedIcon = new CommonWebElement("oStartedIcon", "xpath=//*[@class='status badge' and .='STARTED']",oWebDriver);
+    public CommonWebElement oCancelledIcon = new CommonWebElement("oCancelledIcon", "xpath=//*[@class='status badge' and .='CANCELLED']",oWebDriver);
+    public CommonWebElement oFullyPaidIcon = new CommonWebElement("oFullyPaidIcon", "xpath=//*[@class='status badge' and .='FULLY_PAID']",oWebDriver);
 
     //actions - change provider modal
     public CommonWebElement oChangeProviderTitle = new CommonWebElement("oChangeProviderTitle", "xpath=//*[@class='modal-header']//h4",oWebDriver);
@@ -126,7 +130,7 @@ public class VisitDetailsModalPage extends WebBase{
 
 
     public CommonWebElement oVisitId = new CommonWebElement("oVisitId", "xpath=//*[@class='status-container']/div[1]",oWebDriver);
-    public CommonWebElement oVisitStatus = new CommonWebElement("oVisitStatus", "xpath=//*[@class='status-container']/div[3]",oWebDriver);
+    public CommonWebElement oVisitStatus = new CommonWebElement("oVisitStatus", "xpath=//*[contains(@class,'status badge')]/span",oWebDriver);
     public CommonWebElement oServiceName = new CommonWebElement("oServiceName", "xpath=//*[@class='service-name-container']",oWebDriver);
     //details
     public CommonWebElement oDetailsBtn = new CommonWebElement("oDetailsBtn", "xpath=//*[@class='card-section-header']//*[text()='Details']",oWebDriver);
@@ -466,6 +470,23 @@ public class VisitDetailsModalPage extends WebBase{
         oWebDriver.navigate().to(sUrlWithVisitCode);
         oWebDriver.navigate().refresh();
         waitForPageReady(sUrlWithVisitCode);
+    }
+
+    public void checkVisitStatusWithAfterRefresh(String sVisitCode, String sStatus, int iSeconds) {
+        int seconds=0;
+        while (iSeconds>seconds)
+        switch (sStatus.toUpperCase()){
+            case "QUEUED":
+                this.oQeuedIcon.exists();
+            case "DOCTOR_ASSIGNED":
+                this.oAssignedIcon.exists();
+            case "STARTED":
+                this.oStartedIcon.exists();
+            case "CANCELLED":
+                this.oCancelledIcon.exists();
+        }
+        switchToUrlWithVisitCode("https://ops.qa.heal.com/visits#"+sVisitCode);
+        seconds++;
     }
 
     public CommonWebElement getChangeProviderToastMessage(String sVisitId, String sDoctorName) {
