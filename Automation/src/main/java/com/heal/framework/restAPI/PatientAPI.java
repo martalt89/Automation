@@ -1,7 +1,7 @@
 package com.heal.framework.restAPI;
 
 import com.heal.framework.test.TestData;
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import java.lang.IllegalArgumentException;
 import io.restassured.RestAssured;
 import io.restassured.http.Cookies;
 import io.restassured.response.Response;
@@ -103,9 +103,9 @@ public class PatientAPI {
      *                    If False:
      *                      - patient will not be added and another constructor will be invoked
      *
-     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
+     * @throws IllegalArgumentException if values taken from the Excel file are incorrect/invalid
      */
-    public PatientAPI(String sAccUsername, String sAccPassword, Boolean bAddPatientFromExcel) throws InvalidArgumentException {
+    public PatientAPI(String sAccUsername, String sAccPassword, Boolean bAddPatientFromExcel) throws IllegalArgumentException {
         this(sAccUsername, sAccPassword);
         if(bAddPatientFromExcel) {
             this.sPatientId = addPatientFromExcel();
@@ -159,9 +159,9 @@ public class PatientAPI {
      * Gets relationshipId(used as param in POST requests on /patients) based on relationship string
      * @param sRelationship (String) Relationship string i.g Spouse (taken from Excel test data file)
      * @return (String) relationshipId
-     * @throws InvalidArgumentException if provided argument is incorrect/invalid
+     * @throws IllegalArgumentException if provided argument is incorrect/invalid
      */
-    private String getRelationshipId(String sRelationship) throws InvalidArgumentException {
+    private String getRelationshipId(String sRelationship) throws IllegalArgumentException {
         String sRelationshipId;
         switch (sRelationship){
             case "Spouse":
@@ -191,7 +191,7 @@ public class PatientAPI {
             case "Skilled Nursing Facility":
                 sRelationshipId = SKILLED_NURSING_FACILITY; break;
             default:
-                throw new InvalidArgumentException(new String[]{"Invalid argument for sRelationship: ", sRelationship});
+                throw new IllegalArgumentException("Invalid argument for sRelationship: " + sRelationship);
         }
         return sRelationshipId;
     }
@@ -200,9 +200,9 @@ public class PatientAPI {
      * Gets genderId(used as param in POST requests on /patients) based on gender string
      * @param sGender (String) Gender string i.g Male (taken from Excel file)
      * @return (String) genderId
-     * @throws InvalidArgumentException if provided argument is incorrect/invalid
+     * @throws IllegalArgumentException if provided argument is incorrect/invalid
      */
-    private String getGenderId(String sGender) throws InvalidArgumentException {
+    private String getGenderId(String sGender) throws IllegalArgumentException {
         String genderId;
         switch (sGender){
             case "Male":
@@ -212,7 +212,7 @@ public class PatientAPI {
             case "Other":
                 genderId = OTHER_GENDER; break;
             default:
-                throw new InvalidArgumentException(new String[]{"Invalid argument for sGender: ", sGender });
+                throw new IllegalArgumentException("Invalid argument for sGender: " + sGender );
         }
         return genderId;
     }
@@ -224,9 +224,9 @@ public class PatientAPI {
     /**
      * Creates a map containing POST params for add patient request, taken from Excel test data file
      * @return (Map) POST params for add patient request
-     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
+     * @throws IllegalArgumentException if values taken from the Excel file are incorrect/invalid
      */
-    private Map addPatientPostParamsFromExcel() throws InvalidArgumentException {
+    private Map addPatientPostParamsFromExcel() throws IllegalArgumentException {
         Map<String, Object> postParams = new HashMap<>();
         postParams.put("emailRegex", "{}");
         postParams.put("bHasMedicareMedicaid", addPatientInputData.bHasMedicareMedicaid);
@@ -260,9 +260,9 @@ public class PatientAPI {
     /**
      * Adds a patient using data from Excel test data file
      * @return (String) patientId
-     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
+     * @throws IllegalArgumentException if values taken from the Excel file are incorrect/invalid
      */
-    public String addPatientFromExcel() throws InvalidArgumentException {
+    public String addPatientFromExcel() throws IllegalArgumentException {
         String patientId = addPatientPostRequest(addPatientPostParamsFromExcel());
         initPatientInfo(patientId);
         return patientId;
@@ -272,9 +272,9 @@ public class PatientAPI {
      * Adds a patient using data from Excel test data file
      * @param patientPostParams (Map) POST request params
      * @return (String) patientId
-     * @throws InvalidArgumentException if values taken from the Excel file are incorrect/invalid
+     * @throws IllegalArgumentException if values taken from the Excel file are incorrect/invalid
      */
-    public String addPatient(Map patientPostParams) throws InvalidArgumentException {
+    public String addPatient(Map patientPostParams) throws IllegalArgumentException {
         String patientId =  addPatientPostRequest(patientPostParams);
         return patientId;
     }
