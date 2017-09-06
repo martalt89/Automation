@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import static com.heal.framework.test.RunTestSuite.projDir;
+import static com.heal.framework.test.RunTestSuite.fileSeparator;
 
 
 public class TestData {
@@ -52,22 +54,13 @@ public class TestData {
      * Initializes class variables with the values from Excel file
      * @param sSheetName (String) Sheet name from the Excel file
      */
-    private String projDri = System.getProperty("user.dir");
-    private String fileSeparator = System.getProperty("file.separator");
-    private String fileExcelName = "test_data.xlsx";
-//    private String fileExcelPath = projDri + fileSeparator +
-//            "src" + fileSeparator +
-//            "main" + fileSeparator +
-//            "java" + fileSeparator +
-//            "src/framework" + fileSeparator +
-//            "test" + fileSeparator + fileExcelName;
 
-    private String fileExcelPath = projDri + fileSeparator +
+    private String fileExcelName = "test_data.xlsx";
+
+    private String fileExcelPath = projDir + fileSeparator +
             "src" + fileSeparator +
-            "com" + fileSeparator +
-            "heal" + fileSeparator +
-            "framework" + fileSeparator +
-            "test" + fileSeparator + fileExcelName;
+            "main" + fileSeparator +
+            "resources" + fileSeparator + fileExcelName;
 
     public TestData(String sSheetName){
         String sFileName = fileExcelPath;
