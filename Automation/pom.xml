@@ -34,6 +34,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
 				<version>1.6.0</version>
                 <configuration>
+					<includePluginDependencies>true</includePluginDependencies>
                     <mainClass>com.heal.framework.test.RunTestSuite</mainClass>
 					<arguments>
 						<argument>-classpath</argument>
