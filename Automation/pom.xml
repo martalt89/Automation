@@ -32,9 +32,12 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <!--<configuration>-->
-                    <!--<mainClass>com.heal.framework.test.RunTestSuite</mainClass>-->
-                <!--</configuration>-->
+                <configuration>
+                    <mainClass>com.heal.framework.test.RunTestSuite</mainClass>
+					<arguments>
+						<argument>${run_file}</argument>
+					</arguments>
+                </configuration>
             </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -43,7 +46,6 @@
 				<configuration>
 					<forkCount>1</forkCount>
 					<suiteXmlFiles>
-						<suiteXmlFile>${suiteXML}</suiteXmlFile>
 						<!--<suiteXmlFile>src/test/java/TestNG.xml</suiteXmlFile>-->
 					</suiteXmlFiles>
 				</configuration>
