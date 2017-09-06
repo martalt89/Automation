@@ -251,11 +251,9 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void click() {
-        waitForEnabled();
         waitForVisible();
+        waitForEnabled();
         waitForClickable();
-
-            //System.out.println("Clicking on... " + oBy.toString());
 
         oWebElement.click();
         if (iThrottleValue != 0)
