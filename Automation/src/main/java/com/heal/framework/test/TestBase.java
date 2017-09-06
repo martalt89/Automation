@@ -575,7 +575,7 @@ public class TestBase
             capabilities.setCapability("browserName", parameters.get("browserName"));
             capabilities.setCapability("appiumVersion", parameters.get("appiumVersion"));
             capabilities.setCapability("deviceName", parameters.get("deviceName"));
-            capabilities.setCapability("deviceOrientation", parameters.get("deviceOrientation"));
+            capabilities.setCapability("deviceOrientation", "portrait");
             capabilities.setCapability("platformVersion", parameters.get("platformVersion"));
             capabilities.setCapability("platformName", parameters.get("platformName"));
             capabilities.setCapability("version", parameters.get("version"));
@@ -583,18 +583,7 @@ public class TestBase
         }
 
         switch (browserName.toLowerCase()) {
-            case "ie":
-                capabilities = DesiredCapabilities.internetExplorer();
-                capabilities.setCapability("version", parameters.get("version"));
-                capabilities.setCapability("platform", parameters.get("platform"));
-                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
-                break;
-            case "firefox":
-                capabilities = DesiredCapabilities.firefox();
-                capabilities.setCapability("version", parameters.get("version"));
-                capabilities.setCapability("platform", parameters.get("platform"));
-                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
-                break;
+
             case "safari":
                 capabilities = DesiredCapabilities.safari();
                 capabilities.setCapability("version", parameters.get("version"));

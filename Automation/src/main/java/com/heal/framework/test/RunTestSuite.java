@@ -28,12 +28,14 @@ public class RunTestSuite {
     private static Logger logger = LoggerFactory.getLogger(RunTestSuite.class);
     private static final String DEFAULT_PACKAGE = "com.heal.projects";
 
+    public static final String projDir = System.getProperty("user.dir");
+    public static final String fileSeparator = System.getProperty("file.separator");
+
     //Identifier for Arguments
     private static final String Run_File = "Run_File";
 
     public static void main(String[] args) throws IOException {
-        String projDir = System.getProperty("user.dir");
-        String fileSeparator = System.getProperty("file.separator");
+
         //String fileExcelName = "Run.xlsx";
         //String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
 

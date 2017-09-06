@@ -10,7 +10,7 @@ import com.heal.projects.ops.web.pages.OpsVisitsPage;
 import com.heal.projects.ops.web.pages.VisitDetailsModalPage;
 import com.heal.projects.ops.web.pages.OpsLoginPage;
 import com.heal.projects.ops.web.pages.OpsMenu;
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import java.lang.IllegalArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -145,7 +145,7 @@ public class VisitDetailsModalTest extends TestBase  {
             PatientAPI patientAPI = new PatientAPI(testDataAccount.sEmail, testDataAccount.sPassword);
             try {
                 patientAPI.addPatientFromExcel();
-            } catch (InvalidArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             }
             loginPage.goTo();
