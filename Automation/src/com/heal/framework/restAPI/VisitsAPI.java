@@ -43,6 +43,7 @@ public class VisitsAPI {
         jsonAsMap.put("patientId", this.sPatientId);
         jsonAsMap.put("serviceCode", "SICK_ADULT");
         jsonAsMap.put("timeSlotId", sTimeSlotID);
+        jsonAsMap.put("symptoms", "IGNORE - Booked by automation test..");
         jsonAsMap.put("promoCode", null);
         jsonAsMap.put("paymentId", "0001501850382645-2f663b05b4c-0001"); // todo: find out where to extract paymentId
         jsonAsMap.put("addressLongitude", accountAPI.getAddressLongitude(accountTestData.sAddress));

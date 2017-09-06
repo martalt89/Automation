@@ -43,7 +43,7 @@ public class VisitDetailsModalTest extends TestBase  {
             //need to add a doctor before starting the visit
             visit.startVisit();
             visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
-            verifyTextEquals("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus, "STARTED");
+            assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
             visitsPage.filterVisits(visit_id);
             verifyTextEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id), "STARTED");
         }
@@ -87,6 +87,7 @@ public class VisitDetailsModalTest extends TestBase  {
             visit.oChangetBtn.click();
             visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
             visitsPage.filterVisits(visit_id);
+            assertMatches("Verify visit details modal contains 'CANCELLED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
             verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.DR_NILES);
             verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.MA_KETTEL);
         }
@@ -104,10 +105,14 @@ public class VisitDetailsModalTest extends TestBase  {
         loginPage.login();
         visit.switchToUrlWithVisitCode(sDashboardAndVisitCodeURL);
         visit.waitForPageReady(sDashboardAndVisitCodeURL);
-        visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_NILES, VisitDetailsModalPage.MA_KETTEL);
+        visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_VAHAN, VisitDetailsModalPage.MA_KETTEL);
         visit.editManualTime(SysTools.healTime10MinAhead());
+        visit.oChangetBtn.click();
         visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
+        visit.checkVisitStatusWithAfterRefresh(visit_id, "DOCTOR_ASSIGNED", 10);
+        //visit.oQeuedIcon.waitForElement(15);
         visitsPage.filterVisits(visit_id);
+        assertMatches("Verify visit details modal contains 'CANCELLED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
         verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.DR_NILES);
         verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), VisitDetailsModalPage.MA_KETTEL);
     }
