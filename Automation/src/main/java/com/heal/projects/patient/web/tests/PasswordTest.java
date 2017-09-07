@@ -1,4 +1,4 @@
-package com.heal.projects.patient.tests;
+package com.heal.projects.patient.web.tests;
 
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
