@@ -26,7 +26,7 @@ public class CommonWebElement implements WebElement, Locatable {
     private static Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
-    private static int iImplicitWait = 30;
+    private static int iImplicitWait = 45;
     private static int iThrottleValue = 0;
     private static boolean bMonitorMode = false;
 
