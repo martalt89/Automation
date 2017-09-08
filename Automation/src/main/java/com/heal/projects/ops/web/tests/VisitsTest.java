@@ -7,6 +7,7 @@ import com.heal.projects.ops.web.pages.OpsMenu;
 import com.heal.projects.ops.web.pages.OpsVisitsPage;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -267,6 +268,69 @@ public class VisitsTest extends TestBase{
         visitsPage.filterVisits(sRandomUserEmail);
 
         verifyVisible("Verify if insured badge is displayed", visitsPage.oInsuredBadge);
+
+    }
+
+    @Test
+    public void bookVisitWithInsurance() throws Exception {
+        WebDriver dr =getDriver();
+        dr.manage().window().maximize();
+        OpsLoginPage loginPage= new OpsLoginPage(dr);
+        OpsMenu menu=new OpsMenu(dr);
+        OpsVisitsPage visitsPage=new OpsVisitsPage(dr);
+        CreateVisitPage createVisit =new CreateVisitPage(dr);
+       // Dimension dimension=new
+
+
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        loginPage.login("vahan+oc@heal.com","Heal4325");
+
+        menu.selectFromMenu("visits");
+
+        visitsPage.waitForPageLoad();
+        visitsPage.oAddVisitBtn.clickAndWait(createVisit.oEnterKeywordField, true);
+
+        createVisit.oEnterKeywordField.sendKeys("vahan+qa");
+        createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
+        createVisit.oPhoneField.sendKeys("(818)182-1238");
+        createVisit.oSelectPatientMenu.click();
+
+        createVisit.oSelectPatientProfileWithInsurance.clickAndWait(createVisit.oSavePatientBtn,true);
+        createVisit.scrollPage("Down");
+
+        createVisit.oSavePatientBtn.clickAndWait(menu.oLoadingBar,false);
+
+        System.out.println("3");
+        SysTools.sleepFor(4);
+        createVisit.oSelectAddressMenu.click();
+        createVisit.scrollPage("Up");
+
+        createVisit.oSelectFirstAddressBtn.clickAndWait(menu.oLoadingBar,false);
+        System.out.println("4");
+        createVisit.scrollPage("Down");
+
+        //createVisit.oSaveAddressBtn.waitForVisible();
+        System.out.println("5");
+
+        SysTools.sleepFor(4);
+        createVisit.oSaveAddressBtn.click();
+
+        createVisit.oAddVisitDetailsMenu.clickAndWait(createVisit.oEnterVisitDetailsTitle,true);
+        createVisit.oSickAdultService.click();
+        createVisit.oSymptomsField.sendKeys("fever,cough and cold");
+        createVisit.oSaveBtn.jsClick();
+        System.out.println("6");
+        createVisit.scrollPage("Down");
+        SysTools.sleepFor(5);
+        createVisit.oSelectPaymentMenu.clickAndWait(createVisit.oSelectPaymentTitle,true);
+        createVisit.oFirstCardOption.click();
+        createVisit.scrollPage("Down");
+        SysTools.sleepFor(10);
+        createVisit.oVisitSummaryMenu.clickAndWait(createVisit.oVisitPriceTitle, true);
+        createVisit.oBookVisitBtn.click();
+
+
 
     }
 

@@ -25,7 +25,7 @@ public class sandbox extends TestBase {
         loginPage.oPasswordInput.sendKeys("Heal4325!");
         loginPage.oLoginBtn.clickAndWait(menu.oLoadingBar, false);
         menu.selectFromMenu("profiles");
-        assertMatches("Verifying the page titile", profilePage.oPageTitle.getText(), "Manage profilessss");
+        assertMatches("Verifying the page titile", profilePage.oPageTitle.getText(), "Manage profiles");
 
 
 

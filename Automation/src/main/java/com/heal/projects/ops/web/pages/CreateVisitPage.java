@@ -36,6 +36,7 @@ public class CreateVisitPage extends WebBase {
     // text fields
     public CommonWebElement oEnterKeywordField = new CommonWebElement("oEnterKeywordField", "xpath=//*[contains(@placeholder,'Enter Keyword')]", oWebDriver);
     public CommonWebElement oSearch1StSugestion = new CommonWebElement("oSearch1StSugestion", "xpath=//*[@class='tt-dataset tt-dataset-user_accounts']/div[1]", oWebDriver);
+    public CommonWebElement oSearchingSuggestion=new CommonWebElement("oSearchingSuggestion","xpath=//*[contains(@class,'tt-suggestion') and contains(.,'With Insurance')]",oWebDriver);
     public CommonWebElement oFirstNameField = new CommonWebElement("oFirstNameField", "xpath=//*[contains(@placeholder,'Enter First Name')]", oWebDriver);
     public CommonWebElement oLastNameField = new CommonWebElement("oLastNameField", "xpath=//*[contains(@placeholder,'Enter Last Name')]", oWebDriver);
     public CommonWebElement oPhoneField = new CommonWebElement("oPhoneField", "xpath=//*[contains(@placeholder,'Enter Phone Number')]", oWebDriver);
@@ -83,6 +84,8 @@ public class CreateVisitPage extends WebBase {
 
     // buttons
     public CommonWebElement oSelectPatientProfile = new CommonWebElement("oSelectPatientProfile", "xpath=//*[@class='patient-list']/div[1]", oWebDriver);
+    public CommonWebElement oSelectPatientProfileWithInsurance = new CommonWebElement("oSelectPatientProfileWithInsurance", "xpath=//*[contains(@class,'patient-name') and text()='Insurance']", oWebDriver);
+
     public CommonWebElement oCreatePatientBtn = new CommonWebElement("oCreatePatientBtn", "xpath=//button[text()='Create Patient']", oWebDriver);
     public CommonWebElement oChooseDifferentPatientBtn = new CommonWebElement("oChooseDifferentPatientBtn", "xpath=//button[text()='Choose Different Patient']", oWebDriver);
     public CommonWebElement oSavePatientBtn = new CommonWebElement("oCreateUserBtn", "xpath=//button[text()='Save Patient']", oWebDriver);
@@ -355,6 +358,7 @@ public class CreateVisitPage extends WebBase {
     }
 
     public void visitSummary() throws Exception {
+
         this.oVisitSummaryMenu.clickAndWait(oVisitPriceTitle, true);
         this.scrollPage("Up");
     }
