@@ -36,7 +36,6 @@ public class PatientAPI {
     private String sPatientDateOfBirth;
     private String sPatientRelationship;
 
-    //TODO - create enums with the values below
     /**
      * Relationship ids - Used when making POST requests on /patients
      * POST request is sending relationshipId param instead of the relationship string
