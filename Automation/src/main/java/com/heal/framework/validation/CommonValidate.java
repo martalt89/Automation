@@ -153,7 +153,7 @@ public class CommonValidate
         else
         {
             oExtentTest.log(LogStatus.FAIL, String.format("{%s} - verifyMatches() failed! Actual: {%s}  Expected: {%s} <br>", sArray));
-            vFailures.add(sComment + "- verifyMatches() failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
+            vFailures.add(sComment + "- Verification failed!  Actual: \"" + sActual + "\"  Expected: \"" + sExpected + "\"  [Screenshot:  " + getScreenshot() + "]");
             return false;
         }
     }
