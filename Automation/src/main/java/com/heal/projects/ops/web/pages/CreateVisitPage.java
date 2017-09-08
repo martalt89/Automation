@@ -17,7 +17,7 @@ public class CreateVisitPage extends WebBase {
     // Page Elements //
     ///////////////////
     public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//h1[text()='Create Visit']", oWebDriver);
-
+    public CommonWebElement oPageLoader=new CommonWebElement("oPageLoader","xpath=//*[@class='loader']",oWebDriver);
     // Select / create user card
 
     // title
@@ -383,6 +383,30 @@ public class CreateVisitPage extends WebBase {
         this.scrollPage("Up");
         this.oSelectFirstAddressBtn.clickAndWait(oAddressCard, true);
         this.scrollPage("Down");
+    }
+
+    public void addPatientProfileWithInsurance(){
+        this.oSelectPatientMenu.jsClick();
+        this.oSelectPatientProfileWithInsurance.clickAndWait(this.oSavePatientBtn,true);
+        this.scrollPage("Down");
+        this.oSavePatientBtn.clickAndWait(this.oPageLoader,false);
+        //verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
+    }
+
+    public void saveAddress(){
+        this.oSelectAddressMenu.jsClick();
+        this.scrollPage("Up");
+        this.oSelectFirstAddressBtn.clickAndWait(this.oPageLoader,false);
+        this.scrollPage("Down");
+        this.oSaveAddressBtn.clickAndWait(this.oPageLoader,false);
+    }
+
+    public void addVisitDetailsWithSickAdult(){
+        this.oAddVisitDetailsMenu.clickAndWait(this.oEnterVisitDetailsTitle,true);
+        this.oSickAdultService.click();
+        this.oSymptomsField.sendKeys("testing");
+        this.oSaveBtn.clickAndWait(this.oPageLoader,false);
+
     }
 
     //todo remove all sleeps and put methods for wait
