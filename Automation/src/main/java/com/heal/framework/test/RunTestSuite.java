@@ -44,13 +44,16 @@ public class RunTestSuite {
         ////////////////////////////////////////
         //  Read test suite from excel file   //
         ////////////////////////////////////////
-
         File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
+
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
 
         XmlSuite suite = readFromExcel(oExcel);
 
-        suite.setParameters(processParameters(oExcel));
+        HashMap<String, String> excelParams = processParameters(oExcel);
+        excelParams.putAll(argMap);
+        
+        suite.setParameters(excelParams);
         oSuites.add(suite);
         logger.info(suite.toXml());
         TestNG testng = new TestNG();
@@ -220,7 +223,7 @@ public class RunTestSuite {
 
     public static HashMap<String, String> processParameters(File excelFile)  throws IOException{
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<>();
         FileInputStream  driverExcel = new FileInputStream(excelFile);
 
         XSSFWorkbook workbook = new XSSFWorkbook(driverExcel);
@@ -238,7 +241,6 @@ public class RunTestSuite {
             String sValue = row.getCell(1, MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue().trim();
 
             params.put(sName, sValue);
-
         }
         driverExcel.close();
         TestBase.setParameters(params);
