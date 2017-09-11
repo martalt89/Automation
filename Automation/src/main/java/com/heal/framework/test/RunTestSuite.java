@@ -40,7 +40,7 @@ public class RunTestSuite {
         //String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
 
         HashMap<String, String> argMap = Arguments.parseArguments(args);
-
+        logger.info("arguments list", argMap.toString());
         ////////////////////////////////////////
         //  Read test suite from excel file   //
         ////////////////////////////////////////
