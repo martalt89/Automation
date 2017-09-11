@@ -44,16 +44,15 @@ public class RunTestSuite {
         ////////////////////////////////////////
         //  Read test suite from excel file   //
         ////////////////////////////////////////
-
         File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
+
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
 
         XmlSuite suite = readFromExcel(oExcel);
 
         HashMap<String, String> excelParams = processParameters(oExcel);
-        HashMap<String, String> params = new HashMap<>(argMap);
-        excelParams.putAll(params);
-        System.out.println(excelParams);
+        excelParams.putAll(argMap);
+        
         suite.setParameters(excelParams);
         oSuites.add(suite);
         logger.info(suite.toXml());
