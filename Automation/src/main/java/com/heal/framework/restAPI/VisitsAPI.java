@@ -104,7 +104,7 @@ public class VisitsAPI {
      * @return - String visit code
      */
     public String createVisit(){
-        String resourceAPI = "/v4/patient/visit";
+        String resourceAPI = "/v5/patient/visit";
         String sessionId = RestAssured.given()
                 .auth()
                 .preemptive()
