@@ -38,9 +38,10 @@ public class RunTestSuite {
 
         //String fileExcelName = "Run.xlsx";
         //String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
-
+        System.out.println(args.toString());
         HashMap<String, String> argMap = Arguments.parseArguments(args);
         logger.info("arguments list", argMap.toString());
+        System.out.println(argMap.toString());
         ////////////////////////////////////////
         //  Read test suite from excel file   //
         ////////////////////////////////////////
