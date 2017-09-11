@@ -7,7 +7,6 @@ import com.heal.projects.ops.web.pages.OpsMenu;
 import com.heal.projects.ops.web.pages.OpsVisitsPage;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -22,14 +21,17 @@ public class VisitsTest extends TestBase{
     private static  String sRandomUserEmail = "qa_auto_test_" + SysTools.getTimestamp("yyyy_MM_dd_HH-mm") +"@heal.com";
     @Test
     public void testLoop(){
-        int numberOfVisitsToBook = 1;
+        int numberOfVisitsToBook = 20;
         int passedRuns = 0;
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                createVisitWith50PercentPromoTest(); // put here the desired test to be run on loop
-                createVisitWith100PercentPromoTest();
-                createVisitWithInsuranceTest();
+                //createVisitWith50PercentPromoTest(); // put here the desired test to be run on loop
+                //createVisitWith100PercentPromoTest();
+                //createVisitWithInsuranceTest();
+
+                bookVisitWithInsurance();
+                bookVisitWithCreditCard();
                 passedRuns++;
             } catch (Exception e) {
                 failedRuns++;
@@ -295,14 +297,14 @@ public class VisitsTest extends TestBase{
         createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
         createVisit.oPhoneField.sendKeys("(818)182-1238");
 
-        createVisit.addPatientProfileWithInsurance();
-        verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
+        createVisit.selectPatientProfileWithInsurance();
+        menu.verifyToastMessage("Verify patient profile was selected and saved", "Successfully Updated Patient");
 
         createVisit.saveAddress();
-        verifyTextMatches("Verify address is saved", menu.oToastMessage, "Successfully Updated Address");
+        menu.verifyToastMessage("Verify address is saved",  "Successfully Updated Address");
 
-        createVisit.addVisitDetails();
-        verifyTextMatches("Verify visit details are added", menu.oToastMessage, "Updated Visit Details");
+        createVisit.addVisitDetailsWithSickAdult();
+        menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
 
         createVisit.scrollPage("Down");
         createVisit.oSelectPaymentMenu.jsClick();
@@ -311,8 +313,50 @@ public class VisitsTest extends TestBase{
 
         createVisit.oVisitSummaryMenu.jsClick();
         createVisit.oBookVisitBtn.click();
-        verifyTextMatches("Verify book visit success message", menu.oToastMessage, "Successfully Created Visit");
+        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
 
     }
 
+    @Test
+    public void bookVisitWithCreditCard() throws Exception {
+        WebDriver dr =getDriver();
+        dr.manage().window().maximize();
+        OpsLoginPage loginPage= new OpsLoginPage(dr);
+        OpsMenu menu=new OpsMenu(dr);
+        OpsVisitsPage visitsPage=new OpsVisitsPage(dr);
+        CreateVisitPage createVisit =new CreateVisitPage(dr);
+
+
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        loginPage.login("vahan+oc@heal.com","Heal4325");
+
+        menu.selectFromMenu("visits");
+
+        visitsPage.waitForPageLoad();
+        visitsPage.oAddVisitBtn.clickAndWait(createVisit.oEnterKeywordField, true);
+
+        createVisit.oEnterKeywordField.sendKeys("vahan+qa");
+        createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
+        createVisit.oPhoneField.sendKeys("(818)182-1238");
+
+        createVisit.selectPatientProfileWithCreditCard();
+        menu.verifyToastMessage("Verify patient profile was selected and saved", "Successfully Updated Patient");
+
+        createVisit.saveAddress();
+        menu.verifyToastMessage("Verify address is saved",  "Successfully Updated Address");
+
+        createVisit.addVisitDetailsWithSickAdult();
+        menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
+
+        createVisit.scrollPage("Down");
+        createVisit.oSelectPaymentMenu.jsClick();
+        createVisit.oFirstCardOption.click();
+        createVisit.scrollPage("Down");
+
+        createVisit.oVisitSummaryMenu.jsClick();
+        createVisit.oBookVisitBtn.click();
+        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
+    }
+    
 }

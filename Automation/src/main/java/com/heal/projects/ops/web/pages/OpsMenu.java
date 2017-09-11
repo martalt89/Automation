@@ -1,5 +1,6 @@
 package com.heal.projects.ops.web.pages;
 
+import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +17,7 @@ public class OpsMenu extends WebBase{
     public static final String ZIPCODE_NOT_IN_AREA = "is not in our coverage area";
     public static final String ZIPCODE_INVALID = "Enter a valid zipcode!";
     public static final String ZIPCODE_CORRECT = "Great news! Heal is available in your area.";
+
 
     public CommonWebElement oMenuArea = new CommonWebElement("oMenuArea", "xpath=//*[contains(@class,'sidebar')]",oWebDriver);
     public CommonWebElement oDashboardLink = new CommonWebElement("oDashboardLink", "xpath=//*[contains(@class,'sidebar')]//span[text()='Dashboard']",oWebDriver);
@@ -36,7 +38,7 @@ public class OpsMenu extends WebBase{
     public CommonWebElement oToastMessage = new CommonWebElement("oToastMessage", "xpath=//*[@class='toast-message']",oWebDriver);
     public CommonWebElement oToastTitle = new CommonWebElement("oToastTitle", "xpath=//*[@class='toast-title']",oWebDriver);
     public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='loading-screen layout-fill ng-scope layout-column']",oWebDriver);
-
+    public CommonWebElement oToastCloseButton = new CommonWebElement("oToastCloseButton", "xpath=//*[@class='toast-close-button']",oWebDriver);
     //////////////////
     // Constructors //
     //////////////////
@@ -126,5 +128,20 @@ public class OpsMenu extends WebBase{
     public void searchZipcode(String sZipcode){
         this.oZipcodeSearch.sendKeys(sZipcode, Keys.ENTER);
 
+    }
+
+    /**
+     * method verifies the toast messages and closes them
+     *
+     * @param sComment - sets the string comment for describing verification
+     * @param sExpectedMessage -shows expected string toast message details
+     *
+     */
+    public void verifyToastMessage(String sComment, String sExpectedMessage) {
+        TestBase testbase = new TestBase();
+        testbase.verifyTextMatches(sComment, this.oToastMessage, sExpectedMessage);
+        if (this.oToastCloseButton.isDisplayed()) {
+            this.oToastCloseButton.jsClick();
+        }
     }
 }
