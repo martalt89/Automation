@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class Arguments {
 
-
+// this class is for doing jenkins parameters
     public static HashMap<String, String> parseArguments(String[] args){
 
         HashMap<String, String> argMap = new HashMap<String, String>();
