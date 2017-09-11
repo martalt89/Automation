@@ -599,6 +599,20 @@ public class TestBase
                 capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
                 capabilities.setCapability("seleniumVersion", "3.4.0");
                 break;
+            case "firefox":
+                capabilities = DesiredCapabilities.firefox();
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
+                capabilities.setCapability("seleniumVersion", "3.4.0");
+                break;
+            case "ie":
+                capabilities = DesiredCapabilities.internetExplorer();
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
+                capabilities.setCapability("seleniumVersion", "3.4.0");
+                break;
             default:
                 break;
         }
