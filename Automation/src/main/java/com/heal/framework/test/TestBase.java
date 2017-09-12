@@ -405,17 +405,6 @@ public class TestBase
             unsetException();
             quitDriver();
 
-//            ExtentTest test = getExtentTest();
-//            extent.endTest(test);
-//
-//            String[] dmethods = oMethod.getAnnotation(Test.class).dependsOnMethods();
-//            for (int i = 0; i < dmethods.length; i++) {
-//                if(RunTestSuite.getToRunTests().contains(dmethods[i])){
-//                    ExtentManager.removeTest(dmethods[i]);
-//                }
-//
-//            }
-
         }
         catch (Exception ex)
         {
@@ -482,17 +471,6 @@ public class TestBase
 
         if (iCount > 0)
             getValidate().fail("Found verification failures");
-//		{
-//			StringBuilder errorString = new StringBuilder();
-//			
-//			for(String sError : getValidate().getFailures())
-//			{
-//				errorString.append(sError);
-//				errorString.append("\n");
-//			}
-//			
-//			getValidate().fail("Found verification failures (" + iCount + ") out of total (" + getValidate().getTotalCount() + ")! \n\n" + errorString.toString());
-//		}
     }
 
     /**
@@ -519,6 +497,15 @@ public class TestBase
                         System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
                     }
                     return new org.openqa.selenium.chrome.ChromeDriver();
+                case "FIREFOX":
+                    if (os.contains("Mac")) {
+                        System.setProperty("webdriver.gecko.driver", path + separator + "geckodriver");
+                    } else {
+                        System.setProperty("webdriver.gecko.driver", path + separator + "geckodriver.exe");
+                    }
+                case "IE":
+                    System.setProperty("webdriver.gecko.driver", path + separator + "IEDriverServer.exe");
+                    return new org.openqa.selenium.ie.InternetExplorerDriver();
                 case "ANDROID":
                     DesiredCapabilities capabilities =  DesiredCapabilities.android();
                     capabilities.setCapability("platformName", "Android");
