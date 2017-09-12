@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Created by vahanmelikyan on 9/4/2017.
  */
 public class Arguments {
-    private static Logger logger = LoggerFactory.getLogger(RunTestSuite.class);
+    private static Logger logger = LoggerFactory.getLogger(Arguments.class);
 
     public static HashMap<String, String> parseArguments(String[] args){
 
