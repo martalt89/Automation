@@ -1,5 +1,30 @@
 package com.heal.framework.test;
 
+import com.heal.framework.exception.CommonException;
+import com.heal.framework.foundation.ExtentManager;
+import com.heal.framework.foundation.ExtentTestManager;
+import com.heal.framework.foundation.SysTools;
+import com.heal.framework.validation.CommonValidate;
+import com.heal.framework.web.CommonWebElement;
+import com.heal.framework.web.CommonWebValidate;
+import com.heal.framework.web.WebBase;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import io.appium.java_client.android.AndroidDriver;
+import org.apache.commons.codec.binary.Base64;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.ScreenshotException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.testng.ITestResult;
+import org.testng.SkipException;
+import org.testng.annotations.*;
+
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -7,34 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-
-import com.heal.framework.exception.CommonException;
-import com.heal.framework.validation.CommonValidate;
-import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.CommonWebValidate;
-import com.heal.framework.web.WebBase;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.ReporterType;
-
-import com.heal.framework.foundation.*;
-import io.appium.java_client.android.AndroidDriver;
-import org.apache.commons.codec.binary.Base64;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.ScreenshotException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.testng.SkipException;
-import org.testng.annotations.*;
-import org.testng.ITestResult;
 
 /**
  * This is the base class for all web tests to provide common/convenient methods

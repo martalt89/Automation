@@ -1,14 +1,5 @@
 package com.heal.framework.test;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Properties;
-
 import com.heal.framework.foundation.ExtentManager;
 import com.heal.framework.foundation.ExtentTestManager;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -18,12 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
-import org.testng.annotations.Test;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.ProcessingInstruction;
-import com.heal.framework.exception.CommonException;
-import com.heal.framework.foundation.SysTools;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by vahanmelikyan on 8/1/2017.
