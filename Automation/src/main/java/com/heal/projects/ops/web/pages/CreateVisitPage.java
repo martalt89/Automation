@@ -195,7 +195,7 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oBookVisitBtn = new CommonWebElement("oBookVisitBtn", "xpath=//button[text()='Book Visit']", oWebDriver);
 
     // fields
-    public CommonWebElement oPromoCodeField = new CommonWebElement("oPromoCodeField", "xpath=//*[contains(@placeholder,'Promo Code')]", oWebDriver);
+    public CommonWebElement oPromoCodeField = new CommonWebElement("oPromoCodeField", "xpath=//*[contains(@class,'form-control')]", oWebDriver);
 
     // LEFT MENU BUTTONS
     public CommonWebElement oSelectUserMenu = new CommonWebElement("oSelectUserMenu", "xpath=//*[contains(@class,'no-data') and text()='Select User']", oWebDriver);
@@ -389,6 +389,26 @@ public class CreateVisitPage extends WebBase {
     }
 
     /**
+     * method selects patient profile
+     * @param sTypeOfPatientProfile=specifies the type of profile to be selected
+     *
+     */
+    public void selectPatientProfile(String sTypeOfPatientProfile) {
+        switch(sTypeOfPatientProfile.toUpperCase()){
+            case "INSURANCE":
+                selectPatientProfileWithInsurance();
+                break;
+            case "CREDIT CARD":
+                selectPatientProfileWithCreditCard();
+                break;
+            default:
+                selectPatientProfileWithCreditCard();
+                break;
+        }
+
+
+    }
+    /**
      * method selects patient profile with Insurance
      *
      */
@@ -403,16 +423,21 @@ public class CreateVisitPage extends WebBase {
         //verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
     }
 
+    /**
+     * method selects patient profile with credit card
+     *
+     */
     public void selectPatientProfileWithCreditCard(){
         this.oSelectPatientMenu.jsClick();
         this.oSelectPatientProfileWithCreditCard.clickAndWait(this.oSavePatientBtn,true);
         this.scrollPage("Down");
         this.oSavePatientBtn.clickAndWait(this.oPageLoader,false);
+
         //verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
     }
 
     /**
-     * method saves Addres of patient from given list of addresses
+     * method saves Address of patient from given list of addresses
      *
      */
     public void saveAddress(){
