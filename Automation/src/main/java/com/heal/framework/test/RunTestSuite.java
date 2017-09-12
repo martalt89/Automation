@@ -34,14 +34,14 @@ public class RunTestSuite {
     //Identifier for Arguments
     private static final String Run_File = "Run_File";
 
+    private static List<String> ToRunTests = new ArrayList<String>();
+
+    private static HashMap<String, String> excelParams;
+
     public static void main(String[] args) throws IOException {
 
-        //String fileExcelName = "Run.xlsx";
-        //String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
-        System.out.println(args.toString());
         HashMap<String, String> argMap = Arguments.parseArguments(args);
         logger.info("arguments list", argMap.toString());
-        System.out.println(argMap.toString());
         ////////////////////////////////////////
         //  Read test suite from excel file   //
         ////////////////////////////////////////
@@ -51,7 +51,7 @@ public class RunTestSuite {
 
         XmlSuite suite = readFromExcel(oExcel);
 
-        HashMap<String, String> excelParams = processParameters(oExcel);
+        excelParams = processParameters(oExcel);
         excelParams.putAll(argMap);
         
         suite.setParameters(excelParams);
@@ -140,10 +140,12 @@ public class RunTestSuite {
             {
                 // Found Test Case.  Insert into existing Test.
                 oClass = oTest.getClasses().get(0);
+
                 oInclude = new XmlInclude((String)oTestRow[3]);
+
                 oIncludes = oClass.getIncludedMethods();
                 oIncludes.add(oInclude);
-
+                ToRunTests.add(oTestRow[3].toString().trim());
                 // Found test case parameters.  Insert as TestNG suite parameter using name/value pair with name being the Test Case name.
                 if (oTestRow[4] != null)
                 {
@@ -248,4 +250,10 @@ public class RunTestSuite {
         return params;
     }
 
+    public static HashMap<String, String> getExcelParams() {
+        return excelParams;
+    }
+    public static List<String> getToRunTests(){
+        return ToRunTests;
+    }
 }

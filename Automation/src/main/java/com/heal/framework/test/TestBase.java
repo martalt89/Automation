@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.testng.SkipException;
 import org.testng.annotations.*;
+import org.testng.ITestResult;
 
 /**
  * This is the base class for all web tests to provide common/convenient methods
@@ -58,7 +59,6 @@ public class TestBase
 
 
     private static HashMap<String, String> parameters;
-    private static String reportLocation = "report/ExtentReport.html";
     private static ExtentReports extent;
 
 
@@ -242,11 +242,7 @@ public class TestBase
 
     @BeforeSuite
     public void suiteSetup(){
-        extent = new ExtentReports(reportLocation, true);
-        extent.startReporter(ReporterType.DB, reportLocation);
-        extent.addSystemInfo("Host Name", "vahanmelikyan");
-        extent.addSystemInfo("User Name", "vahan");
-        //extent.loadConfig(new File("C:\\extentReport\\extent-config.xml"));
+        extent = ExtentManager.getReporter();
     }
 
     /**
@@ -339,6 +335,7 @@ public class TestBase
     @AfterSuite(alwaysRun=true)
     public void suiteTeardown()
     {
+        extent.flush();
         extent.close();
     }
     /**
@@ -361,12 +358,8 @@ public class TestBase
 
         try
         {
-            ExtentTest test = getExtentTest();
-            if(test == null){
-                test = extent.startTest(oMethod.getName());
-                test.assignCategory("Browser: " + browser,"Env: QA");
-                setExtentTest(test);
-            }
+            ExtentTest test = ExtentTestManager.startNewTest(oMethod.getName());
+            setExtentTest(test);
 
             WebDriver oDriver = null;
 
@@ -399,7 +392,7 @@ public class TestBase
      * (ITestResult) - TestNG Result object.
      */
     @AfterMethod(alwaysRun=true)
-    public void afterMethod(org.testng.ITestResult oResult)
+    public void afterMethod(ITestResult oResult, Method oMethod)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
@@ -412,9 +405,16 @@ public class TestBase
             unsetException();
             quitDriver();
 
-            ExtentTest test = getExtentTest();
-            extent.endTest(test);
-            extent.flush();
+//            ExtentTest test = getExtentTest();
+//            extent.endTest(test);
+//
+//            String[] dmethods = oMethod.getAnnotation(Test.class).dependsOnMethods();
+//            for (int i = 0; i < dmethods.length; i++) {
+//                if(RunTestSuite.getToRunTests().contains(dmethods[i])){
+//                    ExtentManager.removeTest(dmethods[i]);
+//                }
+//
+//            }
 
         }
         catch (Exception ex)
@@ -869,5 +869,5 @@ public class TestBase
         getValidate().logFailure(sMessage);
     }
 
-//	}
+
 }
