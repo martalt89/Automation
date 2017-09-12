@@ -1,5 +1,30 @@
 package com.heal.framework.test;
 
+import com.heal.framework.exception.CommonException;
+import com.heal.framework.foundation.ExtentManager;
+import com.heal.framework.foundation.ExtentTestManager;
+import com.heal.framework.foundation.SysTools;
+import com.heal.framework.validation.CommonValidate;
+import com.heal.framework.web.CommonWebElement;
+import com.heal.framework.web.CommonWebValidate;
+import com.heal.framework.web.WebBase;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import io.appium.java_client.android.AndroidDriver;
+import org.apache.commons.codec.binary.Base64;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.ScreenshotException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.testng.ITestResult;
+import org.testng.SkipException;
+import org.testng.annotations.*;
+
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -7,33 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-
-import com.heal.framework.exception.CommonException;
-import com.heal.framework.validation.CommonValidate;
-import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.CommonWebValidate;
-import com.heal.framework.web.WebBase;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.ReporterType;
-
-import com.heal.framework.foundation.*;
-import io.appium.java_client.android.AndroidDriver;
-import org.apache.commons.codec.binary.Base64;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.ScreenshotException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.testng.SkipException;
-import org.testng.annotations.*;
 
 /**
  * This is the base class for all web tests to provide common/convenient methods
@@ -58,7 +56,6 @@ public class TestBase
 
 
     private static HashMap<String, String> parameters;
-    private static String reportLocation = "report/ExtentReport.html";
     private static ExtentReports extent;
 
 
@@ -242,11 +239,7 @@ public class TestBase
 
     @BeforeSuite
     public void suiteSetup(){
-        extent = new ExtentReports(reportLocation, true);
-        extent.startReporter(ReporterType.DB, reportLocation);
-        extent.addSystemInfo("Host Name", "vahanmelikyan");
-        extent.addSystemInfo("User Name", "vahan");
-        //extent.loadConfig(new File("C:\\extentReport\\extent-config.xml"));
+        extent = ExtentManager.getReporter();
     }
 
     /**
@@ -339,6 +332,7 @@ public class TestBase
     @AfterSuite(alwaysRun=true)
     public void suiteTeardown()
     {
+        extent.flush();
         extent.close();
     }
     /**
@@ -361,12 +355,8 @@ public class TestBase
 
         try
         {
-            ExtentTest test = getExtentTest();
-            if(test == null){
-                test = extent.startTest(oMethod.getName());
-                test.assignCategory("Browser: " + browser,"Env: QA");
-                setExtentTest(test);
-            }
+            ExtentTest test = ExtentTestManager.startNewTest(oMethod.getName());
+            setExtentTest(test);
 
             WebDriver oDriver = null;
 
@@ -399,7 +389,7 @@ public class TestBase
      * (ITestResult) - TestNG Result object.
      */
     @AfterMethod(alwaysRun=true)
-    public void afterMethod(org.testng.ITestResult oResult)
+    public void afterMethod(ITestResult oResult, Method oMethod)
     {
         MDC.put("threadID", String.valueOf(Thread.currentThread().getId()));
 
@@ -411,10 +401,6 @@ public class TestBase
             unsetRemoteNode();
             unsetException();
             quitDriver();
-
-            ExtentTest test = getExtentTest();
-            extent.endTest(test);
-            extent.flush();
 
         }
         catch (Exception ex)
@@ -482,17 +468,6 @@ public class TestBase
 
         if (iCount > 0)
             getValidate().fail("Found verification failures");
-//		{
-//			StringBuilder errorString = new StringBuilder();
-//			
-//			for(String sError : getValidate().getFailures())
-//			{
-//				errorString.append(sError);
-//				errorString.append("\n");
-//			}
-//			
-//			getValidate().fail("Found verification failures (" + iCount + ") out of total (" + getValidate().getTotalCount() + ")! \n\n" + errorString.toString());
-//		}
     }
 
     /**
@@ -519,6 +494,15 @@ public class TestBase
                         System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
                     }
                     return new org.openqa.selenium.chrome.ChromeDriver();
+                case "FIREFOX":
+                    if (os.contains("Mac")) {
+                        System.setProperty("webdriver.gecko.driver", path + separator + "geckodriver");
+                    } else {
+                        System.setProperty("webdriver.gecko.driver", path + separator + "geckodriver.exe");
+                    }
+                case "IE":
+                    System.setProperty("webdriver.gecko.driver", path + separator + "IEDriverServer.exe");
+                    return new org.openqa.selenium.ie.InternetExplorerDriver();
                 case "ANDROID":
                     DesiredCapabilities capabilities =  DesiredCapabilities.android();
                     capabilities.setCapability("platformName", "Android");
@@ -594,6 +578,20 @@ public class TestBase
                 break;
             case "chrome":
                 capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
+                capabilities.setCapability("seleniumVersion", "3.4.0");
+                break;
+            case "firefox":
+                capabilities = DesiredCapabilities.firefox();
+                capabilities.setCapability("version", parameters.get("version"));
+                capabilities.setCapability("platform", parameters.get("platform"));
+                capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
+                capabilities.setCapability("seleniumVersion", "3.4.0");
+                break;
+            case "ie":
+                capabilities = DesiredCapabilities.internetExplorer();
                 capabilities.setCapability("version", parameters.get("version"));
                 capabilities.setCapability("platform", parameters.get("platform"));
                 capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
@@ -855,5 +853,5 @@ public class TestBase
         getValidate().logFailure(sMessage);
     }
 
-//	}
+
 }

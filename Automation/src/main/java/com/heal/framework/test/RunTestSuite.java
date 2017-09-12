@@ -34,23 +34,27 @@ public class RunTestSuite {
     //Identifier for Arguments
     private static final String Run_File = "Run_File";
 
+    private static List<String> ToRunTests = new ArrayList<String>();
+
+    private static HashMap<String, String> excelParams;
+
     public static void main(String[] args) throws IOException {
 
-        //String fileExcelName = "Run.xlsx";
-        //String fileExcelPath = projDir + fileSeparator + "src" + fileSeparator + "com/heal/framework" + fileSeparator + "test" + fileSeparator + fileExcelName;
-
         HashMap<String, String> argMap = Arguments.parseArguments(args);
-
+        logger.info("arguments list", argMap.toString());
         ////////////////////////////////////////
         //  Read test suite from excel file   //
         ////////////////////////////////////////
-
         File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
+
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
 
         XmlSuite suite = readFromExcel(oExcel);
 
-        suite.setParameters(processParameters(oExcel));
+        excelParams = processParameters(oExcel);
+        excelParams.putAll(argMap);
+        
+        suite.setParameters(excelParams);
         oSuites.add(suite);
         logger.info(suite.toXml());
         TestNG testng = new TestNG();
@@ -79,7 +83,7 @@ public class RunTestSuite {
 
         XmlSuite oSuite = new XmlSuite();
         oSuite.setName(suiteName);
-        oSuite.setThreadCount(11);
+        oSuite.setThreadCount(2);
         oSuite.setParallel(XmlSuite.ParallelMode.METHODS);
         oSuite.setVerbose(2);
         oSuite.setDataProviderThreadCount(1);
@@ -136,10 +140,12 @@ public class RunTestSuite {
             {
                 // Found Test Case.  Insert into existing Test.
                 oClass = oTest.getClasses().get(0);
+
                 oInclude = new XmlInclude((String)oTestRow[3]);
+
                 oIncludes = oClass.getIncludedMethods();
                 oIncludes.add(oInclude);
-
+                ToRunTests.add(oTestRow[3].toString().trim());
                 // Found test case parameters.  Insert as TestNG suite parameter using name/value pair with name being the Test Case name.
                 if (oTestRow[4] != null)
                 {
@@ -220,7 +226,7 @@ public class RunTestSuite {
 
     public static HashMap<String, String> processParameters(File excelFile)  throws IOException{
 
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, String> params = new HashMap<>();
         FileInputStream  driverExcel = new FileInputStream(excelFile);
 
         XSSFWorkbook workbook = new XSSFWorkbook(driverExcel);
@@ -238,11 +244,16 @@ public class RunTestSuite {
             String sValue = row.getCell(1, MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue().trim();
 
             params.put(sName, sValue);
-
         }
         driverExcel.close();
         TestBase.setParameters(params);
         return params;
     }
 
+    public static HashMap<String, String> getExcelParams() {
+        return excelParams;
+    }
+    public static List<String> getToRunTests(){
+        return ToRunTests;
+    }
 }

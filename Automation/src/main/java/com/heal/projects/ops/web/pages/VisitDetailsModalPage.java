@@ -63,7 +63,7 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oActionsMenuCancelVisit = new CommonWebElement("oActionsMenuCancelVisit", "xpath=//li/a[text()='Cancel Visit']",oWebDriver);
     public CommonWebElement oActionsMenuChangeProvider = new CommonWebElement("oActionsMenuChangeProvider", "xpath=//*[text()='Change Provider']",oWebDriver);
     public CommonWebElement oActionsMenuAddInsurance = new CommonWebElement("oActionsMenuAddInsurance", "xpath=//li/a[text()='Add Insurance']",oWebDriver);
-    public CommonWebElement oActionsRefundVisit = new CommonWebElement("oActionsRefundVisit", "xpath=//li/a[text()='Refund Visit']",oWebDriver);
+    public CommonWebElement oActionsRefundVisit = new CommonWebElement("oActionsRefundVisit", "xpath=//*[text()='Refund Visit']",oWebDriver);
     public CommonWebElement oActionDropDown = new CommonWebElement("oActionDropDown", "xpath=//ul[@role='menu']",oWebDriver);
     //actions - start visit modal
     public CommonWebElement oSelectStartTimeTitle = new CommonWebElement("oSelectStartTimeTitle", "xpath=//*[@class='modal-title']",oWebDriver);
@@ -88,6 +88,7 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oStartedIcon = new CommonWebElement("oStartedIcon", "xpath=//*[@class='status badge' and .='STARTED']",oWebDriver);
     public CommonWebElement oCancelledIcon = new CommonWebElement("oCancelledIcon", "xpath=//*[@class='status badge' and .='CANCELLED']",oWebDriver);
     public CommonWebElement oFullyPaidIcon = new CommonWebElement("oFullyPaidIcon", "xpath=//*[@class='status badge' and .='FULLY_PAID']",oWebDriver);
+    public CommonWebElement oRefundeddIcon = new CommonWebElement("oRefundeddIcon", "xpath=//*[@class='status badge' and .='REFUNDED']",oWebDriver);
 
     //actions - change provider modal
     public CommonWebElement oChangeProviderTitle = new CommonWebElement("oChangeProviderTitle", "xpath=//*[@class='modal-header']//h4",oWebDriver);
@@ -103,7 +104,7 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oForceAssignBtn = new CommonWebElement("oForceAssignBtn", "xpath=//*[@class='modal-footer']/button[1]",oWebDriver);
     public CommonWebElement oCancelProviderBtn = new CommonWebElement("oCancelProviderBtn", "xpath=//*[@class='modal-footer']/button[2]",oWebDriver);
     public CommonWebElement oChangetBtn = new CommonWebElement("oChangetBtn", "xpath=//*[@class='modal-footer']/button[3]",oWebDriver);
-    public CommonWebElement oProviderListLoading = new CommonWebElement("oChangetBtn", "xpath=//*[contains(.,'Loading')]",oWebDriver);
+    public CommonWebElement oProviderListLoading = new CommonWebElement("oChangetBtn", "xpath=//select[contains(.,'Loading')]",oWebDriver);
 
 
     //actions - Update Insurance modal
@@ -122,7 +123,8 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oPartianRefundCheckbox = new CommonWebElement("oPartianRefundCheckbox", "xpath=//input[@type='radio' and @id='PARTIAL']",oWebDriver);
     public CommonWebElement oRefundReasonInput = new CommonWebElement("oRefundReasonInput", "xpath=//*[contains(@class,'refund-reason')]//input",oWebDriver);
     public CommonWebElement oRefundAmountInput = new CommonWebElement("oRefundAmountInput", "xpath=//*[contains(@class,'partial-amount')]//input",oWebDriver);
-    public CommonWebElement oProcessRefundBtn = new CommonWebElement("oProcessRefundBtn", "xpath=//*[@class='modal-row']//button",oWebDriver);
+    public CommonWebElement oProcessRefundBtn = new CommonWebElement("oProcessRefundBtn", "xpath=//button[contains(.,'Refund')]",oWebDriver);
+    public CommonWebElement oConfirmRefundBtn = new CommonWebElement("oConfirmRefundBtn", "xpath=//button[contains(.,'Confirm')]",oWebDriver);
     public CommonWebElement oRefundModalOriginal = new CommonWebElement("oRefundModalOriginal", "xpath=//*[contains(@class,'middle-container')]/div[2]/div[2]",oWebDriver);
     public CommonWebElement oRefundModalDiscount = new CommonWebElement("oRefundModalDiscount", "xpath=//*[contains(@class,'middle-container')]/div[3]/div[2]",oWebDriver);
     public CommonWebElement oRefundModalCharged = new CommonWebElement("oRefundModalCharged", "xpath=//*[contains(@class,'middle-container')]/div[4]/div[2]",oWebDriver);
@@ -303,6 +305,7 @@ public class VisitDetailsModalPage extends WebBase{
      */
     public void openStartVisitModal(){
         this.oActionsBtn.click();
+        SysTools.sleepFor(1);
         this.oActionsMenuStartVisit.click();
     }
 
@@ -330,6 +333,7 @@ public class VisitDetailsModalPage extends WebBase{
     //end visit methods
     public void openEndVisitModal(){
         this.oActionsBtn.click();
+        SysTools.sleepFor(1);
         this.oActionsMenuEndVisit.click();
     }
 
@@ -381,7 +385,9 @@ public class VisitDetailsModalPage extends WebBase{
         //CommonWebElement selectTiems = new CommonWebElement("selectTiems", );
 
         openChangeProviderModal();
-        this.oProviderListLoading.waitForInvisible();
+        if (this.oProviderListLoading.exists()) {
+            this.oProviderListLoading.waitForInvisible(5);
+        }
         this.oChooseDoctorInput.waitForVisible();
         this.oChooseDoctorInput.select(sDoctorName,false);
         this.oChooseMedicalAssistantInput.select(sMAName,false);
@@ -444,6 +450,7 @@ public class VisitDetailsModalPage extends WebBase{
     //refund methods
     public void openRefundVisitModal(){
         this.oActionsBtn.click();
+        SysTools.sleepFor(1);
         this.oActionsRefundVisit.click();
     }
 
@@ -453,9 +460,11 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void selectTotalRefund(String sReason){
         this.openRefundVisitModal();
+        SysTools.sleepFor(1);
         this.oTotalRefundCheckbox.click();
         this.oRefundReasonInput.sendKeys(sReason);
         this.oProcessRefundBtn.click();
+        this.oConfirmRefundBtn.click();
     }
 
     public void selectPartialRefund(String sAmount, String sReason){
@@ -472,21 +481,46 @@ public class VisitDetailsModalPage extends WebBase{
         waitForPageReady(sUrlWithVisitCode);
     }
 
-    public void checkVisitStatusWithAfterRefresh(String sVisitCode, String sStatus, int iSeconds) {
-        int seconds=0;
-        while (iSeconds>seconds)
-        switch (sStatus.toUpperCase()){
+    public void checkVisitStatus(CommonWebElement status, int duration){
+        int seconds = 0;
+            while (duration>seconds) {
+                try {
+                    status.waitForVisible(3);
+                    break;
+                }catch (Exception e){
+                    //do nothing
+                }
+                oWebDriver.navigate().refresh();
+                waitForPageLoad();
+                seconds++;
+            }
+    }
+
+
+    public void checkVisitStatusWithRefresh(String sStatus, int iSeconds) {
+
+        switch (sStatus.toUpperCase()) {
             case "QUEUED":
-                this.oQeuedIcon.exists();
+                checkVisitStatus(oQeuedIcon, iSeconds);
+                break;
             case "DOCTOR_ASSIGNED":
-                this.oAssignedIcon.exists();
+                checkVisitStatus(oAssignedIcon, iSeconds);
+                break;
             case "STARTED":
-                this.oStartedIcon.exists();
+                checkVisitStatus(oStartedIcon, iSeconds);
+                break;
             case "CANCELLED":
-                this.oCancelledIcon.exists();
+                checkVisitStatus(oCancelledIcon, iSeconds);
+                break;
+            case "FULLY_PAID":
+                checkVisitStatus(oFullyPaidIcon, iSeconds);
+                break;
+            case "REFUNDED":
+                checkVisitStatus(oRefundeddIcon, iSeconds);
+                break;
+            default:
+                break;
         }
-        switchToUrlWithVisitCode("https://ops.qa.heal.com/visits#"+sVisitCode);
-        seconds++;
     }
 
     public CommonWebElement getChangeProviderToastMessage(String sVisitId, String sDoctorName) {

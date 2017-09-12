@@ -26,7 +26,7 @@ public class CommonWebElement implements WebElement, Locatable {
     private static Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
-    private static int iImplicitWait = 30;
+    private static int iImplicitWait = 45;
     private static int iThrottleValue = 0;
     private static boolean bMonitorMode = false;
 
@@ -243,7 +243,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -258,7 +258,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oWebElement.click();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -384,7 +384,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -396,7 +396,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oWebElement.submit();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -426,7 +426,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oWebElement.click();
         if (iThrottleValue != 0) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -454,7 +454,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -482,7 +482,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oJavascriptExecutor.executeScript("arguments[0].value='" + input + "'", oWebElement);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -500,7 +500,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oAction.click().perform();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -514,7 +514,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oAction.doubleClick(oWebElement).perform();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -532,7 +532,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oAction.doubleClick().perform();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -546,7 +546,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oAction.moveToElement(oWebElement).perform();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -563,7 +563,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oAction.moveToElement(oWebElement, xOffset, yOffset).perform();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -618,7 +618,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -645,7 +645,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oWebElement.sendKeys(file.getAbsolutePath());
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -677,7 +677,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oJavascriptExecutor.executeScript(sJavascript + ".click()");
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -692,7 +692,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -711,7 +711,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oSelect.selectByVisibleText(sSelection);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -739,7 +739,7 @@ public class CommonWebElement implements WebElement, Locatable {
         listItem.jsClick();
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -760,7 +760,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oSelect.selectByValue(sSelection);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -784,7 +784,7 @@ public class CommonWebElement implements WebElement, Locatable {
         oSelect.selectByIndex(iIndex);
         if (iThrottleValue != 0)
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000 * iThrottleValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
