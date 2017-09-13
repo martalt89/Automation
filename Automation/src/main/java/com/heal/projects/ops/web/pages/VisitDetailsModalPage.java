@@ -120,15 +120,15 @@ public class VisitDetailsModalPage extends WebBase{
     //actions - Refund visit
     public CommonWebElement oPatientInformationText = new CommonWebElement("oPatientInformationText", "xpath=//*[@class='modal-body']//div[text()='Patient Information']",oWebDriver);
     public CommonWebElement oTotalRefundCheckbox = new CommonWebElement("oPatientName", "xpath=//input[@type='radio' and @id='TOTAL']",oWebDriver);
-    public CommonWebElement oPartianRefundCheckbox = new CommonWebElement("oPartianRefundCheckbox", "xpath=//input[@type='radio' and @id='PARTIAL']",oWebDriver);
+    public CommonWebElement oPartialRefundCheckbox = new CommonWebElement("oPartianRefundCheckbox", "xpath=//input[@type='radio' and @id='PARTIAL']",oWebDriver);
     public CommonWebElement oRefundReasonInput = new CommonWebElement("oRefundReasonInput", "xpath=//*[contains(@class,'refund-reason')]//input",oWebDriver);
     public CommonWebElement oRefundAmountInput = new CommonWebElement("oRefundAmountInput", "xpath=//*[contains(@class,'partial-amount')]//input",oWebDriver);
     public CommonWebElement oProcessRefundBtn = new CommonWebElement("oProcessRefundBtn", "xpath=//button[contains(.,'Refund')]",oWebDriver);
     public CommonWebElement oConfirmRefundBtn = new CommonWebElement("oConfirmRefundBtn", "xpath=//button[contains(.,'Confirm')]",oWebDriver);
-    public CommonWebElement oRefundModalOriginal = new CommonWebElement("oRefundModalOriginal", "xpath=//*[contains(@class,'middle-container')]/div[2]/div[2]",oWebDriver);
-    public CommonWebElement oRefundModalDiscount = new CommonWebElement("oRefundModalDiscount", "xpath=//*[contains(@class,'middle-container')]/div[3]/div[2]",oWebDriver);
-    public CommonWebElement oRefundModalCharged = new CommonWebElement("oRefundModalCharged", "xpath=//*[contains(@class,'middle-container')]/div[4]/div[2]",oWebDriver);
-    public CommonWebElement oRefundModalRefunded = new CommonWebElement("oRefundModalRefunded", "xpath=//*[contains(@class,'middle-container')]/div[5]/div[2]",oWebDriver);
+    public CommonWebElement oRefundModalOriginal = new CommonWebElement("oRefundModalOriginal", "xpath=(//div[starts-with(@class,'refund-details')]/div)[2]",oWebDriver);
+    public CommonWebElement oRefundModalRefundAmmount = new CommonWebElement("oRefundModalDiscount", "xpath=(//div[starts-with(@class,'refund-amount')]/div)[2]",oWebDriver);
+    public CommonWebElement oRefundModalCharged = new CommonWebElement("oRefundModalCharged", "xpath=(//div[starts-with(@class,'refund-details')]/div)[6]",oWebDriver);
+    public CommonWebElement oRefundModalRefunded = new CommonWebElement("oRefundModalRefunded", "xpath=(//div[starts-with(@class,'refund-details')]/div)[4]",oWebDriver);
 
 
     public CommonWebElement oVisitId = new CommonWebElement("oVisitId", "xpath=//*[@class='status-container']/div[1]",oWebDriver);
@@ -469,10 +469,12 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void selectPartialRefund(String sAmount, String sReason){
         this.openRefundVisitModal();
-        this.oTotalRefundCheckbox.click();
+        SysTools.sleepFor(1);
+        this.oPartialRefundCheckbox.click();
         this.oRefundAmountInput.sendKeys(sAmount);
         this.oRefundReasonInput.sendKeys(sReason);
         this.oProcessRefundBtn.click();
+        this.oConfirmRefundBtn.click();
     }
 
     public void switchToUrlWithVisitCode(String sUrlWithVisitCode){
