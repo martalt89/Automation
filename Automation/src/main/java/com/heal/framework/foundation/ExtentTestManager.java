@@ -71,7 +71,7 @@ public class ExtentTestManager {
 
     public synchronized static ExtentTest startNewTest(String testName){
         removeTest(testName);
-        return extent.startTest(testName);
+        return startTest(testName);
     }
 
 }

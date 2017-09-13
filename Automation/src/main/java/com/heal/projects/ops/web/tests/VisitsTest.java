@@ -26,9 +26,12 @@ public class VisitsTest extends TestBase{
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                createVisitWith50PercentPromoTest(); // put here the desired test to be run on loop
-                createVisitWith100PercentPromoTest();
-                createVisitWithInsuranceTest();
+                //createVisitWith50PercentPromoTest(); // put here the desired test to be run on loop
+                //createVisitWith100PercentPromoTest();
+                //createVisitWithInsuranceTest();
+                //bookVisitWithPromoCode();
+                bookVisitWithInsurance();
+                //bookVisitWithCreditCard();
                 passedRuns++;
             } catch (Exception e) {
                 failedRuns++;
@@ -41,233 +44,137 @@ public class VisitsTest extends TestBase{
         System.out.println(failedRuns + " Failed Runs"); // display how many times the test failed on given visits booked
     }
 
-    @Test (groups = {"smoke", "regression", "critical" })
+    @Test
+    public void bookVisitWithInsurance() throws Exception {
 
-    public void viewAllVisitsTest() throws Exception{
-        CommonWebElement.setbMonitorMode(false);
-        WebDriver dr = getDriver();
-        OpsLoginPage loginPage = new OpsLoginPage(dr);
-        OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
-        CreateVisitPage createVisitPage = new CreateVisitPage(dr);
-        OpsMenu opsMenu = new OpsMenu(dr);
+        WebDriver dr =getDriver();
+        dr.manage().window().maximize();
+        OpsLoginPage loginPage= new OpsLoginPage(dr);
+        OpsMenu menu=new OpsMenu(dr);
+        OpsVisitsPage visitsPage=new OpsVisitsPage(dr);
+        CreateVisitPage createVisit =new CreateVisitPage(dr);
+
 
         loginPage.goTo();
         loginPage.waitForPageLoad();
-        loginPage.login("mayur+oc@heal.com", "Heal@123");
+        loginPage.login();
 
-        // Go to Visits page
-        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
+        menu.selectFromMenu("visits");
 
-        verifyVisible("Checking if the correct page was loaded", visitsPage.oAllVisitsTitle);
-    }
-    /**
-     * Book visit with card from OPS
-     * This tests will create a new user, new patient, new address, adds payment and finally books visit
-     * without insurance or promo codes
-     */
-    @Test (groups = {"smoke", "regression", "critical" })
-    public void createNewVisitTest() throws Exception{
-        CommonWebElement.setbMonitorMode(false);
-        WebDriver dr = getDriver();
-        OpsLoginPage loginPage = new OpsLoginPage(dr);
-        OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
-        CreateVisitPage createVisitPage = new CreateVisitPage(dr);
-        OpsMenu opsMenu = new OpsMenu(dr);
+        visitsPage.waitForPageLoad();
+        visitsPage.oAddVisitBtn.clickAndWait(createVisit.oEnterKeywordField, true);
 
-        // Log in Admin tool
-        loginPage.goTo();
-        loginPage.waitForPageLoad();
-        loginPage.login("mayur+oc@heal.com", "Heal@123");
+        createVisit.oEnterKeywordField.sendKeys("vahan+qa");
+        createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
+        createVisit.oPhoneField.sendKeys("(818)182-1238");
 
-        // Go to Visits page
-        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
+        createVisit.selectPatientProfile("insurance");
+        menu.verifyToastMessage("Verify patient profile was selected and saved", "Successfully Updated Patient");
 
-        // Click Add Visit and go to Create visit page
-        visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
+        createVisit.saveAddress();
+        menu.verifyToastMessage("Verify address is saved",  "Successfully Updated Address");
 
-        // E2E flow for creating a visit in OPS
-        createVisitPage.createUser(sRandomUserEmail);
-        createVisitPage.createPatient(false);
-        createVisitPage.createAddress();
-        createVisitPage.addVisitDetails();
-        createVisitPage.selectPayment();
-        createVisitPage.visitSummary();
+        createVisit.addVisitDetailsWithSickAdult();
+        menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
 
-        // Verify page title and correct price amount
-        verifyVisible("Checking if title was displayed", createVisitPage.oVisitPriceTitle);
-        verifyTextEquals("Verify correct visit price", createVisitPage.oPrice, "$99");
-        verifyTextEquals("Verify correct discount price", createVisitPage.oDiscount, "-$0");
-        verifyTextEquals("Verify total amount of visit price", createVisitPage.oTotal, "$99");
+        createVisit.scrollPage("Down");
+        createVisit.oSelectPaymentMenu.jsClick();
+        createVisit.oFirstCardOption.click();
+        createVisit.scrollPage("Down");
 
-        // Book visit
-        createVisitPage.oBookVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
-
-        // Verify success message
-        verifyTextMatches("Verify book visit success message", opsMenu.oToastMessage, "Successfully Created Visit");
-    }
-    /**
-     * Book visit with 50 percent promo code from OPS
-     * This tests will search for a user, select existent patient, address, payment methods, applies promo code
-     * and finally books home visit
-     * Note: User account, patient, address and payment info will be loaded from test_data excel file
-     */
-    @Test (groups = {"smoke", "regression", "critical" })
-    public void createVisitWith50PercentPromoTest() throws Exception{
-        CommonWebElement.setbMonitorMode(false);
-        WebDriver dr = getDriver();
-        OpsLoginPage loginPage = new OpsLoginPage(dr);
-        OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
-        CreateVisitPage createVisitPage = new CreateVisitPage(dr);
-        OpsMenu opsMenu = new OpsMenu(dr);
-
-        // Log in Admin tool
-        loginPage.goTo();
-        loginPage.waitForPageLoad();
-        loginPage.login("mayur+oc@heal.com", "Heal@123");
-
-        // Go to Visits page
-        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
-
-        // Click Add Visit and go to Create visit page
-        visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
-
-        // search an existent user (from excel data file) - select address - add visit details and payment
-        //createVisitPage.searchExistentUser();
-        createVisitPage.createUser(sRandomUserEmail);
-        //createVisitPage.selectFirstPatient();
-        createVisitPage.createPatient(false);
-        //createVisitPage.selectFirstAddress();
-        createVisitPage.createAddress();
-        createVisitPage.addVisitDetails();
-        //createVisitPage.select1stAvailablePayment();
-        createVisitPage.selectPayment();
-        createVisitPage.visitSummary();
-
-        // apply promo code
-        createVisitPage.oPromoCodeField.sendKeys("50PERCENT");
-        createVisitPage.oApplyPromoBtn.clickAndWait(createVisitPage.oPromoCodeLabel, true);
-
-        // Verify page title and correct price amount
-        verifyVisible("Checking if title was displayed", createVisitPage.oVisitPriceTitle);
-        verifyTextEquals("Verify correct promo code", createVisitPage.oPromo, "50PERCENT");
-        verifyTextEquals("Verify correct visit price", createVisitPage.oPrice, "$99");
-        verifyTextEquals("Verify correct discount price", createVisitPage.oDiscount, "-$49.50");
-        verifyTextEquals("Verify total amount of visit price", createVisitPage.oTotal, "$49.50");
-
-        // Book visit
-        createVisitPage.oBookVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
-
-        // Verify success message
-        verifyTextMatches("Verify book visit success message", opsMenu.oToastMessage, "Successfully Created Visit");
-
-        }
-
-    /**
-     * Book visit with 100 percent promo code from OPS
-     * This tests will search for a user, select existent patient, address, payment methods, applies promo code
-     * and finally books home visit
-     * Note: User account, patient, address and payment info will be loaded from test_data excel file
-     */
-    @Test (groups = {"smoke", "regression", "critical" })
-    public void createVisitWith100PercentPromoTest() throws Exception{
-        CommonWebElement.setbMonitorMode(false);
-        WebDriver dr = getDriver();
-        OpsLoginPage loginPage = new OpsLoginPage(dr);
-        OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
-        CreateVisitPage createVisitPage = new CreateVisitPage(dr);
-        OpsMenu opsMenu = new OpsMenu(dr);
-
-        // Log in Admin tool
-        loginPage.goTo();
-        loginPage.waitForPageLoad();
-        loginPage.login("mayur+oc@heal.com", "Heal@123");
-
-        // Go to Visits page
-        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
-
-        // Click Add Visit and go to Create visit page
-        visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
-
-        // search an existent user (from excel data file) - select address - add visit details and payment
-        //createVisitPage.searchExistentUser();
-        createVisitPage.createUser(sRandomUserEmail);
-        //createVisitPage.selectFirstPatient();
-        createVisitPage.createPatient(false);
-        //createVisitPage.selectFirstAddress();
-        createVisitPage.createAddress();
-        createVisitPage.addVisitDetails();
-        //createVisitPage.select1stAvailablePayment();
-        createVisitPage.selectPayment();
-        createVisitPage.visitSummary();
-
-        // apply promo code
-        createVisitPage.oPromoCodeField.sendKeys("100PERCENT");
-        createVisitPage.oApplyPromoBtn.clickAndWait(createVisitPage.oPromoCodeLabel, true);
-
-        // Verify page title and correct price amount
-        verifyVisible("Checking if title was displayed", createVisitPage.oVisitPriceTitle);
-        verifyTextEquals("Verify correct promo code", createVisitPage.oPromo, "100PERCENT");
-        verifyTextEquals("Verify correct visit price", createVisitPage.oPrice, "$99");
-        verifyTextEquals("Verify correct discount price", createVisitPage.oDiscount, "-$99");
-        verifyTextEquals("Verify total amount of visit price", createVisitPage.oTotal, "$0");
-
-        // Book visit
-        createVisitPage.oBookVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
-
-        // Verify success message
-        verifyTextMatches("Verify book visit success message", opsMenu.oToastMessage, "Successfully Created Visit");
+        createVisit.oVisitSummaryMenu.jsClick();
+        createVisit.oBookVisitBtn.click();
+        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
 
     }
-    /**
-     * Book visit with for a patient with insurance from OPS
-     * This tests will search for a user, add new patient with insurance, address, payment method
-     * and finally books home visit
-     * Note: User account, patient, insurance, address and payment info will be loaded from test_data excel file
-     */
-    @Test (groups = {"smoke", "regression", "critical" })
-    public void createVisitWithInsuranceTest() throws Exception {
-        CommonWebElement.setbMonitorMode(false);
-        WebDriver dr = getDriver();
-        OpsLoginPage loginPage = new OpsLoginPage(dr);
-        OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
-        CreateVisitPage createVisitPage = new CreateVisitPage(dr);
-        OpsMenu opsMenu = new OpsMenu(dr);
 
-        // Log in Admin tool
+    @Test
+    public void bookVisitWithCreditCard() throws Exception {
+        WebDriver dr =getDriver();
+        dr.manage().window().maximize();
+        OpsLoginPage loginPage= new OpsLoginPage(dr);
+        OpsMenu menu=new OpsMenu(dr);
+        OpsVisitsPage visitsPage=new OpsVisitsPage(dr);
+        CreateVisitPage createVisit =new CreateVisitPage(dr);
+
         loginPage.goTo();
         loginPage.waitForPageLoad();
-        loginPage.login("mayur+oc@heal.com", "Heal@123");
+        loginPage.login("vahan+oc@heal.com","Heal4325");
 
-        // Go to Visits page
-        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
+        menu.selectFromMenu("visits");
 
-        // Click Add Visit and go to Create visit page
-        visitsPage.oAddVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
+        visitsPage.waitForPageLoad();
+        visitsPage.oAddVisitBtn.clickAndWait(createVisit.oEnterKeywordField, true);
 
-        //createVisitPage.searchExistentUser(); // user from excel is not displayed anymore
-        createVisitPage.createUser(sRandomUserEmail);
+        createVisit.oEnterKeywordField.sendKeys("vahan+qa");
+        createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
+        createVisit.oPhoneField.sendKeys("(818)182-1238");
 
-        //createVisitPage.selectFirstPatient();
+        createVisit.selectPatientProfile("credit card");
+        menu.verifyToastMessage("Verify patient profile was selected and saved", "Successfully Updated Patient");
 
-        createVisitPage.createPatient(true);
-        //createVisitPage.selectFirstAddress();
-        createVisitPage.createAddress();
-        createVisitPage.addVisitDetails();
-        createVisitPage.selectPayment();
-        createVisitPage.visitSummary();
+        createVisit.saveAddress();
+        menu.verifyToastMessage("Verify address is saved",  "Successfully Updated Address");
 
-        verifyTextEquals("Verify correct visit price", createVisitPage.oPrice, "$99");
+        createVisit.addVisitDetailsWithSickAdult();
+        menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
 
-        createVisitPage.oBookVisitBtn.clickAndWait(createVisitPage.oPageTitle, true);
-        // Verify success message
-        verifyTextMatches("Verify book visit success message", opsMenu.oToastMessage, "Successfully Created Visit");
+        createVisit.scrollPage("Down");
+        createVisit.oSelectPaymentMenu.jsClick();
+        createVisit.oFirstCardOption.click();
+        createVisit.scrollPage("Down");
 
-        opsMenu.selectFromMenu(opsMenu.oVisitsLink);
+        createVisit.oVisitSummaryMenu.jsClick();
+        createVisit.oBookVisitBtn.click();
+        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
+    }
 
-        visitsPage.filterVisits(sRandomUserEmail);
+    @Test
+    public void bookVisitWithPromoCode() throws Exception {
+        WebDriver dr =getDriver();
+        dr.manage().window().maximize();
+        OpsLoginPage loginPage= new OpsLoginPage(dr);
+        OpsMenu menu=new OpsMenu(dr);
+        OpsVisitsPage visitsPage=new OpsVisitsPage(dr);
+        CreateVisitPage createVisit =new CreateVisitPage(dr);
 
-        verifyVisible("Verify if insured badge is displayed", visitsPage.oInsuredBadge);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        loginPage.login("vahan+oc@heal.com","Heal4325");
 
+        menu.selectFromMenu("visits");
+
+        visitsPage.waitForPageLoad();
+        visitsPage.oAddVisitBtn.clickAndWait(createVisit.oEnterKeywordField, true);
+
+        createVisit.oEnterKeywordField.sendKeys("vahan+qa");
+        createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
+        createVisit.oPhoneField.sendKeys("(818)182-1238");
+
+        createVisit.selectPatientProfile("credit card");
+        menu.verifyToastMessage("Verify patient profile was selected and saved", "Successfully Updated Patient");
+
+        createVisit.saveAddress();
+        menu.verifyToastMessage("Verify address is saved",  "Successfully Updated Address");
+
+        createVisit.addVisitDetailsWithSickAdult();
+        menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
+
+        createVisit.scrollPage("Down");
+        createVisit.oSelectPaymentMenu.jsClick();
+        createVisit.oFirstCardOption.click();
+        createVisit.scrollPage("Down");
+
+        createVisit.oVisitSummaryMenu.jsClickAndWait(createVisit.oPromoCodeField,true);
+        createVisit.oPromoCodeField.sendKeys("100PERCENT");
+        createVisit.oApplyPromoBtn.click();
+
+        verifyTextEquals("Verify correct promo code", createVisit.oPromo, "100PERCENT");
+        verifyTextEquals("Verify correct visit price", createVisit.oPrice, "$99");
+        verifyTextEquals("Verify correct discount price", createVisit.oDiscount, "-$99");
+        verifyTextEquals("Verify total amount of visit price", createVisit.oTotal, "$0");
+        createVisit.oBookVisitBtn.click();
+        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
     }
 
 }

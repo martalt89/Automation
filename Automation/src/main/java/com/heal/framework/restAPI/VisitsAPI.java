@@ -130,7 +130,13 @@ public class VisitsAPI {
                 .body(createVisitPostParams())
                 .post(baseURI + resourceAPI)
                 .asString();
-        return restUtils.getJsonValue(response,"visitCode");
+        try {
+            return restUtils.getJsonValue(response, "visitCode");
+        } catch (Exception e){
+            System.out.println("Unable to get the visit code from the response.");
+//            System.exit(1);
+            return "";
+        }
     }
 
     public String createVisit(String sPatientID){

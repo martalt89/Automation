@@ -25,17 +25,4 @@ public class LoginTest extends TestBase{
         //check that Dashboard is displayed after login
         verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
     }
-//
-//    @Test(groups = {"dev", "critical"})
-//    public void visitCode() {
-//        CommonWebElement.setbMonitorMode(false);
-//        WebDriver dr = getDriver();
-//        OpsLoginPage loginPage = new OpsLoginPage(dr);
-//        OpsMenu menu = new OpsMenu(dr);
-//        DashboardPage dashboardPage = new DashboardPage(dr);
-//        VisitsAPI visitsAPI = new VisitsAPI("vahan+qa@heal.com", "Heal4325");
-//        System.out.println(visitsAPI.createVisit());
-////        System.out.println(visitsAPI.getTimeSlotID());
-//    }
-
 }
