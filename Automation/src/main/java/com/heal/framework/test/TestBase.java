@@ -500,8 +500,9 @@ public class TestBase
                     } else {
                         System.setProperty("webdriver.gecko.driver", path + separator + "geckodriver.exe");
                     }
+                    return new org.openqa.selenium.firefox.FirefoxDriver();
                 case "IE":
-                    System.setProperty("webdriver.gecko.driver", path + separator + "IEDriverServer.exe");
+                    System.setProperty("webdriver.ie.driver", path + separator + "IEDriverServer.exe");
                     return new org.openqa.selenium.ie.InternetExplorerDriver();
                 case "ANDROID":
                     DesiredCapabilities capabilities =  DesiredCapabilities.android();
