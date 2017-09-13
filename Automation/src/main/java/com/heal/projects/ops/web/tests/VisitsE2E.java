@@ -7,6 +7,7 @@ import com.heal.framework.test.TestBase;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.projects.ops.web.pages.*;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -19,11 +20,8 @@ public class VisitsE2E extends TestBase  {
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
         private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
         private String visit_id = visitsAPI.createVisit();
-//        private String sDashboardAndVisitCodeURL = "https://ops.qa.heal.com/dashboard#"+visit_id;
-//        private String sVisitsAndVisitCodeURL = "https://ops.qa.heal.com/visits#"+visit_id;
 
     //********************* Test cases *********************
-
     @Test(groups = {"dev", "critical"})
     public void editVisitSymptoms() {
         CommonWebElement.setbMonitorMode(false);
@@ -32,6 +30,7 @@ public class VisitsE2E extends TestBase  {
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         OpsMenu menu = new OpsMenu(dr);
         String sSymptoms = "Added with auto tests";
+        getExtentTest().log(LogStatus.INFO,"");
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
@@ -78,7 +77,6 @@ public class VisitsE2E extends TestBase  {
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
-        System.out.println(visit_id + "Starting visit");
         visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
         visit.startVisit();
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
@@ -99,7 +97,6 @@ public class VisitsE2E extends TestBase  {
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
-        System.out.println(visit_id + "Starting visit");
         visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
         visit.endVisit();
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
@@ -110,10 +107,8 @@ public class VisitsE2E extends TestBase  {
         verifyTextEquals("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getStatusByVisitCode(visit_id), "FULLY PAID");
     }
 
-    @Test(groups = {"dev", "critical"})
+    @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet",  "startVisit", "endVisit"})
     public void refundVisitPartial() {
-
-
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
@@ -122,14 +117,11 @@ public class VisitsE2E extends TestBase  {
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
-//        dr.navigate().to(VisitDetailsModalPage.URL + "#" + visit_id);
-        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#LA-SSIAY");
+        getExtentTest().log(LogStatus.INFO, "tttteeeeesssssstttttt");
+        visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
         visit.selectPartialRefund("50","Automated test");
-        
-        visit.checkVisitStatusWithRefresh( "REFUNDED", 10);
-
-        SysTools.sleepFor(4);
-
+        opsMenu.verifyToastTitle("Verify toast title ", "OK:");
+        opsMenu.verifyToastMessage("Verify toast message", "This visit has successfully been refunded. The patient will receive a refund from their bank in 10-14 days");
     }
 
 }

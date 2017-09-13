@@ -145,4 +145,12 @@ public class OpsMenu extends WebBase{
             this.oToastCloseButton.jsClick();
         }
     }
+    public void verifyToastTitle(String sComment, String sExpectedMessage) {
+        TestBase testbase = new TestBase();
+        this.oToastTitle.waitForVisible();
+        testbase.verifyTextMatches(sComment, this.oToastTitle, sExpectedMessage);
+        if (this.oToastCloseButton.isDisplayed()) {
+            this.oToastCloseButton.jsClick();
+        }
+    }
 }
