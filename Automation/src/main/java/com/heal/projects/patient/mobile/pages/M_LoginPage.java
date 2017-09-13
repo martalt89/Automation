@@ -31,7 +31,7 @@ public class M_LoginPage extends WebBase {
     public void login(){
 
         //will have username & password passed from test data, hardcode here for temp solution.
-        login("vahan+qa@heal.com","Heal4325!",true);
+        login("jay.purohit@heal.com","Jp@1234@pJ",true);
     }
 
     public void login(String userName, String password, boolean needSubmit){
