@@ -4,6 +4,7 @@ import com.heal.framework.foundation.SysTools;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.WebBase;
 import com.heal.framework.web.CommonWebElement;
+import com.heal.framework.test.TestBase;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
@@ -17,7 +18,9 @@ public class CreateVisitPage extends WebBase {
     // Page Elements //
     ///////////////////
     public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//h1[text()='Create Visit']", oWebDriver);
+    public CommonWebElement oPageLoader=new CommonWebElement("oPageLoader","xpath=//*[@class='loader']",oWebDriver);
 
+    public CommonWebElement oToastMessage = new CommonWebElement("oToastMessage", "xpath=//*[@class='toast-message']",oWebDriver);
     // Select / create user card
 
     // title
@@ -34,8 +37,9 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oZipCodeLabel = new CommonWebElement("oZipCodeLabel", "xpath=//label[text()='Zipcode']", oWebDriver);
 
     // text fields
-    public CommonWebElement oEnterKeywordField = new CommonWebElement("oEnterKeywordField", "xpath=//*[contains(@placeholder,'Enter Keyword')]", oWebDriver);
+    public CommonWebElement oEnterKeywordField = new CommonWebElement("oEnterKeywordField", "xpath=//*[@id='autocomplete']", oWebDriver);
     public CommonWebElement oSearch1StSugestion = new CommonWebElement("oSearch1StSugestion", "xpath=//*[@class='tt-dataset tt-dataset-user_accounts']/div[1]", oWebDriver);
+    public CommonWebElement oSearchingSuggestion=new CommonWebElement("oSearchingSuggestion","xpath=//*[contains(@class,'tt-suggestion') and contains(.,'With Insurance')]",oWebDriver);
     public CommonWebElement oFirstNameField = new CommonWebElement("oFirstNameField", "xpath=//*[contains(@placeholder,'Enter First Name')]", oWebDriver);
     public CommonWebElement oLastNameField = new CommonWebElement("oLastNameField", "xpath=//*[contains(@placeholder,'Enter Last Name')]", oWebDriver);
     public CommonWebElement oPhoneField = new CommonWebElement("oPhoneField", "xpath=//*[contains(@placeholder,'Enter Phone Number')]", oWebDriver);
@@ -83,9 +87,11 @@ public class CreateVisitPage extends WebBase {
 
     // buttons
     public CommonWebElement oSelectPatientProfile = new CommonWebElement("oSelectPatientProfile", "xpath=//*[@class='patient-list']/div[1]", oWebDriver);
+    public CommonWebElement oSelectPatientProfileWithInsurance = new CommonWebElement("oSelectPatientProfileWithInsurance", "xpath=//*[contains(@class,'patient-name') and text()='Insurance']", oWebDriver);
+    public CommonWebElement oSelectPatientProfileWithCreditCard = new CommonWebElement("oSelectPatientProfileWithCreditCard", "xpath=//*[contains(@class,'patient-name') and text()='Credit Card']", oWebDriver);
     public CommonWebElement oCreatePatientBtn = new CommonWebElement("oCreatePatientBtn", "xpath=//button[text()='Create Patient']", oWebDriver);
     public CommonWebElement oChooseDifferentPatientBtn = new CommonWebElement("oChooseDifferentPatientBtn", "xpath=//button[text()='Choose Different Patient']", oWebDriver);
-    public CommonWebElement oSavePatientBtn = new CommonWebElement("oCreateUserBtn", "xpath=//button[text()='Save Patient']", oWebDriver);
+    public CommonWebElement oSavePatientBtn = new CommonWebElement("oSavePatientBtn", "xpath=//button[text()='Save Patient']", oWebDriver);
 
     // Select / Create address card
 
@@ -189,7 +195,7 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oBookVisitBtn = new CommonWebElement("oBookVisitBtn", "xpath=//button[text()='Book Visit']", oWebDriver);
 
     // fields
-    public CommonWebElement oPromoCodeField = new CommonWebElement("oPromoCodeField", "xpath=//*[contains(@placeholder,'Promo Code')]", oWebDriver);
+    public CommonWebElement oPromoCodeField = new CommonWebElement("oPromoCodeField", "xpath=//*[contains(@class,'form-control')]", oWebDriver);
 
     // LEFT MENU BUTTONS
     public CommonWebElement oSelectUserMenu = new CommonWebElement("oSelectUserMenu", "xpath=//*[contains(@class,'no-data') and text()='Select User']", oWebDriver);
@@ -355,6 +361,7 @@ public class CreateVisitPage extends WebBase {
     }
 
     public void visitSummary() throws Exception {
+
         this.oVisitSummaryMenu.clickAndWait(oVisitPriceTitle, true);
         this.scrollPage("Up");
     }
@@ -379,6 +386,78 @@ public class CreateVisitPage extends WebBase {
         this.scrollPage("Up");
         this.oSelectFirstAddressBtn.clickAndWait(oAddressCard, true);
         this.scrollPage("Down");
+    }
+
+    /**
+     * method selects patient profile
+     * @param sTypeOfPatientProfile=specifies the type of profile to be selected
+     *
+     */
+    public void selectPatientProfile(String sTypeOfPatientProfile) {
+        switch(sTypeOfPatientProfile.toUpperCase()){
+            case "INSURANCE":
+                selectPatientProfileWithInsurance();
+                break;
+            case "CREDIT CARD":
+                selectPatientProfileWithCreditCard();
+                break;
+            default:
+                selectPatientProfileWithCreditCard();
+                break;
+        }
+
+
+    }
+    /**
+     * method selects patient profile with Insurance
+     *
+     */
+    public void selectPatientProfileWithInsurance(){
+        this.oSelectPatientMenu.jsClick();
+
+        this.oSelectPatientProfileWithInsurance.jsClickAndWait(oSavePatientBtn,true);
+
+        this.scrollPage("Down");
+
+        this.oSavePatientBtn.clickAndWait(this.oPageLoader,false);
+        //verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
+    }
+
+    /**
+     * method selects patient profile with credit card
+     *
+     */
+    public void selectPatientProfileWithCreditCard(){
+        this.oSelectPatientMenu.jsClick();
+        this.oSelectPatientProfileWithCreditCard.clickAndWait(this.oSavePatientBtn,true);
+        this.scrollPage("Down");
+        this.oSavePatientBtn.clickAndWait(this.oPageLoader,false);
+
+        //verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
+    }
+
+    /**
+     * method saves Address of patient from given list of addresses
+     *
+     */
+    public void saveAddress(){
+        this.oSelectAddressMenu.jsClick();
+        this.scrollPage("Up");
+        this.oSelectFirstAddressBtn.clickAndWait(this.oPageLoader,false);
+        this.scrollPage("Down");
+        this.oSaveAddressBtn.clickAndWait(this.oPageLoader,false);
+    }
+
+    /**
+     * method adds visit details for a sick adult patient
+     *
+     */
+    public void addVisitDetailsWithSickAdult(){
+        this.oAddVisitDetailsMenu.clickAndWait(this.oEnterVisitDetailsTitle,true);
+        this.oSickAdultService.click();
+        this.oSymptomsField.sendKeys("testing");
+        this.oSaveBtn.clickAndWait(this.oPageLoader,false);
+
     }
 
     //todo remove all sleeps and put methods for wait
