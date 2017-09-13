@@ -120,13 +120,6 @@
 			<artifactId>stripe-java</artifactId>
 			<version>5.4.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.uncommons/reportng -->
-		<dependency>
-			<groupId>org.uncommons</groupId>
-			<artifactId>reportng</artifactId>
-			<version>1.1.4</version>
-			<scope>test</scope>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
