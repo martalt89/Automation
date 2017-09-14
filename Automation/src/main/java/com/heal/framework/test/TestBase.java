@@ -53,7 +53,7 @@ public class TestBase
     //	private int iPageLoadTimeout = 90;
     private boolean bMaximizeBrowser = false;
     private static String browser;
-
+    private static String releaseEnv = "";
 
     private static HashMap<String, String> parameters;
     private static ExtentReports extent;
@@ -96,11 +96,14 @@ public class TestBase
         saucelab_url = sGridServer;
     }
 
-    public String getBrowser()
+    public static String getBrowser()
     {
         return browser;
     }
 
+    public static String getReleaseEnv() {
+        return releaseEnv;
+    }
 
     public static HashMap<String, String> getParameters() {
         return parameters;
@@ -252,6 +255,7 @@ public class TestBase
             ,"version"
             ,"screenResolution"
             ,"baseUrl"
+            ,"ENV"
             ,"USERNAME"
             ,"ACCESS_KEY"
             ,"saucelab_url"
@@ -265,6 +269,7 @@ public class TestBase
                       @Optional("") String version,
                       @Optional("chrome") String screenResolution,
                       @Optional(".qa.heal.com") String baseUrl,
+                      @Optional("QA") String env,
                       @Optional("qaheal") String username,
                       @Optional("") String accessKey,
                       @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
@@ -294,7 +299,7 @@ public class TestBase
             // Target browsers
             browser = browserName.replaceAll("\\s", "");
             logger.info("setup():  Target browsers:  {}", browser);
-
+            releaseEnv = env;
             // Maximize browser
             if (maximizeBrowser.equalsIgnoreCase("true"))
                 bMaximizeBrowser = true;
@@ -401,7 +406,7 @@ public class TestBase
             unsetRemoteNode();
             unsetException();
             quitDriver();
-
+            ExtentManager.getReporter().endTest(getExtentTest());
         }
         catch (Exception ex)
         {

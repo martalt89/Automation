@@ -1,7 +1,7 @@
 package com.heal.framework.foundation;
 
 
-import com.heal.framework.test.RunTestSuite;
+import com.heal.framework.test.TestBase;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class ExtentTestManager {
 
     public static synchronized ExtentTest startTest(String testName, String desc) {
         ExtentTest test = extent.startTest(testName, desc);
-        test.assignCategory("Browser: " + RunTestSuite.getExcelParams().get("browserName"), "Env: " + RunTestSuite.getExcelParams().get("ENV"));
+        test.assignCategory("Browser: " + TestBase.getBrowser(), "Env: " + TestBase.getReleaseEnv());
         extentTestMap.put((int) (long) (Thread.currentThread().getId()), test);
 
         return test;
@@ -58,11 +58,6 @@ public class ExtentTestManager {
                     return false;
                 }
             });
-//            testList.forEach(test -> {
-//                if(test.getTest().getName().equals(testName)){
-//                    testList.remove(test);
-//                }
-//            });
         }
         catch (NoSuchFieldException|IllegalAccessException e){
             logger.error(e.getMessage());
