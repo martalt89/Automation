@@ -299,7 +299,7 @@ public class TestBase
             // Target browsers
             browser = browserName.replaceAll("\\s", "");
             logger.info("setup():  Target browsers:  {}", browser);
-            this.releaseEnv = env;
+            releaseEnv = env;
             // Maximize browser
             if (maximizeBrowser.equalsIgnoreCase("true"))
                 bMaximizeBrowser = true;
