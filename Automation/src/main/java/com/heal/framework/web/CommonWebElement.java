@@ -870,7 +870,7 @@ public class CommonWebElement implements WebElement, Locatable {
     }
 
     /**
-     * Highlight element by drawing red border around it.
+     * Highlight element by drawing green border around it.
      */
     public void highlightMe() {
         this.border = (String) oJavascriptExecutor.executeScript("var border = arguments[0].style.border; arguments[0].style.border='2px dashed green'; return border;", oWebElement);

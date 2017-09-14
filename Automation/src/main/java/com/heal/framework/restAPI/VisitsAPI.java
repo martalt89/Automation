@@ -1,6 +1,7 @@
 package com.heal.framework.restAPI;
 
 import com.heal.framework.test.TestData;
+import com.heal.framework.web.WebBase;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONArray;
@@ -12,14 +13,14 @@ import java.util.Map;
 /**
  *  Created by adrian.rosu on 07/08/2017.
  */
-public class VisitsAPI {
-    private String baseURI = "https://patient.qa.heal.com/api";
+public class VisitsAPI extends ApiBase {
+//    private String baseURL = "https://patient.qa.heal.com/api";
+    private String baseURL = "https://patient" + baseUrl + "/api";
     private TestData accountTestData = new TestData(TestData.ACCOUNT_SHEET);
     private RestUtils restUtils = new RestUtils();
 
     private String sAccUsername;
     private String sAccPassword;
-    private PatientAPI patientAPI = new PatientAPI(sAccUsername, sAccPassword);
     private String sPatientId; //this can be set by using getPatientIdByEmail or getPatientIdByFnLn from PatientAPI
     /**
      * Constructor
@@ -69,11 +70,7 @@ public class VisitsAPI {
      */
     public String getTimeSlotID() {
 
-        AccountAPI accountAPI = new AccountAPI(sAccUsername, sAccPassword);
         PatientAPI patientAPI = new PatientAPI(sAccUsername, sAccPassword);
-
-//        patientAPI.getPatientIdByEmail(sAccUsername);
-
         Map<String, String> params = new HashMap<>();
 //        params.put("latitude", String.valueOf(accountAPI.getAddressLatitude(accountTestData.sAddress)));
         params.put("latitude", "34.3040026");
@@ -119,7 +116,7 @@ public class VisitsAPI {
 //                .contentType("application/json")
 //                .cookie("SESSION", sessionId)
 //                .body(createVisitPostParams())
-//                .post(baseURI + resourceAPI);
+//                .post(baseURL + resourceAPI);
 //        return restUtils.getJsonValue(response.asString(),"visitCode");
         String response = RestAssured.given()
                 .auth()
@@ -128,7 +125,7 @@ public class VisitsAPI {
                 .contentType("application/json")
                 .cookie("SESSION", sessionId)
                 .body(createVisitPostParams())
-                .post(baseURI + resourceAPI)
+                .post(baseURL + resourceAPI)
                 .asString();
         try {
             return restUtils.getJsonValue(response, "visitCode");
@@ -156,7 +153,7 @@ public class VisitsAPI {
                 .contentType("application/json")
                 .cookie("SESSION", sessionId)
                 .body(createVisitPostParams())
-                .post(baseURI + resourceAPI);
+                .post(baseURL + resourceAPI);
         return restUtils.getJsonValue(response.asString(),"visitCode");
     }
 

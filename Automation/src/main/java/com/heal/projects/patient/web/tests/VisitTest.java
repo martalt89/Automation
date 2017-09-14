@@ -53,7 +53,7 @@ public class VisitTest extends TestBase {
     @Test (groups = {"dev", "critical"})
     public void cancelVisit(){
         WebDriver dr = getDriver();
-        CommonWebElement.setbMonitorMode(false);
+        CommonWebElement.setbMonitorMode(true);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
 
