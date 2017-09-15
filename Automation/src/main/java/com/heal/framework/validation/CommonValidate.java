@@ -26,7 +26,7 @@ public class CommonValidate
 {
     private Logger logger = LoggerFactory.getLogger(CommonValidate.class);
 
-    public static final String SCREENSHOT_LOCATION = "out/screenshots";
+    public static final String SCREENSHOT_LOCATION = "report/screenshots";
 
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;

@@ -218,9 +218,9 @@ public class WebBase {
                 screenShot = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
             }
 
-            String imageName = Paths.get(sFileLocation, SysTools.getTimestamp() + ".png").toString();
+            String imageName = SysTools.getTimestamp() + ".png";
 
-            Path fullFilePath = Paths.get(TestBase.projDir , imageName);
+            Path fullFilePath = Paths.get(TestBase.projDir , sFileLocation, imageName);
             FileUtils.copyFile(screenShot, fullFilePath.toFile());
               // Write page source to file
             PrintWriter out = new PrintWriter(fullFilePath.toString().replace(".png", ".html"));
@@ -232,7 +232,7 @@ public class WebBase {
                 out.close();
             }
 
-            return "../" + imageName ;
+            return "./screenshots/" + imageName ;
         } catch (Exception ex) {
             logger.error(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";
