@@ -1,7 +1,10 @@
 package com.heal.framework.restAPI;
 
+import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestData;
 import java.lang.IllegalArgumentException;
+
+import com.heal.framework.web.WebBase;
 import io.restassured.RestAssured;
 import io.restassured.http.Cookies;
 import io.restassured.response.Response;
@@ -17,11 +20,12 @@ import java.util.Map;
  * REST calls on /patients API
  * Add patient, return patient info
  */
-public class PatientAPI {
+public class PatientAPI extends ApiBase {
 
     private RestUtils restUtils = new RestUtils();
     private TestData addPatientInputData = new TestData(TestData.PATIENT_SHEET);
-    private String baseURL = "https://patient.qa.heal.com/api";
+    private String baseURL = "https://patient" + baseUrl + "/api";
+//    private String baseURL = "https://patient.qa.heal.com/api";
     private String baseURLAPIv3 = "http://apiv3.qa.heal.com";
 
     /**

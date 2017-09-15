@@ -25,7 +25,7 @@ public class CommonValidate
 {
     private Logger logger = LoggerFactory.getLogger(CommonValidate.class);
 
-    public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out"  + System.getProperty("file.separator") +   "screenshots";
+    public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "report"  + System.getProperty("file.separator") +   "screenshots";
 
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;

@@ -2,6 +2,7 @@ package com.heal.framework.restAPI;
 
 import com.google.gson.JsonObject;
 import com.heal.framework.test.TestData;
+import com.heal.framework.web.WebBase;
 import com.stripe.Stripe;
 import com.stripe.exception.*;
 import com.stripe.model.Token;
@@ -18,11 +19,13 @@ import java.util.Map;
  * Create & get account, add address, add payment methods
  */
 
-public class AccountAPI {
+public class AccountAPI extends ApiBase {
+
     private TestData addCardInputData = new TestData(TestData.CARD_SHEET);
     private TestData addAccountInputData = new TestData(TestData.ACCOUNT_SHEET);
     private RestUtils restUtils = new RestUtils();
-    private String baseURI = "https://patient.qa.heal.com/api";
+    private String baseURL = "https://patient" + baseUrl + "/api";
+//    private String baseURL = "https://patient.qa.heal.com/api";
     private static final String APIkey = "pk_test_DIamIvBnKXe5LdP5fl1iR0v8";
 
     /**
@@ -76,7 +79,7 @@ public class AccountAPI {
                 .contentType("application/json")
                 .body(jsonAsMap)
                 .log().all()
-                .post(baseURI + resourceAPI);
+                .post(baseURL + resourceAPI);
         response.prettyPrint();
     }
 
@@ -92,7 +95,7 @@ public class AccountAPI {
                 .preemptive()
                 .basic(this.sUsername, this.sPassword)
                 .log().all()
-                .get(baseURI + resourceAPI);
+                .get(baseURL + resourceAPI);
         getResponse.prettyPrint();
         String response = getResponse.asString();
 
@@ -123,7 +126,7 @@ public class AccountAPI {
                 .contentType("application/json")
                 .body(jsonAsMap)
                 .log().all()
-                .put(baseURI + resourceAPI);
+                .put(baseURL + resourceAPI);
         response.prettyPrint();
     }
 
@@ -167,7 +170,7 @@ public class AccountAPI {
                 .contentType("application/json")
                 .body(jsonAsMap)
                 .log().all()
-                .put(baseURI + resourceAPI);
+                .put(baseURL + resourceAPI);
         response.prettyPrint();
     }
 
@@ -181,7 +184,7 @@ public class AccountAPI {
                 .auth()
                 .preemptive()
                 .basic(sUsername, sPassword)
-                .get(baseURI+resource);
+                .get(baseURL +resource);
         return getResponse.asString();
     }
 

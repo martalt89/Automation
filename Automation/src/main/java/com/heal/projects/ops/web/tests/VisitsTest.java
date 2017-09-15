@@ -54,29 +54,21 @@ public class VisitsTest extends TestBase{
         OpsVisitsPage visitsPage=new OpsVisitsPage(dr);
         CreateVisitPage createVisit =new CreateVisitPage(dr);
 
-
         loginPage.goTo();
         loginPage.waitForPageLoad();
         loginPage.login();
-
         menu.selectFromMenu("visits");
-
         visitsPage.waitForPageLoad();
         visitsPage.oAddVisitBtn.clickAndWait(createVisit.oEnterKeywordField, true);
-
         createVisit.oEnterKeywordField.sendKeys("vahan+qa");
         createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
         createVisit.oPhoneField.sendKeys("(818)182-1238");
-
         createVisit.selectPatientProfile("insurance");
         menu.verifyToastMessage("Verify patient profile was selected and saved", "Successfully Updated Patient");
-
         createVisit.saveAddress();
         menu.verifyToastMessage("Verify address is saved",  "Successfully Updated Address");
-
         createVisit.addVisitDetailsWithSickAdult();
         menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
-
         createVisit.scrollPage("Down");
         createVisit.oSelectPaymentMenu.jsClick();
         createVisit.oFirstCardOption.click();
@@ -87,6 +79,7 @@ public class VisitsTest extends TestBase{
         menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
 
     }
+
 
     @Test
     public void bookVisitWithCreditCard() throws Exception {
@@ -118,7 +111,6 @@ public class VisitsTest extends TestBase{
 
         createVisit.addVisitDetailsWithSickAdult();
         menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
-
         createVisit.scrollPage("Down");
         createVisit.oSelectPaymentMenu.jsClick();
         createVisit.oFirstCardOption.click();
