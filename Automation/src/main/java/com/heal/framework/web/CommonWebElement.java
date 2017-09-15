@@ -420,7 +420,7 @@ public class CommonWebElement implements WebElement, Locatable {
      *                false(will wait for the element to disappear after the click)
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
-        scrollForElement();
+//        scrollForElement();
         waitForEnabled();
         waitForVisible();
         //System.out.println("Clicking on... " + oBy.toString());
@@ -449,7 +449,7 @@ public class CommonWebElement implements WebElement, Locatable {
      *                false(will wait for the element to disappear after the click)
      */
     public void jsClickAndWait(CommonWebElement element, Boolean bAppear) {
-        scrollForElement();
+//        scrollForElement();
         waitForEnabled();
         //waitForVisible();
         oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
