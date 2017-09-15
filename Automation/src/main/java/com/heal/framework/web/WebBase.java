@@ -221,6 +221,8 @@ public class WebBase {
 
             Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
             FileUtils.copyFile(screenShot, fullFilePath.toFile());
+            System.out.println("****************************" + fullFilePath);
+            System.out.println("****************************" + screenShot.getAbsolutePath());
               // Write page source to file
             PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
             try {
