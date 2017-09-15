@@ -52,8 +52,9 @@ public class VisitTest extends TestBase {
      */
     @Test (groups = {"dev", "critical"})
     public void cancelVisit(){
+
         WebDriver dr = getDriver();
-        CommonWebElement.setbMonitorMode(true);
+        CommonWebElement.setbMonitorMode(false);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
 
@@ -62,8 +63,8 @@ public class VisitTest extends TestBase {
 
         loginPage.login();
         homePage.selectFromMenu("visits");
-        homePage.cancelVisit(1);
-//        homePage.cancelAllVisits();
+//        homePage.cancelVisit(1);
+        homePage.cancelAllVisits();
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");

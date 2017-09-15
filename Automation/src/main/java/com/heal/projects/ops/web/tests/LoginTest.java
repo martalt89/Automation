@@ -18,11 +18,12 @@ public class LoginTest extends TestBase{
         OpsMenu menu = new OpsMenu(dr);
         DashboardPage dashboardPage = new DashboardPage(dr);
         loginPage.goTo();
-        loginPage.waitForPageReady();
-        loginPage.login();
-        verifyVisible("Verify Menu", menu.oMenuArea);
-        verifyVisible("Verify Zipcode search", menu.oZipcodeSearch);
-        //check that Dashboard is displayed after login
-        verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
+//        loginPage.waitForPageReady();
+//        loginPage.login();
+//        verifyVisible("Verify Menu", menu.oMenuArea);
+//        verifyVisible("Verify Zip code search", menu.oZipcodeSearch);
+//        //check that Dashboard is displayed after login
+//        verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
+        assertMatches("Test", "test", "testt");
     }
 }

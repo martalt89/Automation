@@ -109,15 +109,7 @@ public class VisitsAPI extends ApiBase {
                 .get("https://patient.qa.heal.com/api/v2/patients")
                 .cookie("SESSION");
 
-//        Response response = RestAssured.given()
-//                .auth()
-//                .preemptive()
-//                .basic(sAccUsername, sAccPassword)
-//                .contentType("application/json")
-//                .cookie("SESSION", sessionId)
-//                .body(createVisitPostParams())
-//                .post(baseURL + resourceAPI);
-//        return restUtils.getJsonValue(response.asString(),"visitCode");
+
         String response = RestAssured.given()
                 .auth()
                 .preemptive()
@@ -156,6 +148,29 @@ public class VisitsAPI extends ApiBase {
                 .post(baseURL + resourceAPI);
         return restUtils.getJsonValue(response.asString(),"visitCode");
     }
+
+    public String cancelVisit(String visitCode){
+
+        String resourceAPI = "/v4/patient/visit";
+        String sessionId = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get("https://patient.qa.heal.com/api/v2/patients")
+                .cookie("SESSION");
+
+        Response response = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .contentType("application/json")
+                .cookie("SESSION", sessionId)
+                .body(createVisitPostParams())
+                .post(baseURL + resourceAPI);
+        return restUtils.getJsonValue(response.asString(),"visitCode");
+    }
+
+
 
 }
 

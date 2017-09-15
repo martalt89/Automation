@@ -454,7 +454,8 @@ public class TestBase
     {
         byte[] aBase64;
         aBase64 = Base64.decodeBase64(ex.getBase64EncodedScreenshot());
-        String fullFilePath = path + separator + "out" + separator + "screenshots" + separator  + SysTools.getTimestamp() + ".png";
+//        String fullFilePath = path + separator + "out" + separator + "screenshots" + separator  + SysTools.getTimestamp() + ".png";
+        String fullFilePath = path + separator + "report" + separator + "screenshots" + separator  + SysTools.getTimestamp() + ".png";
 //        String fullFilePath = "C:/QA/ATF/out/screenshots/" + SysTools.getTimestamp() + ".png";
         FileOutputStream fOut = new FileOutputStream(fullFilePath);
         fOut.write(aBase64);
