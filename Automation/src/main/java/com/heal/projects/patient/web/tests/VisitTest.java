@@ -4,6 +4,7 @@ import com.heal.projects.patient.web.pages.*;
 import com.heal.framework.foundation.SysTools;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
@@ -63,8 +64,8 @@ public class VisitTest extends TestBase {
 
         loginPage.login();
         homePage.selectFromMenu("visits");
-//        homePage.cancelVisit(1);
-        homePage.cancelAllVisits();
+        homePage.cancelVisit(1);
+//        homePage.cancelAllVisits();
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");
@@ -110,7 +111,8 @@ public class VisitTest extends TestBase {
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oGotItBtn.click();
-            System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+            getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//            System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
             menu.selectFromMenu(menu.oSignOutLnk);
             loginPage.oUserNameInput.waitForElement();
     }
@@ -156,7 +158,8 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
@@ -209,7 +212,8 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
@@ -262,7 +266,8 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
@@ -316,7 +321,8 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
