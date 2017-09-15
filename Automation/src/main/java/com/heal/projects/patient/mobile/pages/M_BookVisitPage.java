@@ -5,15 +5,16 @@ import com.heal.framework.web.WebBase;
 import com.heal.framework.web.CommonWebElement;
 import org.openqa.selenium.WebDriver;
 
-public class M_DashboardPage extends WebBase {
+public class M_BookVisitPage extends WebBase {
 
 
-    public CommonWebElement oAllowPermissionToAccessLocationOnConnectedDevice=new CommonWebElement("oAllowPermissionToAccessLocationOnConnectedDevice","xpath=//android.widget.Button[@text='Allow']",oWebDriver);
+
     public CommonWebElement oNoMedicalEmergencyButton= new CommonWebElement("oNoMedicalEmergencyButton","xpath=//android.widget.Button[@text='No']",oWebDriver);
     public CommonWebElement oLocationTextField=new CommonWebElement("oLocationTextField","xpath=//android.widget.EditText[@index='0']",oWebDriver);
     public CommonWebElement oUnitOrAptField=new CommonWebElement("oUnitOrAptField","xpath=//android.widget.EditText[@index='1']",oWebDriver);
     public CommonWebElement oSelectHomeAddress=new CommonWebElement("oSelectHomeAddress","xpath=(//*[@resource-id=\"com.getheal.patient.debug:id/place_icon\"])[1]",oWebDriver);
-    public CommonWebElement oSelectPatientProfile=new CommonWebElement("oSelectPatientProfile","xpath=//android.widget.TextView[@text='You']",oWebDriver);
+    //public CommonWebElement oSelectPatientProfileWithInsurance=new CommonWebElement("oSelectPatientProfile","xpath=//android.widget.TextView[@text='You']",oWebDriver);
+    //public CommonWebElement oSelectPatientProfileWithCreditCard=new CommonWebElement("oSelectPatientProfile","xpath=//android.widget.TextView[@text='Vahan Melikyan']",oWebDriver);
     public CommonWebElement oContinueButton= new CommonWebElement("oContinueButton","xpath=//android.widget.Button[@text='Continue']",oWebDriver);
 
 
@@ -22,8 +23,24 @@ public class M_DashboardPage extends WebBase {
     //////////////////
     // Constructors //
     //////////////////
-    public M_DashboardPage(WebDriver oTargetDriver)
+    public M_BookVisitPage(WebDriver oTargetDriver)
     {
         super(oTargetDriver);
+    }
+
+
+    public void oSelectPatientProfile(String sProfileType)
+    {
+        CommonWebElement oMainProfile=new CommonWebElement("oMainProfile","xpath=//*[contains(@text,'"+sProfileType+"')]",oWebDriver);
+        oMainProfile.click();
+    }
+
+    public void fillAddressDetails()
+    {
+
+        this.oLocationTextField.clickAndWait(this.oSelectHomeAddress,true);
+        this.oSelectHomeAddress.clickAndWait(this.oUnitOrAptField,true);
+        this.oUnitOrAptField.sendKeys("#711");
+
     }
 }
