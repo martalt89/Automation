@@ -149,7 +149,7 @@ public class VisitTest extends TestBase {
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
-        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
         paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.waitForElement();
             assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
@@ -190,7 +190,7 @@ public class VisitTest extends TestBase {
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
-        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
@@ -244,7 +244,7 @@ public class VisitTest extends TestBase {
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
-        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
@@ -303,7 +303,7 @@ public class VisitTest extends TestBase {
 
         chooseProfilePage.selectProfileByName("Insurance");
         addressPage.selectFirstSavedAddress();
-        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.selectServiceForVisit("SICK_SERVICE");
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();

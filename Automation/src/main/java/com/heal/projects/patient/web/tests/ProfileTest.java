@@ -90,7 +90,7 @@ public class ProfileTest extends TestBase {
         //add patient
         manageProfilePage.oAddPatientbtn.click();
         manageProfilePage.typePatientDataFromExcel(testData);
-        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        manageProfilePage.oSaveAndContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
 
             assertEquals("Verify if added patient name is in patients profiles list", manageProfilePage.getPatientByText(testData.sFirstname).getText(), testData.sFirstname);
         menu.selectFromMenu("Sign out");
