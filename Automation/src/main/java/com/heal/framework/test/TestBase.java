@@ -46,8 +46,8 @@ public class TestBase
     //  Class members     //
     ////////////////////////	
     private static String os = System.getProperty("os.name");
-    private static String path = System.getProperty("user.dir");
-    private static String separator = System.getProperty("file.separator");
+    public static String projDir = System.getProperty("user.dir");
+    public static String separator = System.getProperty("file.separator");
     private String environment = "";
     private String saucelab_url = "";
     //	private int iPageLoadTimeout = 90;
@@ -454,8 +454,7 @@ public class TestBase
     {
         byte[] aBase64;
         aBase64 = Base64.decodeBase64(ex.getBase64EncodedScreenshot());
-        String fullFilePath = path + separator + "out" + separator + "screenshots" + separator  + SysTools.getTimestamp() + ".png";
-//        String fullFilePath = "C:/QA/ATF/out/screenshots/" + SysTools.getTimestamp() + ".png";
+        String fullFilePath = projDir + separator + "out" + separator + "screenshots" + separator  + SysTools.getTimestamp() + ".png";
         FileOutputStream fOut = new FileOutputStream(fullFilePath);
         fOut.write(aBase64);
         fOut.close();
@@ -494,20 +493,20 @@ public class TestBase
             {
                 case "CHROME":
                     if (os.contains("Mac")) {
-                        System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver");
+                        System.setProperty("webdriver.chrome.driver", projDir + separator + "chromedriver");
                     } else {
-                        System.setProperty("webdriver.chrome.driver", path + separator + "chromedriver.exe");
+                        System.setProperty("webdriver.chrome.driver", projDir + separator + "chromedriver.exe");
                     }
                     return new org.openqa.selenium.chrome.ChromeDriver();
                 case "FIREFOX":
                     if (os.contains("Mac")) {
-                        System.setProperty("webdriver.gecko.driver", path + separator + "geckodriver");
+                        System.setProperty("webdriver.gecko.driver", projDir + separator + "geckodriver");
                     } else {
-                        System.setProperty("webdriver.gecko.driver", path + separator + "geckodriver.exe");
+                        System.setProperty("webdriver.gecko.driver", projDir + separator + "geckodriver.exe");
                     }
                     return new org.openqa.selenium.firefox.FirefoxDriver();
                 case "IE":
-                    System.setProperty("webdriver.ie.driver", path + separator + "IEDriverServer.exe");
+                    System.setProperty("webdriver.ie.driver", projDir + separator + "IEDriverServer.exe");
                     return new org.openqa.selenium.ie.InternetExplorerDriver();
                 case "ANDROID":
                     DesiredCapabilities capabilities =  DesiredCapabilities.android();

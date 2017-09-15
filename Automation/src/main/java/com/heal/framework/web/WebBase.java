@@ -1,6 +1,7 @@
 package com.heal.framework.web;
 
 import com.heal.framework.exception.CommonException;
+import com.heal.framework.test.TestBase;
 import com.heal.framework.validation.CommonValidate;
 import com.heal.framework.foundation.SysTools;
 import org.apache.commons.io.FileUtils;
@@ -217,12 +218,12 @@ public class WebBase {
                 screenShot = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
             }
 
-            String timestamp = SysTools.getTimestamp();
+            String imageName = Paths.get(sFileLocation, SysTools.getTimestamp() + ".png").toString();
 
-            Path fullFilePath = Paths.get(sFileLocation, timestamp.toString() + ".png");
+            Path fullFilePath = Paths.get(TestBase.projDir , imageName);
             FileUtils.copyFile(screenShot, fullFilePath.toFile());
               // Write page source to file
-            PrintWriter out = new PrintWriter(sFileLocation + "/" + timestamp.toString() + ".html");
+            PrintWriter out = new PrintWriter(fullFilePath.toString().replace(".png", ".html"));
             try {
                 out.println(oDriver.getPageSource());
             } catch (Exception ex) {
@@ -231,7 +232,7 @@ public class WebBase {
                 out.close();
             }
 
-            return fullFilePath.toAbsolutePath().toString();
+            return "../" + imageName ;
         } catch (Exception ex) {
             logger.error(String.format("Failed to capture screenshot:  {%s} <br>", ex));
             return "";

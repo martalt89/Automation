@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+import com.heal.framework.test.TestBase;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import com.heal.framework.foundation.SysTools;
@@ -25,7 +26,7 @@ public class CommonValidate
 {
     private Logger logger = LoggerFactory.getLogger(CommonValidate.class);
 
-    public static final String SCREENSHOT_LOCATION = System.getProperty("user.dir") + System.getProperty("file.separator") + "out"  + System.getProperty("file.separator") +   "screenshots";
+    public static final String SCREENSHOT_LOCATION = "out/screenshots";
 
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;
@@ -57,7 +58,7 @@ public class CommonValidate
     public String getScreenshot()
     {
         if (bTakeShots)
-            return SysTools.getScreenshot(Paths.get(System.getProperty("user.dir"), SCREENSHOT_LOCATION).toString());
+            return SysTools.getScreenshot(Paths.get(TestBase.projDir, SCREENSHOT_LOCATION).toString());
         else
             return "";
     }
