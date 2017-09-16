@@ -24,5 +24,6 @@ public class LoginTest extends TestBase{
         verifyVisible("Verify Zip code search", menu.oZipcodeSearch);
         //check that Dashboard is displayed after login
         verifyVisible("Verify Dashboard page title is displayed", dashboardPage.oOperationsViewTitle);
+
     }
 }

@@ -33,7 +33,7 @@ public class RunTestSuite {
 
     //Identifier for Arguments
     private static final String Run_File = "Run_File";
-
+    private static int threadCount = 0;
     private static List<String> ToRunTests = new ArrayList<String>();
 
     private static HashMap<String, String> excelParams;
@@ -48,12 +48,13 @@ public class RunTestSuite {
         File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
 
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
+        excelParams = processParameters(oExcel);
+        excelParams.putAll(argMap);
+        threadCount = Integer.parseInt(excelParams.get("threadCount"));
 
         XmlSuite suite = readFromExcel(oExcel);
 
-        excelParams = processParameters(oExcel);
-        excelParams.putAll(argMap);
-        
+
         suite.setParameters(excelParams);
         oSuites.add(suite);
         logger.info(suite.toXml());
@@ -83,7 +84,7 @@ public class RunTestSuite {
 
         XmlSuite oSuite = new XmlSuite();
         oSuite.setName(suiteName);
-        oSuite.setThreadCount(2);
+        oSuite.setThreadCount(threadCount);
         oSuite.setParallel(XmlSuite.ParallelMode.METHODS);
         oSuite.setVerbose(2);
         oSuite.setDataProviderThreadCount(1);
