@@ -380,6 +380,7 @@ public class CommonWebElement implements WebElement, Locatable {
     public void sendKeys(CharSequence... arg0) {
         waitForVisible();
         waitForEnabled();
+        scrollForElement();
         oWebElement.clear();
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
