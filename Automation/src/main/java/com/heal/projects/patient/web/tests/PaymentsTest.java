@@ -50,5 +50,6 @@ public class PaymentsTest extends TestBase {
 
         // Validate the new card details
         assertEquals("Verifying card expiration date ", paymentsPage.oCardExpDate.getText(), sExpirationMonth + "/" + sExpirationYear);
+        menu.selectFromMenu(menu.oSignOutLnk);
     }
 }
