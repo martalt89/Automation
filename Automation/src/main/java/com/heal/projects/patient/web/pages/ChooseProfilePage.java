@@ -62,6 +62,7 @@ public class ChooseProfilePage extends WebBase {
     public void selectProfileByName(String sText)
     {
         CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=(//div[@role='button' and contains(.,'" + sText +"')])[1]", oWebDriver );
+        oPatient.scrollForElement();
         oPatient.click();
         oContinueBtn.clickAndWait(menu.oLoadingBar, false);
     }

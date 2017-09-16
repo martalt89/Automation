@@ -65,7 +65,7 @@ public class VisitsE2E extends TestBase  {
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "DOCTOR_ASSIGNED", 10);
         visitsPage.filterVisits(visit_id);
-        assertMatches("Verify visit details modal contains 'CANCELLED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
+//        assertMatches("Verify visit details modal contains 'CANCELLED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
         verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), "Dr. Vahan Melikyan");
         verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getMedicalAssistantByVisitCode(visit_id), "Michael Kettelborough");
     }
@@ -124,7 +124,7 @@ public class VisitsE2E extends TestBase  {
         visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
         visit.selectPartialRefund("50","Automated test");
         opsMenu.verifyToastTitle("Verify toast title ", "OK:");
-        opsMenu.verifyToastMessage("Verify toast message", "This visit has successfully been refunded. The patient will receive a refund from their bank in 10-14 days");
+//        opsMenu.verifyToastMessage("Verify toast message", "This visit has successfully been refunded. The patient will receive a refund from their bank in 10-14 days");
     }
 
 }
