@@ -13,6 +13,7 @@ import com.relevantcodes.extentreports.ExtentTest;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -54,6 +55,7 @@ public class TestBase
     private boolean bMaximizeBrowser = false;
     private static String browser;
     private static String releaseEnv = "";
+    private static Dimension screenDimentions = new Dimension(1400,1050);
 
     private static HashMap<String, String> parameters;
     private static ExtentReports extent;
@@ -303,7 +305,6 @@ public class TestBase
             // Maximize browser
             if (maximizeBrowser.equalsIgnoreCase("true"))
                 bMaximizeBrowser = true;
-
             // Set time to wait for a page to load
             //iPageLoadTimeout = Integer.parseInt(oProp.getProperty("page_load_timeout", "90"));
 
@@ -365,10 +366,13 @@ public class TestBase
 
             WebDriver oDriver = null;
 
-            if (environment.equalsIgnoreCase("remote"))
+            if (environment.equalsIgnoreCase("remote")) {
                 oDriver = StartRemoteWebDriver(parameters);
-            else
+            }
+            else {
                 oDriver = StartWebDriver(browser);
+                oDriver.manage().window().setSize(screenDimentions);
+            }
 
             // Only supported for Firefox in current release.
             //oDriver.manage().timeouts().pageLoadTimeout(iPageLoadTimeout, java.util.concurrent.TimeUnit.SECONDS);
