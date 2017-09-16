@@ -802,7 +802,6 @@ public class CommonWebElement implements WebElement, Locatable {
      * @param sText (String) - Item text
      */
     public void selectByVisibleTextAngular(String sText) {
-        scrollForElement();
         if (this.getTagName().contains("md-select") || this.getTagName().contains("md-select-value") ) //dropdown buttons have md-select or md-select-value tags
             this.click();
         else
