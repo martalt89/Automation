@@ -64,8 +64,8 @@ public class VisitTest extends TestBase {
 
         loginPage.login();
         homePage.selectFromMenu("visits");
-        homePage.cancelVisit(1);
-//        homePage.cancelAllVisits();
+//        homePage.cancelVisit(1);
+        homePage.cancelAllVisits();
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");
@@ -149,7 +149,7 @@ public class VisitTest extends TestBase {
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
-        visitDetailsPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.waitForElement();
             assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
@@ -190,7 +190,7 @@ public class VisitTest extends TestBase {
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
-        addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
@@ -244,7 +244,7 @@ public class VisitTest extends TestBase {
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("Credit Card");
         addressPage.selectFirstSavedAddress();
-        addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();

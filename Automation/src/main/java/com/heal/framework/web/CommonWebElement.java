@@ -420,10 +420,10 @@ public class CommonWebElement implements WebElement, Locatable {
      *                false(will wait for the element to disappear after the click)
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
-//        scrollForElement();
+
         waitForEnabled();
         waitForVisible();
-        //System.out.println("Clicking on... " + oBy.toString());
+        scrollForElement();
         oWebElement.click();
         if (iThrottleValue != 0) {
             try {
