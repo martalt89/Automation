@@ -422,6 +422,7 @@ public class CommonWebElement implements WebElement, Locatable {
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
         waitForEnabled();
         waitForVisible();
+        scrollForElement();
         //System.out.println("Clicking on... " + oBy.toString());
         oWebElement.click();
         if (iThrottleValue != 0) {
