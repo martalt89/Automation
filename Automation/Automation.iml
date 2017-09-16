@@ -10,12 +10,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.uncommons:reportng:1.1.4" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity:1.4" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity-dep:1.4" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.uncommons:reportng:1.1.4" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity:1.4" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity-dep:1.4" level="project" />
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.7" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:3.4.0" level="project" />
