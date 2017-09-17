@@ -92,7 +92,7 @@ public class VisitsTest extends TestBase{
 
         loginPage.goTo();
         loginPage.waitForPageLoad();
-        loginPage.login("vahan+oc@heal.com","Heal4325");
+        loginPage.login();
 
         menu.selectFromMenu("visits");
 
@@ -132,7 +132,7 @@ public class VisitsTest extends TestBase{
 
         loginPage.goTo();
         loginPage.waitForPageLoad();
-        loginPage.login("vahan+oc@heal.com","Heal4325");
+        loginPage.login();
 
         menu.selectFromMenu("visits");
 

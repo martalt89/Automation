@@ -120,7 +120,8 @@ public class OpsVisitsPage extends WebBase {
     }
 
     public CommonWebElement getStatusByVisitCode(String sVisitCode){
-        return new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[2]//b" ,oWebDriver);
+//        return new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[2]//b" ,oWebDriver);
+        return new CommonWebElement("oVisitCode", "xpath=//*[contains(@id,'" + sVisitCode + "')]/../.." ,oWebDriver);
     }
 
     public CommonWebElement getDoctorByVisitCode(String sVisitCode){
