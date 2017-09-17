@@ -7,6 +7,8 @@ import com.heal.framework.test.TestBase;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.projects.ops.web.pages.*;
+import com.heal.projects.patient.web.pages.Menu;
+import com.heal.projects.patient.web.pages.VisitsPage;
 import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.WebDriver;
 import org.testng.SkipException;
@@ -32,7 +34,7 @@ public class VisitsE2E extends TestBase  {
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         OpsMenu menu = new OpsMenu(dr);
         String sSymptoms = "Added with auto tests";
-        getExtentTest().log(LogStatus.INFO,"");
+        getExtentTest().log(LogStatus.INFO, visit_id + " booked");
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
@@ -47,12 +49,13 @@ public class VisitsE2E extends TestBase  {
     @Test(groups = {"dev", "critical"}, priority=1)
     public void changeProviderManualTimeSet() {
         if (visit_id=="") throw new SkipException("CreateVisit api did not provide a valid visit code.");
-        System.out.println(visit_id);
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
+        OpsMenu menu = new OpsMenu(dr);
+        getExtentTest().log(LogStatus.INFO, "Visit ID: " + visit_id);
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
@@ -61,11 +64,11 @@ public class VisitsE2E extends TestBase  {
         visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_VAHAN, VisitDetailsModalPage.MA_KETTEL);
         visit.editManualTime(SysTools.healTime10MinAhead());
         visit.oChangetBtn.click();
-
+        menu.verifyToastTitle("Verifying toast message ", "OK:");
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "DOCTOR_ASSIGNED", 10);
         visitsPage.filterVisits(visit_id);
-//        assertMatches("Verify visit details modal contains 'CANCELLED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
+        assertMatches("Verify visit details modal contains 'DOCTOR_ASSIGNED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
         verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), "Dr. Vahan Melikyan");
         verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getMedicalAssistantByVisitCode(visit_id), "Michael Kettelborough");
     }
@@ -77,6 +80,7 @@ public class VisitsE2E extends TestBase  {
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
+        getExtentTest().log(LogStatus.INFO, "Visit ID: " + visit_id);
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
@@ -84,10 +88,11 @@ public class VisitsE2E extends TestBase  {
         visit.startVisit();
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "STARTED", 10);
-        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
-//        visitsPage.filterVisits(visit_id);
-//        visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
-        //verifyTextEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id), "STARTED");
+//        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
+        visitsPage.filterVisits(visit_id);
+        visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
+        assertEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id).getText(), "STARTED");
+//        verifyTextEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id), "STARTED");
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet",  "startVisit" }, priority=1)
@@ -97,17 +102,22 @@ public class VisitsE2E extends TestBase  {
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
+        OpsMenu menu = new OpsMenu(dr);
+        getExtentTest().log(LogStatus.INFO, "Visit ID: " + visit_id);
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
         visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
         visit.endVisit();
+        menu.verifyToastTitle("Verifying toast message ", "OK:");
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "FULLY_PAID", 10);
-        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "FULLY_PAID");
+        assertMatches("Verify visit details modal contains 'FULLY_PAID' Status", visit.oVisitStatus.getText(), "FULLY_PAID");
         visitsPage.filterVisits(visit_id);
         visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
-        verifyTextEquals("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getStatusByVisitCode(visit_id), "FULLY PAID");
+        verifyEquals("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getStatusByVisitCode(visit_id).getText(),"FULLY PAID");
+//        verifyTextEquals("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getStatusByVisitCode(visit_id), "FULLY PAID");
+//        assertMatches("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getMedicalAssistantByVisitCode(visit_id).getText(),"FULLY PAID");
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet",  "startVisit", "endVisit"})
@@ -117,6 +127,7 @@ public class VisitsE2E extends TestBase  {
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         OpsMenu opsMenu = new OpsMenu(dr);
+        getExtentTest().log(LogStatus.INFO, "Visit ID: " + visit_id);
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();

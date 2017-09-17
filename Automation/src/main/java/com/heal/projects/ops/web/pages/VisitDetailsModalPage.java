@@ -305,7 +305,7 @@ public class VisitDetailsModalPage extends WebBase{
      */
     public void openStartVisitModal(){
         this.oActionsBtn.click();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oActionsMenuStartVisit.click();
     }
 
@@ -333,7 +333,7 @@ public class VisitDetailsModalPage extends WebBase{
     //end visit methods
     public void openEndVisitModal(){
         this.oActionsBtn.click();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oActionsMenuEndVisit.click();
     }
 
@@ -450,7 +450,7 @@ public class VisitDetailsModalPage extends WebBase{
     //refund methods
     public void openRefundVisitModal(){
         this.oActionsBtn.click();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oActionsRefundVisit.click();
     }
 
@@ -460,7 +460,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void selectTotalRefund(String sReason){
         this.openRefundVisitModal();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oTotalRefundCheckbox.click();
         this.oRefundReasonInput.sendKeys(sReason);
         this.oProcessRefundBtn.click();
@@ -469,7 +469,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void selectPartialRefund(String sAmount, String sReason){
         this.openRefundVisitModal();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oPartialRefundCheckbox.click();
         this.oRefundAmountInput.sendKeys(sAmount);
         this.oRefundReasonInput.sendKeys(sReason);
