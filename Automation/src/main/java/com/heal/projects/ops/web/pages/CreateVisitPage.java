@@ -186,13 +186,13 @@ public class CreateVisitPage extends WebBase {
     public CommonWebElement oTotalFeeLabel = new CommonWebElement("oTotalFeeLabel", "xpath=//div[text()='Your visit has a flat fee of']", oWebDriver);
 
 //    public CommonWebElement oPromo = new CommonWebElement("oPromo", "xpath=//*[contains(@class,'visit-details')]/div[1]/span/div[2]", oWebDriver);
-    public CommonWebElement oPromo = new CommonWebElement("oPromo", "xpath=//*[contains(text(),'Promo Code')]/following-sibling::div/text()", oWebDriver);
+    public CommonWebElement oPromo = new CommonWebElement("oPromo", "xpath=//*[contains(text(),'Promo Code')]/following-sibling::div", oWebDriver);
 //    public CommonWebElement oPrice = new CommonWebElement("oPrice", "xpath=//*[contains(@class,'visit-details')]/div[2]/div[2]", oWebDriver);
-    public CommonWebElement oPrice = new CommonWebElement("oPrice", "xpath=//*[contains(text(),'Visit Price')]/following-sibling::div/text()", oWebDriver);
+    public CommonWebElement oPrice = new CommonWebElement("oPrice", "xpath=//*[contains(text(),'Visit Price')]/following-sibling::div", oWebDriver);
 //    public CommonWebElement oDiscount = new CommonWebElement("oDiscount", "xpath=//*[contains(@class,'visit-details')]/div[3]/div[2]", oWebDriver);
-    public CommonWebElement oDiscount = new CommonWebElement("oDiscount", "xpath=//*[contains(text(),'Discount')]/following-sibling::div/text()", oWebDriver);
+    public CommonWebElement oDiscount = new CommonWebElement("oDiscount", "xpath=//*[contains(text(),'Discount')]/following-sibling::div", oWebDriver);
 //    public CommonWebElement oTotal = new CommonWebElement("oTotal", "xpath=//*[contains(@class,'visit-details')]/div[4]/div[2]", oWebDriver);
-    public CommonWebElement oTotal = new CommonWebElement("oTotal", "xpath=//*[contains(text(),'flat fee')]/following-sibling::div/text()", oWebDriver);
+    public CommonWebElement oTotal = new CommonWebElement("oTotal", "xpath=//*[contains(text(),'flat fee')]/following-sibling::div", oWebDriver);
 
     // buttons
     public CommonWebElement oApplyPromoBtn = new CommonWebElement("oApplyPromoBtn", "xpath=//button[text()='Apply Promo Code']", oWebDriver);
