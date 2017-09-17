@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 
+import com.heal.framework.test.RunTestSuite;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -215,9 +216,18 @@ public class SysTools
 
 
     public static String healTime10MinAhead(){
+        RunTestSuite runTestSuite = new RunTestSuite();
+        String env = runTestSuite.getExcelParams().get("environment");
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, 10);
+        if (env.equalsIgnoreCase("remote")){
+            cal.add(Calendar.MINUTE, -410);
+            System.out.println("***************************************** time is -410");
+        }else {
+            System.out.println("***************************************** time is 10");
+            cal.add(Calendar.MINUTE, 10);
+        }
         Timestamp later = new Timestamp(cal.getTime().getTime());
+
         return new SimpleDateFormat("MM/dd/yyyy h:mm a").format(later);
     }
 
