@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
@@ -218,17 +219,19 @@ public class SysTools
     public static String healTime10MinAhead(){
         RunTestSuite runTestSuite = new RunTestSuite();
         String env = runTestSuite.getExcelParams().get("environment");
-        Calendar cal = Calendar.getInstance();
-        if (env.equalsIgnoreCase("remote")){
-            cal.add(Calendar.MINUTE, 430);
-            System.out.println("***************************************** time is -410");
-        }else {
-            System.out.println("***************************************** time is 10");
-            cal.add(Calendar.MINUTE, 10);
-        }
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
+//        if (env.equalsIgnoreCase("remote")){
+//            cal.add(Calendar.MINUTE, 430);
+//            System.out.println("***************************************** time is -410");
+//        }else {
+//            System.out.println("***************************************** time is 10");
+//        }
+        cal.add(Calendar.MINUTE, 10);
         Timestamp later = new Timestamp(cal.getTime().getTime());
+        String timeAhead10min = new SimpleDateFormat("MM/dd/yyyy h:mm a").format(later);
+        System.out.println("********************************************************* " + timeAhead10min);
 
-        return new SimpleDateFormat("MM/dd/yyyy h:mm a").format(later);
+        return timeAhead10min;
     }
 
 }
