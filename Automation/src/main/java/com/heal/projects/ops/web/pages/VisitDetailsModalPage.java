@@ -317,6 +317,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void startVisit(){
         openStartVisitModal();
+        SysTools.sleepFor(1);
         this.oStartVisitSubmitBtn.click();
         SysTools.sleepFor(3);
     }
