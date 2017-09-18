@@ -87,11 +87,9 @@ public class VisitsE2E extends TestBase  {
         visit.startVisit();
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "STARTED", 10);
-//        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
+        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
         visitsPage.filterVisits(visit_id);
         visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
-        assertEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id).getText(), "STARTED");
-//        verifyTextEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id), "STARTED");
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet",  "startVisit" }, priority=1)
