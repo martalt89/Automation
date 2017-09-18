@@ -311,6 +311,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void startVisit(String sDateTime){
         openStartVisitModal();
+        SysTools.sleepFor(1);
         this.oStartTimeInput.sendKeys(sDateTime);
         this.oStartVisitSubmitBtn.click();
     }
@@ -319,7 +320,6 @@ public class VisitDetailsModalPage extends WebBase{
         openStartVisitModal();
         SysTools.sleepFor(1);
         this.oStartVisitSubmitBtn.click();
-        SysTools.sleepFor(3);
     }
     //todo: also add methods for selecting date/time from the calendar
     /**
@@ -341,11 +341,13 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void endVisit(){
         openEndVisitModal();
+        SysTools.sleepFor(1);
         this.oStartVisitSubmitBtn.click();
     }
 
     public void endVisit(String sStartTime){
         openStartVisitModal();
+        SysTools.sleepFor(1);
         this.oStartTimeInput.sendKeys(sStartTime);
         this.oStartVisitSubmitBtn.click();
     }
