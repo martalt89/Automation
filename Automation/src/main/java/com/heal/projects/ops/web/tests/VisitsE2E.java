@@ -70,7 +70,6 @@ public class VisitsE2E extends TestBase  {
         visitsPage.filterVisits(visit_id);
         assertMatches("Verify visit details modal contains 'DOCTOR_ASSIGNED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
         verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), "Dr. Vahan Melikyan");
-        verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getMedicalAssistantByVisitCode(visit_id), "Michael Kettelborough");
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet" }, priority=1)
