@@ -58,14 +58,13 @@ public class VisitTest extends TestBase {
         CommonWebElement.setbMonitorMode(false);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
-
         loginPage.goTo();
         loginPage.waitForPageLoad();
 
         loginPage.login();
         homePage.selectFromMenu("visits");
-//        homePage.cancelVisit(1);
-        homePage.cancelAllVisits();
+        homePage.cancelVisit(1);
+//        homePage.cancelAllVisits();
         homePage.selectFromMenu("sign out");
             verifyVisible("Checking if sign out was completed", loginPage.oUserNameInput);
             assertMatches("Is register button visible?", loginPage.oRegisterBtn.getText(), "Register");

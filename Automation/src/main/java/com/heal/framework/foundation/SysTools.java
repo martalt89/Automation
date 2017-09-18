@@ -217,21 +217,14 @@ public class SysTools
 
 
     public static String healTime10MinAhead(){
-        RunTestSuite runTestSuite = new RunTestSuite();
-        String env = runTestSuite.getExcelParams().get("environment");
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
-//        if (env.equalsIgnoreCase("remote")){
-//            cal.add(Calendar.MINUTE, 430);
-//            System.out.println("***************************************** time is -410");
-//        }else {
-//            System.out.println("***************************************** time is 10");
-//        }
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+        formatter.setTimeZone(TimeZone.getTimeZone("PST"));
+        Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);
-        Timestamp later = new Timestamp(cal.getTime().getTime());
-        String timeAhead10min = new SimpleDateFormat("MM/dd/yyyy h:mm a").format(later);
-        System.out.println("********************************************************* " + timeAhead10min);
-
-        return timeAhead10min;
+        String timestamp = formatter.format(cal.getTime());
+        System.out.println("************************************************** "+ timestamp);
+        return timestamp;
     }
+
 
 }
