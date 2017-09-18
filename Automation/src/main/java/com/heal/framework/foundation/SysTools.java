@@ -6,10 +6,12 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 
+import com.heal.framework.test.RunTestSuite;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -215,10 +217,14 @@ public class SysTools
 
 
     public static String healTime10MinAhead(){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+        formatter.setTimeZone(TimeZone.getTimeZone("PST"));
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);
-        Timestamp later = new Timestamp(cal.getTime().getTime());
-        return new SimpleDateFormat("MM/dd/yyyy h:mm a").format(later);
+        String timestamp = formatter.format(cal.getTime());
+        System.out.println("************************************************** "+ timestamp);
+        return timestamp;
     }
+
 
 }

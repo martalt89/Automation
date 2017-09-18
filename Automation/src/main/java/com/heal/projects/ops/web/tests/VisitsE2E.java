@@ -70,7 +70,6 @@ public class VisitsE2E extends TestBase  {
         visitsPage.filterVisits(visit_id);
         assertMatches("Verify visit details modal contains 'DOCTOR_ASSIGNED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
         verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), "Dr. Vahan Melikyan");
-        verifyTextMatches("Verify Medical Assistant column from the row containing specified visit code", visitsPage.getMedicalAssistantByVisitCode(visit_id), "Michael Kettelborough");
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet" }, priority=1)
@@ -88,11 +87,9 @@ public class VisitsE2E extends TestBase  {
         visit.startVisit();
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "STARTED", 10);
-//        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
+        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
         visitsPage.filterVisits(visit_id);
         visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
-        assertEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id).getText(), "STARTED");
-//        verifyTextEquals("Verify specified visit code row contains 'STARTED' in status column", visitsPage.getStatusByVisitCode(visit_id), "STARTED");
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet",  "startVisit" }, priority=1)
