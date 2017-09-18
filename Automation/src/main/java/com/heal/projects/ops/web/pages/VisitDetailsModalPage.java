@@ -320,6 +320,7 @@ public class VisitDetailsModalPage extends WebBase{
         openStartVisitModal();
         SysTools.sleepFor(1);
         this.oStartVisitSubmitBtn.click();
+        SysTools.sleepFor(3);
     }
     //todo: also add methods for selecting date/time from the calendar
     /**
