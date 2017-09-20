@@ -4,6 +4,7 @@ import com.heal.framework.foundation.ExtentManager;
 import com.heal.framework.foundation.ExtentTestManager;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+import com.saucelabs.saucerest.SauceREST;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -13,11 +14,17 @@ import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Map;
 
 /**
  * Created by vahanmelikyan on 8/1/2017.
  */
 public class TestListener extends TestListenerAdapter {
+    Map testParams = RunTestSuite.getExcelParams();
+    String env = testParams.get("environment").toString();
+    String sauceUsername = testParams.get("USERNAME").toString();
+    String sauceAccessKey = testParams.get("ACCESS_KEY").toString();
+    SauceREST sauceREST = new SauceREST(sauceUsername, sauceAccessKey);
 
     Logger logger = LoggerFactory.getLogger(TestListener.class);
     Document oResultXML;
@@ -32,6 +39,7 @@ public class TestListener extends TestListenerAdapter {
     @Override
     public void onTestStart(ITestResult oResult) {
         oTestBase = (TestBase)oResult.getInstance();
+        System.out.println(oTestBase);
         super.onTestStart(oResult);
         logger.info("[" + oResult.getName() + " Start]");
         ExtentTest test = oTestBase.getExtentTest();
@@ -50,6 +58,10 @@ public class TestListener extends TestListenerAdapter {
         test.log(LogStatus.FAIL, oResult.getThrowable());
         test.log(LogStatus.FAIL, "Exception Image", "Exception Screenshot: " + img);
         ExtentManager.getReporter().endTest(test);
+        if (env.equalsIgnoreCase("remote")){
+        String job_id = oTestBase.getSessionID();
+        sauceREST.jobFailed(job_id);
+        }
     }
 
     @Override
@@ -57,6 +69,10 @@ public class TestListener extends TestListenerAdapter {
     {
         ExtentTest test = oTestBase.getExtentTest();
         ExtentManager.getReporter().endTest(test);
+        if (env.equalsIgnoreCase("remote")){
+            String job_id = oTestBase.getSessionID();
+            sauceREST.jobPassed(job_id);
+        }
     }
 
     @Override

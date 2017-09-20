@@ -395,7 +395,7 @@ public class VisitDetailsModalPage extends WebBase{
         }
         this.oChooseDoctorInput.waitForVisible();
         this.oChooseDoctorInput.select(sDoctorName,false);
-        this.oChooseMedicalAssistantInput.select(sMAName,false);
+        this.oChooseMedicalAssistantInput.select("MA " + sMAName,false);
     }
     public void chooseDoctor(String sDoctorName){
         openChangeProviderModal();

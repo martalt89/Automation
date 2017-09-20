@@ -58,9 +58,9 @@ public class VisitTest extends TestBase {
         CommonWebElement.setbMonitorMode(false);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
+        System.out.println(getSessionID());
         loginPage.goTo();
         loginPage.waitForPageLoad();
-
         loginPage.login();
         homePage.selectFromMenu("visits");
         homePage.cancelVisit(1);
