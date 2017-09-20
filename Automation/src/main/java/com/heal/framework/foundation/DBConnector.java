@@ -1,6 +1,5 @@
 package com.heal.framework.foundation;
 
-import com.heal.framework.exception.CommonException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +15,7 @@ public class DBConnector {
     private String db;
     private String params;
     private String queryName;
+    private String dbquery;
     public DBConnector(){
 
     }
@@ -43,21 +43,35 @@ public class DBConnector {
         return this;
     }
 
-    public DBResult query(String queryName){
+    public void query(String queryName){
         this.queryName = queryName;
+        this.dbquery = DbQuery.getQuery(queryName);
 
+        try{
+            getConnection(db);
+            processResult();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        finally {
+            try{
+                connection.close();
+            }
+            catch (Exception e){
 
+            }
 
-        return null;
+        }
     }
 
 
-    private void getResult() throws SQLException {
+    private void processResult() throws SQLException {
 
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(queryName);
+            ResultSet rs = stmt.executeQuery(dbquery);
 
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
