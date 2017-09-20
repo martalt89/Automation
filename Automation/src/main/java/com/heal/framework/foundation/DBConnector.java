@@ -20,6 +20,13 @@ public class DBConnector {
 
     }
 
+    public void getConnection(String env) throws Exception{
+        getConnection(new DBInfo(env));
+    }
+
+    public void getConnection(DBInfo dbInfo) throws Exception{
+        getConnection(dbInfo.getDbName(), dbInfo.getUser(), dbInfo.getPassword());
+    }
 
     public void getConnection(String url, String user, String password) throws Exception{
         connection = DriverManager.getConnection(url, user, password);
@@ -70,4 +77,60 @@ public class DBConnector {
         }
     }
 
+
+    private class DBInfo{
+
+        private String dbName = "";
+        private String user = "";
+        private String password = "";
+
+        public DBInfo(String env){
+            setDBInfo(env);
+        }
+
+        public String getDbName() {
+            return dbName;
+        }
+
+        public void setDbName(String dbName) {
+            this.dbName = dbName;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        private void setDBInfo(String env){
+
+            switch (env.toLowerCase()){
+
+                case "qa":
+                    this.dbName = "";
+                    this.user = "";
+                    this.password = "";
+                    break;
+                case "dev":
+                    this.dbName = "";
+                    this.user = "";
+                    this.password = "";
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+    }
 }
