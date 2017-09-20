@@ -55,10 +55,13 @@ public class DBConnector {
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
             int row = 0;
+            String columnName;
             while (rs.next()) {
-                for (int i = 0; i < columnCount; i++) {
-
+                for (int i = 1; i <= columnCount; i++) {
+                    columnName = rs.getMetaData().getColumnName(i);
+                    DBVariable.setValue(row, columnName, rs.getString(i));
                 }
+                row++;
             }
         } catch (SQLException e ) {
             e.printStackTrace();

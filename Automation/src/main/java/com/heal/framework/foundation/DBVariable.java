@@ -22,11 +22,11 @@ public class DBVariable {
         return dbVariable.get(columnName).get(row);
     }
 
-    public static void storeValue( String columnName, String value){
-        storeValue(0, columnName, value);
+    public static void setValue(String columnName, String value){
+        setValue(0, columnName, value);
     }
 
-    public static void storeValue(int row, String columnName, String value){
+    public static void setValue(int row, String columnName, String value){
         List<String> resultList = null;
         if(dbVariable.containsKey(columnName) || dbVariable.get(columnName) == null){
             resultList = new ArrayList<String>();
