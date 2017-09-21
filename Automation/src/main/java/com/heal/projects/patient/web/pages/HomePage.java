@@ -96,9 +96,6 @@ public class HomePage extends WebBase {
         if(menu.oLoadingBar.exists()) menu.oLoadingBar.waitForInvisible();
 
         oVisitCard.scrollForElement();
-
-//        oVisitCard.scrollForElementTest(oVisitCard);
-//        oSelectReasonLabel.scrollForElement();
         oCancelVisitLnk.click();
         oSelectReasonLabel.waitForVisible();
         oSelectReasonLabel.selectFromContextByVisibleTextAngular(sReason, oVisitCard);
