@@ -12,7 +12,6 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.w3c.dom.Document;
 
-import 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,6 +22,7 @@ import java.util.Map;
  */
 public class TestListener extends TestListenerAdapter {
     Map testParams = RunTestSuite.getExcelParams();
+    Map<String, Object> testParamsSentToSauceLab = new HashMap<>();
     String env = testParams.get("environment").toString();
     String sauceUsername = testParams.get("USERNAME").toString();
     String sauceAccessKey = testParams.get("ACCESS_KEY").toString();
@@ -41,19 +41,12 @@ public class TestListener extends TestListenerAdapter {
     @Override
     public void onTestStart(ITestResult oResult) {
         oTestBase = (TestBase)oResult.getInstance();
-        String job_id = oTestBase.getSessionID();
-        Map<String, Object> jobUpdates = new HashMap<>();
-        System.out.println(oTestBase);
         super.onTestStart(oResult);
         logger.info("[" + oResult.getName() + " Start]");
         ExtentTest test = oTestBase.getExtentTest();
         if (env.equalsIgnoreCase("remote")){
             String testName = oResult.getName();
-            jobUpdates.put("name", testName);
-            jobUpdates.put("tags", testParams.get("ENV").toString());
-            jobUpdates.put("tags", testParams.get("ENV").toString());
-
-            sauceREST.updateJobInfo(job_id, jobUpdates);
+            testParamsSentToSauceLab.put("name", testName+"-"+testParams.get("ENV"));
         }
         if(test == null){
             test = ExtentTestManager.startTest(oResult.getName());

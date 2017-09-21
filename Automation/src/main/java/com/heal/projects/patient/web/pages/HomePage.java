@@ -5,6 +5,7 @@ import com.heal.framework.web.WebBase;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -81,13 +82,23 @@ public class HomePage extends WebBase {
      * @param sNotes - The text to type in Notes field
      */
     public void cancelVisit(int iVisitsIndex, String sReason, String sNotes){
-        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel')])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver);
-        CommonWebElement oSelectReasonLabel = new CommonWebElement("oSelectReasonLabel", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//md-select-value[@class='md-select-value']", oWebDriver );
-        CommonWebElement oNotes = new CommonWebElement("oNotes", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//input[@ng-model='vm.cancelVisitNote']", oWebDriver );
-        CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//button[contains(.,'Submit')]", oWebDriver );
-        CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver );
+//        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel')])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver);
+        CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel') and @aria-hidden='false'])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver);
+//        CommonWebElement oSelectReasonLabel = new CommonWebElement("oSelectReasonLabel", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//md-select-value[@class='md-select-value']", oWebDriver );
+        CommonWebElement oSelectReasonLabel = new CommonWebElement("oSelectReasonLabel", "xpath=(//button[contains(.,'Cancel') and @aria-hidden='false'])[" + String.valueOf(iVisitsIndex) + "]/../../../../../..//md-select-value[@class='md-select-value']", oWebDriver );
+//        CommonWebElement oNotes = new CommonWebElement("oNotes", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//input[@ng-model='vm.cancelVisitNote']", oWebDriver );
+        CommonWebElement oNotes = new CommonWebElement("oNotes", "xpath=(//button[contains(.,'Cancel') and @aria-hidden='false'])[" + String.valueOf(iVisitsIndex) + "]/../../../../../..//input[@ng-model='vm.cancelVisitNote']", oWebDriver );
+//        CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]//button[contains(.,'Submit')]", oWebDriver );
+        CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=(//button[contains(.,'Cancel') and @aria-hidden='false'])[" + String.valueOf(iVisitsIndex) + "]/../../../../../..//button[contains(.,'Submit')]", oWebDriver );
+//        CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//*[@class='card-content'])[" + String.valueOf(iVisitsIndex) + "]", oWebDriver );
+        CommonWebElement oVisitCard = new CommonWebElement("oVisitCard", "xpath=(//button[contains(.,'Cancel') and @aria-hidden='false'])[" + String.valueOf(iVisitsIndex) + "]/../../../../..", oWebDriver );
 
         if(menu.oLoadingBar.exists()) menu.oLoadingBar.waitForInvisible();
+
+        oVisitCard.scrollForElement();
+
+//        oVisitCard.scrollForElementTest(oVisitCard);
+//        oSelectReasonLabel.scrollForElement();
         oCancelVisitLnk.click();
         oSelectReasonLabel.waitForVisible();
         oSelectReasonLabel.selectFromContextByVisibleTextAngular(sReason, oVisitCard);
@@ -99,7 +110,8 @@ public class HomePage extends WebBase {
      * A handy method to cancel all of the visits
      */
     public void cancelAllVisits(){
-        List<CommonWebElement> visit = findAllElements(By.xpath("//*[@class='card-content']"));
+//        List<CommonWebElement> visit = findAllElements(By.xpath("//*[@class='card-content']"));
+        List<CommonWebElement> visit = findAllElements(By.xpath("//button[contains(.,'Cancel')]"));
         int visits = 0;
         for (int i = 0; i < visit.size(); i++) {
             cancelVisit(1);
