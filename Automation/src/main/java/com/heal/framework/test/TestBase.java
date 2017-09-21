@@ -59,6 +59,7 @@ public class TestBase
 
     private static HashMap<String, String> parameters;
     private static ExtentReports extent;
+    private static String sessionID;
 
 
     /**
@@ -74,6 +75,7 @@ public class TestBase
     private static final InheritableThreadLocal oRemoteNode = new InheritableThreadLocal();
     private static final InheritableThreadLocal oException = new InheritableThreadLocal();
     private static final InheritableThreadLocal oExtentTest = new InheritableThreadLocal();
+    private static final InheritableThreadLocal oSessionID = new InheritableThreadLocal();
 
     ////////////////////////
     //  Constructors      //
@@ -149,10 +151,25 @@ public class TestBase
             throw getException();
     }
 
+    public String getSessionID(){
+        return (String)oSessionID.get();
+    }
+
+    public void setSessionID(String sessionID){
+        oSessionID.set(sessionID);
+    }
+
     public ExtentTest getExtentTest(){
+
         return (ExtentTest)oExtentTest.get();
     }
 
+    /**
+     * Stores ExtentTest instance in InheritableThreadLocal variable.
+     *
+     * @param test
+     *
+     */
     public void setExtentTest(ExtentTest test){
         oExtentTest.set(test);
     }
@@ -551,6 +568,8 @@ public class TestBase
             oRemoteWebDriver =  new RemoteWebDriver(new URL(this.saucelab_url), oRequestCapability);
             Capabilities oTargetCapability = oRemoteWebDriver.getCapabilities();
             logger.trace("Target driver capabilities:  {}", oTargetCapability.toString());
+            sessionID = oRemoteWebDriver.getSessionId().toString();
+            setSessionID(oRemoteWebDriver.getSessionId().toString());
             return oRemoteWebDriver;
         }
         catch (Exception e)

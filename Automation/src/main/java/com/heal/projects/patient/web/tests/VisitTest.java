@@ -60,7 +60,6 @@ public class VisitTest extends TestBase {
         HomePage homePage = new HomePage(dr);
         loginPage.goTo();
         loginPage.waitForPageLoad();
-
         loginPage.login();
         homePage.selectFromMenu("visits");
         homePage.cancelVisit(1);

@@ -150,6 +150,12 @@
 			<artifactId>java-client</artifactId>
 			<version>4.1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.saucelabs</groupId>
+			<artifactId>saucerest</artifactId>
+			<version>1.0.35</version>
+		</dependency>
+
 
 	</dependencies>
 </project>

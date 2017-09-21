@@ -206,8 +206,11 @@ public class AccountAPI extends ApiBase {
         JSONArray addresses = obj.getJSONArray("addresses");
         for (int i = 0; i < addresses.length(); i++) {
             JSONObject address = addresses.getJSONObject(i);
-            if (address.get("address").toString().equals(sAddress)) {
+            if (address.get("address").toString().equalsIgnoreCase(sAddress)) {
                 latitudeAddress = address.getDouble("latitudeAddress");
+                if (latitudeAddress!=0.0){
+                    break;
+                }
             }
         }
         return latitudeAddress;
@@ -220,8 +223,11 @@ public class AccountAPI extends ApiBase {
         JSONArray addresses = obj.getJSONArray("addresses");
         for (int i = 0; i < addresses.length(); i++) {
             JSONObject address = addresses.getJSONObject(i);
-            if (address.get("address").toString().equals(sAddress)) {
+            if (address.get("address").toString().equalsIgnoreCase(sAddress)) {
                 longitudeAddress = address.getDouble("longitudeAddress");
+                if (longitudeAddress!=0.0){
+                    break;
+                }
             }
         }
         return longitudeAddress;

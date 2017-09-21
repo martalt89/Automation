@@ -600,9 +600,24 @@ public class CommonWebElement implements WebElement, Locatable {
      * Scroll upto the required element
      */
     public void scrollForElement() {
-        oJavascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight); return true");
+        waitForElement();
+        Point coordinates = oWebElement.getLocation();
+        int xcord = coordinates.getX();
+        int ycord = coordinates.getY();
+//        oJavascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight); return true");
+        oJavascriptExecutor.executeScript("window.scrollTo(" + xcord + ", " + ycord + "); return true");
     }
 
+    /**
+     * Scroll upto the required element
+     */
+    public void scrollForElementTest(CommonWebElement oWebElement) {
+        Point coordinates = oWebElement.getLocation();
+        int xcord = coordinates.getX();
+        int ycord = coordinates.getY();
+//        oJavascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight); return true");
+        oJavascriptExecutor.executeScript("window.scrollTo(" + xcord + ", " + ycord + "); return true");
+    }
     /**
      * Scroll the browser so element is visible.
      */

@@ -26,7 +26,8 @@ public class PatientAPI extends ApiBase {
     private TestData addPatientInputData = new TestData(TestData.PATIENT_SHEET);
     private String baseURL = "https://patient" + baseUrl + "/api";
 //    private String baseURL = "https://patient.qa.heal.com/api";
-    private String baseURLAPIv3 = "http://apiv3.qa.heal.com";
+//    private String baseURLAPIv3 = "http://apiv3.qa.heal.com";
+    private String baseURLAPIv3 = "http://apiv3 "+ baseUrl;
 
     /**
      * Patient info variables

@@ -1,6 +1,7 @@
 package com.heal.projects.patient.web.tests;
 
 import com.heal.framework.foundation.SysTools;
+import com.heal.framework.restAPI.VisitsAPI;
 import com.heal.framework.test.TestBase;
 import com.heal.projects.patient.web.pages.HomePage;
 import com.heal.projects.patient.web.pages.LoginPage;
@@ -13,19 +14,23 @@ public class sandbox extends TestBase {
 
     @Test
     public void sandboxLogin(){
-        WebDriver dr = getDriver();
-        LoginPage loginPage = new LoginPage(dr);
-        HomePage homePage = new HomePage(dr);
-        Menu menu = new Menu(dr);
-        ProfilePage profilePage = new ProfilePage(dr);
+//        WebDriver dr = getDriver();
+//        LoginPage loginPage = new LoginPage(dr);
+//        HomePage homePage = new HomePage(dr);
+//        Menu menu = new Menu(dr);
+//        ProfilePage profilePage = new ProfilePage(dr);
 
-        loginPage.goTo();
-        loginPage.waitForPageLoad();
-        loginPage.oUserNameInput.sendKeys("vahan+qa@heal.com");
-        loginPage.oPasswordInput.sendKeys("Heal4325!");
-        loginPage.oLoginBtn.clickAndWait(menu.oLoadingBar, false);
-        menu.selectFromMenu("profiles");
-        assertMatches("Verifying the page titile", profilePage.oPageTitle.getText(), "Manage profiles");
+        VisitsAPI visitsAPI = new VisitsAPI("vahan+qa@heal.com", "Heal4325!");
+        visitsAPI.cancelVisit("LA-ZQFPB");
+
+
+//        loginPage.goTo();
+//        loginPage.waitForPageLoad();
+//        loginPage.oUserNameInput.sendKeys("vahan+qa@heal.com");
+//        loginPage.oPasswordInput.sendKeys("Heal4325!");
+//        loginPage.oLoginBtn.clickAndWait(menu.oLoadingBar, false);
+//        menu.selectFromMenu("profiles");
+//        assertMatches("Verifying the page titile", profilePage.oPageTitle.getText(), "Manage profiles");
 
 
 
