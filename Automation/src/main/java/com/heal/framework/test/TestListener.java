@@ -45,8 +45,11 @@ public class TestListener extends TestListenerAdapter {
         logger.info("[" + oResult.getName() + " Start]");
         ExtentTest test = oTestBase.getExtentTest();
         if (env.equalsIgnoreCase("remote")){
+            String job_id = oTestBase.getSessionID();
             String testName = oResult.getName();
-            testParamsSentToSauceLab.put("name", testName+"-"+testParams.get("ENV"));
+            testParamsSentToSauceLab.put("name", testName+" - "+testParams.get("ENV"));
+            testParamsSentToSauceLab.put("Custome stuff goes here", "something");
+            sauceREST.updateJobInfo(job_id, testParamsSentToSauceLab);
         }
         if(test == null){
             test = ExtentTestManager.startTest(oResult.getName());
