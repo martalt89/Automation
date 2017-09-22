@@ -155,7 +155,12 @@
 			<artifactId>saucerest</artifactId>
 			<version>1.0.35</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.1.4</version>
+		</dependency>
 
 	</dependencies>
 </project>

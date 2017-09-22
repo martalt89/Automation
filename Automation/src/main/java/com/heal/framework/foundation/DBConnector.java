@@ -1,9 +1,11 @@
 package com.heal.framework.foundation;
 
+import com.heal.framework.test.RunTestSuite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * Created by vahanmelikyan on 9/13/2017.
@@ -25,13 +27,23 @@ public class DBConnector {
     }
 
     public void getConnection(DBInfo dbInfo) throws Exception{
-        getConnection(dbInfo.getDbName(), dbInfo.getUser(), dbInfo.getPassword());
+        getConnection(dbInfo.getUser(), dbInfo.getPassword());
     }
 
-    public void getConnection(String url, String user, String password) throws Exception{
-        connection = DriverManager.getConnection(url, user, password);
+    public void getConnection(String user, String password) throws Exception{
+        Properties props = new Properties();
+        props.setProperty("user", RunTestSuite.getCryptography().decrypt(user));
+        props.setProperty("password",RunTestSuite.getCryptography().decrypt(password));
+        connection = DriverManager.getConnection(RunTestSuite.getCryptography().decrypt(DBInfo.url), props);
     }
 
+    public void close(){
+        try{
+            connection.close();
+        }catch (Exception e){
+
+        }
+    }
 
     public DBConnector useDB(String db){
         this.db = db;
@@ -94,6 +106,7 @@ public class DBConnector {
 
     private class DBInfo{
 
+        public static final String url = "yh8qGlyAh10bcROOJc9rzdX8dxmF6qPHMZnmDGf30459hwUgKQzD4gGagxqrMJ62JB8bQBOCBI48siahdXJsqJKaqhJTtzTRI1GSJrmuMVPqGBQkAMvK9eR3VxE/FQikcLim3S0Sj3H3AOk6IjNhHvYaIKaAZVoBu0V32ZXT6g+3YCjUEVaaRy6pVrzY81HQKiGDf+3tQBVZnokY1A6AdA==";
         private String dbName = "";
         private String user = "";
         private String password = "";
@@ -131,9 +144,9 @@ public class DBConnector {
             switch (env.toLowerCase()){
 
                 case "qa":
-                    this.dbName = "";
-                    this.user = "";
-                    this.password = "";
+                    this.dbName = "9tuK+DsSlGObLMVC0hz8UdYDahQKhZyJ";
+                    this.user = "1I/5pl+5kOW/b83UnfCcnA==";
+                    this.password = "ogwXj36MMEbbH195sh+57L0vNEGB5MCpi1tJOLszWB4W4Y1knFewZQ==";
                     break;
                 case "dev":
                     this.dbName = "";
@@ -144,7 +157,7 @@ public class DBConnector {
                     break;
             }
 
-
         }
     }
+
 }
