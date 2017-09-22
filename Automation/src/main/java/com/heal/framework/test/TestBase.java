@@ -283,7 +283,7 @@ public class TestBase
             ,"maximize_browser"
     })
     public void setup(@Optional("local") String environment,
-                      @Optional("chrome") String browserName,
+                      @Optional("android") String browserName,
                       @Optional("") String platform,
                       @Optional("") String version,
                       @Optional("chrome") String screenResolution,
@@ -532,11 +532,12 @@ public class TestBase
                 case "ANDROID":
                     DesiredCapabilities capabilities =  DesiredCapabilities.android();
                     capabilities.setCapability("platformName", "Android");
-                    capabilities.setCapability("deviceName", "any");
-                    capabilities.setCapability("app", "/Users/vahanmelikyan/Downloads/app-patient-debug.apk");
+                    capabilities.setCapability("deviceName", "4100fb99e4c73231");
+//                    capabilities.setCapability("app", "/Users/vahanmelikyan/Downloads/app-patient-debug.apk");
+                    capabilities.setCapability("app", "/Users/jaypurohit/Downloads/app-patient-debug-340-4.0.0.20170907.apk");
                     capabilities.setCapability("appPackage", "com.getheal.patient.debug");
                     capabilities.setCapability("appActivity", "com.getheal.patient.activities.InitialActivity");
-                    capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
+                    //capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
                     return new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
                     /* return new org.openqa.selenium.chrome.ChromeDriver(); */
 
