@@ -2,16 +2,14 @@ package com.heal.framework.foundation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by vahanmelikyan on 9/19/2017.
  */
 public class DBVariable {
 
-    private static Map<String, List<String>> dbVariable = new HashMap<String, List<String>>();
-
+    //private static Map<String, List<String>> dbVariable = new HashMap<String, List<String>>();
+    private static ArrayList<HashMap<String, String>> dbVariable = new ArrayList<HashMap<String, String>>();
 
     public String getValue(String columnName){
         return getValue(0, columnName);
@@ -19,7 +17,15 @@ public class DBVariable {
 
     public String getValue(int row, String columnName){
 
-        return dbVariable.get(columnName).get(row);
+        return dbVariable.get(row).get(columnName);
+    }
+
+    public HashMap<String, String> getFirstRowResponse(){
+        return dbVariable.get(0);
+    }
+
+    public HashMap<String, String> getRowResponse(int row){
+        return dbVariable.get(row);
     }
 
     public static void setValue(String columnName, String value){
@@ -27,21 +33,10 @@ public class DBVariable {
     }
 
     public static void setValue(int row, String columnName, String value){
-        List<String> resultList = null;
-        if(dbVariable.containsKey(columnName) || dbVariable.get(columnName) == null){
-            resultList = new ArrayList<String>();
-        }
-        else{
-            resultList = dbVariable.get(columnName);
-        }
 
-        if(resultList.size() <= row){
-            resultList.add(value);
-        }else{
-            resultList.set(row, value);
-        }
+        HashMap<String, String> rowResponse = dbVariable.get(row);
+        rowResponse.put(columnName, value);
 
-        dbVariable.put(columnName, resultList);
     }
 
 }
