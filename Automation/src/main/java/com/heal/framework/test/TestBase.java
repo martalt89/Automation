@@ -10,6 +10,7 @@ import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;
@@ -162,6 +163,21 @@ public class TestBase
     public ExtentTest getExtentTest(){
 
         return (ExtentTest)oExtentTest.get();
+    }
+
+    /**
+     * Retrieves AppiumDriver instance stored in InheritableThreadLocal variable or throws an exception if
+     * any thread exception is found.
+     *
+     * @return
+     * (AppiumDriver)
+     */
+    public AppiumDriver getMobileDriver()
+    {
+        if (getException() == null)
+            return (AppiumDriver)oCurrentDriver.get();
+        else
+            throw getException();
     }
 
     /**
@@ -388,7 +404,7 @@ public class TestBase
             }
             else {
                 oDriver = StartWebDriver(browser);
-                oDriver.manage().window().setSize(screenDimentions);
+                //oDriver.manage().window().setSize(screenDimentions);
             }
 
             // Only supported for Firefox in current release.
