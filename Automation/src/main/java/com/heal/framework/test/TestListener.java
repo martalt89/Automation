@@ -2,6 +2,7 @@ package com.heal.framework.test;
 
 import com.heal.framework.foundation.ExtentManager;
 import com.heal.framework.foundation.ExtentTestManager;
+import com.heal.framework.foundation.SysTools;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import com.saucelabs.saucerest.SauceREST;
@@ -111,7 +112,6 @@ public class TestListener extends TestListenerAdapter {
     @Override
     public void onFinish(ITestContext oTestContext)
     {
-
 
     }
 
