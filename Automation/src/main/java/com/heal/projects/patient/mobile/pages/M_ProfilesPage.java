@@ -203,5 +203,33 @@ public class M_ProfilesPage extends WebBase {
         }
     }
 
+    /**
+     *
+     * @param iStartXPercentage ->Start coordinate percentage on X-AXIS for scroll
+     * @param iStartYPercentage ->Start coordinate percentage on Y-AXIS for scroll
+     * @param iEndXPercentage   ->End coordinate percentage on X-AXIS for scroll
+     * @param iEndYPercentage   ->End coordinate percentage on Y-AXIS for scroll
+     * @param iDuration         ->Duration in milliseconds for scrolling from start to end coordinate
+     */
+
+
+    public void mobileDeviceScrollPage(int iStartXPercentage ,int iStartYPercentage, int iEndXPercentage, int iEndYPercentage ,int iDuration){
+
+        TestBase testBase = new TestBase();
+        AppiumDriver mobileDriver=testBase.getMobileDriver();
+
+        //getting the height and width of screen window
+        int windowWidth=mobileDriver.manage().window().getSize().getWidth();
+        int windowHeight=mobileDriver.manage().window().getSize().getHeight();
+        Point p=new Point(windowWidth,windowHeight);
+        int p1=(int)(Math.floor(p.x*(iStartXPercentage/100)));
+        int p2=(int)(Math.floor(p.y*(iStartYPercentage/100)));
+        int p3=(int)(Math.floor(p.x*(iEndXPercentage/100)));
+        int p4=(int)(Math.floor(p.y*(iEndYPercentage/100)));
+
+        mobileDriver.swipe((int)(Math.floor(p.x*(iStartXPercentage/100))),(int)(Math.floor(p.y*(iStartYPercentage/100))),(int)(Math.floor(p.x*(iEndXPercentage/100))),(int)(Math.floor(p.y*(iEndYPercentage/100))),2000);
+
+
+    }
 
 }
