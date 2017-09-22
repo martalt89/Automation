@@ -13,8 +13,7 @@ public class M_BookVisitPage extends WebBase {
     public CommonWebElement oLocationTextField=new CommonWebElement("oLocationTextField","xpath=//android.widget.EditText[@index='0']",oWebDriver);
     public CommonWebElement oUnitOrAptField=new CommonWebElement("oUnitOrAptField","xpath=//android.widget.EditText[@index='1']",oWebDriver);
     public CommonWebElement oSelectHomeAddress=new CommonWebElement("oSelectHomeAddress","xpath=(//*[@resource-id=\"com.getheal.patient.debug:id/place_icon\"])[1]",oWebDriver);
-    //public CommonWebElement oSelectPatientProfileWithInsurance=new CommonWebElement("oSelectPatientProfile","xpath=//android.widget.TextView[@text='You']",oWebDriver);
-    //public CommonWebElement oSelectPatientProfileWithCreditCard=new CommonWebElement("oSelectPatientProfile","xpath=//android.widget.TextView[@text='Vahan Melikyan']",oWebDriver);
+   // public CommonWebElement oMenuButton=new CommonWebElement("oMenuButton","xpath=//android.widget.ImageButton[@content-desc=\"Open navigation drawer\"]",oWebDriver);
     public CommonWebElement oContinueButton= new CommonWebElement("oContinueButton","xpath=//android.widget.Button[@text='Continue']",oWebDriver);
 
 

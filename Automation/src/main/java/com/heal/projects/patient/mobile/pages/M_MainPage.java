@@ -2,6 +2,7 @@ package com.heal.projects.patient.mobile.pages;
 
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -9,9 +10,9 @@ import org.openqa.selenium.WebDriver;
  */
 public class M_MainPage extends WebBase {
 
-    public CommonWebElement oSettingsBtn = new CommonWebElement("oSettingsBtn", "xpath=//android.widget.Button[1]", oWebDriver);
-    public CommonWebElement oRegisterBtn = new CommonWebElement("oRegisterBtn", "xpath=//android.widget.Button[2]", oWebDriver);
-    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button[3]", oWebDriver);
+    public CommonWebElement oSettingsBtn = new CommonWebElement("oSettingsBtn", "xpath=//android.widget.Button[1]", (AndroidDriver)oWebDriver);
+    public CommonWebElement oRegisterBtn = new CommonWebElement("oRegisterBtn", "xpath=//android.widget.Button[2]", (AndroidDriver)oWebDriver);
+    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button[3]", (AndroidDriver)oWebDriver);
 
 
     //////////////////
@@ -36,7 +37,7 @@ public class M_MainPage extends WebBase {
         oRegisterBtn.click();
     }
 
-    public void clickLoginButton(){
-        oLoginBtn.click();
-    }
+//    public void clickLoginButton(){
+//        oLoginBtn.click();
+//    }
 }

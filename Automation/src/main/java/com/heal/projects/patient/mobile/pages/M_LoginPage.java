@@ -15,7 +15,7 @@ public class M_LoginPage extends WebBase {
     public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//android.widget.Button", oWebDriver);
     public CommonWebElement oForgotPasswordText = new CommonWebElement("oForgotPasswordText", "xpath=//android.widget.TextView[@text='Forgot password']", oWebDriver);
     public CommonWebElement oAllowPermissionToAccessLocationOnConnectedDevice=new CommonWebElement("oAllowPermissionToAccessLocationOnConnectedDevice","xpath=//android.widget.Button[@text='Allow']",oWebDriver);
-    public CommonWebElement oProgressBar= new CommonWebElement("oProgressBar", "xpath=//android.widget.ProgressBar", oWebDriver);
+
     //////////////////
     // Constructors //
     //////////////////
@@ -39,14 +39,15 @@ public class M_LoginPage extends WebBase {
     }
     private void login(String userName, String password, boolean needSubmit){
 
+        M_MenuPage menu=new M_MenuPage(getWebDriver());
         oEmailInput.sendKeys(userName);
         oPasswordInput.sendKeys(password);
 
         if(needSubmit){
             oLoginBtn.click();
         }
-        if(this.oProgressBar.exists()) {
-            this.oProgressBar.waitForInvisible();
+        if(menu.oProgressBar.exists()) {
+            menu.oProgressBar.waitForInvisible();
         }
     }
 
