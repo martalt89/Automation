@@ -1,5 +1,6 @@
 package com.heal.projects.patient.web.pages;
 
+import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 
@@ -46,8 +47,9 @@ public class LoginPage extends WebBase{
     //Login with the default username and password
     public void login()
     {
-        this.oUserNameInput.sendKeys("vahan+qa@heal.com");
-        this.oPasswordInput.sendKeys("Heal4325!");
+        TestData testData = new TestData(TestData.ACCOUNT_SHEET);
+        this.oUserNameInput.sendKeys(testData.sEmail);
+        this.oPasswordInput.sendKeys(testData.sPassword);
         this.oLoginBtn.click();
     }
 

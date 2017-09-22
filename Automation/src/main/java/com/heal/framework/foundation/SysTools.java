@@ -3,12 +3,21 @@ package com.heal.framework.foundation;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 
 import com.heal.framework.test.RunTestSuite;
@@ -225,6 +234,65 @@ public class SysTools
         System.out.println("************************************************** "+ timestamp);
         return timestamp;
     }
+
+
+
+    public static String getMD5(String msg, String keyString, String algo) {
+        String digest = null;
+        try {
+            SecretKeySpec key = new SecretKeySpec((keyString).getBytes("UTF-8"), algo);
+            Mac mac = Mac.getInstance(algo);
+            mac.init(key);
+
+            byte[] bytes = mac.doFinal(msg.getBytes("ASCII"));
+
+            StringBuffer hash = new StringBuffer();
+            for (int i = 0; i < bytes.length; i++) {
+                String hex = Integer.toHexString(0xFF & bytes[i]);
+                if (hex.length() == 1) {
+                    hash.append('0');
+                }
+                hash.append(hex);
+            }
+            digest = hash.toString();
+        } catch (UnsupportedEncodingException e) {
+        } catch (InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException e) {
+        }
+        return digest;
+    }
+
+    public static String HMAC(String values, String myKeyString){
+        String output = "";
+        try {
+
+            PBEKeySpec keySpec = new PBEKeySpec(myKeyString.toCharArray());
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
+            SecretKey key = skf.generateSecret(keySpec);
+
+            //I use "hmacMD5" here becuase when I use
+            //key.getAlgorithm() it returns nothing
+            Mac mac = Mac.getInstance("hmacMD5");
+            mac.init(key);
+
+
+            // Encode the string into bytes using utf-8 and digest it
+            byte[] utf8 = values.getBytes("utf8");
+            byte[] digest = mac.doFinal(utf8);
+
+            //convert the digest into a string
+            String digestB64 = new sun.misc.BASE64Encoder().encode(digest);
+            output += digestB64;
+
+        } catch (InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException e) {
+        } catch (UnsupportedEncodingException e) {
+        } catch (InvalidKeySpecException e) {
+        }
+
+        return output;
+    }
+
 
 
 }

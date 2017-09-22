@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import com.heal.framework.foundation.HealCryptography;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
@@ -33,14 +34,22 @@ public class RunTestSuite {
 
     //Identifier for Arguments
     private static final String Run_File = "Run_File";
+    private static final String HealCryptography = "HealCryptography";
     private static int threadCount = 0;
     private static List<String> ToRunTests = new ArrayList<String>();
-
+    private static HealCryptography cryptography;
     private static HashMap<String, String> excelParams;
 
     public static void main(String[] args) throws IOException {
 
         HashMap<String, String> argMap = Arguments.parseArguments(args);
+        if(!argMap.containsKey(HealCryptography)){
+            argMap.put(HealCryptography, "");
+        }
+        if(cryptography == null){
+            cryptography = new HealCryptography(argMap.get(HealCryptography));
+        }
+        argMap.remove(HealCryptography);
         logger.info("arguments list", argMap.toString());
         ////////////////////////////////////////
         //  Read test suite from excel file   //
@@ -256,5 +265,8 @@ public class RunTestSuite {
     }
     public static List<String> getToRunTests(){
         return ToRunTests;
+    }
+    public static HealCryptography getCryptography(){
+        return cryptography;
     }
 }
