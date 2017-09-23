@@ -10,6 +10,7 @@ import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;
@@ -165,6 +166,21 @@ public class TestBase
     }
 
     /**
+     * Retrieves AppiumDriver instance stored in InheritableThreadLocal variable or throws an exception if
+     * any thread exception is found.
+     *
+     * @return
+     * (AppiumDriver)
+     */
+    public AppiumDriver getMobileDriver()
+    {
+        if (getException() == null)
+            return (AppiumDriver)oCurrentDriver.get();
+        else
+            throw getException();
+    }
+
+    /**
      * Stores ExtentTest instance in InheritableThreadLocal variable.
      *
      * @param test
@@ -283,7 +299,7 @@ public class TestBase
             ,"maximize_browser"
     })
     public void setup(@Optional("local") String environment,
-                      @Optional("android") String browserName,
+                      @Optional("chrome") String browserName,
                       @Optional("") String platform,
                       @Optional("") String version,
                       @Optional("chrome") String screenResolution,
@@ -388,7 +404,7 @@ public class TestBase
             }
             else {
                 oDriver = StartWebDriver(browser);
-                oDriver.manage().window().setSize(screenDimentions);
+                //oDriver.manage().window().setSize(screenDimentions);
             }
 
             // Only supported for Firefox in current release.
@@ -538,7 +554,7 @@ public class TestBase
                     capabilities.setCapability("appPackage", "com.getheal.patient.debug");
                     capabilities.setCapability("appActivity", "com.getheal.patient.activities.InitialActivity");
                     //capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
-                    return new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
+                    return new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
                     /* return new org.openqa.selenium.chrome.ChromeDriver(); */
 
                 default:
@@ -583,7 +599,7 @@ public class TestBase
         String browserName = parameters.get("browserName");
         String platform = parameters.get("platform");
         DesiredCapabilities capabilities = null;
-        if(platform.equalsIgnoreCase("iphone") || platform.equalsIgnoreCase("android")){
+        if(platform.equalsIgnoreCase("ios") || platform.equalsIgnoreCase("android")){
             capabilities = platform.equalsIgnoreCase("iphone") ? DesiredCapabilities.iphone() : DesiredCapabilities.android();
             capabilities.setCapability("browserName", parameters.get("browserName"));
             capabilities.setCapability("appiumVersion", parameters.get("appiumVersion"));

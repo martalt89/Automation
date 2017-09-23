@@ -312,8 +312,9 @@ public class M_LoginTest  extends TestBase {
 //        verifyVisible("Verify Login Button is displayed", homePage.oLoginBtn);
         homePage.clickSettingsButton();
 
+        profilesPage.mobileDeviceScrollPage(50,85,50,25,2000);
+       // mobileDriver.hideKeyboard();
         settingsPage.setEnv("qa");
-
         homePage.oLoginBtn.click();
         //homePage.clickLoginButton();
 
@@ -347,20 +348,13 @@ public class M_LoginTest  extends TestBase {
 
         profilesPage.oUseInsuranceSwitch.click();
 
-        int windowWidth=mobileDriver.manage().window().getSize().getWidth();
-        int windowHeight=mobileDriver.manage().window().getSize().getHeight();
-
-        Point p=new Point(windowWidth,windowHeight);
-       // p.y=(int)(p.y*0.95);
-        mobileDriver.swipe(((p.x)/2),((p.y)/2),((p.x)/2),(int)(Math.floor(p.y-(p.y*0.95))),2000);
-        System.out.println("width is: "+windowWidth);
-        System.out.println("height is: "+windowHeight);
+        profilesPage.mobileDeviceScrollPage(50,85,50,25,2000);
 
         profilesPage.oInsuranceProviderField.click();
         profilesPage.selectFromDropdownInsurance(M_ProfilesPage.InsuranceProviderCompany.CIGNA);
         profilesPage.oEnterMemberNumber.waitForVisible();
 
-        mobileDriver.swipe(((p.x)/2),((p.y)/2),((p.x)/2),(int)(Math.floor(p.y-(p.y*0.95))),2000);
+        profilesPage.mobileDeviceScrollPage(50,85,50,25,2000);
 
 
         // mobileDriver.swipe();
@@ -373,7 +367,7 @@ public class M_LoginTest  extends TestBase {
 
     }
 
-    
+
 
 
 }
