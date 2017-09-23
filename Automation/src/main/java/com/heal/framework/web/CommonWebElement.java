@@ -3,7 +3,6 @@ package com.heal.framework.web;
 import com.google.common.base.Function;
 import com.heal.framework.exception.CommonException;
 import com.heal.framework.foundation.SysTools;
-import com.heal.framework.test.RunTestSuite;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.internal.Coordinates;
@@ -17,9 +16,7 @@ import org.slf4j.LoggerFactory;
 
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -29,8 +26,6 @@ public class CommonWebElement implements WebElement, Locatable {
     private static Logger logger = LoggerFactory.getLogger(CommonWebElement.class);
 
 
-//    private HashMap<String, String> testParams = new RunTestSuite.getExcelParams();
-//    private static int iImplicitWait = Integer.parseInt(RunTestSuite.getExcelParams().get("ImplicitWait").toString());
     private static int iImplicitWait = 45;
     private static int iThrottleValue = 0;
     private static boolean bMonitorMode = false;
@@ -383,10 +378,9 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void sendKeys(CharSequence... arg0) {
+        waitForVisible();
         waitForEnabled();
-        if (!isViewable()) {
-            scrollForElement();
-        }
+        //scrollForElement();
         oWebElement.clear();
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
@@ -610,6 +604,7 @@ public class CommonWebElement implements WebElement, Locatable {
         Point coordinates = oWebElement.getLocation();
         int xcord = coordinates.getX();
         int ycord = coordinates.getY();
+//        oJavascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight); return true");
         oJavascriptExecutor.executeScript("window.scrollTo(" + xcord + ", " + ycord + "); return true");
     }
 
