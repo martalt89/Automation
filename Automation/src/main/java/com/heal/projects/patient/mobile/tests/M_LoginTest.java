@@ -312,8 +312,9 @@ public class M_LoginTest  extends TestBase {
 //        verifyVisible("Verify Login Button is displayed", homePage.oLoginBtn);
         homePage.clickSettingsButton();
 
+        profilesPage.mobileDeviceScrollPage(50,85,50,25,2000);
+       // mobileDriver.hideKeyboard();
         settingsPage.setEnv("qa");
-
         homePage.oLoginBtn.click();
         //homePage.clickLoginButton();
 
