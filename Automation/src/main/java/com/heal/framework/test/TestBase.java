@@ -397,7 +397,7 @@ public class TestBase
             ExtentTest test = ExtentTestManager.startNewTest(oMethod.getName());
             setExtentTest(test);
 
-            WebDriver oDriver = null;
+            WebDriver oDriver;
 
             if (environment.equalsIgnoreCase("remote")) {
                 oDriver = StartRemoteWebDriver(parameters);

@@ -61,13 +61,13 @@ public class RunTestSuite {
         excelParams.putAll(argMap);
         threadCount = Integer.parseInt(excelParams.get("threadCount"));
         if (excelParams.get("ENV").toString().equalsIgnoreCase("qa")){
-            excelParams.replace("ENV", ".qa.heal.com");
+            excelParams.replace("baseUrl", ".qa.heal.com");
             excelParams.replace("ImplicitWait", "30");
         }else if (excelParams.get("ENV").toString().equalsIgnoreCase("dev")){
             excelParams.replace("baseUrl", "-dev.heal.com");
             excelParams.replace("ImplicitWait", "60");
         } else {
-            System.out.println("The environment is not defined. Currently supported environment are 'QA' and 'DEV'");
+            System.out.println("The environment is not defined. Currently supported environments are 'QA' and 'DEV'");
         }
         System.out.println(excelParams.get("baseUrl").toString());
         XmlSuite suite = readFromExcel(oExcel);
