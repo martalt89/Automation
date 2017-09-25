@@ -221,12 +221,11 @@ public class M_ProfilesPage extends WebBase {
         //getting the height and width of screen window
         int windowWidth=mobileDriver.manage().window().getSize().getWidth();
         int windowHeight=mobileDriver.manage().window().getSize().getHeight();
-        //Point pScrollPoint=new Point(windowWidth,windowHeight);
+
         int pStartX =(int)(windowWidth*((iStartXPercentage)/100.0f));
         int pStartY =(int)(windowHeight*((iStartYPercentage)/100.0f));
         int pEndX   =(int)(windowWidth*((iEndXPercentage)/100.0f));
         int pEndY   =(int)(windowHeight*((iEndYPercentage)/100.0f));
-
 
 
         mobileDriver.swipe(pStartX, pStartY, pEndX ,pEndY ,iDuration);
