@@ -299,7 +299,7 @@ public class TestBase
             ,"maximize_browser"
     })
     public void setup(@Optional("local") String environment,
-                      @Optional("android") String browserName,
+                      @Optional("chrome") String browserName,
                       @Optional("") String platform,
                       @Optional("") String version,
                       @Optional("chrome") String screenResolution,
@@ -397,7 +397,7 @@ public class TestBase
             ExtentTest test = ExtentTestManager.startNewTest(oMethod.getName());
             setExtentTest(test);
 
-            WebDriver oDriver = null;
+            WebDriver oDriver;
 
             if (environment.equalsIgnoreCase("remote")) {
                 oDriver = StartRemoteWebDriver(parameters);
@@ -554,7 +554,7 @@ public class TestBase
                     capabilities.setCapability("appPackage", "com.getheal.patient.debug");
                     capabilities.setCapability("appActivity", "com.getheal.patient.activities.InitialActivity");
                     //capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
-                    return new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
+                    return new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
                     /* return new org.openqa.selenium.chrome.ChromeDriver(); */
 
                 default:
@@ -599,7 +599,7 @@ public class TestBase
         String browserName = parameters.get("browserName");
         String platform = parameters.get("platform");
         DesiredCapabilities capabilities = null;
-        if(platform.equalsIgnoreCase("iphone") || platform.equalsIgnoreCase("android")){
+        if(platform.equalsIgnoreCase("ios") || platform.equalsIgnoreCase("android")){
             capabilities = platform.equalsIgnoreCase("iphone") ? DesiredCapabilities.iphone() : DesiredCapabilities.android();
             capabilities.setCapability("browserName", parameters.get("browserName"));
             capabilities.setCapability("appiumVersion", parameters.get("appiumVersion"));

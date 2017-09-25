@@ -1,6 +1,7 @@
 package com.heal.framework.foundation;
 
 import com.heal.framework.test.RunTestSuite;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,6 @@ public class DBConnector {
         this.dbquery = DbQuery.getQuery(queryName);
 
         try{
-            getConnection(db);
             processResult();
         }
         catch (Exception ex){
@@ -92,7 +92,7 @@ public class DBConnector {
             while (rs.next()) {
                 for (int i = 1; i <= columnCount; i++) {
                     columnName = rs.getMetaData().getColumnName(i);
-                    DBVariable.setValue(row, columnName, rs.getString(i));
+                    DBVariable.setCellValue(row, columnName, rs.getString(i));
                 }
                 row++;
             }
@@ -160,4 +160,14 @@ public class DBConnector {
         }
     }
 
+    @Test
+    public void testConnection()throws Exception{
+
+        DBConnector connector = new DBConnector();
+        connector.getConnection("qa");
+        connector.query("cancel_reason");
+        connector.close();
+        System.out.print(DBVariable.getCellValue("id"));
+
+    }
 }

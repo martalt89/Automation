@@ -10,14 +10,15 @@ public class DbQuery {
 
     private static Map<String, String> queryMap = new HashMap<String, String>();
 
-    public static String getQuery(String queryName){
 
+    public static String getQuery(String queryName){
+        initDbQueryMap();
         return queryMap.get(queryName);
     }
 
     private static void initDbQueryMap(){
         //load dbquery mappings from file
-
+        queryMap.put("cancel_reason", "select id from cancel_reason");
     }
 
 }
