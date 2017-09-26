@@ -1,9 +1,7 @@
 package com.heal.framework.test;
 
 import com.heal.framework.exception.CommonException;
-import com.heal.framework.foundation.ExtentManager;
-import com.heal.framework.foundation.ExtentTestManager;
-import com.heal.framework.foundation.SysTools;
+import com.heal.framework.foundation.*;
 import com.heal.framework.validation.CommonValidate;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.CommonWebValidate;
@@ -62,6 +60,7 @@ public class TestBase
     private static ExtentReports extent;
     private static String sessionID;
 
+    protected static final DBConnector connector = new DBConnector();
 
     /**
      * InheritableThreadLocal variables are needed when tests are ran in parallel.  They ensure threads do not share/contaminate each other's data.  
@@ -396,8 +395,10 @@ public class TestBase
         {
             ExtentTest test = ExtentTestManager.startNewTest(oMethod.getName());
             setExtentTest(test);
+            HashMap<String, ArrayList<HashMap<String, String>>> responses = new HashMap<String, ArrayList<HashMap<String, String>>>();
+            DBResult.setResponses(responses);
 
-            WebDriver oDriver = null;
+            WebDriver oDriver;
 
             if (environment.equalsIgnoreCase("remote")) {
                 oDriver = StartRemoteWebDriver(parameters);

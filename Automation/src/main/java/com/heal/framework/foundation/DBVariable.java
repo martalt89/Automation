@@ -3,19 +3,31 @@ package com.heal.framework.foundation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+
 /**
  * Created by vahanmelikyan on 9/19/2017.
  */
 public class DBVariable {
 
-    //private static Map<String, List<String>> dbVariable = new HashMap<String, List<String>>();
+    private static HashMap<String, ArrayList<HashMap<String, String>>> responses = new HashMap<String, ArrayList<HashMap<String, String>>>();
     private static ArrayList<HashMap<String, String>> dbVariable = new ArrayList<HashMap<String, String>>();
+    private static String CurrentDBRecordName = "";
 
-    public static String getCellValue(String columnName){
-        return getCellValue(0, columnName);
+    public static ArrayList<HashMap<String, String>> getResponse(String dbRecordName){
+        CurrentDBRecordName = dbRecordName;
+        return responses.get(dbRecordName);
     }
 
-    public static String getCellValue(int row, String columnName){
+    public static ArrayList<HashMap<String, String>> getResponse(){
+        return responses.get(CurrentDBRecordName);
+    }
+
+    public static String cell(String columnName){
+        return cell(0, columnName);
+    }
+
+    public static String cell(int row, String columnName){
 
         return dbVariable.get(row).get(columnName);
     }
@@ -28,11 +40,11 @@ public class DBVariable {
         return dbVariable.get(row);
     }
 
-    public static void setCellValue(String columnName, String value){
-        setCellValue(0, columnName, value);
+    public static void setCell(String columnName, String value){
+        setCell(0, columnName, value);
     }
 
-    public static void setCellValue(int row, String columnName, String value){
+    public static void setCell(int row, String columnName, String value){
         HashMap<String, String> rowResponse;
         if(dbVariable.size()<= row){
             rowResponse = new HashMap<String, String>();
@@ -40,6 +52,7 @@ public class DBVariable {
         }
         rowResponse = dbVariable.get(row);
         rowResponse.put(columnName, value);
+
     }
 
 }

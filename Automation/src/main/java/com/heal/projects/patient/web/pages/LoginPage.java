@@ -1,10 +1,14 @@
 package com.heal.projects.patient.web.pages;
 
+import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 
 import org.openqa.selenium.WebDriver;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -13,6 +17,9 @@ import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends WebBase{
     public static final String URL = "https://patient" + baseUrl + "/login";
+    RunTestSuite runTestSuite = new RunTestSuite();
+    HashMap<String, String> testDataMap = runTestSuite.getExcelParams();
+
     ///////////////////
     // Page Elements //
     ///////////////////
@@ -48,7 +55,13 @@ public class LoginPage extends WebBase{
     public void login()
     {
         TestData testData = new TestData(TestData.ACCOUNT_SHEET);
-        this.oUserNameInput.sendKeys(testData.sEmail);
+//        this.oUserNameInput.sendKeys(testData.sEmail);
+//        this.oPasswordInput.sendKeys(testData.sPassword);
+        if (testDataMap == null) {
+            this.oUserNameInput.sendKeys("vahan+qa@heal.com");
+        } else {
+            this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
+        }
         this.oPasswordInput.sendKeys(testData.sPassword);
         this.oLoginBtn.click();
     }
