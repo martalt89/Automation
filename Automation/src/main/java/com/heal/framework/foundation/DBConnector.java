@@ -1,12 +1,21 @@
 package com.heal.framework.foundation;
 
+import com.google.gson.Gson;
+import com.heal.framework.exception.CommonException;
 import com.heal.framework.test.RunTestSuite;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by vahanmelikyan on 9/13/2017.
@@ -15,23 +24,23 @@ public class DBConnector {
     private static Logger logger = LoggerFactory.getLogger(DBConnector.class);
 
     private Connection connection;
-    private String db;
-    private String params;
+    private String db = "qa";
+    private HashMap<String, String> params = new HashMap<String, String>();
     private String queryName;
     private String dbquery;
     public DBConnector(){
 
     }
 
-    public void getConnection(String env) throws Exception{
+    public void getConnection(String env) throws GeneralSecurityException, IOException, SQLException{
         getConnection(new DBInfo(env));
     }
 
-    public void getConnection(DBInfo dbInfo) throws Exception{
+    public void getConnection(DBInfo dbInfo) throws GeneralSecurityException, IOException, SQLException{
         getConnection(dbInfo.getUser(), dbInfo.getPassword());
     }
 
-    public void getConnection(String user, String password) throws Exception{
+    public void getConnection(String user, String password) throws GeneralSecurityException, IOException, SQLException {
         Properties props = new Properties();
         props.setProperty("user", RunTestSuite.getCryptography().decrypt(user));
         props.setProperty("password",RunTestSuite.getCryptography().decrypt(password));
@@ -51,24 +60,55 @@ public class DBConnector {
         return this;
     }
 
-    public DBConnector param(String param){
-        this.params = param;
+    public DBConnector param(String paramkey, String paramvalue){
+        this.params.put(paramkey, paramvalue);
         return this;
     }
 
-    public void query(String queryName){
+    private String buildQuery(String beforeQuery){
+        String afterQuery = new String(beforeQuery);
+
+        String pattern = "%\\{[^%{]+}";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(beforeQuery);
+        List<String> requiredParams = new ArrayList<String>();
+
+        while (m.find()){
+            String paramKey = m.group().replaceAll("^%\\{|}$", "");
+            if(!params.containsKey(paramKey)){
+                requiredParams.add(paramKey);
+            }
+            else{
+                afterQuery = afterQuery.replace("%{" + paramKey + "}", params.get(paramKey));
+            }
+        }
+
+        if(requiredParams.size() > 0){
+            throw new CommonException("query parameters: " + requiredParams.toString() + " are required and not provided properly");
+        }
+
+        return afterQuery;
+    }
+
+    public void query(String queryName) throws GeneralSecurityException, IOException, SQLException, ClassNotFoundException{
         this.queryName = queryName;
-        this.dbquery = DbQuery.getQuery(queryName);
+        this.dbquery = buildQuery(DbQuery.getQuery(queryName));
 
         try{
+            Class.forName("org.postgresql.Driver");
+            getConnection(db);
             processResult();
         }
-        catch (Exception ex){
+        catch (GeneralSecurityException|IOException|SQLException ex){
             ex.printStackTrace();
+            throw ex;
         }
         finally {
+            params.clear();
             try{
                 connection.close();
+                connection = null;
             }
             catch (Exception e){
 
@@ -89,13 +129,20 @@ public class DBConnector {
             int columnCount = resultSetMetaData.getColumnCount();
             int row = 0;
             String columnName;
+            ArrayList<HashMap<String, String>> dbRecord = new ArrayList<HashMap<String, String>>();
+            HashMap<String, String> rowResponse = null;
             while (rs.next()) {
+                rowResponse = new HashMap<String, String>();
                 for (int i = 1; i <= columnCount; i++) {
                     columnName = rs.getMetaData().getColumnName(i);
-                    DBVariable.setCellValue(row, columnName, rs.getString(i));
+                    rowResponse.put(columnName, rs.getString(i));
+                    //DBVariable.setCell(row, columnName, rs.getString(i));
                 }
+                dbRecord.add(rowResponse);
                 row++;
             }
+            DBResult.setResponse(queryName);
+            DBResult.getResponses().put(queryName, dbRecord);
         } catch (SQLException e ) {
             e.printStackTrace();
         } finally {
@@ -164,10 +211,11 @@ public class DBConnector {
     public void testConnection()throws Exception{
 
         DBConnector connector = new DBConnector();
-        connector.getConnection("qa");
+        connector.param("id", "4");
         connector.query("cancel_reason");
-        connector.close();
-        System.out.print(DBVariable.getCellValue("id"));
+
+        Gson gson = new Gson();
+        System.out.print(gson.toJson(DBVariable.getFirstRowResponse()).toString());
 
     }
 }

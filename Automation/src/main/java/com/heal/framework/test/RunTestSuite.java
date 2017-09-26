@@ -34,7 +34,7 @@ public class RunTestSuite {
 
     //Identifier for Arguments
     private static final String Run_File = "Run_File";
-    private static final String HealCryptography = "HealCryptography";
+    public static final String HealCryptography = "HealCryptography";
     private static int threadCount = 0;
     private static List<String> ToRunTests = new ArrayList<String>();
     private static HealCryptography cryptography;

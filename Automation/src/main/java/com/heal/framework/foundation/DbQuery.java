@@ -1,24 +1,38 @@
 package com.heal.framework.foundation;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by vahanmelikyan on 9/18/2017.
  */
 public class DbQuery {
 
-    private static Map<String, String> queryMap = new HashMap<String, String>();
+    private static HashMap<String, String> queryMap = getDbQueryMap();
 
 
     public static String getQuery(String queryName){
-        initDbQueryMap();
         return queryMap.get(queryName);
     }
 
-    private static void initDbQueryMap(){
-        //load dbquery mappings from file
-        queryMap.put("cancel_reason", "select id from cancel_reason");
+    private static HashMap<String, String> getDbQueryMap(){
+        if(queryMap == null){
+            queryMap = new HashMap<String, String>();
+        }
+        loadDbQueryMap();
+        return queryMap;
     }
 
+
+    private static void loadDbQueryMap(){
+
+        //load dbquery mappings
+        queryMap.put("user_account", "Select * from \n" +
+                                        "user_account \n" +
+                                        "where username='vahan+qa@heal.com'");
+
+        queryMap.put("cancel_reason", "SELECT *\n" +
+                                        " FROM cancel_reason\n" +
+                                        "    where id = '%{id}';");
+
+    }
 }
