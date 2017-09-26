@@ -129,13 +129,20 @@ public class DBConnector {
             int columnCount = resultSetMetaData.getColumnCount();
             int row = 0;
             String columnName;
+            ArrayList<HashMap<String, String>> dbRecord = new ArrayList<HashMap<String, String>>();
+            HashMap<String, String> rowResponse = null;
             while (rs.next()) {
+                rowResponse = new HashMap<String, String>();
                 for (int i = 1; i <= columnCount; i++) {
                     columnName = rs.getMetaData().getColumnName(i);
-                    DBVariable.setCellValue(row, columnName, rs.getString(i));
+                    rowResponse.put(columnName, rs.getString(i));
+                    //DBVariable.setCell(row, columnName, rs.getString(i));
                 }
+                dbRecord.add(rowResponse);
                 row++;
             }
+            DBResult.setResponse(queryName);
+            DBResult.getResponses().put(queryName, dbRecord);
         } catch (SQLException e ) {
             e.printStackTrace();
         } finally {
@@ -206,6 +213,7 @@ public class DBConnector {
         DBConnector connector = new DBConnector();
         connector.param("id", "4");
         connector.query("cancel_reason");
+
         Gson gson = new Gson();
         System.out.print(gson.toJson(DBVariable.getFirstRowResponse()).toString());
 

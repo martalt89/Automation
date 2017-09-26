@@ -16,7 +16,8 @@ public class Arguments {
         HashMap<String, String> argMap = new HashMap<String, String>();
 
         for(String arg : args){
-            logger.info("argument: {}", arg);
+            if(!arg.contains(RunTestSuite.HealCryptography))
+                logger.info("argument: {}", arg);
             String[] map = arg.split("=");
 
             if(map.length == 2){
