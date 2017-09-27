@@ -58,11 +58,11 @@ public class LoginPage extends WebBase{
 //        this.oUserNameInput.sendKeys(testData.sEmail);
 //        this.oPasswordInput.sendKeys(testData.sPassword);
         if (testDataMap == null) {
-            this.oUserNameInput.sendKeys("vahan+qa@heal.com");
+            this.oUserNameInput.sendKeys("jay.purohit+qa2@heal.com");
         } else {
             this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
         }
-        this.oPasswordInput.sendKeys(testData.sPassword);
+        this.oPasswordInput.sendKeys("Heal4325");
         this.oLoginBtn.click();
     }
 
