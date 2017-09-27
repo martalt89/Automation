@@ -325,4 +325,55 @@ public class VisitTest extends TestBase {
         loginPage.oUserNameInput.waitForElement();
     }
 
+    @Test
+    public void bookVisitWithPromoCodeNoCreditCard(){
+        CommonWebElement.setbMonitorMode(false);
+        WebDriver dr = getDriver();
+//        CommonWebValidate validate = new CommonWebValidate(dr);
+        LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        HomePage homePage = new HomePage(dr);
+        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
+        BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
+        VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
+        SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
+        BookVisitPage bookVisitPage = new BookVisitPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        Menu menu = new Menu(dr);
+
+        loginPage.login(); // Login on patient web app
+        homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
+        bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
+        chooseProfilePage.selectProfileByName("vahan");
+        addressPage.selectFirstSavedAddress();
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.setSymptoms(symptoms);
+        visitDetailsPage.selectFirstAvailableTimeSlot();
+        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+
+        assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+
+        paymentPage.oPromoCodeLink.click();
+        paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
+        menu.oLoadingBar.waitForInvisible();
+
+        assertEquals("Verifying 100% promo price ", paymentPage.oPriceInfoText.getText(), sPromo100PercentOffPrice);
+
+        paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.waitForElement();
+        assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+        assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oGotItBtn.click();
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.oUserNameInput.waitForElement();
+
+    }
+
+
 }

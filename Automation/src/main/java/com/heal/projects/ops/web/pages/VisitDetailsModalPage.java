@@ -3,7 +3,12 @@ package com.heal.projects.ops.web.pages;
 import com.heal.framework.foundation.SysTools;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import javax.xml.xpath.XPath;
+import java.util.List;
 
 public class VisitDetailsModalPage extends WebBase{
     public static final String URL = "https://ops"+ baseUrl +"/dashboard";
@@ -452,6 +457,16 @@ public class VisitDetailsModalPage extends WebBase{
         this.editGroupId(sGroupId);
         this.oSubmitBtn.click();
     }
+
+    /**
+     * Mehtod to add visit notes
+     * @param sNotesMessage ->takes string message for entering note details
+     */
+    public void addVisitNotes(String sNotesMessage){
+        this.oDetailsEditVisitNotesBtn.clickAndWait(this.oDetailsEditVisitNotesField,true);
+        this.oDetailsEditVisitNotesField.sendKeys("Ignore-Automation test running");
+        this.oDetailsEditVisitNotesCheckBtn.click();
+    }
     //refund methods
     public void openRefundVisitModal(){
         this.oActionsBtn.click();
@@ -487,6 +502,7 @@ public class VisitDetailsModalPage extends WebBase{
         oWebDriver.navigate().refresh();
         waitForPageReady(sUrlWithVisitCode);
     }
+
 
     public void checkVisitStatus(CommonWebElement status, int duration){
         int seconds = 0;
@@ -533,5 +549,12 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement getChangeProviderToastMessage(String sVisitId, String sDoctorName) {
 
         return new CommonWebElement("oToastMessage", "xpath=//*[text()='Successfully changed the provider for Visit '"+sVisitId+"' to '"+sDoctorName+"', MD']",oWebDriver);
+    }
+
+    public int LogDetailsCount(){
+        //CommonWebElement oElement = new CommonWebElement("oElement","xpath=//*[@class='log-details']",oWebDriver);
+        By logDetailsList = By.xpath("//*[@class='log-details']");
+        List<WebElement> commonWebElementList= getWebDriver().findElements(logDetailsList);
+        return commonWebElementList.size();
     }
 }

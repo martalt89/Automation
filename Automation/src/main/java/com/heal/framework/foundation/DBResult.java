@@ -9,9 +9,7 @@ import java.util.HashMap;
 public class DBResult {
 
     private static final InheritableThreadLocal oResponses = new InheritableThreadLocal();
-    //private HashMap<String, ArrayList<HashMap<String, String>>> responses = new HashMap<String, ArrayList<HashMap<String, String>>>();
     private static InheritableThreadLocal oCurrentResponseName = new InheritableThreadLocal();
-    //private String currentResponseName = "";
 
     public static void setResponse(String responseName){
         oCurrentResponseName.set(responseName);
@@ -37,17 +35,13 @@ public class DBResult {
         return cell(0, columnName);
     }
 
-    public static String cell(int row, String columnName){
+    public static String cell(int rowNo, String columnName){
 
-        return getResponse().get(row).get(columnName);
+        return row(rowNo).get(columnName);
     }
 
-    public static HashMap<String, String> getFirstRowResponse(){
-        return getResponse().get(0);
-    }
-
-    public static HashMap<String, String> getRowResponse(int row){
-        return getResponse().get(row);
+    public static HashMap<String, String> row(int rowNo){
+        return getResponse().get(rowNo);
     }
 
 

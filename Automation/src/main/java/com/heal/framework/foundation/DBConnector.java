@@ -91,7 +91,7 @@ public class DBConnector {
         return afterQuery;
     }
 
-    public void query(String queryName) throws GeneralSecurityException, IOException, SQLException, ClassNotFoundException{
+    public synchronized void query(String queryName) throws GeneralSecurityException, IOException, SQLException, ClassNotFoundException{
         this.queryName = queryName;
         this.dbquery = buildQuery(DbQuery.getQuery(queryName));
 
