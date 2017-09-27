@@ -23,6 +23,7 @@ public class VisitsE2E extends TestBase  {
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
         private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
         private String visit_id = visitsAPI.createVisit();
+        private int  ilogCounter=1;
 
     //********************* Test cases *********************
     @Test(groups = {"dev", "critical"})
@@ -40,6 +41,7 @@ public class VisitsE2E extends TestBase  {
         loginPage.login();
         visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
         visit.editSymptoms(sSymptoms);
+        ilogCounter++;
         menu.oToastContainer.waitForVisible();
         assertMatches("Successfully updated visit notes", menu.oToastTitle.getText(), "OK:");
         assertMatches("Successfully updated visit notes", menu.oToastMessage.getText(), "Symptoms updated successfully !");
@@ -64,12 +66,14 @@ public class VisitsE2E extends TestBase  {
         visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_VAHAN, VisitDetailsModalPage.MA_KETTEL);
         visit.editManualTime(SysTools.healTime10MinAhead());
         visit.oChangetBtn.click();
+        ilogCounter++;
         menu.verifyToastTitle("Verifying toast message ", "OK:");
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "DOCTOR_ASSIGNED", 10);
         visitsPage.filterVisits(visit_id);
-        assertMatches("Verify visit details modal contains 'DOCTOR_ASSIGNED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
-        verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), "Dr. Vahan Melikyan");
+        
+//        assertMatches("Verify visit details modal contains 'DOCTOR_ASSIGNED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
+  //      verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), "Dr. Vahan Melikyan");
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet" }, priority=1)
@@ -77,6 +81,7 @@ public class VisitsE2E extends TestBase  {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
+        OpsMenu menu=new OpsMenu(dr);
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
         getExtentTest().log(LogStatus.INFO, "Visit ID: " + visit_id);
@@ -84,12 +89,17 @@ public class VisitsE2E extends TestBase  {
         loginPage.waitForPageReady();
         loginPage.login();
         visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
+        visit.addVisitNotes("ignore-Automation test running");
+        ilogCounter++;
+        menu.verifyToastMessage("Verify visit notes updated successfully", "The visit notes updated successfully!");
         visit.startVisit();
+        ilogCounter++;
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "STARTED", 10);
         assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
         visitsPage.filterVisits(visit_id);
         visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
+        assertEquals("comparing log details count for each event triggered",visit.LogDetailsCount(),ilogCounter);
     }
 
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet",  "startVisit" }, priority=1)
@@ -134,5 +144,7 @@ public class VisitsE2E extends TestBase  {
         opsMenu.verifyToastTitle("Verify toast title ", "OK:");
 //        opsMenu.verifyToastMessage("Verify toast message", "This visit has successfully been refunded. The patient will receive a refund from their bank in 10-14 days");
     }
+
+
 
 }
