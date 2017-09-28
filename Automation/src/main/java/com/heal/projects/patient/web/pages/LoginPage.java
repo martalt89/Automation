@@ -64,7 +64,7 @@ public class LoginPage extends WebBase{
         } else {
             this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
         }
-        this.oPasswordInput.sendKeys("Heal4325");
+        this.oPasswordInput.sendKeys("Heal4325!");
         this.oLoginBtn.click();
     }
 
