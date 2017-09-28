@@ -342,7 +342,7 @@ public class VisitTest extends TestBase {
         WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
         Menu menu = new Menu(dr);
 
-        loginPage.login(); // Login on patient web app
+        loginPage.login(LoginPage.EmailToBeUsed.EMAILWITHOUTCREDITCARD); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("vahan");

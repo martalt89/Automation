@@ -44,7 +44,6 @@ public class RegisterTest extends TestBase {
         RegisterPage registerPage = new RegisterPage(dr);
         registerPage.goTo();
         registerPage.waitForPageLoad();
-
         registerPage.oFirstNameInput.sendKeys(RegisterPage.sRegisterFirstName);
         registerPage.oLastNameNameInput.sendKeys(RegisterPage.sRegisterLastName);
         registerPage.oEmailInput.sendKeys(RegisterPage.sRegisterUserEmail);
