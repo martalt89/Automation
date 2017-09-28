@@ -1,5 +1,6 @@
 package com.heal.projects.patient.web.tests;
 
+import com.heal.framework.test.TestData;
 import com.heal.projects.patient.web.pages.*;
 import com.heal.framework.foundation.SysTools;
 import com.heal.framework.test.TestBase;
@@ -340,9 +341,10 @@ public class VisitTest extends TestBase {
         SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        TestData testdata=new TestData(TestData.PATIENT_SHEET);
         Menu menu = new Menu(dr);
 
-        loginPage.login(LoginPage.EmailToBeUsed.EMAILWITHOUTCREDITCARD); // Login on patient web app
+        loginPage.login(testdata.sNo_Credit_Card_Id,"Heal4325"); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
         chooseProfilePage.selectProfileByName("vahan");

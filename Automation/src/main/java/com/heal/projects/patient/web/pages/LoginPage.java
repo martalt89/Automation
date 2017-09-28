@@ -20,15 +20,7 @@ public class LoginPage extends WebBase{
     RunTestSuite runTestSuite = new RunTestSuite();
     public HashMap<String, String> testDataMap = runTestSuite.getExcelParams();
 
-    /**
-     * Enum for declaring email to be used for login
-     */
 
-    public enum EmailToBeUsed{
-        EMAILWITHCREDITCARD,
-        EMAILWITHOUTCREDITCARD,
-        EMAILFORREGISTERATION;
-    }
 
     ///////////////////
     // Page Elements //
@@ -76,25 +68,7 @@ public class LoginPage extends WebBase{
         this.oLoginBtn.click();
     }
 
-    /**
-     *
-     * @param email Select Email address based on creditcard or registration requirement using enum for EmailToBeUsed
-     */
-    public void login(EmailToBeUsed email){
-        TestData testData = new TestData(TestData.PATIENT_SHEET);
-        if(email.name().equalsIgnoreCase("EMAILFORREGISTERATION")){
-            this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
-        }
-        else if(email.name().equalsIgnoreCase("EMAILWITHOUTCREDITCARD")){
-            this.oUserNameInput.sendKeys(testData.sNo_Credit_Card_Id);
-        }
-        else{
-            this.oUserNameInput.sendKeys(testData.sEmail);
-        }
-        this.oPasswordInput.sendKeys("Heal4325");
-        this.oLoginBtn.click();
 
-    }
 
     /**
      * Logs in to heal with the provided username and password.
