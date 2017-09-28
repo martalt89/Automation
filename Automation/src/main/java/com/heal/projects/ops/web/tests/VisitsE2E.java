@@ -71,7 +71,7 @@ public class VisitsE2E extends TestBase  {
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "DOCTOR_ASSIGNED", 10);
         visitsPage.filterVisits(visit_id);
-        
+
 //        assertMatches("Verify visit details modal contains 'DOCTOR_ASSIGNED' Status", visit.oVisitStatus.getText(), "DOCTOR_ASSIGNED");
   //      verifyTextMatches("Verify Doctor column from the row containing specified visit code", visitsPage.getDoctorByVisitCode(visit_id), "Dr. Vahan Melikyan");
     }
