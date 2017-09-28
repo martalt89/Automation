@@ -18,7 +18,9 @@ import java.util.Map;
 public class LoginPage extends WebBase{
     public static final String URL = "https://patient" + baseUrl + "/login";
     RunTestSuite runTestSuite = new RunTestSuite();
-    HashMap<String, String> testDataMap = runTestSuite.getExcelParams();
+    public HashMap<String, String> testDataMap = runTestSuite.getExcelParams();
+
+
 
     ///////////////////
     // Page Elements //
@@ -62,9 +64,11 @@ public class LoginPage extends WebBase{
         } else {
             this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
         }
-        this.oPasswordInput.sendKeys("Heal4325");
+        this.oPasswordInput.sendKeys("Heal4325!");
         this.oLoginBtn.click();
     }
+
+
 
     /**
      * Logs in to heal with the provided username and password.
