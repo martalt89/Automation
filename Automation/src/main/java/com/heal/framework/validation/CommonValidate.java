@@ -30,7 +30,6 @@ public class CommonValidate
 
     public java.util.Vector<String> vFailures = new java.util.Vector<String>(10);
     public boolean bTakeShots = false;
-    public int iVerificationsExecuted = 0;
     public ExtentTest oExtentTest = null;
 
 
@@ -77,7 +76,6 @@ public class CommonValidate
      */
     public boolean verifyEquals(String sComment, Object oActual, Object oExpected)
     {
-        iVerificationsExecuted++;
 
         Object[] oArray = {sComment, oActual, oExpected};
 
@@ -109,7 +107,6 @@ public class CommonValidate
      */
     public void assertEquals(String sComment, Object oActual, Object oExpected)
     {
-        iVerificationsExecuted++;
 
         Object[] oArray = {sComment, oActual, oExpected};
 
@@ -139,7 +136,6 @@ public class CommonValidate
      */
     public boolean verifyMatches(String sComment, String sActual, String sExpected)
     {
-        iVerificationsExecuted++;
 
         String[] sArray = {sComment, sActual, sExpected};
 
@@ -173,8 +169,6 @@ public class CommonValidate
      */
     public void assertMatches(String sComment, String sActual, String sExpected)
     {
-        iVerificationsExecuted++;
-
         String[] sArray = {sComment, sActual, sExpected};
 
         Pattern pattern = Pattern.compile(sExpected, Pattern.DOTALL);
@@ -238,8 +232,5 @@ public class CommonValidate
         return vFailures.size();
     }
 
-    public int getTotalCount()
-    {
-        return iVerificationsExecuted;
-    }
+
 }

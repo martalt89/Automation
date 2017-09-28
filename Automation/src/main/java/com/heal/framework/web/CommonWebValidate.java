@@ -93,7 +93,6 @@ public class CommonWebValidate extends CommonValidate
      */
     public boolean verifyVisible(String sComment, CommonWebElement oTarget)
     {
-        iVerificationsExecuted++;
         oCommonWebElement = oTarget;
 
         try
@@ -127,7 +126,6 @@ public class CommonWebValidate extends CommonValidate
      */
     public boolean verifyInvisible(String sComment, CommonWebElement oTarget)
     {
-        iVerificationsExecuted++;
         oCommonWebElement = oTarget;
 
         try
@@ -155,7 +153,6 @@ public class CommonWebValidate extends CommonValidate
      */
     public boolean verifyViewable(String sComment, CommonWebElement oTarget)
     {
-        iVerificationsExecuted++;
         oCommonWebElement = oTarget;
 
         try
@@ -195,7 +192,6 @@ public class CommonWebValidate extends CommonValidate
      */
     public boolean verifyLinkNavigation(String sComment, WebBase oStartPage, CommonWebElement oLink, String sExpectedURL)
     {
-        iVerificationsExecuted++;
         oCommonWebElement = oLink;
         String sActualURL = "";
 
@@ -239,7 +235,6 @@ public class CommonWebValidate extends CommonValidate
      */
     public boolean verifyLinkPopup(String sComment, WebBase oStartPage, CommonWebElement oLink, String sExpectedURL)
     {
-        iVerificationsExecuted++;
         oCommonWebElement = oLink;
         String sActualURL = "";
 
