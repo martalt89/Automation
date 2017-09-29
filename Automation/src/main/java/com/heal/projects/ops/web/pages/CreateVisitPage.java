@@ -419,11 +419,11 @@ public class CreateVisitPage extends WebBase {
     public void selectPatientProfileWithInsurance(){
         this.oSelectPatientMenu.jsClick();
 
-        this.oSelectPatientProfileWithInsurance.jsClickAndWait(oSavePatientBtn,true);
+        this.oSelectPatientProfileWithInsurance.click();
+        this.oSavePatientBtn.scrollForElement();
 
-        this.scrollPage("Down");
 
-        this.oSavePatientBtn.clickAndWait(this.oPageLoader,false);
+        this.oSavePatientBtn.click();
         //verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
     }
 
@@ -433,9 +433,9 @@ public class CreateVisitPage extends WebBase {
      */
     public void selectPatientProfileWithCreditCard(){
         this.oSelectPatientMenu.jsClick();
-        this.oSelectPatientProfileWithCreditCard.clickAndWait(this.oSavePatientBtn,true);
-        this.scrollPage("Down");
-        this.oSavePatientBtn.clickAndWait(this.oPageLoader,false);
+        this.oSelectPatientProfileWithCreditCard.click();
+        this.oSavePatientBtn.scrollForElement();
+        this.oSavePatientBtn.click();
 
         //verifyTextMatches("Verify patient profile was selected and saved", menu.oToastMessage, "Successfully Updated Patient");
     }

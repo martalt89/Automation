@@ -109,7 +109,8 @@ public class VisitDetailsModalTest extends TestBase  {
         visit.checkVisitStatusWithRefresh( "REFUNDED", 10);
         assertMatches("Verify visit details modal contains 'REFUNDED' Status", visit.oVisitStatus.getText(), "REFUNDED");
         visitsPage.filterVisits(myNewVisit);
-        assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.oStatusBadge.getText(), "REFUNDED");
+        visitsPage.getStatusByVisitCode(myNewVisit).waitForVisible();
+        assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(myNewVisit).getText(), "REFUNDED");
     }
 
 }
