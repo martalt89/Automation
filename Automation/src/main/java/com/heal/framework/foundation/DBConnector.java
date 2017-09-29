@@ -3,6 +3,7 @@ package com.heal.framework.foundation;
 import com.google.gson.Gson;
 import com.heal.framework.exception.CommonException;
 import com.heal.framework.test.RunTestSuite;
+import com.relevantcodes.extentreports.LogStatus;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -138,7 +139,7 @@ public class DBConnector {
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(dbquery);
-
+            ExtentTestManager.getTest().log(LogStatus.INFO, String.format("excuting Query: {%s}", dbquery));
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
             int row = 0;
@@ -150,7 +151,6 @@ public class DBConnector {
                 for (int i = 1; i <= columnCount; i++) {
                     columnName = rs.getMetaData().getColumnName(i);
                     rowResponse.put(columnName, rs.getString(i));
-                    //DBVariable.setCell(row, columnName, rs.getString(i));
                 }
                 dbRecord.add(rowResponse);
                 row++;
