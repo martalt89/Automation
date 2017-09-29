@@ -60,12 +60,12 @@ public class DBConnector {
         return this;
     }
 
-    public DBConnector param(String paramkey, String paramvalue){
+    public synchronized DBConnector param(String paramkey, String paramvalue){
         this.params.put(paramkey, paramvalue);
         return this;
     }
 
-    private String buildQuery(String beforeQuery){
+    private synchronized String buildQuery(String beforeQuery){
         String afterQuery = new String(beforeQuery);
 
         String pattern = "%\\{[^%{]+}";
@@ -80,6 +80,7 @@ public class DBConnector {
                 requiredParams.add(paramKey);
             }
             else{
+                logger.debug("passing parameter: {}={}", paramKey, params.get(paramKey));
                 afterQuery = afterQuery.replace("%{" + paramKey + "}", params.get(paramKey));
             }
         }
@@ -95,12 +96,25 @@ public class DBConnector {
         this.queryName = queryName;
         this.dbquery = buildQuery(DbQuery.getQuery(queryName));
 
-        try{
+        try {
             Class.forName("org.postgresql.Driver");
             getConnection(db);
+        }
+        catch (SQLException ex){
+            logger.info("retry connect to DB...");
+            try {
+                Thread.sleep(500);
+                Class.forName("org.postgresql.Driver");
+                getConnection(db);
+            }
+            catch (InterruptedException e){
+            }
+        }
+
+        try{
             processResult();
         }
-        catch (GeneralSecurityException|IOException|SQLException ex){
+        catch (SQLException ex){
             ex.printStackTrace();
             throw ex;
         }
