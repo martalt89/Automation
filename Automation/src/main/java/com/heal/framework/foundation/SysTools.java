@@ -230,9 +230,7 @@ public class SysTools
         formatter.setTimeZone(TimeZone.getTimeZone("PST"));
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, 10);
-        String timestamp = formatter.format(cal.getTime());
-        System.out.println("************************************************** "+ timestamp);
-        return timestamp;
+        return formatter.format(cal.getTime());
     }
 
 

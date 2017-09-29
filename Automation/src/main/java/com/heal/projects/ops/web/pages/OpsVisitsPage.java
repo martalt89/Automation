@@ -73,7 +73,7 @@ public class OpsVisitsPage extends WebBase {
     public CommonWebElement oTestGroupBadge = new CommonWebElement("oTestGroupBadge", "xpath=//*[@class='label-as-badge purple-badge']",oWebDriver);
     public CommonWebElement oInsuredBadge = new CommonWebElement("oInsuredBadge", "xpath=//*[@class='label-as-badge green-badge']",oWebDriver);
     public CommonWebElement oALFacilityBadge = new CommonWebElement("oALFacilityBadge", "xpath=//*[@class='label-as-badge red-badge']",oWebDriver);
-
+    public CommonWebElement oStatusBadge = new CommonWebElement("oStatusBadge","xpath=//div[@class='status badge']",oWebDriver);
 
 
     //////////////////
@@ -121,7 +121,7 @@ public class OpsVisitsPage extends WebBase {
 
     public CommonWebElement getStatusByVisitCode(String sVisitCode){
 //        return new CommonWebElement("oVisitCode", "xpath=//tr[td[3]/a='"+sVisitCode+"']/td[2]//b" ,oWebDriver);
-        return new CommonWebElement("oVisitCode", "xpath=//*[contains(@id,'" + sVisitCode + "')]/../.." ,oWebDriver);
+        return new CommonWebElement("oVisitCode", "xpath=//*[contains(@id,'" + sVisitCode + "')]/../../div[2]" ,oWebDriver);
     }
 
     public CommonWebElement getDoctorByVisitCode(String sVisitCode){

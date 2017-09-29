@@ -197,7 +197,6 @@ public class TestBase
      */
     public void setValidate(CommonValidate oV)
     {
-        oV.iVerificationsExecuted = 0;
         oValidate.set(oV);
     }
 
