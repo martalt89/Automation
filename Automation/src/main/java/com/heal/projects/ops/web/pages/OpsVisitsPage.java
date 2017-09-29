@@ -73,7 +73,7 @@ public class OpsVisitsPage extends WebBase {
     public CommonWebElement oTestGroupBadge = new CommonWebElement("oTestGroupBadge", "xpath=//*[@class='label-as-badge purple-badge']",oWebDriver);
     public CommonWebElement oInsuredBadge = new CommonWebElement("oInsuredBadge", "xpath=//*[@class='label-as-badge green-badge']",oWebDriver);
     public CommonWebElement oALFacilityBadge = new CommonWebElement("oALFacilityBadge", "xpath=//*[@class='label-as-badge red-badge']",oWebDriver);
-
+    public CommonWebElement oStatusBadge = new CommonWebElement("oStatusBadge","xpath=//div[@class='status badge']",oWebDriver);
 
 
     //////////////////

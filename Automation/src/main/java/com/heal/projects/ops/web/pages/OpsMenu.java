@@ -142,7 +142,7 @@ public class OpsMenu extends WebBase{
         this.oToastMessage.waitForVisible();
         testbase.verifyTextMatches(sComment, this.oToastMessage, sExpectedMessage);
         if (this.oToastCloseButton.isDisplayed()) {
-            this.oToastCloseButton.jsClick();
+            this.oToastCloseButton.clickAndWait(oToastMessage,false);
         }
     }
     public void verifyToastTitle(String sComment, String sExpectedMessage) {

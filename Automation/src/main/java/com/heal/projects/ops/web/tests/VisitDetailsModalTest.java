@@ -74,22 +74,42 @@ public class VisitDetailsModalTest extends TestBase  {
 
     @Test(groups = {"dev", "critical"})
     public void refundVisitTotal() {
-        String visit_id = visitsAPI.createVisit();
+        String myNewVisit = visitsAPI.createVisit();
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
         OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
+        OpsMenu menu = new OpsMenu(dr);
         VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
-        visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
-        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
+        visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + myNewVisit);
+        //visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
+        visit.waitForPageReady(VisitDetailsModalPage.URL + "#" + myNewVisit);
+        visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_VAHAN, VisitDetailsModalPage.MA_KETTEL);
+        visit.editManualTime(SysTools.healTime10MinAhead());
+        visit.oChangetBtn.click();
+
+        menu.verifyToastTitle("Verifying toast message ", "OK:");
+        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
+        visit.checkVisitStatusWithRefresh( "DOCTOR_ASSIGNED", 10);
+        visit.startVisit();
+        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
+        visit.checkVisitStatusWithRefresh( "STARTED", 10);
+        assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
+
+        visit.endVisit();
+        menu.verifyToastTitle("Verifying toast message ", "OK:");
+        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
+        visit.checkVisitStatusWithRefresh( "FULLY_PAID", 10);
+        assertMatches("Verify visit details modal contains 'FULLY_PAID' Status", visit.oVisitStatus.getText(), "FULLY_PAID");
+        //  visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
         visit.selectTotalRefund("Automated test");
-        visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
         visit.checkVisitStatusWithRefresh( "REFUNDED", 10);
         assertMatches("Verify visit details modal contains 'REFUNDED' Status", visit.oVisitStatus.getText(), "REFUNDED");
-        visitsPage.filterVisits(visit_id);
-        assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(visit_id).getText(), "REFUNDED");
+        visitsPage.filterVisits(myNewVisit);
+        assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.oStatusBadge.getText(), "REFUNDED");
     }
+
 }
