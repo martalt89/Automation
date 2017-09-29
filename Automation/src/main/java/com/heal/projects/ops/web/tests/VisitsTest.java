@@ -75,8 +75,8 @@ public class VisitsTest extends TestBase{
         createVisit.scrollPage("Down");
 
         createVisit.oVisitSummaryMenu.jsClick();
-        createVisit.oBookVisitBtn.click();
-//        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
+        createVisit.oBookVisitBtn.clickAndWait(menu.oLoadingBar,false);
+        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
 
     }
 
@@ -117,7 +117,7 @@ public class VisitsTest extends TestBase{
         createVisit.scrollPage("Down");
 
         createVisit.oVisitSummaryMenu.jsClick();
-        createVisit.oBookVisitBtn.click();
+        createVisit.oBookVisitBtn.clickAndWait(menu.oLoadingBar,false);
         menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
     }
 
@@ -165,7 +165,7 @@ public class VisitsTest extends TestBase{
         verifyTextEquals("Verify correct visit price", createVisit.oPrice, "$99");
         verifyTextEquals("Verify correct discount price", createVisit.oDiscount, "-$99");
         verifyTextEquals("Verify total amount of visit price", createVisit.oTotal, "$0");
-        createVisit.oBookVisitBtn.click();
+        createVisit.oBookVisitBtn.clickAndWait(menu.oLoadingBar,false);
         menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
     }
 
