@@ -3,6 +3,7 @@ package com.heal.framework.foundation;
 import com.google.gson.Gson;
 import com.heal.framework.exception.CommonException;
 import com.heal.framework.test.RunTestSuite;
+import com.relevantcodes.extentreports.LogStatus;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,12 +61,12 @@ public class DBConnector {
         return this;
     }
 
-    public DBConnector param(String paramkey, String paramvalue){
+    public synchronized DBConnector param(String paramkey, String paramvalue){
         this.params.put(paramkey, paramvalue);
         return this;
     }
 
-    private String buildQuery(String beforeQuery){
+    private synchronized String buildQuery(String beforeQuery){
         String afterQuery = new String(beforeQuery);
 
         String pattern = "%\\{[^%{]+}";
@@ -80,6 +81,7 @@ public class DBConnector {
                 requiredParams.add(paramKey);
             }
             else{
+                logger.debug("passing parameter: {}={}", paramKey, params.get(paramKey));
                 afterQuery = afterQuery.replace("%{" + paramKey + "}", params.get(paramKey));
             }
         }
@@ -95,12 +97,25 @@ public class DBConnector {
         this.queryName = queryName;
         this.dbquery = buildQuery(DbQuery.getQuery(queryName));
 
-        try{
+        try {
             Class.forName("org.postgresql.Driver");
             getConnection(db);
+        }
+        catch (SQLException ex){
+            logger.info("retry connect to DB...");
+            try {
+                Thread.sleep(500);
+                Class.forName("org.postgresql.Driver");
+                getConnection(db);
+            }
+            catch (InterruptedException e){
+            }
+        }
+
+        try{
             processResult();
         }
-        catch (GeneralSecurityException|IOException|SQLException ex){
+        catch (SQLException ex){
             ex.printStackTrace();
             throw ex;
         }
@@ -124,7 +139,7 @@ public class DBConnector {
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(dbquery);
-
+            ExtentTestManager.getTest().log(LogStatus.INFO, String.format("excuting Query: {%s}", dbquery));
             ResultSetMetaData resultSetMetaData = rs.getMetaData();
             int columnCount = resultSetMetaData.getColumnCount();
             int row = 0;
@@ -136,7 +151,6 @@ public class DBConnector {
                 for (int i = 1; i <= columnCount; i++) {
                     columnName = rs.getMetaData().getColumnName(i);
                     rowResponse.put(columnName, rs.getString(i));
-                    //DBVariable.setCell(row, columnName, rs.getString(i));
                 }
                 dbRecord.add(rowResponse);
                 row++;
