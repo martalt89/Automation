@@ -197,7 +197,7 @@ public class VisitTest extends TestBase {
 
             assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
-        paymentPage.oPromoCodeLink.click();
+//        paymentPage.oPromoCodeLink.click(); // no more promo code link
         paymentPage.oPromoCodeInput.sendKeys("50PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 
@@ -251,7 +251,7 @@ public class VisitTest extends TestBase {
 
             assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
-        paymentPage.oPromoCodeLink.click();
+//        paymentPage.oPromoCodeLink.click(); no more promo code link
         paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 
@@ -357,7 +357,7 @@ public class VisitTest extends TestBase {
 
         assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
-        paymentPage.oPromoCodeLink.click();
+//        paymentPage.oPromoCodeLink.click(); // no more promo code link
         paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 
