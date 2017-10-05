@@ -21,7 +21,9 @@ import java.text.ParseException;
 public class VisitsE2E extends TestBase  {
 
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
-        private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
+//        private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
+        private VisitsAPI visitsAPI = new VisitsAPI("vahan+" + getParameters().get("ENV").toString() + "@heal.com", testDataAccount.sPassword);
+
         private String visit_id = visitsAPI.createVisit();
         private int  ilogCounter=1;
 

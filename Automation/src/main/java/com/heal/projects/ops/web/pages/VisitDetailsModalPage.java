@@ -398,7 +398,7 @@ public class VisitDetailsModalPage extends WebBase{
 
         openChangeProviderModal();
         if (this.oProviderListLoading.exists()) {
-            this.oProviderListLoading.waitForInvisible(5);
+            this.oProviderListLoading.waitForInvisible(15);
         }
         this.oChooseDoctorInput.waitForVisible();
         this.oChooseDoctorInput.select(sDoctorName,false);
