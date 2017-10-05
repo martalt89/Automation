@@ -1,5 +1,6 @@
 package com.heal.projects.ops.web.pages;
 
+import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
@@ -40,8 +41,13 @@ public class OpsLoginPage extends WebBase{
 
     public void login()
     {
-        this.oUserNameInput.sendKeys("vahan+oc@heal.com");
-        this.oPasswordInput.sendKeys("Heal4325");
+        if (RunTestSuite.getExcelParams().get("ENV").equalsIgnoreCase("dev")){
+            this.oUserNameInput.sendKeys("mayur+oc@heal.com");
+            this.oPasswordInput.sendKeys("Heal@123");
+        }else {
+            this.oUserNameInput.sendKeys("vahan+oc@heal.com");
+            this.oPasswordInput.sendKeys("Heal4325");
+        }
         this.oLoginBtn.click();
         dashboardPage.oVisitsContainer.waitForElement();
     }
