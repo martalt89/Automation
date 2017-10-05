@@ -25,8 +25,8 @@ public class LoginPage extends WebBase{
     ///////////////////
     // Page Elements //
     ///////////////////
-    public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "name=username",oWebDriver);
-    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "name=password", oWebDriver);
+    public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "xpath=//input[@name='username']",oWebDriver);
+    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "xpath=//input[@name='password']", oWebDriver);
     public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//button[@type='submit']", oWebDriver);
     public CommonWebElement oRememberMe = new CommonWebElement("oRememberMe", "className=md-icon", oWebDriver);
     public CommonWebElement oForgotYourPasswordLnk = new CommonWebElement("oForgotYourPasswordLnk", "linkText=Forgot Password", oWebDriver);

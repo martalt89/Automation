@@ -5,6 +5,7 @@ import com.heal.framework.web.WebBase;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -88,7 +89,13 @@ public class VisitsAPI extends ApiBase {
                 .get(baseURL + "/patient/visit/timeSlots");
 
         String strResponse = response.asString();
-        JSONObject obj = new JSONObject(strResponse);
+
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(strResponse);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         JSONArray arrTimeSlots = obj.getJSONArray("timeSlots");
         int i = 0;
         while (!arrTimeSlots.getJSONObject(i).getBoolean("available")){

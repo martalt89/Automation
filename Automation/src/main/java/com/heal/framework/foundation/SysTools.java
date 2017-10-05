@@ -19,11 +19,12 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
-
+import org.openqa.selenium.remote.RemoteWebDriver;
 import com.heal.framework.test.RunTestSuite;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Reporter;
@@ -291,6 +292,21 @@ public class SysTools
         return output;
     }
 
+    /**
+     * This method will check weather the driver is remote safari driver.
+     *
+     * @param webDriver
+     * @return Boolean
+     */
+    public static Boolean isRemoteSafari(WebDriver webDriver){
+        if (webDriver instanceof RemoteWebDriver){
+            if (((RemoteWebDriver) webDriver).getCapabilities().getBrowserName().equalsIgnoreCase("safari")){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
 
 
 }

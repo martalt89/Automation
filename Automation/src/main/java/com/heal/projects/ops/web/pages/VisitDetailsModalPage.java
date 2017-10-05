@@ -161,6 +161,8 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oDetailsEditVisitNotesField = new CommonWebElement("oDetailsEditVisitNotesField", "xpath=//*[contains(@class,'collapsible-section')][1]//li[5]//input",oWebDriver);
     public CommonWebElement oDetailsLocationText = new CommonWebElement("oDetailsLocationText", "xpath=//label[text()='Location']",oWebDriver);
     public CommonWebElement oDetailsLocation = new CommonWebElement("oDetailsLocation", "xpath=//*[contains(@class,'collapsible-section')][1]//li[6]/div",oWebDriver);
+    public CommonWebElement oChartID = new CommonWebElement("Chart Id", "xpath=//li[contains(.,'Chart Id #')]/div/a",oWebDriver);
+    public CommonWebElement oPatientID = new CommonWebElement("Dr. Chrono Patient Id", "xpath=//li[contains(.,'Patient Id')]/div/a",oWebDriver);
 
     //patient
     public CommonWebElement oPatientBtn = new CommonWebElement("oPatientBtn", "xpath=//*[@class='card-section-header']//*[text()='Patient']",oWebDriver);
