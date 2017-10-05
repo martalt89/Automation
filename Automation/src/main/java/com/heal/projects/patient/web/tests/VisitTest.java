@@ -377,5 +377,27 @@ public class VisitTest extends TestBase {
 
     }
 
+    @Test
+    public void bookVisitPayerOfflineTest(){
+        WebDriver dr = getDriver();
+        LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        loginPage.login();
+        HomePage homePage = new HomePage(dr);
+        ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
+        ProfilePage profilePage = new ProfilePage(dr);
+        Menu menu = new Menu(dr);
+
+        menu.selectFromMenu("profiles");
+        manageProfilePage.getPatientByText("ProfileOffline").click();
+        manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular("aetna");
+        manageProfilePage.oMemberIdInput.sendKeys("error_005");  //insurance ID
+        manageProfilePage.oGroupIdInput.sendKeys("BC001");  //group ID
+        manageProfilePage.oSaveAndContinueBtn.jsClickAndWait(profilePage.oPayerOfflineMsg,true);
+        assertMatches("verifying text for payer offline",profilePage.oPayerOfflineMsg.getText(),"Your insurance company's systems are offline, so we can't verify your visit price right now. You'll be charged $99 and as soon as your insurance company is back online, we’ll recheck your price and refund you any difference. We’ll also notify you through email.");
+        profilePage.oPayerOfflineDialogOkButton.clickAndWait(menu.oLoadingBar,false);
+
+    }
 
 }
