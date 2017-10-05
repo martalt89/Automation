@@ -347,7 +347,7 @@ public class VisitTest extends TestBase {
         loginPage.login("vahan+" + getParameters().get("ENV").toString() + "1@heal.com"); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectProfileByName("vahan");
+        chooseProfilePage.selectProfileByName("Vahan");
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
