@@ -197,7 +197,7 @@ public class VisitTest extends TestBase {
 
             assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
-        paymentPage.oPromoCodeLink.click();
+//        paymentPage.oPromoCodeLink.click(); // no more promo code link
         paymentPage.oPromoCodeInput.sendKeys("50PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 
@@ -251,7 +251,7 @@ public class VisitTest extends TestBase {
 
             assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
-        paymentPage.oPromoCodeLink.click();
+//        paymentPage.oPromoCodeLink.click(); no more promo code link
         paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 
@@ -344,10 +344,10 @@ public class VisitTest extends TestBase {
         TestData testdata=new TestData(TestData.PATIENT_SHEET);
         Menu menu = new Menu(dr);
 
-        loginPage.login(testdata.sNo_Credit_Card_Id,"Heal4325"); // Login on patient web app
+        loginPage.login("vahan+" + getParameters().get("ENV").toString() + "1@heal.com"); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectProfileByName("vahan");
+        chooseProfilePage.selectProfileByName("Vahan");
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
@@ -357,7 +357,7 @@ public class VisitTest extends TestBase {
 
         assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
 
-        paymentPage.oPromoCodeLink.click();
+//        paymentPage.oPromoCodeLink.click(); // no more promo code link
         paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
         menu.oLoadingBar.waitForInvisible();
 

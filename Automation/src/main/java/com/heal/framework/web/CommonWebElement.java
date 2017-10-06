@@ -10,6 +10,7 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -255,7 +256,12 @@ public class CommonWebElement implements WebElement, Locatable {
         waitForEnabled();
         waitForClickable();
 
-        oWebElement.click();
+        try {
+            oWebElement.click();
+        } catch (WebDriverException e) {
+            scrollForElement();
+            oWebElement.click();
+        }
         if (iThrottleValue != 0)
             try {
                 Thread.sleep(1000 * iThrottleValue);
@@ -422,10 +428,7 @@ public class CommonWebElement implements WebElement, Locatable {
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
 
-        waitForEnabled();
-        waitForVisible();
-//        scrollForElement();
-        oWebElement.click();
+        this.click();
         if (iThrottleValue != 0) {
             try {
                 Thread.sleep(1000 * iThrottleValue);
@@ -674,12 +677,22 @@ public class CommonWebElement implements WebElement, Locatable {
      * @return (Boolean)
      */
     public boolean exists() {
-        boolean isPresent = oWebDriver.findElements(oBy).size() > 0;
-        if (isPresent) {
-            return true;
-        }else {
+        try {
+            List<WebElement> elements = oWebDriver.findElements(oBy);
+             if(oWebDriver.findElements(oBy).size() != 0) {
+                return true;
+            }else {
+                return false;
+            }
+        } catch (org.openqa.selenium.NoSuchElementException e){
             return false;
         }
+//        boolean isPresent = oWebDriver.findElements(oBy).size() > 0;
+//        if (isPresent) {
+//            return true;
+//        }else {
+//            return false;
+//        }
     }
     
     /**
@@ -1011,13 +1024,14 @@ public class CommonWebElement implements WebElement, Locatable {
 
         if (oBy != null) {
             waitForElement(iTimeOut);
-
-            try {
-                Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
-                oWait.until(ExpectedConditions.visibilityOf(oWebElement));
-            } catch (org.openqa.selenium.TimeoutException ex) {
-                throw new CommonException("Timeout waiting for element " + sElementName + " to become visible", ex);
-            }
+                if (!SysTools.isRemoteSafari(oWebDriver)){
+                    try {
+                        Wait<WebDriver> oWait = new WebDriverWait(oWebDriver, iTimeOut);
+                        oWait.until(ExpectedConditions.visibilityOf(oWebElement));
+                    } catch (org.openqa.selenium.TimeoutException ex) {
+                        throw new CommonException("Timeout waiting for element " + sElementName + " to become visible", ex);
+                    }
+                }
         }
         return this;
     }
@@ -1101,8 +1115,10 @@ public class CommonWebElement implements WebElement, Locatable {
     }
 
     public void waitForClickable(){
-        WebDriverWait wait = new WebDriverWait(oWebDriver, 10);
-        wait.until(ExpectedConditions.elementToBeClickable(oWebElement));
+        if (!(SysTools.isRemoteSafari(oWebDriver))) {
+            WebDriverWait wait = new WebDriverWait(oWebDriver, 10);
+            wait.until(ExpectedConditions.elementToBeClickable(oWebElement));
+        }
     }
 
 

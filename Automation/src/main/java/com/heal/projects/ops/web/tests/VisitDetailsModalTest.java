@@ -3,6 +3,7 @@ package com.heal.projects.ops.web.tests;
 
 import com.heal.framework.foundation.SysTools;
 import com.heal.framework.restAPI.VisitsAPI;
+import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
@@ -13,8 +14,12 @@ import org.testng.annotations.Test;
 
 
 public class VisitDetailsModalTest extends TestBase  {
+        String username = "vahan+" + RunTestSuite.getExcelParams().get("ENV").toString() + "@heal.com";
+        String password = RunTestSuite.getExcelParams().get("PatientPassword");
+
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
-        private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
+//        private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
+        private VisitsAPI visitsAPI = new VisitsAPI(username, password);
         private String sDashboardAndVisitCodeURL = "https://ops.qa.heal.com/dashboard#";
         private String sVisitsAndVisitCodeURL = "https://ops.qa.heal.com/visits#";
 
@@ -22,7 +27,11 @@ public class VisitDetailsModalTest extends TestBase  {
 
     @Test(groups = {"dev", "critical"})
     public void changeProviderNoTime() {
+        Boolean chartID = false;
+        Boolean patienID = false;
         String visit_id = visitsAPI.createVisit();
+        System.out.println(username + "    " +password);
+//        String visit_id = "LA-GHXNX";
         getExtentTest().log(LogStatus.INFO, visit_id + " visit booked");
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
@@ -37,6 +46,12 @@ public class VisitDetailsModalTest extends TestBase  {
         visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_VAHAN, VisitDetailsModalPage.MA_KETTEL);
         visit.oChangetBtn.click();
         opsMenu.oToastContainer.waitForVisible();
+        if (!visit.oChartID.getText().equals("")) chartID=true;
+
+        if (!visit.oPatientID.getText().equals("")) patienID=true;
+
+        assertEquals("Verifying ChartID was created ", true, chartID);
+        assertEquals("Verifying Patient ID was created ", true, patienID);
         verifyTextMatches("Verify the toast-box status is 'OK'", opsMenu.oToastTitle, "OK:");
         visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
         visit.checkVisitStatusWithRefresh( "QUEUED", 10);
@@ -112,5 +127,4 @@ public class VisitDetailsModalTest extends TestBase  {
         visitsPage.getStatusByVisitCode(myNewVisit).waitForVisible();
         assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(myNewVisit).getText(), "REFUNDED");
     }
-
 }

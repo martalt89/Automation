@@ -25,7 +25,7 @@ public class SelectPaymentPage extends WebBase {
     public CommonWebElement oUseInsuranceTxt = new CommonWebElement( "oUseInsuranceTxt", "xpath=//*[contains(text(),'use insurance?')]", oWebDriver );
     public CommonWebElement oAddInsuranceBtn = new CommonWebElement( "oAddInsuranceBtn", "xpath=//*[text()='+ Add Insurance']", oWebDriver );
     public CommonWebElement oPromoCodeLink = new CommonWebElement( "oPromoCodeLink", "xpath=//*[text()='Have a promo code?']", oWebDriver );
-    public CommonWebElement oPromoCodeInput = new CommonWebElement( "oPromoCodeInput", "xpath=//*[@ng-model='vm.service.pricing.promoCode']", oWebDriver );
+    public CommonWebElement oPromoCodeInput = new CommonWebElement( "oPromoCodeInput", "xpath=//*[@placeholder='Promo Code']", oWebDriver );
     public CommonWebElement oTotalText = new CommonWebElement( "oTotalText", "xpath=//*[text()='Total']", oWebDriver );
     public CommonWebElement oCompleteBtn = new CommonWebElement( "oCompleteBtn", "xpath=//*[text()='Complete Booking'] | //*[text()='Request doctor']", oWebDriver );
     public CommonWebElement oPriceInfoText = new CommonWebElement( "oPriceInfoText", "xpath=//*[contains(@class,'float-right md-primary ng-binding')]", oWebDriver );
