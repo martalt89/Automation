@@ -57,7 +57,7 @@ public class LoginPage extends WebBase{
     public void login()
     {
         if (testDataMap == null) {
-            this.oUserNameInput.sendKeys("jay.purohit+qa2@heal.com");
+            this.oUserNameInput.sendKeys("vahan+dev@heal.com");
         } else {
             this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
         }

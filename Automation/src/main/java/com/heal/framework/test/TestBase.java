@@ -292,21 +292,21 @@ public class TestBase
             ,"USERNAME"
             ,"ACCESS_KEY"
             ,"saucelab_url"
-            ,"element_implicit_wait"
+            ,"implicitWait"
             ,"retryLimit"
             ,"maximize_browser"
     })
-    public void setup(@Optional("remote") String environment,
-                      @Optional("safari") String browserName,
+    public void setup(@Optional("local") String environment,
+                      @Optional("chrome") String browserName,
                       @Optional("macOS 10.12") String platform,
                       @Optional("latest") String version,
                       @Optional("chrome") String screenResolution,
-                      @Optional(".qa.heal.com") String baseUrl,
-                      @Optional("QA") String env,
+                      @Optional("-dev.heal.com") String baseUrl,
+                      @Optional("dev") String env,
                       @Optional("qaheal") String username,
                       @Optional("e14bb2d7-155b-4775-8978-9365c5b22012") String accessKey,
                       @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
-                      @Optional("30") String element_implicit_wait,
+                      @Optional("30") String implicitWait,
                       @Optional("1") String retryLimit,
                       @Optional("true") String maximizeBrowser)
     {
@@ -340,8 +340,8 @@ public class TestBase
             //iPageLoadTimeout = Integer.parseInt(oProp.getProperty("page_load_timeout", "90"));
 
             // Set global implicit wait value for CommonWebElement
-            CommonWebElement.setImplicitWait(Integer.parseInt(element_implicit_wait));
-            logger.info("setup():  Element implicit wait:  {} sec", element_implicit_wait);
+            CommonWebElement.setImplicitWait(Integer.parseInt(implicitWait));
+            logger.info("setup():  Element implicit wait:  {} sec", implicitWait);
 
             RetryAnalyzer.setRetryLimit(Integer.parseInt(retryLimit));
             logger.info("setup(): Set retryLimit: {}", retryLimit);

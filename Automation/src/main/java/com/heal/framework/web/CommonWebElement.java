@@ -256,7 +256,12 @@ public class CommonWebElement implements WebElement, Locatable {
         waitForEnabled();
         waitForClickable();
 
-        oWebElement.click();
+        try {
+            oWebElement.click();
+        } catch (WebDriverException e) {
+            scrollForElement();
+            oWebElement.click();
+        }
         if (iThrottleValue != 0)
             try {
                 Thread.sleep(1000 * iThrottleValue);
@@ -423,10 +428,7 @@ public class CommonWebElement implements WebElement, Locatable {
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
 
-        waitForEnabled();
-        waitForVisible();
-//        scrollForElement();
-        oWebElement.click();
+        this.click();
         if (iThrottleValue != 0) {
             try {
                 Thread.sleep(1000 * iThrottleValue);
@@ -675,11 +677,6 @@ public class CommonWebElement implements WebElement, Locatable {
      * @return (Boolean)
      */
     public boolean exists() {
-        if (oWebDriver instanceof RemoteWebDriver) {
-            System.out.println("Remote Web Driver");
-        } else {
-            System.out.println("Local driver");
-        }
         try {
             List<WebElement> elements = oWebDriver.findElements(oBy);
              if(oWebDriver.findElements(oBy).size() != 0) {

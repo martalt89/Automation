@@ -62,10 +62,12 @@ public class RunTestSuite {
         threadCount = Integer.parseInt(excelParams.get("threadCount"));
         if (excelParams.get("ENV").toString().equalsIgnoreCase("qa")){
             excelParams.replace("baseUrl", ".qa.heal.com");
-            excelParams.replace("ImplicitWait", "30");
+            excelParams.replace("implicitWait", "30");
         }else if (excelParams.get("ENV").toString().equalsIgnoreCase("dev")){
             excelParams.replace("baseUrl", "-dev.heal.com");
-            excelParams.replace("ImplicitWait", "60");
+            int implicitWait = Integer.parseInt(excelParams.get("implicitWait").toString());
+            int devImplicitWait = 30 + implicitWait;
+            excelParams.replace("implicitWait", String.valueOf(devImplicitWait));
         } else {
             System.out.println("The environment is not defined. Currently supported environments are 'QA' and 'DEV'");
         }
