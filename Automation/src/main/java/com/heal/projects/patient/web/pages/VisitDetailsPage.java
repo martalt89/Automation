@@ -49,14 +49,6 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot-button') and not(@disabled)])[1]", oWebDriver );
     public CommonWebElement oPayerOfflineAlert = new CommonWebElement("oPayerOfflineAlert","xpath=//div[contains(@class,'alert alert-success')]",oWebDriver);
 
-
-
-
-
-
-    public CommonWebElement oTimeRangeButton1 = new CommonWebElement( "oTimeRangeButton1", "xpath=//*[text()='08:00 am - 10:00 am']", oWebDriver );
-    public CommonWebElement oTimeRangeButton2 = new CommonWebElement( "oTimeRangeButton2", "xpath=//*[text()='10:00 am - 12:00 pm']", oWebDriver );
-    public CommonWebElement oTimeRangeButton3 = new CommonWebElement( "oTimeRangeButton3", "xpath=//*[text()='12:00 pm - 02:00 pm']", oWebDriver );
     public CommonWebElement oContinueBtn = new CommonWebElement( "oContinueBtn", "xpath=//*[text()='Continue']", oWebDriver );
 
     //////////////////
