@@ -287,11 +287,9 @@ public class VisitTest extends TestBase {
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
         BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
         VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
-        VisitsPage visitsPage = new VisitsPage(dr);
         SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
         WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
-        ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
 
         Menu menu = new Menu(dr);
 

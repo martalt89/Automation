@@ -58,7 +58,7 @@ public class ScheduledVisitsTest extends TestBase {
         BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
-        ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
+        ProfilePage profilePage = new ProfilePage(dr);
         CreatePatientPage createPatientPage = new CreatePatientPage(dr);
         AddCardPage addCardPage = new AddCardPage(dr);
         SelectPaymentPage selectPaymentPage = new SelectPaymentPage(dr);
@@ -73,8 +73,8 @@ public class ScheduledVisitsTest extends TestBase {
         //check if account has patients. if not, add one patient
         if(accountAPI.getPatientsNumber()==0){
             chooseProfilePage.oAddPatientLabel.click();
-            manageProfilePage.typePatientDataFromExcel(patientTestData);
-            manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+            profilePage.typePatientDataFromExcel(patientTestData);
+            profilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
         } else {
             chooseProfilePage.selectProfileByName(patientTestData.sFirstname);
             chooseProfilePage.oContinueBtn.click();

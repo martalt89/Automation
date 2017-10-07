@@ -43,7 +43,7 @@ public class UIwithAPITest extends TestBase {
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
-        ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
+        ProfilePage profilePage = new ProfilePage(dr);
         Menu menu = new Menu(dr);
 
         //Login
@@ -69,9 +69,9 @@ public class UIwithAPITest extends TestBase {
         chooseProfilePage.goTo();
         verifyVisible("Check that patient firstname is displayed on Profiles page", chooseProfilePage.getPatientByText(patientFromExcel.getPatientFirstname()));
         chooseProfilePage.selectProfileByName(patientFromExcel.getPatientFirstname());
-        verifyMatches("Firstname ", manageProfilePage.oFirstNameInput.getText(), patientFromExcel.getPatientFirstname());
-        verifyMatches("Lastname ", manageProfilePage.oLastNameInput.getText(), patientFromExcel.getPatientLastname());
-        verifyMatches("Email ", manageProfilePage.oEmailInput.getText(), patientFromExcel.getPatientEmail());
+        verifyMatches("Firstname ", profilePage.oFirstNameInput.getText(), patientFromExcel.getPatientFirstname());
+        verifyMatches("Lastname ", profilePage.oLastNameInput.getText(), patientFromExcel.getPatientLastname());
+        verifyMatches("Email ", profilePage.oEmailInput.getText(), patientFromExcel.getPatientEmail());
 
 
         //Add a patient from a Map and verify that patient info is displayed on profiles and manage profile pages
@@ -101,9 +101,9 @@ public class UIwithAPITest extends TestBase {
         chooseProfilePage.goTo();
         verifyVisible("Check that patient firstname is displayed on Profiles page", chooseProfilePage.getPatientByText(patientFromExcel.getPatientFirstname()));
         chooseProfilePage.selectProfileByName(patientFromMap.getPatientFirstname());
-        verifyMatches("Firstname ", manageProfilePage.oFirstNameInput.getText(), patientFromMap.getPatientFirstname());
-        verifyMatches("Lastname ", manageProfilePage.oLastNameInput.getText(), patientFromMap.getPatientLastname());
-        verifyMatches("Email ", manageProfilePage.oEmailInput.getText(), patientFromMap.getPatientEmail());
+        verifyMatches("Firstname ", profilePage.oFirstNameInput.getText(), patientFromMap.getPatientFirstname());
+        verifyMatches("Lastname ", profilePage.oLastNameInput.getText(), patientFromMap.getPatientLastname());
+        verifyMatches("Email ", profilePage.oEmailInput.getText(), patientFromMap.getPatientEmail());
 
     }
 }

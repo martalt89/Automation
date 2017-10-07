@@ -6,8 +6,8 @@ import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.CommonWebValidate;
 import com.heal.projects.patient.web.pages.HomePage;
 import com.heal.projects.patient.web.pages.LoginPage;
-import com.heal.projects.patient.web.pages.ManageProfilePage;
 import com.heal.projects.patient.web.pages.Menu;
+import com.heal.projects.patient.web.pages.ProfilePage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -39,34 +39,34 @@ public class ProfileTest extends TestBase {
         loginPage.goTo();
         loginPage.waitForPageReady();
         HomePage homePage = new HomePage(dr);
-        ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
+        ProfilePage profilePage = new ProfilePage(dr);
         Menu menu = new Menu(dr);
 
         //Test steps
         loginPage.login();
         homePage.selectFromMenu(menu.oProfilesLnk);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        manageProfilePage.oAddPatientbtn.click();
+        profilePage.oAddPatientbtn.click();
         //manageProfilePage.oContinueButton.clickAndWait(menu.oLoadingBar, false);
-        manageProfilePage.oFirstNameInput.sendKeys(firstName);
-        manageProfilePage.oLastNameInput.sendKeys(lastaName);
-        manageProfilePage.oEmailInput.sendKeys(email);
-        manageProfilePage.oPhoneNmbInput.sendKeys(phoneNumber);
-        manageProfilePage.oDateOfBirthInput.sendKeys(dob);
-        manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
-        manageProfilePage.oGenderInput.selectByVisibleTextAngular(gender);
-        manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
-        manageProfilePage.oMemberIdInput.jsSendKeys(insuranceID);  //insurance ID
-        manageProfilePage.oGroupIdInput.jsSendKeys(insuranceGroup);  //group ID
-        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Patient details")) {
+        profilePage.oFirstNameInput.sendKeys(firstName);
+        profilePage.oLastNameInput.sendKeys(lastaName);
+        profilePage.oEmailInput.sendKeys(email);
+        profilePage.oPhoneNmbInput.sendKeys(phoneNumber);
+        profilePage.oDateOfBirthInput.sendKeys(dob);
+        profilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
+        profilePage.oGenderInput.selectByVisibleTextAngular(gender);
+        profilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
+        profilePage.oMemberIdInput.jsSendKeys(insuranceID);  //insurance ID
+        profilePage.oGroupIdInput.jsSendKeys(insuranceGroup);  //group ID
+        profilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", profilePage.oSubtitle.getText(), "Patient details")) {
             System.out.println("Successfully added REAL insurance.");
         } else {
             System.out.println("Could not add REAL insurance. Trying with TEST insurance...");
-            manageProfilePage.oMemberIdInput.sendKeys("COST_ESTIMATES_025");  //insurance ID
-            manageProfilePage.oGroupIdInput.sendKeys("X0001004");  //group ID
-            manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-            validate.verifyMatches("Checking if the 'Choose profile' is displayed", manageProfilePage.oSubtitle.getText(), "Choose profile");
+            profilePage.oMemberIdInput.sendKeys("COST_ESTIMATES_025");  //insurance ID
+            profilePage.oGroupIdInput.sendKeys("X0001004");  //group ID
+            profilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+            validate.verifyMatches("Checking if the 'Choose profile' is displayed", profilePage.oSubtitle.getText(), "Choose profile");
             System.out.println("Successfully added TEST insurance.");
         }
     }
@@ -81,18 +81,18 @@ public class ProfileTest extends TestBase {
         loginPage.goTo();
         loginPage.waitForPageReady();
         HomePage homePage = new HomePage(dr);
-        ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
+        ProfilePage profilePage = new ProfilePage(dr);
         Menu menu = new Menu(dr);
         //Test steps
         loginPage.login();
         homePage.selectFromMenu(menu.oProfilesLnk);
             verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         //add patient
-        manageProfilePage.oAddPatientbtn.click();
-        manageProfilePage.typePatientDataFromExcel(testData);
-        manageProfilePage.oSaveAndContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
+        profilePage.oAddPatientbtn.click();
+        profilePage.typePatientDataFromExcel(testData);
+        profilePage.oSaveAndContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
 
-            assertEquals("Verify if added patient name is in patients profiles list", manageProfilePage.getPatientByText(testData.sFirstname).getText(), testData.sFirstname);
+            assertEquals("Verify if added patient name is in patients profiles list", profilePage.getPatientByText(testData.sFirstname).getText(), testData.sFirstname);
         menu.selectFromMenu("Sign out");
 
 
@@ -118,7 +118,7 @@ public class ProfileTest extends TestBase {
         loginPage.goTo();
         loginPage.waitForPageReady();
         HomePage homePage = new HomePage(dr);
-        ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
+        ProfilePage profilePage = new ProfilePage(dr);
         Menu menu = new Menu(dr);
 
         //Test steps
@@ -126,43 +126,43 @@ public class ProfileTest extends TestBase {
         homePage.selectFromMenu(menu.oProfilesLnk);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
         //add patient
-        manageProfilePage.oAddPatientbtn.click();
-        manageProfilePage.typePatientDataFromExcel(testData);
-        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+            profilePage.oAddPatientbtn.click();
+            profilePage.typePatientDataFromExcel(testData);
+            profilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
         //edit patient
-        manageProfilePage.clickPatientByText(testData.sFirstname);
-        manageProfilePage.oContinueButton.click();
-        manageProfilePage.oFirstNameInput.sendKeys(sFnUpdated);
-        manageProfilePage.oLastNameInput.sendKeys(sLnUpdated);
-        manageProfilePage.oEmailInput.sendKeys(sEmailUpdated);
-        manageProfilePage.oPhoneNmbInput.sendKeys(sPhoneUpdated);
-        manageProfilePage.oDateOfBirthInput.sendKeys(sDateOfBirthUpdated);
-        manageProfilePage.oRelationshipInput.selectByVisibleTextAngular(sRelationshipUpdated);
-        manageProfilePage.oGenderInput.selectByVisibleTextAngular(sGenderUpdated);
-        manageProfilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
+            profilePage.clickPatientByText(testData.sFirstname);
+            profilePage.oContinueButton.click();
+            profilePage.oFirstNameInput.sendKeys(sFnUpdated);
+            profilePage.oLastNameInput.sendKeys(sLnUpdated);
+            profilePage.oEmailInput.sendKeys(sEmailUpdated);
+            profilePage.oPhoneNmbInput.sendKeys(sPhoneUpdated);
+            profilePage.oDateOfBirthInput.sendKeys(sDateOfBirthUpdated);
+            profilePage.oRelationshipInput.selectByVisibleTextAngular(sRelationshipUpdated);
+            profilePage.oGenderInput.selectByVisibleTextAngular(sGenderUpdated);
+            profilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
         //check that changes have been made
         //NOTE:
         // There is currently a web bug here: When updating Firstname, it doesn't reflect only after reloading the page
 
 
-            manageProfilePage.reload();
-        manageProfilePage.clickPatientByText(sFnUpdated);
-        manageProfilePage.oContinueButton.click();
+            profilePage.reload();
+            profilePage.clickPatientByText(sFnUpdated);
+            profilePage.oContinueButton.click();
             //TODO: Need to figure out how to get the text values of firstname, lastname, email, phoneNumber, dateOfBirth
 //        verifyEquals("Verify Firstname was updated",manageProfilePage.oFirstNameInput.getText(), sFnUpdated);
 //        verifyEquals("Verify Lastname was updated",manageProfilePage.oLastNameInput.getText(), sLnUpdated);
 //        verifyEquals("Verify Email was updated",manageProfilePage.oEmailInput.getText(), sEmailUpdated);
 //        verifyEquals("Verify Phone was updated",manageProfilePage.oPhoneNmbInput.getText(), sPhoneUpdated);
 //        verifyEquals("Verify Date of birth was updated",manageProfilePage.oDateOfBirthInput.getText(), sPhoneUpdated);
-        verifyEquals("Verify Relationship was updated",manageProfilePage.oRelationshipInput.getText(), sRelationshipUpdated);
-        verifyEquals("Verify Gender was updated",manageProfilePage.oGenderInput.getText(), sGenderUpdated);
+        verifyEquals("Verify Relationship was updated",profilePage.oRelationshipInput.getText(), sRelationshipUpdated);
+        verifyEquals("Verify Gender was updated",profilePage.oGenderInput.getText(), sGenderUpdated);
 //            assertEquals("Verify Firstname was updated",manageProfilePage.oFirstNameInput.getText(), sFnUpdated);
 //            assertEquals("Verify Lastname was updated",manageProfilePage.oLastNameInput.getText(), sLnUpdated);
 //            assertEquals("Verify Email was updated",manageProfilePage.oEmailInput.getText(), sEmailUpdated);
 //            assertEquals("Verify Phone was updated",manageProfilePage.oPhoneNmbInput.getText(), sPhoneUpdated);
 //            assertEquals("Verify Date of birth was updated",manageProfilePage.oDateOfBirthInput.getText(), sPhoneUpdated);
-            assertEquals("Verify Relationship was updated",manageProfilePage.oRelationshipInput.getText(), sRelationshipUpdated);
-            assertEquals("Verify Gender was updated",manageProfilePage.oGenderInput.getText(), sGenderUpdated);
+            assertEquals("Verify Relationship was updated",profilePage.oRelationshipInput.getText(), sRelationshipUpdated);
+            assertEquals("Verify Gender was updated",profilePage.oGenderInput.getText(), sGenderUpdated);
 
     }
 }

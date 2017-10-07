@@ -168,7 +168,7 @@ public class VisitsAPI extends ApiBase {
 
         Map<String, String> cancelParam = new HashMap<>();
         cancelParam.put("reasonId", "24");
-        cancelParam.put("note", "test");
+        cancelParam.put("note", "Canceled by automation test (via API).");
 
         String resourceAPI = "/patient/visit/"+visitCode+"/cancel";
         String sessionId = RestAssured.given()
@@ -177,16 +177,6 @@ public class VisitsAPI extends ApiBase {
                 .basic(sAccUsername, sAccPassword)
                 .get(baseURL + "/v2/patients")
                 .cookie("SESSION");
-
-//        Response response = RestAssured.given()
-//                .auth()
-//                .preemptive()
-//                .basic(sAccUsername, sAccPassword)
-//                .contentType("application/json")
-//                .cookie("SESSION", sessionId)
-//                .body(createVisitPostParams())
-//                .post(baseURL + resourceAPI);
-//        return restUtils.getJsonValue(response.asString(),"visitCode");
 
         String response = RestAssured.given()
                 .auth()
@@ -200,8 +190,5 @@ public class VisitsAPI extends ApiBase {
         System.out.println(response);
         return response;
     }
-
-
-
 }
 
