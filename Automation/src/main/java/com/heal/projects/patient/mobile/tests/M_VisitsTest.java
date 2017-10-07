@@ -166,7 +166,7 @@ public class M_VisitsTest extends TestBase{
         verifyVisible("Verify Register Button is displayed", homePage.oRegisterBtn);
         verifyVisible("Verify Login Button is displayed", homePage.oLoginBtn);
         homePage.clickSettingsButton();
-
+ 
         M_SettingsPage settingsPage = new M_SettingsPage(dr);
         settingsPage.setEnv("qa");
         homePage.oLoginBtn.click();
