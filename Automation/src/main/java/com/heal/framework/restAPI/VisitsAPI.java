@@ -1,10 +1,12 @@
 package com.heal.framework.restAPI;
 
+import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.WebBase;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -39,6 +41,8 @@ public class VisitsAPI extends ApiBase {
 
     private Map createVisitPostParams(){
         AccountAPI accountAPI = new AccountAPI(this.sAccUsername, this.sAccPassword);
+        double longitude = accountAPI.getAddressLongitude(accountTestData.sAddress);
+        double latitude = accountAPI.getAddressLatitude(accountTestData.sAddress);
         Map<String, Object> jsonAsMap = new HashMap<>();
         String sTimeSlotID = getTimeSlotID();
         jsonAsMap.put("patientId", this.sPatientId);
@@ -46,9 +50,13 @@ public class VisitsAPI extends ApiBase {
         jsonAsMap.put("timeSlotId", sTimeSlotID);
         jsonAsMap.put("symptoms", "IGNORE - Booked by automation test..");
         jsonAsMap.put("promoCode", null);
-        jsonAsMap.put("paymentId", "0001501850382645-2f663b05b4c-0001"); // todo: find out where to extract paymentId
-        jsonAsMap.put("addressLongitude", accountAPI.getAddressLongitude(accountTestData.sAddress));
-        jsonAsMap.put("addressLatitude", accountAPI.getAddressLatitude(accountTestData.sAddress));
+        if (RunTestSuite.getExcelParams().get("ENV").toString().equalsIgnoreCase("dev")){
+            jsonAsMap.put("paymentId", "0001507157664118-a483b44ffff8a87-0001"); // todo: find out where to extract paymentId
+        } else {
+            jsonAsMap.put("paymentId", "0001501850382645-2f663b05b4c-0001"); // todo: find out where to extract paymentId
+        }
+        jsonAsMap.put("addressLongitude", longitude);
+        jsonAsMap.put("addressLatitude", latitude);
         jsonAsMap.put("addressId", accountAPI.getAddressId(accountTestData.sAddress));
         jsonAsMap.put("establishment", "");
         jsonAsMap.put("address", accountTestData.sAddress);
@@ -58,8 +66,8 @@ public class VisitsAPI extends ApiBase {
         jsonAsMap.put("zipcode", accountTestData.sZipCode);
         jsonAsMap.put("instructions", accountTestData.sInstruction);
         jsonAsMap.put("addressType", accountTestData.sAddressType);
-        jsonAsMap.put("latitude", accountAPI.getAddressLatitude(accountTestData.sAddress));
-        jsonAsMap.put("longitude", accountAPI.getAddressLongitude(accountTestData.sAddress));
+        jsonAsMap.put("latitude", longitude);
+        jsonAsMap.put("longitude", latitude);
         jsonAsMap.put("defaultAddress", false);
         return jsonAsMap;
     }
@@ -88,7 +96,13 @@ public class VisitsAPI extends ApiBase {
                 .get(baseURL + "/patient/visit/timeSlots");
 
         String strResponse = response.asString();
-        JSONObject obj = new JSONObject(strResponse);
+
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(strResponse);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         JSONArray arrTimeSlots = obj.getJSONArray("timeSlots");
         int i = 0;
         while (!arrTimeSlots.getJSONObject(i).getBoolean("available")){

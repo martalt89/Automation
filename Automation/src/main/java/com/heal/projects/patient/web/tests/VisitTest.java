@@ -344,10 +344,10 @@ public class VisitTest extends TestBase {
         TestData testdata=new TestData(TestData.PATIENT_SHEET);
         Menu menu = new Menu(dr);
 
-        loginPage.login(testdata.sNo_Credit_Card_Id,"Heal4325"); // Login on patient web app
+        loginPage.login("vahan+" + getParameters().get("ENV").toString() + "1@heal.com"); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectProfileByName("vahan");
+        chooseProfilePage.selectProfileByName("Vahan");
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
@@ -379,6 +379,7 @@ public class VisitTest extends TestBase {
 
     @Test
     public void bookVisitPayerOfflineTest(){
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
@@ -387,16 +388,59 @@ public class VisitTest extends TestBase {
         HomePage homePage = new HomePage(dr);
         ManageProfilePage manageProfilePage = new ManageProfilePage(dr);
         ProfilePage profilePage = new ProfilePage(dr);
+        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
+        BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
+        VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
+        VisitsPage visitsPage = new VisitsPage(dr);
+        SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        BookVisitPage bookVisitPage = new BookVisitPage(dr);
         Menu menu = new Menu(dr);
-
+        //menu.oProfilesLnk.waitForVisible(5);
         menu.selectFromMenu("profiles");
-        manageProfilePage.getPatientByText("ProfileOffline").click();
-        manageProfilePage.oInsuranceProviderInput.selectByVisibleTextAngular("aetna");
-        manageProfilePage.oMemberIdInput.sendKeys("error_005");  //insurance ID
-        manageProfilePage.oGroupIdInput.sendKeys("BC001");  //group ID
-        manageProfilePage.oSaveAndContinueBtn.jsClickAndWait(profilePage.oPayerOfflineMsg,true);
-        assertMatches("verifying text for payer offline",profilePage.oPayerOfflineMsg.getText(),"Your insurance company's systems are offline, so we can't verify your visit price right now. You'll be charged $99 and as soon as your insurance company is back online, we’ll recheck your price and refund you any difference. We’ll also notify you through email.");
-        profilePage.oPayerOfflineDialogOkButton.clickAndWait(menu.oLoadingBar,false);
+        profilePage.getPatientByText("Payer").click();
+        profilePage.oContinueButton.clickAndWait(manageProfilePage.oInsuranceProviderInput,true);
+        profilePage.oInsuranceProviderInput.selectByVisibleTextAngular("aetna");
+        profilePage.oMemberIdInput.jsSendKeys("error_005");  //insurance ID
+        profilePage.oGroupIdInput.jsSendKeys("BC001");  //group ID
+        profilePage.oSaveAndContinueBtn.jsClickAndWait(profilePage.oPayerOfflineMsg,true);
+        assertEquals("verifying text for payer offline",profilePage.oPayerOfflineMsg.getText(),"Your insurance company's systems are offline, so we can't verify your visit price right now. You'll be charged $99 and as soon as your insurance company is back online, we’ll recheck your price and refund you any difference. We’ll also notify you through email.");
+        profilePage.oPayerOfflineDialogOkButton.clickAndWait(menu.oLoadingBar,true);
+       // menu.oLoadingBar.waitForInvisible();
+        //SysTools.sleepFor(1);
+        //chooseProfilePage.waitForPageLoad();
+        //menu.oMenuBtn.waitForVisible();
+        //menu.oMenuBtn.waitForEnabled();
+        //menu.oMenuBtn.jsClickAndWait(menu.oBookVisitLnk,true);
+        menu.selectFromMenu("book visit");
+        bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false);
+        chooseProfilePage.selectProfileByName("Payer");
+        chooseProfilePage.oContinueBtn.jsClickAndWait(addressPage.oContinueBtn,true);
+        addressPage.selectFirstSavedAddress();
+        addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.setSymptoms(symptoms);
+        visitDetailsPage.selectFirstAvailableTimeSlot();
+        visitDetailsPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
+
+        //assertEquals("verifying text for payer offline",profilePage.oPayerOfflineMsg.getText(),"Your insurance company's systems are offline, so we can't verify your visit price right now. You'll be charged $99 and as soon as your insurance company is back online, we’ll recheck your price and refund you any difference. We’ll also notify you through email.");
+        //profilePage.oPayerOfflineDialogOkButton.clickAndWait(menu.oLoadingBar,false);
+        //assertEquals("verifying alert for payer offline",visitDetailsPage.oPayerOfflineAlert.getText(),"As soon as your insurance company is back online, we’ll recheck your price and refund you any difference.");
+
+        paymentPage.oCompleteBtn.jsClickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.waitForElement();
+
+        assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+        assertEquals("Verifying 'What To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+
+        whatToExpectPage.oNextBtn.jsClickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.jsClickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.jsClickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oGotItBtn.jsClick();
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.oUserNameInput.waitForElement();
+
 
     }
 

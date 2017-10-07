@@ -1,10 +1,16 @@
 package com.heal.projects.patient.web.pages;
 
+import com.heal.framework.foundation.SysTools;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
+import freemarker.template.utility.DateUtil;
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by mihai.muresan on 7/19/2017.
@@ -40,7 +46,8 @@ public class VisitDetailsPage extends WebBase {
     public CommonWebElement oSymptomsInput2 = new CommonWebElement( "oSymptomsInput2", "xpath=(//*[@name='symptoms'])[2]", oWebDriver );
     public CommonWebElement oSelectDateInput = new CommonWebElement( "oSelectDateInput", "className=md-datepicker-input", oWebDriver );
     //public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot')]/span)[1]", oWebDriver );
-    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//*[@class='layout-wrap ng-scope layout-align-center-start layout-row']/button/span)[1]", oWebDriver );
+    public CommonWebElement oFirstAvailableTimeSlot = new CommonWebElement( "oFirstAvailableTimeSlot", "xpath=(//button[contains(@class,'time-slot-button') and not(@disabled)])[1]", oWebDriver );
+    public CommonWebElement oPayerOfflineAlert = new CommonWebElement("oPayerOfflineAlert","xpath=//div[contains(@class,'alert alert-success')]",oWebDriver);
 
 
 
@@ -82,8 +89,28 @@ public class VisitDetailsPage extends WebBase {
         }
     }
 
-    public void selectFirstAvailableTimeSlot(){
-        oFirstAvailableTimeSlot.jsClick();
+    public void selectFirstAvailableTimeSlot() {
+//        if (oFirstAvailableTimeSlot.isSelected())
+//        {
+//            System.out.println("1");
+            oFirstAvailableTimeSlot.jsClick();
+//        }
+//        else {
+//            Date myDate = new Date();
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+//            String tempdate = simpleDateFormat.format(myDate);
+//            Calendar cal=Calendar.getInstance();
+//            cal.setTime(myDate);
+//            cal.add(Calendar.DATE,3);
+//             Date myDatePlusOne =  cal.getTime();
+//            String tempdate1 = simpleDateFormat.format(myDatePlusOne);
+//            //myDate = DateUtil.addDays(myDate,1);
+//
+//            System.out.println(tempdate1);
+//            this.oSelectDateInput.jsSendKeys(tempdate1);
+//            SysTools.sleepFor(1);
+//            oFirstAvailableTimeSlot.jsClick();
+//        }
         //oFirstAvailableTimeSlot.click();
 
     }

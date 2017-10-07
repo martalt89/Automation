@@ -25,7 +25,8 @@ public class Menu extends WebBase{
     public CommonWebElement oMenuBtn = new CommonWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')]",oWebDriver);
 //    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='md-accent']",oWebDriver);
 //    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
-    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='loading-screen layout-fill ng-scope layout-column']",oWebDriver);
+//    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='loading-screen layout-fill ng-scope layout-column']",oWebDriver);
+    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[contains(@class,'loading-screen')]",oWebDriver);
 
 
     //////////////////

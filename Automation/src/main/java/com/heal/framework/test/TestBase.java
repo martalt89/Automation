@@ -298,13 +298,13 @@ public class TestBase
     })
     public void setup(@Optional("local") String environment,
                       @Optional("chrome") String browserName,
-                      @Optional("") String platform,
-                      @Optional("") String version,
+                      @Optional("macOS 10.12") String platform,
+                      @Optional("latest") String version,
                       @Optional("chrome") String screenResolution,
                       @Optional(".qa.heal.com") String baseUrl,
                       @Optional("QA") String env,
                       @Optional("qaheal") String username,
-                      @Optional("") String accessKey,
+                      @Optional("e14bb2d7-155b-4775-8978-9365c5b22012") String accessKey,
                       @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
                       @Optional("30") String element_implicit_wait,
                       @Optional("1") String retryLimit,
@@ -556,7 +556,8 @@ public class TestBase
                     //capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
                     return new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
                     /* return new org.openqa.selenium.chrome.ChromeDriver(); */
-
+                case "SAFARI":
+                    return new org.openqa.selenium.safari.SafariDriver();
                 default:
                     throw new CommonException("Browser type " + sBrowserType + " not found!");
             }
@@ -619,7 +620,6 @@ public class TestBase
                 capabilities.setCapability("platform", parameters.get("platform"));
                 capabilities.setCapability("screenResolution", parameters.get("screenResolution"));
                 capabilities.setCapability("seleniumVersion", "3.4.0");
-
                 break;
             case "chrome":
                 capabilities = DesiredCapabilities.chrome();

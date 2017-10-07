@@ -19,14 +19,14 @@ public class LoginPage extends WebBase{
     public static final String URL = "https://patient" + baseUrl + "/login";
     RunTestSuite runTestSuite = new RunTestSuite();
     public HashMap<String, String> testDataMap = runTestSuite.getExcelParams();
-
+    private String password = "Heal4325!";
 
 
     ///////////////////
     // Page Elements //
     ///////////////////
-    public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "name=username",oWebDriver);
-    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "name=password", oWebDriver);
+    public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "xpath=//input[@name='username']",oWebDriver);
+    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "xpath=//input[@name='password']", oWebDriver);
     public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//button[@type='submit']", oWebDriver);
     public CommonWebElement oRememberMe = new CommonWebElement("oRememberMe", "className=md-icon", oWebDriver);
     public CommonWebElement oForgotYourPasswordLnk = new CommonWebElement("oForgotYourPasswordLnk", "linkText=Forgot Password", oWebDriver);
@@ -56,15 +56,12 @@ public class LoginPage extends WebBase{
     //Login with the default username and password
     public void login()
     {
-        TestData testData = new TestData(TestData.ACCOUNT_SHEET);
-//        this.oUserNameInput.sendKeys(testData.sEmail);
-//        this.oPasswordInput.sendKeys(testData.sPassword);
         if (testDataMap == null) {
-            this.oUserNameInput.sendKeys("jay.purohit+qa2@heal.com");
+            this.oUserNameInput.sendKeys("vahan+qa@heal.com");
         } else {
             this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
         }
-        this.oPasswordInput.sendKeys("Heal4325!");
+        this.oPasswordInput.sendKeys(password);
         this.oLoginBtn.click();
     }
 
@@ -82,5 +79,17 @@ public class LoginPage extends WebBase{
         this.oPasswordInput.sendKeys(sPassword);
         this.oLoginBtn.click();
     }
+
+    /**
+     * Logs in to heal with the provided username and defautl password.
+     *
+     * @param sUsername (String) - Username to be used.
+     */
+    public void login(String sUsername){
+        this.oUserNameInput.sendKeys(sUsername);
+        this.oPasswordInput.sendKeys(password);
+        this.oLoginBtn.click();
+    }
+
 
 }
