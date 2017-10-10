@@ -18,7 +18,7 @@ public class VisitDetailsModalTest extends TestBase  {
         String password = RunTestSuite.getExcelParams().get("PatientPassword");
 
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
-//        private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
+//      private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
         private VisitsAPI visitsAPI = new VisitsAPI(username, password);
         private String sDashboardAndVisitCodeURL = "https://ops.qa.heal.com/dashboard#";
         private String sVisitsAndVisitCodeURL = "https://ops.qa.heal.com/visits#";
@@ -126,5 +126,44 @@ public class VisitDetailsModalTest extends TestBase  {
         visitsPage.filterVisits(myNewVisit);
         visitsPage.getStatusByVisitCode(myNewVisit).waitForVisible();
         assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(myNewVisit).getText(), "REFUNDED");
+    }
+
+    @Test
+    public void editPatientProfileFromVisitDetailsCard(){
+        String newVisitCode = visitsAPI.createVisit();
+        CommonWebElement.setbMonitorMode(false);
+        WebDriver dr = getDriver();
+        OpsLoginPage loginPage = new OpsLoginPage(dr);
+        OpsVisitsPage opsVisitsPage = new OpsVisitsPage(dr);
+        OpsMenu menu = new OpsMenu(dr);
+        VisitDetailsModalPage visitDetailsModalPage = new VisitDetailsModalPage(dr);
+
+
+
+        loginPage.goTo();
+        loginPage.waitForPageReady();
+        loginPage.login();
+        visitDetailsModalPage.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        visitDetailsModalPage.expandCardSectionHeader("Patient");
+        visitDetailsModalPage.oPatientEditNameBtn.clickAndWait(visitDetailsModalPage.oPatientEditFirstNameField,true);
+        visitDetailsModalPage.oPatientEditFirstNameField.sendKeys("asdfg");
+        visitDetailsModalPage.oPatientEditLastNameField.sendKeys("asdfg");
+        visitDetailsModalPage.oPatientEditNameCheckBtn.click();
+        menu.verifyToastMessage("verification for editing patient name from visit details card ","The first name and last name updated successfully!");
+
+
+        visitDetailsModalPage.oPatientEditDateBirthBtn.clickAndWait(visitDetailsModalPage.oPatientEditDateBirthField,true);
+        visitDetailsModalPage.oPatientEditDateBirthField.sendKeys("01/12/1990");
+        visitDetailsModalPage.oPatientEditDateBirthCheckBtn.click();
+        menu.verifyToastMessage("verification for editing patient Date of Birth ","The birthday updated successfully!");
+
+        visitDetailsModalPage.oPatientEdiPhoneNoBtn.clickAndWait(visitDetailsModalPage.oPatientEditPhoneNoField,true);
+        visitDetailsModalPage.oPatientEditPhoneNoField.sendKeys("2132949306");
+        visitDetailsModalPage.oPatientEditPhoneNoCheckBtn.click();
+        menu.verifyToastMessage("verification for editing patient phone number","The phone number updated successfully!");
+
+
+
     }
 }

@@ -169,25 +169,25 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oRelationshipText = new CommonWebElement("oRelationshipText", "xpath=//label[text()='Relationship']",oWebDriver);
     public CommonWebElement oPatientNameText = new CommonWebElement("oPatientNameText", "xpath=//label[text()='Patient Name']",oWebDriver);
     public CommonWebElement oPatientName = new CommonWebElement("oPatientName", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]/div",oWebDriver);
-    public CommonWebElement oPatientEditNameBtn = new CommonWebElement("oPatientEditNameBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//i[contains(@class,'fa-pencil')]",oWebDriver);
-    public CommonWebElement oPatientEditNameCheckBtn = new CommonWebElement("oPatientEditNameCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oPatientEditNameBtn = new CommonWebElement("oPatientEditNameBtn", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[1]",oWebDriver);
+    public CommonWebElement oPatientEditNameCheckBtn = new CommonWebElement("oPatientEditNameCheckBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[1])/i[1]",oWebDriver);
     public CommonWebElement oPatientEditNameCircleBtn = new CommonWebElement("oPatientEditNameCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
-    public CommonWebElement oPatientEditFirstNameField = new CommonWebElement("oPatientEditFirstNameField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//input[1]",oWebDriver);
-    public CommonWebElement oPatientEditLastNameField = new CommonWebElement("oPatientEditLastNameField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//input[2]",oWebDriver);
+    public CommonWebElement oPatientEditFirstNameField = new CommonWebElement("oPatientEditFirstNameField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[1]/div/input[1]",oWebDriver);
+    public CommonWebElement oPatientEditLastNameField = new CommonWebElement("oPatientEditLastNameField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[1]/div/input[2]",oWebDriver);
 
     public CommonWebElement oPatientDateBirthText = new CommonWebElement("oPatientDateBirthText", "xpath=//label[text()='Patient Date Of Birth']",oWebDriver);
-    public CommonWebElement oPatientDateBirth = new CommonWebElement("oPatientDateBirth", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]/div",oWebDriver);
+    public CommonWebElement oPatientDateBirth = new CommonWebElement("oPatientDateBirth", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[2]/input",oWebDriver);
     public CommonWebElement oPatientEditDateBirthBtn = new CommonWebElement("oPatientEditDateBirthBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-pencil')]",oWebDriver);
-    public CommonWebElement oPatientEditDateBirthCheckBtn = new CommonWebElement("oPatientEditDateBirthCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthCheckBtn = new CommonWebElement("oPatientEditDateBirthCheckBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[2])/i[1]",oWebDriver);
     public CommonWebElement oPatientEditDateBirthCircleBtn = new CommonWebElement("oPatientEditDateBirthCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
     public CommonWebElement oPatientEditDateBirthField = new CommonWebElement("oPatientEditDateBirthField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//input",oWebDriver);
 
     public CommonWebElement oPhoneNumberText = new CommonWebElement("oPhoneNumberText", "xpath=//label[text()='Phone Number']",oWebDriver);
     public CommonWebElement oPhoneNumber = new CommonWebElement("oPhoneNumber", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]/div",oWebDriver);
     public CommonWebElement oPatientEdiPhoneNoBtn = new CommonWebElement("oPatientEditPhoneNoBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-pencil')]",oWebDriver);
-    public CommonWebElement oPatientEditPhoneNoCheckBtn = new CommonWebElement("oPatientEditPhoneNoCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-check')]",oWebDriver);
+    public CommonWebElement oPatientEditPhoneNoCheckBtn = new CommonWebElement("oPatientEditPhoneNoCheckBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[3])/i[1]",oWebDriver);
     public CommonWebElement oPatientEditPhoneNoCircleBtn = new CommonWebElement("oPatientEdiPhoneNoCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
-    public CommonWebElement oPatientEditPhoneNoField = new CommonWebElement("oPatientEditPhoneNoField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//input",oWebDriver);
+    public CommonWebElement oPatientEditPhoneNoField = new CommonWebElement("oPatientEditPhoneNoField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[3]/input",oWebDriver);
 
 
     public CommonWebElement oPatientEmailText = new CommonWebElement("oPatientEmailText", "xpath=//label[text()='Email']",oWebDriver);
@@ -558,5 +558,25 @@ public class VisitDetailsModalPage extends WebBase{
         By logDetailsList = By.xpath("//*[@class='log-details']");
         List<WebElement> commonWebElementList= getWebDriver().findElements(logDetailsList);
         return commonWebElementList.size();
+    }
+
+    /**
+     * Method expands the desired card section header on visit details side card
+     * @param sCardToOpen --> Card that you want to open on visitDetails page
+     */
+    public void expandCardSectionHeader(String sCardToOpen){
+        CommonWebElement cardSectionHeader = new CommonWebElement("cardSectionHeader","xpath=(//div[contains(@class,'collapsible-section')]//span[text()='" +sCardToOpen+ "'])",oWebDriver);
+        CommonWebElement cardSectionToBeExpanded = new CommonWebElement("cardSectionToBeExpanded","xpath=(//div[contains(@class,'collapsible-section')]//span[text()='" +sCardToOpen+ "'])/../..",oWebDriver);
+        Boolean classOpened = cardSectionToBeExpanded.getAttribute("class").contains("opened");
+
+        if(!classOpened){
+            cardSectionHeader.click();
+        }
+
+
+
+
+
+
     }
 }
