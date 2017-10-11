@@ -7,7 +7,8 @@ import io.restassured.RestAssured;
 
 public class ApiBase {
 
-    public String baseUrl = RunTestSuite.getExcelParams().get("baseUrl").toString();
+//    public String baseUrl = RunTestSuite.getExcelParams().get("baseUrl").toString();
+    public String baseUrl = ".qa.heal.com";
     private String sessionId;
 
     public String getSessionId() {

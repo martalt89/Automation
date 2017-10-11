@@ -1,14 +1,19 @@
 package com.heal.projects.ops.web.tests;
 
 import com.heal.framework.foundation.SysTools;
+import com.heal.framework.restAPI.PatientAPI;
 import com.heal.projects.ops.web.pages.CreateVisitPage;
 import com.heal.projects.ops.web.pages.OpsLoginPage;
 import com.heal.projects.ops.web.pages.OpsMenu;
 import com.heal.projects.ops.web.pages.OpsVisitsPage;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
+import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -26,10 +31,11 @@ public class VisitsTest extends TestBase{
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                //createVisitWith50PercentPromoTest(); // put here the desired test to be run on loop
-                //createVisitWith100PercentPromoTest();
-                //createVisitWithInsuranceTest();
-                //bookVisitWithPromoCode();
+                PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
+//                HashMap response = patientAPI.getPatientDetails(patientAPI.getPatientIdByFirstname("Credit Card"));
+                patientAPI.removeInsurance("With Insurance");
+//
+//                System.out.println(map);
                 bookVisitWithInsurance();
                 //bookVisitWithCreditCard();
                 passedRuns++;

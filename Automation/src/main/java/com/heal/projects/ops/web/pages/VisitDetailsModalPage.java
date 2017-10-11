@@ -67,7 +67,7 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oActionsMenuEndVisit = new CommonWebElement("oActionsMenuEndVisit", "xpath=//li/a[text()='End Visit']",oWebDriver);
     public CommonWebElement oActionsMenuCancelVisit = new CommonWebElement("oActionsMenuCancelVisit", "xpath=//li/a[text()='Cancel Visit']",oWebDriver);
     public CommonWebElement oActionsMenuChangeProvider = new CommonWebElement("oActionsMenuChangeProvider", "xpath=//*[text()='Change Provider']",oWebDriver);
-    public CommonWebElement oActionsMenuAddInsurance = new CommonWebElement("oActionsMenuAddInsurance", "xpath=//li/a[text()='Add Insurance']",oWebDriver);
+    public CommonWebElement oActionsMenuAddInsurance = new CommonWebElement("oActionsMenuAddInsurance", "xpath=//a[text()='Add Insurance']",oWebDriver);
     public CommonWebElement oActionsRefundVisit = new CommonWebElement("oActionsRefundVisit", "xpath=//*[text()='Refund Visit']",oWebDriver);
     public CommonWebElement oActionDropDown = new CommonWebElement("oActionDropDown", "xpath=//ul[@role='menu']",oWebDriver);
     //actions - start visit modal
@@ -120,7 +120,7 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oGroupId = new CommonWebElement("oGroupId", "xpath=//*[@class='modal-body']//label[text()='Group Id']",oWebDriver);
     public CommonWebElement oGroupIdInput = new CommonWebElement("oGroupIdInput", "xpath=//input[@placeholder='Enter Group Id']",oWebDriver);
     public CommonWebElement oCancelInsuranceBtn = new CommonWebElement("oCancelInsuranceBtn", "xpath=//*[@class='modal-footer']/button[1]",oWebDriver);
-    public CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=//*[@class='modal-footer']/button[2]",oWebDriver);
+    public CommonWebElement oSubmitBtn = new CommonWebElement("oSubmitBtn", "xpath=//*[contains(@class,'btn-success') and text()='Submit']",oWebDriver);
 
     //actions - Refund visit
     public CommonWebElement oPatientInformationText = new CommonWebElement("oPatientInformationText", "xpath=//*[@class='modal-body']//div[text()='Patient Information']",oWebDriver);
@@ -130,25 +130,13 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oRefundAmountInput = new CommonWebElement("oRefundAmountInput", "xpath=//*[contains(@class,'partial-amount')]//input",oWebDriver);
     public CommonWebElement oProcessRefundBtn = new CommonWebElement("oProcessRefundBtn", "xpath=//button[contains(.,'Refund')]",oWebDriver);
     public CommonWebElement oConfirmRefundBtn = new CommonWebElement("oConfirmRefundBtn", "xpath=//button[contains(.,'Confirm')]",oWebDriver);
-    public CommonWebElement oRefundModalOriginal = new CommonWebElement("oRefundModalOriginal", "xpath=(//div[starts-with(@class,'refund-details')]/div)[2]",oWebDriver);
-    public CommonWebElement oRefundModalRefundAmmount = new CommonWebElement("oRefundModalDiscount", "xpath=(//div[starts-with(@class,'refund-amount')]/div)[2]",oWebDriver);
-    public CommonWebElement oRefundModalCharged = new CommonWebElement("oRefundModalCharged", "xpath=(//div[starts-with(@class,'refund-details')]/div)[6]",oWebDriver);
-    public CommonWebElement oRefundModalRefunded = new CommonWebElement("oRefundModalRefunded", "xpath=(//div[starts-with(@class,'refund-details')]/div)[4]",oWebDriver);
 
 
     public CommonWebElement oVisitId = new CommonWebElement("oVisitId", "xpath=//*[@class='status-container']/div[1]",oWebDriver);
     public CommonWebElement oVisitStatus = new CommonWebElement("oVisitStatus", "xpath=//*[contains(@class,'status badge')]/span",oWebDriver);
     public CommonWebElement oServiceName = new CommonWebElement("oServiceName", "xpath=//*[@class='service-name-container']",oWebDriver);
     //details
-    public CommonWebElement oDetailsBtn = new CommonWebElement("oDetailsBtn", "xpath=//*[@class='card-section-header']//*[text()='Details']",oWebDriver);
-    public CommonWebElement oDetailsDateReqestedText = new CommonWebElement("oDetailsDateReqestedText", "xpath=//label[text()='Date Requested']",oWebDriver);
-    public CommonWebElement oDetailsDateReqested = new CommonWebElement("oDetailsDateReqested", "xpath=//*[contains(@class,'collapsible-section')][1]//li[1]/div",oWebDriver);
-    public CommonWebElement oDetailsRequestedTimeText = new CommonWebElement("oDetailsRequestedTimeText", "xpath=//label[text()='Requested Time Slot']",oWebDriver);
-    public CommonWebElement oDetailsRequestedTimeSlot = new CommonWebElement("oDetailsRequestedTimeSlot", "xpath=//*[contains(@class,'collapsible-section')][1]//li[2]/div",oWebDriver);
-    public CommonWebElement oDetailsTimeScheduledText = new CommonWebElement("oDetailsTimeScheduledText", "xpath=//label[text()='System Time Scheduled For']",oWebDriver);
-    public CommonWebElement oDetailsTimeScheduled = new CommonWebElement("oDetailsTimeScheduled", "xpath=//*[contains(@class,'collapsible-section')][1]//li[3]/div",oWebDriver);
-    public CommonWebElement oDetailsSymptomsText = new CommonWebElement("oDetailsSymptomsText", "xpath=//label[text()='Symptoms']",oWebDriver);
-    public CommonWebElement oDetailsSymptoms = new CommonWebElement("oDetailsSymptoms", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]/div",oWebDriver);
+
     public CommonWebElement oDetailsEditSymptomsBtn = new CommonWebElement("oDetailsEditSymptomsBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]//i[contains(@class,'fa-pencil')]",oWebDriver);
     public CommonWebElement oDetailsEditSymptomsCheckBtn = new CommonWebElement("oDetailsEditSymptomsCheckBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]//i[contains(@class,'fa-check')]",oWebDriver);
     public CommonWebElement oDetailsEditSymptomsCircleBtn = new CommonWebElement("oDetailsEditSymptomsCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][1]//li[4]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
@@ -197,30 +185,6 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oPatientEditEmailCircleBtn = new CommonWebElement("oPatientEdiEmailCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[5]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
     public CommonWebElement oPatientEditEmailField = new CommonWebElement("oPatientEditEmailField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[5]//input",oWebDriver);
 
-    public CommonWebElement oProxyNumberText = new CommonWebElement("oProxyNumberText", "xpath=//label[text()='Proxy Number']",oWebDriver);
-    public CommonWebElement oGenderText = new CommonWebElement("oGenderText", "xpath=//label[text()='Gender']",oWebDriver);
-    public CommonWebElement oChartIdText = new CommonWebElement("oChartIdText", "xpath=//label[text()='Chart Id']",oWebDriver);
-    public CommonWebElement oPatientIdText = new CommonWebElement("oPatientIdText", "xpath=//label[text()='Patient Id']",oWebDriver);
-    public CommonWebElement oCompletedVisitsText = new CommonWebElement("oCompletedVisitsText", "xpath=//label[text()='Completed Visits']",oWebDriver);
-    public CommonWebElement oCancelledVisitsText = new CommonWebElement("oCancelledVisitsText", "xpath=//label[text()='Cancelled Visits']",oWebDriver);
-    //provider
-    public CommonWebElement oProviderBtn = new CommonWebElement("oProviderBtn", "xpath=//*[@class='card-section-header']//*[text()='Provider']",oWebDriver);
-    public CommonWebElement oDoctorText = new CommonWebElement("oDoctorText", "xpath=//label[text()='Doctor']",oWebDriver);
-    public CommonWebElement oMedicalAssistantText = new CommonWebElement("oMedicalAssistantText", "xpath=//label[text()='Medical Assistant']",oWebDriver);
-    //insurance
-    public CommonWebElement oInsuranceBtn = new CommonWebElement("oInsuranceBtn", "xpath=//*[@class='card-section-header']//*[text()='Insurance']",oWebDriver);
-
-    //billing
-    public CommonWebElement oBillingBtn = new CommonWebElement("oBillingBtn", "xpath=//*[@class='card-section-header']//*[text()='Billing']",oWebDriver);
-    public CommonWebElement oCHARGEDtext = new CommonWebElement("oCHARGEDtext", "xpath=//label[text()='CHARGED']",oWebDriver);
-    public CommonWebElement oOriginalAmountText = new CommonWebElement("oOriginalAmountText", "xpath=//label[text()='Original Amount']",oWebDriver);
-    public CommonWebElement oAmountDiscountedText = new CommonWebElement("oAmountDiscountedText", "xpath=//label[text()='Amount Discounted']",oWebDriver);
-    public CommonWebElement oAmountChargedText = new CommonWebElement("oAmountChargedText", "xpath=//label[text()='Amount Charged']",oWebDriver);
-    public CommonWebElement oRefundedText = new CommonWebElement("oRefundedText", "xpath=//label[text()='Refunded']",oWebDriver);
-
-    //visit log
-    public CommonWebElement oVisitLogBtn = new CommonWebElement("oVisitLogBtn", "xpath=//*[@class='card-section-header']//*[text()='VisitLog']",oWebDriver);
-    public CommonWebElement oLogTextArea = new CommonWebElement("oLogTextArea", "xpath=//div[contains(@class,'visit-log')]/textarea",oWebDriver);
 
     //////////////////
     // Constructors //
@@ -250,7 +214,6 @@ public class VisitDetailsModalPage extends WebBase{
         this.oDetailsEditSymptomsBtn.click();
         this.oDetailsEditSymptomsField.sendKeys(sSymptom);
         this.oDetailsEditSymptomsCheckBtn.click();
-
     }
 
     /**
@@ -305,14 +268,17 @@ public class VisitDetailsModalPage extends WebBase{
         this.oPatientEditEmailCheckBtn.click();
     }
 
+    public void openActionsMenu(){
+        this.oActionsBtn.click();
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
+    }
     //Actions methods
     //start visit methods
     /**
      * Opens Visit start time modal from Actions -> Start Visit
      */
     public void openStartVisitModal(){
-        this.oActionsBtn.click();
-        SysTools.sleepFor(1); //This will wait for a small animation to complete
+        openActionsMenu();
         this.oActionsMenuStartVisit.click();
     }
 
@@ -419,7 +385,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     //update insurance methods
     public void openAddInsuranceModal(){
-        this.oActionsBtn.click();
+        openActionsMenu();
         this.oActionsMenuAddInsurance.click();
     }
     /**

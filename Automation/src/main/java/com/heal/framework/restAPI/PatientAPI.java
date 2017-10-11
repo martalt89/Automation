@@ -1,7 +1,13 @@
 package com.heal.framework.restAPI;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestData;
+
+import java.io.IOException;
 import java.lang.IllegalArgumentException;
 
 import com.heal.framework.web.WebBase;
@@ -13,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,6 +36,31 @@ public class PatientAPI extends ApiBase {
 //    private String baseURL = "https://patient.qa.heal.com/api";
 //    private String baseURLAPIv3 = "http://apiv3.qa.heal.com";
     private String baseURLAPIv3 = "http://apiv3 "+ baseUrl;
+    private JSONObject allPatients;
+    private List<String> setAllPatientList;
+
+
+
+    public void setAllPatients(){
+        allPatients = getAllPatientsOfTheAccount(sAccUsername, sAccPassword);
+        System.out.println(allPatients.toString());
+    }
+
+    public JSONObject getAllPatients() {
+        return allPatients;
+    }
+
+    public List<String> setAllPatientList() {
+        JSONArray patients = allPatients.getJSONArray("results");
+        List<String> patientIDs = new LinkedList<>();
+        HashMap<String, String> patientInfo;
+        for (int i = 0; i < patients.length(); i++) {
+            JSONObject patient = patients.getJSONObject(i);
+            patientIDs.add(patient.get("patientId").toString());
+            System.out.println(patientIDs);
+            }
+        return patientIDs;
+    }
 
     /**
      * Patient info variables
@@ -94,6 +127,8 @@ public class PatientAPI extends ApiBase {
     public PatientAPI(String sAccUsername, String sAccPassword){
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
+        setAllPatients();
+        setAllPatientList();
     }
 
     /**
@@ -340,7 +375,8 @@ public class PatientAPI extends ApiBase {
      */
     public String getPatientIdByFnLn(String sFn, String sLn) {
         //TODO - WIP
-        String resource = "/v2/patients/";
+        int numberOfPatient = 100;
+        String resource = "/v2/patients/" + "?limit="+numberOfPatient;
         Response getResponse = RestAssured.given()
                 .auth()
                 .preemptive()
@@ -353,6 +389,50 @@ public class PatientAPI extends ApiBase {
         for (int i = 0; i < patients.length(); i++) {
             JSONObject patient = patients.getJSONObject(i);
             if (patient.get("patientFirstName").toString().equals(sFn) && patient.get("patientLastName").toString().equals(sLn)) {
+                id = patient.getString("patientId");
+            }
+        }
+        return id;
+    }
+
+    /**
+     * Gets patientId by providing patient firstname
+     * @param sAccUsername (String) account username
+     * @param sPassword (String) account password
+     * @return (String) patientId
+     */
+    public JSONObject getAllPatientsOfTheAccount(String sAccUsername, String sPassword) {
+        int numberOfPatient = 200;
+        String resource = "/v2/patients/" + "?limit="+numberOfPatient;
+        String response = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL+resource)
+                .asString();
+        return new JSONObject(response);
+    }
+
+    /**
+     * Gets patientId by providing patient firstname
+     * @param sFirstName (String) Patient firstname
+     * @return (String) patientId
+     */
+    public String getPatientIdByFirstname(String sFirstName) {
+        int numberOfPatient = 100;
+        String resource = "/v2/patients/" + "?limit="+numberOfPatient;
+        String response = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL+resource)
+                .asString();
+        String id = null;
+        JSONObject obj = new JSONObject(response);
+        JSONArray patients = obj.getJSONArray("results");
+        for (int i = 0; i < patients.length(); i++) {
+            JSONObject patient = patients.getJSONObject(i);
+            if (patient.get("patientFirstName").toString().equals(sFirstName)) {
                 id = patient.getString("patientId");
             }
         }
@@ -431,5 +511,76 @@ public class PatientAPI extends ApiBase {
                 .delete(baseURLAPIv3 + resourcePatient + sId);
         return restUtils.getJsonValue(deleteResponse.asString(),"status");
     }
+
+    /**
+     * This method will return user details for a specific user
+     * @param sPatientID - (String) Patient ID
+     * @return HashMap of user details
+     */
+    public HashMap<String, String> getPatientDetailsByID(String sPatientID) {
+        String resource = "/v3/patients/" + sPatientID;
+        String response = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL+resource)
+                .asString();
+        return restUtils.jsonStringToHashMap(response);
+    }
+
+    /**
+     * This method will return user details for a specific user
+     * @param sPatientFirstname - (String) Patient ID
+     * @return HashMap of user details
+     */
+    public HashMap<String, String> getPatientDetailsByFirstName(String sPatientFirstname) {
+        String patientID = getPatientIdByFirstname(sPatientFirstname);
+        return getPatientDetailsByID(patientID);
+    }
+
+    /**
+     * Update patient details
+     * @param sPatientID - String patient ID of the patient to be updated
+     * @param patientDetails - Map of the details to be used to update
+     */
+    public void updatePatient(String sPatientID, Map patientDetails){
+        String sessionId = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL + "/v3/patients")
+                .cookie("SESSION");
+        String resource = "/v3/patients/" + sPatientID;
+        String response = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .contentType("application/json")
+                .cookie("SESSION", sessionId)
+                .body(patientDetails)
+                .put(baseURL+resource)
+                .asString();
+        System.out.println(response);
+    }
+
+    public void removeInsurance(String patientFirstName){
+        String patientID = getPatientIdByFirstname(patientFirstName);
+        Map<String, String> map = getPatientDetailsByID(patientID);
+        System.out.println(map);
+        map.replace("status", null);
+//        map.remove("eligibilityId");
+//        map.remove("eligiblePayerOffline");
+//        map.remove("insuranceResponse");
+//        map.replace("hasInsurance", "false");
+//        map.replace("groupId", "");
+//        map.replace("insuranceId", null);
+//        map.replace("insuranceName", null);
+//        map.replace("memberId", null);
+//        map.replace("patientInsuranceId", null);
+//        map.replace("payerId", null);
+//        map.replace("planName", null);
+        updatePatient(patientID, map);
+    }
+
 
 }

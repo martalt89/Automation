@@ -1,7 +1,12 @@
 package com.heal.framework.restAPI;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heal.framework.foundation.SysTools;
 import org.json.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RestUtils {
@@ -37,6 +42,15 @@ public class RestUtils {
      */
     public String generateUsername(){
         return "qa_auto_test_" + SysTools.getTimestamp("yyyy_MM_dd_HH-mm-ss") +"@heal.com";
+    }
+
+    public HashMap<String, String> jsonStringToHashMap(String jsonString){
+        HashMap<String, String> map = new HashMap<>();
+        try {
+            map = new ObjectMapper().readValue(jsonString, new TypeReference<Map<String, String>>(){});
+        } catch (Exception ex) {
+        }
+        return map;
     }
 }
 
