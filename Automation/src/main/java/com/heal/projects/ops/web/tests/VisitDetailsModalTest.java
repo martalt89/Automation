@@ -18,7 +18,7 @@ public class VisitDetailsModalTest extends TestBase  {
         String password = RunTestSuite.getExcelParams().get("PatientPassword");
 
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
-//        private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
+//      private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
         private VisitsAPI visitsAPI = new VisitsAPI(username, password);
         private String sDashboardAndVisitCodeURL = "https://ops.qa.heal.com/dashboard#";
         private String sVisitsAndVisitCodeURL = "https://ops.qa.heal.com/visits#";
@@ -89,7 +89,7 @@ public class VisitDetailsModalTest extends TestBase  {
 
     @Test(groups = {"dev", "critical"})
     public void refundVisitTotal() {
-        String newVisit = visitsAPI.createVisit();
+        String myNewVisit = visitsAPI.createVisit();
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
@@ -99,56 +99,71 @@ public class VisitDetailsModalTest extends TestBase  {
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
-        visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisit);
+        visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + myNewVisit);
         //visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
-        visit.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisit);
+        visit.waitForPageReady(VisitDetailsModalPage.URL + "#" + myNewVisit);
         visit.chooseDoctorAndMA(VisitDetailsModalPage.DR_VAHAN, VisitDetailsModalPage.MA_KETTEL);
         visit.editManualTime(SysTools.healTime10MinAhead());
         visit.oChangetBtn.click();
 
         menu.verifyToastTitle("Verifying toast message ", "OK:");
-        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + newVisit);
+        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
         visit.checkVisitStatusWithRefresh( "DOCTOR_ASSIGNED", 10);
         visit.startVisit();
-        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + newVisit);
+        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
         visit.checkVisitStatusWithRefresh( "STARTED", 10);
         assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
 
         visit.endVisit();
         menu.verifyToastTitle("Verifying toast message ", "OK:");
-        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + newVisit);
+        visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + myNewVisit);
         visit.checkVisitStatusWithRefresh( "FULLY_PAID", 10);
         assertMatches("Verify visit details modal contains 'FULLY_PAID' Status", visit.oVisitStatus.getText(), "FULLY_PAID");
         //  visit.switchToUrlWithVisitCode(sVisitsAndVisitCodeURL);
         visit.selectTotalRefund("Automated test");
         visit.checkVisitStatusWithRefresh( "REFUNDED", 10);
         assertMatches("Verify visit details modal contains 'REFUNDED' Status", visit.oVisitStatus.getText(), "REFUNDED");
-        visitsPage.filterVisits(newVisit);
-        visitsPage.getStatusByVisitCode(newVisit).waitForVisible();
-        assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(newVisit).getText(), "REFUNDED");
+        visitsPage.filterVisits(myNewVisit);
+        visitsPage.getStatusByVisitCode(myNewVisit).waitForVisible();
+        assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(myNewVisit).getText(), "REFUNDED");
     }
 
     @Test
-    public void addInsuranceToVisit(){
-        String newVisit = visitsAPI.createVisit();
+    public void editPatientProfileFromVisitDetailsCard(){
+        String newVisitCode = visitsAPI.createVisit();
+        CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
-        OpsVisitsPage visitsPage = new OpsVisitsPage(dr);
+        OpsVisitsPage opsVisitsPage = new OpsVisitsPage(dr);
         OpsMenu menu = new OpsMenu(dr);
-        VisitDetailsModalPage visit = new VisitDetailsModalPage(dr);
+        VisitDetailsModalPage visitDetailsModalPage = new VisitDetailsModalPage(dr);
+
+
+
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
-        visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisit);
-        visit.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisit);
-        visit.openAddInsuranceModal();
-        visit.selectPayer("aetna");
-        visit.editMemberId("COST_ESTIMATES_025");
-        visit.editGroupId("mygourp");
-        visit.oSubmitBtn.click();
-        menu.verifyToastTitle("Verifying toast message ", "OK:");
-        getExtentTest().log(LogStatus.INFO,"Toasmessage after adding insurance is: {" + menu.oToastMessage.getText() + "}");
+        visitDetailsModalPage.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        visitDetailsModalPage.expandCardSectionHeader("Patient");
+        visitDetailsModalPage.oPatientEditNameBtn.clickAndWait(visitDetailsModalPage.oPatientEditFirstNameField,true);
+        visitDetailsModalPage.oPatientEditFirstNameField.sendKeys("asdfg");
+        visitDetailsModalPage.oPatientEditLastNameField.sendKeys("asdfg");
+        visitDetailsModalPage.oPatientEditNameCheckBtn.click();
+        menu.verifyToastMessage("verification for editing patient name from visit details card ","The first name and last name updated successfully!");
+
+
+        visitDetailsModalPage.oPatientEditDateBirthBtn.clickAndWait(visitDetailsModalPage.oPatientEditDateBirthField,true);
+        visitDetailsModalPage.oPatientEditDateBirthField.sendKeys("01/12/1990");
+        visitDetailsModalPage.oPatientEditDateBirthCheckBtn.click();
+        menu.verifyToastMessage("verification for editing patient Date of Birth ","The birthday updated successfully!");
+
+        visitDetailsModalPage.oPatientEdiPhoneNoBtn.clickAndWait(visitDetailsModalPage.oPatientEditPhoneNoField,true);
+        visitDetailsModalPage.oPatientEditPhoneNoField.sendKeys("2132949306");
+        visitDetailsModalPage.oPatientEditPhoneNoCheckBtn.click();
+        menu.verifyToastMessage("verification for editing patient phone number","The phone number updated successfully!");
+
+
 
     }
-
 }
