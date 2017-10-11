@@ -116,7 +116,9 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oPayerText = new CommonWebElement("oPayerText", "xpath=//*[@class='modal-body']//label[text()='Payer']",oWebDriver);
     public CommonWebElement oPayerInput = new CommonWebElement("oPayerInput", "xpath=//*[@class='modal-body']//select",oWebDriver);
     public CommonWebElement oMemberId = new CommonWebElement("oMemberId", "xpath=//*[@class='modal-body']//label[text()='Member Id']",oWebDriver);
+    public CommonWebElement oInsuranceProviderText = new CommonWebElement("oInsuranceProviderText" , "xpath=//*[@class='collapsible-container']//label[contains(text(),'Insurance Provider')]/../div",oWebDriver);
     public CommonWebElement oMemberIdInput = new CommonWebElement("oMemberIdInput", "xpath=//input[@placeholder='Enter Member Id']",oWebDriver);
+    public CommonWebElement oMemberIdText = new CommonWebElement("oMemberIdText","xpath=//*[@class='collapsible-container']//label[contains(text(),'Member Id')]/../div",oWebDriver);
     public CommonWebElement oGroupId = new CommonWebElement("oGroupId", "xpath=//*[@class='modal-body']//label[text()='Group Id']",oWebDriver);
     public CommonWebElement oGroupIdInput = new CommonWebElement("oGroupIdInput", "xpath=//input[@placeholder='Enter Group Id']",oWebDriver);
     public CommonWebElement oCancelInsuranceBtn = new CommonWebElement("oCancelInsuranceBtn", "xpath=//*[@class='modal-footer']/button[1]",oWebDriver);
@@ -167,24 +169,24 @@ public class VisitDetailsModalPage extends WebBase{
     //patient
     public CommonWebElement oPatientBtn = new CommonWebElement("oPatientBtn", "xpath=//*[@class='card-section-header']//*[text()='Patient']",oWebDriver);
     public CommonWebElement oRelationshipText = new CommonWebElement("oRelationshipText", "xpath=//label[text()='Relationship']",oWebDriver);
-    public CommonWebElement oPatientNameText = new CommonWebElement("oPatientNameText", "xpath=//label[text()='Patient Name']",oWebDriver);
+    public CommonWebElement oPatientNameText = new CommonWebElement("oPatientNameText", "xpath=(//*[@class='collapsible-container']//label[contains(text(),'Patient Name')]/..//a)",oWebDriver);
     public CommonWebElement oPatientName = new CommonWebElement("oPatientName", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]/div",oWebDriver);
-    public CommonWebElement oPatientEditNameBtn = new CommonWebElement("oPatientEditNameBtn", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[1]",oWebDriver);
+    public CommonWebElement oPatientEditNameBtn = new CommonWebElement("oPatientEditNameBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons']))[1]",oWebDriver);
     public CommonWebElement oPatientEditNameCheckBtn = new CommonWebElement("oPatientEditNameCheckBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[1])/i[1]",oWebDriver);
     public CommonWebElement oPatientEditNameCircleBtn = new CommonWebElement("oPatientEditNameCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
     public CommonWebElement oPatientEditFirstNameField = new CommonWebElement("oPatientEditFirstNameField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[1]/div/input[1]",oWebDriver);
     public CommonWebElement oPatientEditLastNameField = new CommonWebElement("oPatientEditLastNameField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[1]/div/input[2]",oWebDriver);
 
-    public CommonWebElement oPatientDateBirthText = new CommonWebElement("oPatientDateBirthText", "xpath=//label[text()='Patient Date Of Birth']",oWebDriver);
+    public CommonWebElement oPatientDateBirthText = new CommonWebElement("oPatientDateBirthText", "xpath=(//*[@class='collapsible-container']//label[contains(text(),'Patient Date Of Birth')]/../div)",oWebDriver);
     public CommonWebElement oPatientDateBirth = new CommonWebElement("oPatientDateBirth", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[2]/input",oWebDriver);
-    public CommonWebElement oPatientEditDateBirthBtn = new CommonWebElement("oPatientEditDateBirthBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthBtn = new CommonWebElement("oPatientEditDateBirthBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons']))[2]",oWebDriver);
     public CommonWebElement oPatientEditDateBirthCheckBtn = new CommonWebElement("oPatientEditDateBirthCheckBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[2])/i[1]",oWebDriver);
     public CommonWebElement oPatientEditDateBirthCircleBtn = new CommonWebElement("oPatientEditDateBirthCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
-    public CommonWebElement oPatientEditDateBirthField = new CommonWebElement("oPatientEditDateBirthField", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//input",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthField = new CommonWebElement("oPatientEditDateBirthField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[2]/input",oWebDriver);
 
-    public CommonWebElement oPhoneNumberText = new CommonWebElement("oPhoneNumberText", "xpath=//label[text()='Phone Number']",oWebDriver);
+    public CommonWebElement oPhoneNumberText = new CommonWebElement("oPhoneNumberText", "xpath=(//*[@class='collapsible-container']//label[contains(text(),'Phone Number')]/../div)",oWebDriver);
     public CommonWebElement oPhoneNumber = new CommonWebElement("oPhoneNumber", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]/div",oWebDriver);
-    public CommonWebElement oPatientEdiPhoneNoBtn = new CommonWebElement("oPatientEditPhoneNoBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-pencil')]",oWebDriver);
+    public CommonWebElement oPatientEdiPhoneNoBtn = new CommonWebElement("oPatientEditPhoneNoBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons']))[3]",oWebDriver);
     public CommonWebElement oPatientEditPhoneNoCheckBtn = new CommonWebElement("oPatientEditPhoneNoCheckBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[3])/i[1]",oWebDriver);
     public CommonWebElement oPatientEditPhoneNoCircleBtn = new CommonWebElement("oPatientEdiPhoneNoCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[4]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
     public CommonWebElement oPatientEditPhoneNoField = new CommonWebElement("oPatientEditPhoneNoField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[3]/input",oWebDriver);

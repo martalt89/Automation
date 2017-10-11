@@ -130,7 +130,14 @@ public class VisitDetailsModalTest extends TestBase  {
 
     @Test
     public void editPatientProfileFromVisitDetailsCard(){
-        String newVisitCode = visitsAPI.createVisit();
+
+        String sPatientFirstName = "asdfg";
+        String sPatientLastName = "asdfg";
+        String sDateOfBirth = "01/12/1990";
+        String sPhoneNumber = "(213) 294-9306";
+        String newVisitCode = "LA-OQSJT";//visitsAPI.createVisit();
+        System.out.println(newVisitCode);
+
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
@@ -138,30 +145,64 @@ public class VisitDetailsModalTest extends TestBase  {
         OpsMenu menu = new OpsMenu(dr);
         VisitDetailsModalPage visitDetailsModalPage = new VisitDetailsModalPage(dr);
 
-
-
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
         visitDetailsModalPage.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisitCode);
         visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
         visitDetailsModalPage.expandCardSectionHeader("Patient");
-        visitDetailsModalPage.oPatientEditNameBtn.clickAndWait(visitDetailsModalPage.oPatientEditFirstNameField,true);
+        visitDetailsModalPage.oPatientEditNameBtn.click();
+        //visitDetailsModalPage.oPatientEditFirstNameField.click();
+        //visitDetailsModalPage.oPatientEditFirstNameField.clear();
         visitDetailsModalPage.oPatientEditFirstNameField.sendKeys("asdfg");
         visitDetailsModalPage.oPatientEditLastNameField.sendKeys("asdfg");
         visitDetailsModalPage.oPatientEditNameCheckBtn.click();
         menu.verifyToastMessage("verification for editing patient name from visit details card ","The first name and last name updated successfully!");
-
+        dr.navigate().refresh();
+        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        assertMatches("verifying patient name text is changed on editing" ,visitDetailsModalPage.oPatientNameText.getText(),(sPatientFirstName+" "+sPatientLastName) );
 
         visitDetailsModalPage.oPatientEditDateBirthBtn.clickAndWait(visitDetailsModalPage.oPatientEditDateBirthField,true);
         visitDetailsModalPage.oPatientEditDateBirthField.sendKeys("01/12/1990");
         visitDetailsModalPage.oPatientEditDateBirthCheckBtn.click();
         menu.verifyToastMessage("verification for editing patient Date of Birth ","The birthday updated successfully!");
+        dr.navigate().refresh();
+        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        assertMatches("verifying patient date of birth is updated on editing",visitDetailsModalPage.oPatientDateBirthText.getText(),sDateOfBirth);
 
         visitDetailsModalPage.oPatientEdiPhoneNoBtn.clickAndWait(visitDetailsModalPage.oPatientEditPhoneNoField,true);
         visitDetailsModalPage.oPatientEditPhoneNoField.sendKeys("2132949306");
         visitDetailsModalPage.oPatientEditPhoneNoCheckBtn.click();
         menu.verifyToastMessage("verification for editing patient phone number","The phone number updated successfully!");
+        dr.navigate().refresh();
+        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        assertEquals("verifying phone number is updated on editing for patient profile",visitDetailsModalPage.oPhoneNumberText.getText(),sPhoneNumber);
+
+
+    }
+
+    @Test
+    public void addInsuranceFromVisitDetailsCard(){
+        CommonWebElement.setbMonitorMode(false);
+        WebDriver dr = getDriver();
+        OpsLoginPage loginPage = new OpsLoginPage(dr);
+        OpsVisitsPage opsVisitsPage = new OpsVisitsPage(dr);
+        OpsMenu menu = new OpsMenu(dr);
+        String newVisitCode = visitsAPI.createVisit();
+        VisitDetailsModalPage visitDetailsModalPage = new VisitDetailsModalPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageReady();
+        loginPage.login();
+        visitDetailsModalPage.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+        visitDetailsModalPage.oActionsBtn.click();
+        visitDetailsModalPage.oActionsMenuAddInsurance.click();
+        visitDetailsModalPage.selectPayer("aetna");
+        visitDetailsModalPage.oMemberIdInput.sendKeys("COST_ESTIMATES_025");
+        visitDetailsModalPage.oGroupIdInput.sendKeys("BC001");
+        visitDetailsModalPage.oSubmitBtn.click();
+        assertMatches("verifying the insurance provider has been updated after adding insurance from visit Details page",visitDetailsModalPage.oInsuranceProviderText.getText(),"aetna");
+        assertMatches("verifying the member Id after adding insurance",visitDetailsModalPage.oMemberIdText.getText(),"COST_ESTIMATES_025");
 
 
 

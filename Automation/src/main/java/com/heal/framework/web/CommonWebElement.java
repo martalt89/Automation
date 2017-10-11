@@ -232,7 +232,7 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void clear() {
-        waitForVisible();
+        waitForEnabled();
         oWebElement.clear();
 
         //If text can not be cleared successfully
@@ -387,7 +387,9 @@ public class CommonWebElement implements WebElement, Locatable {
         waitForVisible();
         waitForEnabled();
         // scrollForElement();
-        oWebElement.clear();
+       //  click();
+        clear();
+
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
             try {
