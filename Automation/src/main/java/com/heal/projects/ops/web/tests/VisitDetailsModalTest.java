@@ -203,8 +203,5 @@ public class VisitDetailsModalTest extends TestBase  {
         visitDetailsModalPage.oSubmitBtn.click();
         assertMatches("verifying the insurance provider has been updated after adding insurance from visit Details page",visitDetailsModalPage.oInsuranceProviderText.getText(),"aetna");
         assertMatches("verifying the member Id after adding insurance",visitDetailsModalPage.oMemberIdText.getText(),"COST_ESTIMATES_025");
-
-
-
     }
 }

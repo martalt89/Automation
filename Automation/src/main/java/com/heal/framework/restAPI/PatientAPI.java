@@ -43,7 +43,6 @@ public class PatientAPI extends ApiBase {
 
     public void setAllPatients(){
         allPatients = getAllPatientsOfTheAccount(sAccUsername, sAccPassword);
-        System.out.println(allPatients.toString());
     }
 
     public JSONObject getAllPatients() {
@@ -57,7 +56,6 @@ public class PatientAPI extends ApiBase {
         for (int i = 0; i < patients.length(); i++) {
             JSONObject patient = patients.getJSONObject(i);
             patientIDs.add(patient.get("patientId").toString());
-            System.out.println(patientIDs);
             }
         return patientIDs;
     }
@@ -560,25 +558,13 @@ public class PatientAPI extends ApiBase {
                 .body(patientDetails)
                 .put(baseURL+resource)
                 .asString();
-        System.out.println(response);
     }
 
     public void removeInsurance(String patientFirstName){
         String patientID = getPatientIdByFirstname(patientFirstName);
         Map<String, String> map = getPatientDetailsByID(patientID);
-        System.out.println(map);
         map.replace("status", null);
-//        map.remove("eligibilityId");
-//        map.remove("eligiblePayerOffline");
-//        map.remove("insuranceResponse");
-//        map.replace("hasInsurance", "false");
-//        map.replace("groupId", "");
-//        map.replace("insuranceId", null);
-//        map.replace("insuranceName", null);
-//        map.replace("memberId", null);
-//        map.replace("patientInsuranceId", null);
-//        map.replace("payerId", null);
-//        map.replace("planName", null);
+
         updatePatient(patientID, map);
     }
 
