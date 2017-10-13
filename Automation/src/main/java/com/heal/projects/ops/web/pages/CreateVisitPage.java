@@ -87,7 +87,7 @@ public class CreateVisitPage extends WebBase {
 
     // buttons
     public CommonWebElement oSelectPatientProfile = new CommonWebElement("oSelectPatientProfile", "xpath=//*[@class='patient-list']/div[1]", oWebDriver);
-    public CommonWebElement oSelectPatientProfileWithInsurance = new CommonWebElement("oSelectPatientProfileWithInsurance", "xpath=//*[contains(@class,'patient-name') and text()='Insurance']", oWebDriver);
+    public CommonWebElement oSelectPatientProfileWithInsurance = new CommonWebElement("oSelectPatientProfileWithInsurance", "xpath=//*[contains(@class,'patient-name') and text()='With Insurance']", oWebDriver);
     public CommonWebElement oSelectPatientProfileWithCreditCard = new CommonWebElement("oSelectPatientProfileWithCreditCard", "xpath=//*[contains(@class,'patient-name') and text()='Credit Card']", oWebDriver);
     public CommonWebElement oCreatePatientBtn = new CommonWebElement("oCreatePatientBtn", "xpath=//button[text()='Create Patient']", oWebDriver);
     public CommonWebElement oChooseDifferentPatientBtn = new CommonWebElement("oChooseDifferentPatientBtn", "xpath=//button[text()='Choose Different Patient']", oWebDriver);
@@ -203,7 +203,7 @@ public class CreateVisitPage extends WebBase {
 
     // LEFT MENU BUTTONS
     public CommonWebElement oSelectUserMenu = new CommonWebElement("oSelectUserMenu", "xpath=//*[contains(@class,'no-data') and text()='Select User']", oWebDriver);
-    public CommonWebElement oSelectPatientMenu = new CommonWebElement("oSelectPatientMenu", "xpath=//*[contains(@class,'no-data') and text()='Select Patient']", oWebDriver);
+    public CommonWebElement oSelectPatientMenu = new CommonWebElement("oSelectPatientMenu", "xpath=//h4[text()='Patient']", oWebDriver);
     public CommonWebElement oSelectAddressMenu = new CommonWebElement("oSelectAddressMenu", "xpath=//*[contains(@class,'no-data') and text()='Select Address']", oWebDriver);
     public CommonWebElement oAddVisitDetailsMenu = new CommonWebElement("oAddVisitDetailsMenu", "xpath=//*[contains(@class,'no-data') and text()='Add Visit Details']", oWebDriver);
     public CommonWebElement oSelectPaymentMenu = new CommonWebElement("oSelectPaymentMenu", "xpath=//*[contains(@class,'no-data') and text()='Select Payment']", oWebDriver);
@@ -417,7 +417,7 @@ public class CreateVisitPage extends WebBase {
      *
      */
     public void selectPatientProfileWithInsurance(){
-        this.oSelectPatientMenu.jsClick();
+        this.oSelectPatientMenu.click();
 
         this.oSelectPatientProfileWithInsurance.click();
         this.oSavePatientBtn.scrollForElement();
@@ -432,7 +432,7 @@ public class CreateVisitPage extends WebBase {
      *
      */
     public void selectPatientProfileWithCreditCard(){
-        this.oSelectPatientMenu.jsClick();
+        this.oSelectPatientMenu.click();
         this.oSelectPatientProfileWithCreditCard.click();
         this.oSavePatientBtn.scrollForElement();
         this.oSavePatientBtn.click();
@@ -459,7 +459,7 @@ public class CreateVisitPage extends WebBase {
     public void addVisitDetailsWithSickAdult(){
         this.oAddVisitDetailsMenu.clickAndWait(this.oEnterVisitDetailsTitle,true);
         this.oSickAdultService.click();
-        this.oSymptomsField.sendKeys("testing");
+        this.oSymptomsField.sendKeys("IGNORE - Booked by automation test..");
         this.oSaveBtn.clickAndWait(this.oPageLoader,false);
 
     }

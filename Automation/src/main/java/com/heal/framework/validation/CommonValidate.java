@@ -122,6 +122,43 @@ public class CommonValidate
         }
 
     }
+
+    /**
+     * Wraps TestNG assertEquals method to provide more logging.
+     *
+     * @param sComment
+     * (String) - Comment
+     *
+     * @param oActual
+     * (Object) - Any type of input
+     *
+     * @param oExpected
+     * (Object) - Any type of input
+     */
+    public void assertEquals(String sComment, Object oActual, Object oExpected, int timeout)
+    {
+        int seconds = 0;
+        Object[] oArray = {sComment, oActual, oExpected};
+
+        try {
+            while (timeout>seconds) {
+                try {
+                    Assert.assertEquals(oActual, oExpected);
+                    break;
+                } catch (AssertionError ex) {
+                    SysTools.sleepFor(1);
+                    seconds++;
+                }
+            }
+            Assert.assertEquals(oActual, oExpected);
+            oExtentTest.log(LogStatus.PASS, String.format("{%s} - assertEquals({%s}, {%s}) success!", oArray));
+        } catch (Exception e) {
+            oExtentTest.log(LogStatus.FAIL, String.format("{%s} - assertEquals() failed! Actual: {%s} Expected: {%s} ", oArray));
+            fail("assertEquals() failed!  Actual: \"" + oActual + "\"  Expected: \"" + oExpected + "\"");
+        }
+
+    }
+
     /**
      * This method verifies that two string matches using regular expression
      *

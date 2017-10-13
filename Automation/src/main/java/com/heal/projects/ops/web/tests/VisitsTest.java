@@ -50,7 +50,7 @@ public class VisitsTest extends TestBase{
         System.out.println(failedRuns + " Failed Runs"); // display how many times the test failed on given visits booked
     }
 
-    @Test
+    @Test(groups = {"dev", "critical"})
     public void bookVisitWithInsurance() throws Exception {
 
         WebDriver dr =getDriver();
@@ -68,7 +68,7 @@ public class VisitsTest extends TestBase{
         visitsPage.oAddVisitBtn.clickAndWait(createVisit.oEnterKeywordField, true);
         createVisit.oEnterKeywordField.sendKeys("vahan+qa");
         createVisit.oSearchingSuggestion.clickAndWait(createVisit.oSaveUserBtn,true);
-        createVisit.oPhoneField.sendKeys("(818)182-1238");
+        createVisit.oPhoneField.sendKeys("(818)212-3842");
         createVisit.selectPatientProfile("insurance");
         menu.verifyToastMessage("Verify patient profile was selected and saved", "Successfully Updated Patient");
         createVisit.saveAddress();
@@ -76,18 +76,18 @@ public class VisitsTest extends TestBase{
         createVisit.addVisitDetailsWithSickAdult();
         menu.verifyToastMessage("Verify visit details are added",  "Updated Visit Details");
         createVisit.scrollPage("Down");
-        createVisit.oSelectPaymentMenu.jsClick();
+        createVisit.oSelectPaymentMenu.click();
         createVisit.oFirstCardOption.click();
         createVisit.scrollPage("Down");
 
-        createVisit.oVisitSummaryMenu.jsClick();
+        createVisit.oVisitSummaryMenu.click();
         createVisit.oBookVisitBtn.clickAndWait(menu.oLoadingBar,false);
         menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
 
     }
 
 
-    @Test
+    @Test(groups = {"dev", "critical"})
     public void bookVisitWithCreditCard() throws Exception {
         WebDriver dr =getDriver();
         dr.manage().window().maximize();
@@ -127,7 +127,7 @@ public class VisitsTest extends TestBase{
         menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
     }
 
-    @Test
+    @Test(groups = {"dev", "critical"})
     public void bookVisitWithPromoCode() throws Exception {
         WebDriver dr =getDriver();
         dr.manage().window().maximize();

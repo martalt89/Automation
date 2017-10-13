@@ -165,10 +165,12 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement oPatientEditFirstNameField = new CommonWebElement("oPatientEditFirstNameField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[1]/div/input[1]",oWebDriver);
     public CommonWebElement oPatientEditLastNameField = new CommonWebElement("oPatientEditLastNameField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[1]/div/input[2]",oWebDriver);
 
+
+    public CommonWebElement oEditField = new CommonWebElement("Edit field", "xpath=(//*[@class='edit-field-inputs']//input)[1]",oWebDriver);
     public CommonWebElement oPatientDateBirthText = new CommonWebElement("oPatientDateBirthText", "xpath=(//*[@class='collapsible-container']//label[contains(text(),'Patient Date Of Birth')]/../div)",oWebDriver);
     public CommonWebElement oPatientDateBirth = new CommonWebElement("oPatientDateBirth", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[2]/input",oWebDriver);
     public CommonWebElement oPatientEditDateBirthBtn = new CommonWebElement("oPatientEditDateBirthBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons']))[2]",oWebDriver);
-    public CommonWebElement oPatientEditDateBirthCheckBtn = new CommonWebElement("oPatientEditDateBirthCheckBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons'])[2])/i[1]",oWebDriver);
+    public CommonWebElement oPatientEditDateBirthCheckBtn = new CommonWebElement("oPatientEditDateBirthCheckBtn", "xpath=//label[text()='Patient Date Of Birth']/..//*[contains(@class,'fa-check')]",oWebDriver);
     public CommonWebElement oPatientEditDateBirthCircleBtn = new CommonWebElement("oPatientEditDateBirthCircleBtn", "xpath=//*[contains(@class,'collapsible-section')][2]//li[3]//i[contains(@class,'fa-times-circle-o')]",oWebDriver);
     public CommonWebElement oPatientEditDateBirthField = new CommonWebElement("oPatientEditDateBirthField", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[2]/input",oWebDriver);
 
@@ -434,7 +436,7 @@ public class VisitDetailsModalPage extends WebBase{
      */
     public void addVisitNotes(String sNotesMessage){
         this.oDetailsEditVisitNotesBtn.clickAndWait(this.oDetailsEditVisitNotesField,true);
-        this.oDetailsEditVisitNotesField.sendKeys("Ignore-Automation test running");
+        this.oDetailsEditVisitNotesField.sendKeys(sNotesMessage);
         this.oDetailsEditVisitNotesCheckBtn.click();
     }
     //refund methods
@@ -522,10 +524,15 @@ public class VisitDetailsModalPage extends WebBase{
     }
 
     public int LogDetailsCount(){
-        //CommonWebElement oElement = new CommonWebElement("oElement","xpath=//*[@class='log-details']",oWebDriver);
-        By logDetailsList = By.xpath("//*[@class='log-details']");
-        List<WebElement> commonWebElementList= getWebDriver().findElements(logDetailsList);
-        return commonWebElementList.size();
+        CommonWebElement oElement = new CommonWebElement("oElement","xpath=//*[@class='log-details']",oWebDriver);
+        int seconds = 0;
+        int logCount;
+        while (getWebDriver().findElements(oElement.getBy()).size() == 0 && seconds<60) {
+            seconds++;
+            SysTools.sleepFor(1);
+        }
+        logCount = getWebDriver().findElements(oElement.getBy()).size();
+        return logCount;
     }
 
     /**
@@ -540,11 +547,10 @@ public class VisitDetailsModalPage extends WebBase{
         if(!classOpened){
             cardSectionHeader.click();
         }
+    }
 
-
-
-
-
-
+    public String getFieldValue(String fieldLabel){
+        CommonWebElement oFieldValues = new CommonWebElement("oFieldValue", "xpath=(//label[contains(text(),'"+ fieldLabel +"')]/../div[contains(@class,'edit-container')]/div)[1]", oWebDriver);
+        return oFieldValues.getText();
     }
 }

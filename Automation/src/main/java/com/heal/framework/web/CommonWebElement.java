@@ -241,7 +241,6 @@ public class CommonWebElement implements WebElement, Locatable {
         for (int i = length; i > 0; i--) {
             oWebElement.sendKeys(Keys.BACK_SPACE);
         }
-
         if (iThrottleValue != 0)
             try {
                 Thread.sleep(1000 * iThrottleValue);
@@ -384,12 +383,9 @@ public class CommonWebElement implements WebElement, Locatable {
 
     @Override
     public void sendKeys(CharSequence... arg0) {
+        waitForElement();
         waitForVisible();
-        waitForEnabled();
-        // scrollForElement();
-       //  click();
         clear();
-
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
             try {

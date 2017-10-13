@@ -30,8 +30,6 @@ public class VisitDetailsModalTest extends TestBase  {
         Boolean chartID = false;
         Boolean patienID = false;
         String visit_id = visitsAPI.createVisit();
-        System.out.println(username + "    " +password);
-//        String visit_id = "LA-GHXNX";
         getExtentTest().log(LogStatus.INFO, visit_id + " visit booked");
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
@@ -128,11 +126,11 @@ public class VisitDetailsModalTest extends TestBase  {
         assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(myNewVisit).getText(), "REFUNDED");
     }
 
-    @Test
+    @Test (groups = {"dev", "critical"})
     public void editPatientProfileFromVisitDetailsCard(){
 
-        String sPatientFirstName = "asdfg";
-        String sPatientLastName = "asdfg";
+        String sPatientFirstName = "updatedName" + SysTools.getRandomChars(2);
+        String sPatientLastName = "updatedLastName" + SysTools.getRandomChars(2);
         String sDateOfBirth = "01/12/1990";
         String sPhoneNumber = "(213) 294-9306";
         String newVisitCode = "LA-OQSJT";//visitsAPI.createVisit();
@@ -144,44 +142,51 @@ public class VisitDetailsModalTest extends TestBase  {
         OpsVisitsPage opsVisitsPage = new OpsVisitsPage(dr);
         OpsMenu menu = new OpsMenu(dr);
         VisitDetailsModalPage visitDetailsModalPage = new VisitDetailsModalPage(dr);
-
         loginPage.goTo();
         loginPage.waitForPageReady();
         loginPage.login();
-        visitDetailsModalPage.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisitCode);
-        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
-        visitDetailsModalPage.expandCardSectionHeader("Patient");
-        visitDetailsModalPage.oPatientEditNameBtn.click();
-        //visitDetailsModalPage.oPatientEditFirstNameField.click();
-        //visitDetailsModalPage.oPatientEditFirstNameField.clear();
-        visitDetailsModalPage.oPatientEditFirstNameField.sendKeys("asdfg");
-        visitDetailsModalPage.oPatientEditLastNameField.sendKeys("asdfg");
-        visitDetailsModalPage.oPatientEditNameCheckBtn.click();
-        menu.verifyToastMessage("verification for editing patient name from visit details card ","The first name and last name updated successfully!");
-        dr.navigate().refresh();
-        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
-        assertMatches("verifying patient name text is changed on editing" ,visitDetailsModalPage.oPatientNameText.getText(),(sPatientFirstName+" "+sPatientLastName) );
+            visitDetailsModalPage.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + newVisitCode);
+            visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+            visitDetailsModalPage.expandCardSectionHeader("Patient");
+//            visitDetailsModalPage.oPatientEditNameBtn.clickAndWait(visitDetailsModalPage.oEditField, true);
+            visitDetailsModalPage.oPatientEditNameBtn.click();
+            //visitDetailsModalPage.oPatientEditFirstNameField.click();
+            //visitDetailsModalPage.oPatientEditFirstNameField.clear();
+        SysTools.sleepFor(1);
+            visitDetailsModalPage.oPatientEditFirstNameField.sendKeys(sPatientFirstName);
+            visitDetailsModalPage.oPatientEditLastNameField.sendKeys(sPatientLastName);
 
-        visitDetailsModalPage.oPatientEditDateBirthBtn.clickAndWait(visitDetailsModalPage.oPatientEditDateBirthField,true);
-        visitDetailsModalPage.oPatientEditDateBirthField.sendKeys("01/12/1990");
-        visitDetailsModalPage.oPatientEditDateBirthCheckBtn.click();
-        menu.verifyToastMessage("verification for editing patient Date of Birth ","The birthday updated successfully!");
-        dr.navigate().refresh();
-        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
-        assertMatches("verifying patient date of birth is updated on editing",visitDetailsModalPage.oPatientDateBirthText.getText(),sDateOfBirth);
 
-        visitDetailsModalPage.oPatientEdiPhoneNoBtn.clickAndWait(visitDetailsModalPage.oPatientEditPhoneNoField,true);
-        visitDetailsModalPage.oPatientEditPhoneNoField.sendKeys("2132949306");
-        visitDetailsModalPage.oPatientEditPhoneNoCheckBtn.click();
-        menu.verifyToastMessage("verification for editing patient phone number","The phone number updated successfully!");
-        dr.navigate().refresh();
-        visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
-        assertEquals("verifying phone number is updated on editing for patient profile",visitDetailsModalPage.oPhoneNumberText.getText(),sPhoneNumber);
+            visitDetailsModalPage.oPatientEditNameCheckBtn.click();
+
+
+            menu.verifyToastMessage("verification for editing patient name from visit details card ", "The first name and last name updated successfully!");
+
+//            assertMatches("verifying patient name text is changed on editing", visitDetailsModalPage.oPatientNameText.getText(), (sPatientFirstName + " " + sPatientLastName), 10);
+            assertEquals("verifying patient name text is changed on editing", visitDetailsModalPage.oPatientNameText.getText(), (sPatientFirstName + " " + sPatientLastName), 10);
+
+//            visitDetailsModalPage.oPatientEditDateBirthBtn.clickAndWait(visitDetailsModalPage.oEditField, true);
+            visitDetailsModalPage.oPatientEditDateBirthBtn.click();
+            visitDetailsModalPage.oPatientEditDateBirthField.sendKeys("01/12/1990");
+            visitDetailsModalPage.oPatientEditDateBirthCheckBtn.click();
+            menu.verifyToastMessage("verification for editing patient Date of Birth ", "The birthday updated successfully!");
+            visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+//            assertMatches("verifying patient date of birth is updated on editing", visitDetailsModalPage.oPatientDateBirthText.getText(), sDateOfBirth);
+            assertEquals("verifying patient date of birth is updated on editing", visitDetailsModalPage.oPatientDateBirthText.getText(), sDateOfBirth, 10);
+
+//            visitDetailsModalPage.oPatientEdiPhoneNoBtn.clickAndWait(visitDetailsModalPage.oEditField, true);
+            visitDetailsModalPage.oPatientEdiPhoneNoBtn.click();
+            visitDetailsModalPage.oPatientEditPhoneNoField.sendKeys("2132949306");
+            visitDetailsModalPage.oPatientEditPhoneNoCheckBtn.click();
+            menu.verifyToastMessage("verification for editing patient phone number", "The phone number updated successfully!");
+
+//            assertEquals("verifying phone number is updated on editing for patient profile", visitDetailsModalPage.oPhoneNumberText.getText(), sPhoneNumber);
+            assertEquals("verifying phone number is updated on editing for patient profile", visitDetailsModalPage.oPhoneNumberText.getText(), sPhoneNumber, 10);
 
 
     }
 
-    @Test
+    @Test (groups = {"dev", "critical"})
     public void addInsuranceFromVisitDetailsCard(){
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();

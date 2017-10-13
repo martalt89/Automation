@@ -14,7 +14,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.ScreenshotException;
@@ -751,6 +750,19 @@ public class TestBase
     }
 
     /**
+     * Wrapper around Validate.assertEquals method in ThreadLocal
+     *
+     * @param sComment
+     * @param oActual
+     * @param oExpected
+     */
+    public void assertEquals(String sComment, Object oActual, Object oExpected, int timeout)
+    {
+        getValidate().assertEquals(sComment, oActual, oExpected, timeout);
+    }
+
+
+    /**
      * Wrapper around Validate.verifyMatches method in ThreadLocal
      *
      * @param sComment
@@ -773,6 +785,7 @@ public class TestBase
     {
         getValidate().assertMatches(sComment, sActual, sExpected);
     }
+
 
     /**
      * Wrapper around Validate.verifyVisible method in ThreadLocal

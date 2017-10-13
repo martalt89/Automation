@@ -380,9 +380,6 @@ public class VisitTest extends TestBase {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
-        loginPage.goTo();
-        loginPage.waitForPageLoad();
-        loginPage.login();
         ProfilePage profilePage = new ProfilePage(dr);
         ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
         BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
@@ -391,6 +388,9 @@ public class VisitTest extends TestBase {
         WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
         BookVisitPage bookVisitPage = new BookVisitPage(dr);
         Menu menu = new Menu(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        loginPage.login();
         menu.selectFromMenu("profiles");
         profilePage.getPatientByText("Payer").click();
         profilePage.oContinueButton.clickAndWait(profilePage.oInsuranceProviderInput,true);

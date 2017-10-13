@@ -49,6 +49,9 @@ public class VisitsE2E extends TestBase  {
             menu.oToastContainer.waitForVisible();
             assertMatches("Successfully updated visit notes", menu.oToastTitle.getText(), "OK:");
             assertMatches("Successfully updated visit notes", menu.oToastMessage.getText(), "Symptoms updated successfully !");
+            assertEquals("Symptoms field update", visit.getFieldValue("Symptoms"), sSymptoms, 10);
+            visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
+            assertEquals("comparing log details count for each event triggered", visit.LogDetailsCount(), ilogCounter);
         } catch (Exception e) {
             try {
                 visitsAPI.cancelVisit(visit_id);
@@ -83,7 +86,7 @@ public class VisitsE2E extends TestBase  {
             visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
             visit.checkVisitStatusWithRefresh("DOCTOR_ASSIGNED", 10);
             visitsPage.filterVisits(visit_id);
-            assertMatches("Successfully updated visit notes", menu.oToastTitle.getText(), "OK:");
+            assertEquals("comparing log details count for each event triggered", visit.LogDetailsCount(), ilogCounter);
         }catch (Exception e){
             try {
                 visitsAPI.cancelVisit(visit_id);
@@ -99,6 +102,7 @@ public class VisitsE2E extends TestBase  {
     @Test(groups = {"dev", "critical"}, dependsOnMethods = { "changeProviderManualTimeSet" }, priority=1)
     public void startVisit() {
         try {
+            String visitNotes = "ignore-Automation test running";
             CommonWebElement.setbMonitorMode(false);
             WebDriver dr = getDriver();
             OpsLoginPage loginPage = new OpsLoginPage(dr);
@@ -110,9 +114,10 @@ public class VisitsE2E extends TestBase  {
             loginPage.waitForPageReady();
             loginPage.login();
             visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
-            visit.addVisitNotes("ignore-Automation test running");
+            visit.addVisitNotes(visitNotes);
             ilogCounter++;
             menu.verifyToastMessage("Verify visit notes updated successfully", "The visit notes updated successfully!");
+            assertEquals("Symptoms field update", visit.getFieldValue("Visit Notes"), visitNotes, 10);
             visit.startVisit();
             ilogCounter++;
             visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
@@ -120,7 +125,7 @@ public class VisitsE2E extends TestBase  {
             assertMatches("Verify visit details modal contains 'STARTED' Status", visit.oVisitStatus.getText(), "STARTED");
             visitsPage.filterVisits(visit_id);
             visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
-            assertEquals("comparing log details count for each event triggered", visit.LogDetailsCount(), ilogCounter);
+            assertEquals("comparing log details count for each event triggered", visit.LogDetailsCount(), ilogCounter, 10);
         }catch (Exception e){
             try {
                 visitsAPI.cancelVisit(visit_id);
@@ -153,8 +158,7 @@ public class VisitsE2E extends TestBase  {
             visitsPage.filterVisits(visit_id);
             visitsPage.getStatusByVisitCode(visit_id).waitForVisible();
             verifyEquals("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getStatusByVisitCode(visit_id).getText(), "FULLY PAID");
-//        verifyTextEquals("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getStatusByVisitCode(visit_id), "FULLY PAID");
-//        assertMatches("Verify specified visit code row contains 'FULLY_PAID' in status column", visitsPage.getMedicalAssistantByVisitCode(visit_id).getText(),"FULLY PAID");
+            assertEquals("comparing log details count for each event triggered", visit.LogDetailsCount(), ilogCounter);
         } catch (Exception e){
             try {
                 visitsAPI.cancelVisit(visit_id);
@@ -180,7 +184,6 @@ public class VisitsE2E extends TestBase  {
         visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
         visit.selectPartialRefund("50","Automated test");
         opsMenu.verifyToastTitle("Verify toast title ", "OK:");
-//        opsMenu.verifyToastMessage("Verify toast message", "This visit has successfully been refunded. The patient will receive a refund from their bank in 10-14 days");
     }
 
 

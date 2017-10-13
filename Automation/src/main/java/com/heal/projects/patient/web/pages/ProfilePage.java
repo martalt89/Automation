@@ -81,7 +81,7 @@ public class ProfilePage extends WebBase{
      */
     public CommonWebElement getPatientByText(String sText)
     {
-        return new CommonWebElement( "oElement", "xpath=//*[text()='"+sText+"']", oWebDriver );
+        return new CommonWebElement( "oElement", "xpath=//*[contains(text(),'"+sText+"')]", oWebDriver );
 
     }
 

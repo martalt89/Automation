@@ -43,7 +43,7 @@ public class DashboardTest extends TestBase {
         verifyVisible("Verify Reschedules table header", dashboardPage.oRescheduledHeader);
     }
 
-    @Test(groups = {"dev", "critical"})
+    @Test(groups = {"dev"})
     public void cityCheckboxes() throws InterruptedException {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
@@ -60,7 +60,7 @@ public class DashboardTest extends TestBase {
         verifyVisible("test",dashboardPage.oLosAngelesTitle);
     }
 
-    @Test(groups = {"dev", "critical"})
+    @Test(groups = {"dev"})
     public void searchZipcode() {
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
