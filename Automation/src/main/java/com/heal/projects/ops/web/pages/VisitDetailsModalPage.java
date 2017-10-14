@@ -156,6 +156,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     //patient
     public CommonWebElement oPatientBtn = new CommonWebElement("oPatientBtn", "xpath=//*[@class='card-section-header']//*[text()='Patient']",oWebDriver);
+    public CommonWebElement oSymptomsText = new CommonWebElement("Symptoms", "xpath=//*[@class='collapsible-container']//label[contains(text(),'Symptoms')]/../div",oWebDriver);
     public CommonWebElement oRelationshipText = new CommonWebElement("oRelationshipText", "xpath=//label[text()='Relationship']",oWebDriver);
     public CommonWebElement oPatientNameText = new CommonWebElement("oPatientNameText", "xpath=(//*[@class='collapsible-container']//label[contains(text(),'Patient Name')]/..//a)",oWebDriver);
     public CommonWebElement oPatientName = new CommonWebElement("oPatientName", "xpath=//*[contains(@class,'collapsible-section')][2]//li[2]/div",oWebDriver);
@@ -167,7 +168,7 @@ public class VisitDetailsModalPage extends WebBase{
 
 
     public CommonWebElement oEditField = new CommonWebElement("Edit field", "xpath=(//*[@class='edit-field-inputs']//input)[1]",oWebDriver);
-    public CommonWebElement oPatientDateBirthText = new CommonWebElement("oPatientDateBirthText", "xpath=(//*[@class='collapsible-container']//label[contains(text(),'Patient Date Of Birth')]/../div)",oWebDriver);
+    public CommonWebElement oPatientDateBirthText = new CommonWebElement("oPatientDateBirthText", "xpath=//*[@class='collapsible-container']//label[contains(text(),'Patient Date Of Birth')]/../div",oWebDriver);
     public CommonWebElement oPatientDateBirth = new CommonWebElement("oPatientDateBirth", "xpath=((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-inputs'])[2]/input",oWebDriver);
     public CommonWebElement oPatientEditDateBirthBtn = new CommonWebElement("oPatientEditDateBirthBtn", "xpath=(((//div[contains(@class,'collapsible-section')]//span[text()='Patient'])/../following-sibling::div[contains(@class,'collapsible-container')]//*[@class='edit-field-buttons']))[2]",oWebDriver);
     public CommonWebElement oPatientEditDateBirthCheckBtn = new CommonWebElement("oPatientEditDateBirthCheckBtn", "xpath=//label[text()='Patient Date Of Birth']/..//*[contains(@class,'fa-check')]",oWebDriver);
@@ -546,6 +547,19 @@ public class VisitDetailsModalPage extends WebBase{
 
         if(!classOpened){
             cardSectionHeader.click();
+        }
+    }
+
+    public void waitForTextChange(String fieldLabel, int timeout) {
+        CommonWebElement oFieldValues = new CommonWebElement("oFieldValue", "xpath=(//label[contains(text(),'"+ fieldLabel +"')]/../div[contains(@class,'edit-container')]/div)[1]", oWebDriver);
+        String initialValue = oFieldValues.getText();
+        int seconds = 0;
+
+        while (initialValue.equals(oFieldValues.getText())){
+            if (seconds > timeout) break;
+            SysTools.sleepFor(1);
+            System.out.println("Waiting....");
+            seconds++;
         }
     }
 

@@ -1,8 +1,5 @@
 package com.heal.framework.restAPI;
 
-import com.heal.framework.test.RunTestSuite;
-import com.heal.framework.test.TestBase;
-import com.heal.framework.web.WebBase;
 import io.restassured.RestAssured;
 
 public class ApiBase {

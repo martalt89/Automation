@@ -126,7 +126,7 @@ public class VisitDetailsModalTest extends TestBase  {
         assertMatches("Verify specified visit code row contains 'REFUNDED' in status column", visitsPage.getStatusByVisitCode(myNewVisit).getText(), "REFUNDED");
     }
 
-    @Test (groups = {"dev", "critical"})
+    @Test (groups = {"dev", "regression"})
     public void editPatientProfileFromVisitDetailsCard(){
 
         String sPatientFirstName = "updatedName" + SysTools.getRandomChars(2);
@@ -150,8 +150,6 @@ public class VisitDetailsModalTest extends TestBase  {
             visitDetailsModalPage.expandCardSectionHeader("Patient");
 //            visitDetailsModalPage.oPatientEditNameBtn.clickAndWait(visitDetailsModalPage.oEditField, true);
             visitDetailsModalPage.oPatientEditNameBtn.click();
-            //visitDetailsModalPage.oPatientEditFirstNameField.click();
-            //visitDetailsModalPage.oPatientEditFirstNameField.clear();
         SysTools.sleepFor(1);
             visitDetailsModalPage.oPatientEditFirstNameField.sendKeys(sPatientFirstName);
             visitDetailsModalPage.oPatientEditLastNameField.sendKeys(sPatientLastName);
@@ -161,16 +159,16 @@ public class VisitDetailsModalTest extends TestBase  {
 
 
             menu.verifyToastMessage("verification for editing patient name from visit details card ", "The first name and last name updated successfully!");
+            assertEquals("verifying patient name text is changed on editing", visitDetailsModalPage.oPatientNameText.getText(), (sPatientFirstName + " " + sPatientLastName), 10);
 
 //            assertMatches("verifying patient name text is changed on editing", visitDetailsModalPage.oPatientNameText.getText(), (sPatientFirstName + " " + sPatientLastName), 10);
-            assertEquals("verifying patient name text is changed on editing", visitDetailsModalPage.oPatientNameText.getText(), (sPatientFirstName + " " + sPatientLastName), 10);
 
 //            visitDetailsModalPage.oPatientEditDateBirthBtn.clickAndWait(visitDetailsModalPage.oEditField, true);
             visitDetailsModalPage.oPatientEditDateBirthBtn.click();
             visitDetailsModalPage.oPatientEditDateBirthField.sendKeys("01/12/1990");
             visitDetailsModalPage.oPatientEditDateBirthCheckBtn.click();
             menu.verifyToastMessage("verification for editing patient Date of Birth ", "The birthday updated successfully!");
-            visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
+//            visitDetailsModalPage.waitForPageReady(VisitDetailsModalPage.URL + "#" + newVisitCode);
 //            assertMatches("verifying patient date of birth is updated on editing", visitDetailsModalPage.oPatientDateBirthText.getText(), sDateOfBirth);
             assertEquals("verifying patient date of birth is updated on editing", visitDetailsModalPage.oPatientDateBirthText.getText(), sDateOfBirth, 10);
 

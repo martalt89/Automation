@@ -2,7 +2,6 @@ package com.heal.framework.restAPI;
 
 import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestData;
-import com.heal.framework.web.WebBase;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONArray;
@@ -32,7 +31,6 @@ public class VisitsAPI extends ApiBase {
     public VisitsAPI(String sAccUsername, String sAccPassword){
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
-
     }
 
     public void setPatientId(String sPatientId){

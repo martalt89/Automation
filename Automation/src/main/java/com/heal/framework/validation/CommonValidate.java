@@ -144,6 +144,7 @@ public class CommonValidate
             while (timeout>seconds) {
                 try {
                     Assert.assertEquals(oActual, oExpected);
+
                     break;
                 } catch (AssertionError ex) {
                     SysTools.sleepFor(1);

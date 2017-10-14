@@ -1,20 +1,11 @@
 package com.heal.framework.restAPI;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestData;
 
-import java.io.IOException;
 import java.lang.IllegalArgumentException;
 
-import com.heal.framework.web.WebBase;
 import io.restassured.RestAssured;
-import io.restassured.http.Cookies;
 import io.restassured.response.Response;
-import org.json.Cookie;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -549,15 +540,15 @@ public class PatientAPI extends ApiBase {
                 .get(baseURL + "/v3/patients")
                 .cookie("SESSION");
         String resource = "/v3/patients/" + sPatientID;
-        String response = RestAssured.given()
+        RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
                 .cookie("SESSION", sessionId)
                 .body(patientDetails)
-                .put(baseURL+resource)
-                .asString();
+                .put(baseURL+resource);
+
     }
 
     public void removeInsurance(String patientFirstName){

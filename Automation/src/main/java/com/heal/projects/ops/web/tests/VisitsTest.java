@@ -1,7 +1,9 @@
 package com.heal.projects.ops.web.tests;
 
 import com.heal.framework.foundation.SysTools;
+import com.heal.framework.restAPI.OpsAPI;
 import com.heal.framework.restAPI.PatientAPI;
+import com.heal.framework.restAPI.VisitsAPI;
 import com.heal.projects.ops.web.pages.CreateVisitPage;
 import com.heal.projects.ops.web.pages.OpsLoginPage;
 import com.heal.projects.ops.web.pages.OpsMenu;
@@ -12,7 +14,9 @@ import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
+import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,10 +35,6 @@ public class VisitsTest extends TestBase{
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
-//                HashMap response = patientAPI.getPatientDetails(patientAPI.getPatientIdByFirstname("Credit Card"));
-                patientAPI.removeInsurance("With Insurance");
-//
 //                System.out.println(map);
                 bookVisitWithInsurance();
                 //bookVisitWithCreditCard();
