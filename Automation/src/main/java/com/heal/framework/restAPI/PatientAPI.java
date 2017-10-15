@@ -532,7 +532,7 @@ public class PatientAPI extends ApiBase {
      * @param sPatientID - String patient ID of the patient to be updated
      * @param patientDetails - Map of the details to be used to update
      */
-    public void updatePatient(String sPatientID, Map patientDetails){
+    public void updatePatient(String sPatientID, HashMap<String, String> patientDetails){
         String sessionId = RestAssured.given()
                 .auth()
                 .preemptive()
@@ -547,17 +547,63 @@ public class PatientAPI extends ApiBase {
                 .contentType("application/json")
                 .cookie("SESSION", sessionId)
                 .body(patientDetails)
-                .put(baseURL+resource);
+                .put(baseURL + resource);
 
     }
 
     public void removeInsurance(String patientFirstName){
         String patientID = getPatientIdByFirstname(patientFirstName);
-        Map<String, String> map = getPatientDetailsByID(patientID);
+        HashMap<String, String> map = getPatientDetailsByID(patientID);
         map.replace("status", null);
 
         updatePatient(patientID, map);
     }
 
+    public void addTestInsuranceToPatient(String sPatientId){
+
+        HashMap<String, String> patientDetails = getPatientDetailsByID(sPatientId);
+        patientDetails.replace("hasInsurance", "true");
+        patientDetails.replace("insuranceName", "aetna");
+        patientDetails.replace("memberId", "COST_ESTIMATES_025");
+        patientDetails.replace("patientInsuranceId", "0001508045392319-2f663b05b4c-0001");
+        patientDetails.replace("payerId", "0001444090950393-c6983382190f-0006");
+        patientDetails.replace("insuranceId", "0001444090950393-c6983382190f-0006");
+        patientDetails.replace("groupId", "X0001004");
+        patientDetails.replace("planName", "SILVER 70 PPO JAN16");
+        patientDetails.replace("status", "ACTIVE");
+        patientDetails.replace("relationship", "Child");
+        patientDetails.put("eligibilityId", insuranceEligibility(patientDetails));
+        updatePatient(sPatientId, patientDetails);
+
+    }
+
+    public String insuranceEligibility(HashMap<String, String> patientDetails) { //Todo make this cleaner
+        HashMap<String, String > map;
+        String resource = "/v2/insurance-eligibility";
+        String sessionId = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .get(baseURL + "/v3/patients")
+                .cookie("SESSION");
+        patientDetails.put("memberId","COST_ESTIMATES_025");
+        patientDetails.put("insuranceName","aetna");
+        patientDetails.replace("phone", "18182123842");
+        patientDetails.put("mode", "MANUAL");
+        patientDetails.put("emailRegex", "{}");
+        patientDetails.put("patientId", patientDetails.get("id"));
+
+       String response = RestAssured.given()
+                .auth()
+                .preemptive()
+                .basic(sAccUsername, sAccPassword)
+                .contentType("application/json")
+                .cookie("SESSION", sessionId)
+                .body(patientDetails)
+                .post(baseURL+resource)
+                .asString();
+        return restUtils.getJsonValue(response,"eligibilityId");
+
+    }
 
 }
