@@ -17,6 +17,7 @@ public class LoginTest extends TestBase {
 
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
+        HomePage homePage = new HomePage(dr);
         LoginPage loginPage = new LoginPage(dr);
         loginPage.goTo();
         loginPage.waitForPageReady();
@@ -24,12 +25,10 @@ public class LoginTest extends TestBase {
 
         loginPage.login();
 
-        HomePage homePage = new HomePage(dr);
-        homePage.waitForPageReady();
+        homePage.oPageTitle.waitForElement();
 
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
-        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Visits");
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Book a doctor in 4 easy steps:");
 
         Menu menu = new Menu(dr);
 

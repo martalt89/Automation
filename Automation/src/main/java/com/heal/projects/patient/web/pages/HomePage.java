@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class HomePage extends WebBase {
 
-    public static final String URL = "https://patient" + baseUrl + "/visits";
+    public static final String URL = "https://patient" + baseUrl +"/";
     ///////////////////
     // Shared Pages  //
     ///////////////////
@@ -25,7 +25,7 @@ public class HomePage extends WebBase {
     ///////////////////
     public CommonWebElement oAccountOwnerName = new CommonWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-xs ng-binding')]",oWebDriver );
     public CommonWebElement oAccountOwnerFirstName = new CommonWebElement("oAccountOwnerName","xpath=//*[contains(@class,'primary-blue hide-gt-xs show-xs ng-binding')]",oWebDriver );
-    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=(//h2)[1]",oWebDriver);
+    public CommonWebElement oPageTitle = new CommonWebElement("oPageTitle", "xpath=//span[contains(.,'Book a doctor in 4 easy steps:')]",oWebDriver);
     public CommonWebElement oAccountOwnerAvatar = new CommonWebElement("oAccountOwnerAvatar", "css=profile-image[url='vm.user.avatarUrl'] ", oWebDriver);
     public CommonWebElement oSelectReason = new CommonWebElement("oSelectReason", "xpath=(//md-select-value[@class='md-select-value'])[1]", oWebDriver );
 //    public CommonWebElement oCancelVisitLnk = new CommonWebElement("oCancelVisitLnk", "xpath=(//button[contains(.,'Cancel')])[1]", oWebDriver);

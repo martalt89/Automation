@@ -25,9 +25,9 @@ public class LoginPage extends WebBase{
     ///////////////////
     // Page Elements //
     ///////////////////
-    public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "xpath=//input[@name='username']",oWebDriver);
-    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "xpath=//input[@name='password']", oWebDriver);
-    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//button[@type='submit']", oWebDriver);
+    public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "xpath=//input[@name='username' or @data-tid='inp_username']",oWebDriver);
+    public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "xpath=//input[@name='password' or @data-tid='inp_password']", oWebDriver);
+    public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//*[@type='submit' or @data-tid='btn_login']", oWebDriver);
     public CommonWebElement oRememberMe = new CommonWebElement("oRememberMe", "className=md-icon", oWebDriver);
     public CommonWebElement oForgotYourPasswordLnk = new CommonWebElement("oForgotYourPasswordLnk", "linkText=Forgot Password", oWebDriver);
     public CommonWebElement oWarningMsg = new CommonWebElement("oWarningMsg","className=error-messages",oWebDriver);
@@ -57,7 +57,7 @@ public class LoginPage extends WebBase{
     public void login()
     {
         if (testDataMap == null) {
-            this.oUserNameInput.sendKeys("vahan+dev@heal.com");
+            this.oUserNameInput.sendKeys("vahan+qa@heal.com");
         } else {
             this.oUserNameInput.sendKeys("vahan+" + testDataMap.get("ENV").toString() + "@heal.com");
         }
