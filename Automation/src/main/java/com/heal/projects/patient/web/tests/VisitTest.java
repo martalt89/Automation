@@ -1,5 +1,6 @@
 package com.heal.projects.patient.web.tests;
 
+import com.heal.framework.restAPI.PatientAPI;
 import com.heal.framework.test.TestData;
 import com.heal.projects.patient.web.pages.*;
 import com.heal.framework.foundation.SysTools;
@@ -8,7 +9,11 @@ import com.heal.framework.web.CommonWebElement;
 import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class VisitTest extends TestBase {
@@ -25,6 +30,8 @@ public class VisitTest extends TestBase {
     private String relationship = "Friend";
     private String gender = "Female";
     private String symptoms = "IGNORE - Booked by automation test..";
+    private String patientWithInsurance = "With Insurance";
+    private String patientWithoutInsurance = "Credit Card";
 
     /**
      * This will run a test in loop for validation purposes
@@ -36,7 +43,10 @@ public class VisitTest extends TestBase {
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
-                bookVisit(); // put here the desired test to be run on loop
+                PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
+//                patientAPI.removeInsurance(patientWithoutInsurance);
+                patientAPI.addTestInsuranceToPatient(patientAPI.getPatientIdByFirstname(patientWithInsurance));
+
                 passedRuns++;
             } catch (Exception e) {
                 failedRuns++;
@@ -48,6 +58,16 @@ public class VisitTest extends TestBase {
         System.out.println(passedRuns + " Passed Runs"); // display how many times the test passed on given visits booked
         System.out.println(failedRuns + " Failed Runs"); // display how many times the test failed on given visits booked
     }
+
+
+    @BeforeClass(alwaysRun = true)
+    public void setup(){
+        PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
+        patientAPI.removeInsurance(patientWithoutInsurance);
+        patientAPI.addTestInsuranceToPatient(patientAPI.getPatientIdByFirstname(patientWithInsurance));
+
+    }
+
 
     /**
      * Cancel an active visit
@@ -142,7 +162,7 @@ public class VisitTest extends TestBase {
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         verifyMatches("Verifying Book goTo page title ", bookVisitPage.oPageTitle.getText(), "Book Visit"); // Verify page title
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectProfileByName("Credit Card");
+        chooseProfilePage.selectProfileByName(patientWithoutInsurance);
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
@@ -187,7 +207,7 @@ public class VisitTest extends TestBase {
         loginPage.login(); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectProfileByName("Credit Card");
+        chooseProfilePage.selectProfileByName(patientWithoutInsurance);
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
@@ -241,7 +261,7 @@ public class VisitTest extends TestBase {
         loginPage.login(); // Login on patient web app
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
-        chooseProfilePage.selectProfileByName("Credit Card");
+        chooseProfilePage.selectProfileByName(patientWithoutInsurance);
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
@@ -298,7 +318,7 @@ public class VisitTest extends TestBase {
         homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
         bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
 
-        chooseProfilePage.selectProfileByName("Insurance");
+        chooseProfilePage.selectProfileByName(patientWithInsurance);
         addressPage.selectFirstSavedAddress();
         addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.selectServiceForVisit("SICK_SERVICE");
