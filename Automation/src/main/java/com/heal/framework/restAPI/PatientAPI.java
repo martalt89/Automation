@@ -28,7 +28,7 @@ public class PatientAPI extends ApiBase {
 //    private String baseURLAPIv3 = "http://apiv3.qa.heal.com";
     private String baseURLAPIv3 = "http://apiv3"+ baseUrl;
     private JSONObject allPatients;
-    private List<String> setAllPatientList;
+//    private List<String> setAllPatientList;
     private Map<String, String> authCookies;
 
 
@@ -41,16 +41,16 @@ public class PatientAPI extends ApiBase {
         return allPatients;
     }
 
-    public List<String> setAllPatientList() {
-        JSONArray patients = allPatients.getJSONArray("results");
-        List<String> patientIDs = new LinkedList<>();
-        HashMap<String, String> patientInfo;
-        for (int i = 0; i < patients.length(); i++) {
-            JSONObject patient = patients.getJSONObject(i);
-            patientIDs.add(patient.get("patientId").toString());
-            }
-        return patientIDs;
-    }
+//    public List<String> setAllPatientList() {
+//        JSONArray patients = allPatients.getJSONArray("results");
+//        List<String> patientIDs = new LinkedList<>();
+//        HashMap<String, String> patientInfo;
+//        for (int i = 0; i < patients.length(); i++) {
+//            JSONObject patient = patients.getJSONObject(i);
+//            patientIDs.add(patient.get("patientId").toString());
+//            }
+//        return patientIDs;
+//    }
 
     /**
      * Patient info variables
@@ -135,7 +135,7 @@ public class PatientAPI extends ApiBase {
         this.sAccPassword = sAccPassword;
         setsSessionID();
         setAllPatients();
-        setAllPatientList();
+//        setAllPatientList();
     }
 
     /**

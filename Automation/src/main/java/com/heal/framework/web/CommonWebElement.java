@@ -259,6 +259,7 @@ public class CommonWebElement implements WebElement, Locatable {
             oWebElement.click();
         } catch (WebDriverException e) {
             scrollForElement();
+
             oWebElement.click();
         }
         if (iThrottleValue != 0)
@@ -831,7 +832,7 @@ public class CommonWebElement implements WebElement, Locatable {
      */
     public void selectByVisibleTextAngular(String sText) {
         if (this.getTagName().contains("md-select") || this.getTagName().contains("md-select-value") ) //dropdown buttons have md-select or md-select-value tags
-            this.click();
+            click();
         else
             throw new ElementNotInteractableException(String.format("Need a dropdown list button(contains <md-select> or <md-select-value> tag), instead found <%s> tag", this.getTagName()));
         CommonWebElement oMenuItem = new CommonWebElement("oMenuItem", "xpath=//md-option/div[text()='" + sText + "']", oWebDriver);
