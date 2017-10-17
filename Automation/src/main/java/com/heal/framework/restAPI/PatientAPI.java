@@ -26,9 +26,10 @@ public class PatientAPI extends ApiBase {
     private String baseURL = "https://patient" + baseUrl + "/api";
 //    private String baseURL = "https://patient.qa.heal.com/api";
 //    private String baseURLAPIv3 = "http://apiv3.qa.heal.com";
-    private String baseURLAPIv3 = "http://apiv3 "+ baseUrl;
+    private String baseURLAPIv3 = "http://apiv3"+ baseUrl;
     private JSONObject allPatients;
     private List<String> setAllPatientList;
+    private Map<String, String> authCookies;
 
 
 
@@ -93,7 +94,23 @@ public class PatientAPI extends ApiBase {
     private String sAccUsername = "";
     private String sAccPassword = "";
     private String sPatientId;
+    private String sSessionID;
 
+
+    public void setsSessionID(){
+        String resourceLogin = "/login/";
+        this.authCookies = RestAssured.given()
+                .header("Origin", "http://localhost.getheal.com")
+                .header("Content-Type", "application/json")
+                .body(loginPostParams())
+                .post(baseURLAPIv3 + resourceLogin)
+                .cookies();
+        this.sSessionID = authCookies.get("SESSION");
+    }
+
+    public String getsSessionID(){
+        return this.sSessionID;
+    }
 
     /**
      * Constructor - Initializes patient info variables using patient id
@@ -116,6 +133,7 @@ public class PatientAPI extends ApiBase {
     public PatientAPI(String sAccUsername, String sAccPassword){
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
+        setsSessionID();
         setAllPatients();
         setAllPatientList();
     }
@@ -485,18 +503,11 @@ public class PatientAPI extends ApiBase {
      * This method makes a login, takes the cookies and pass them to DELETE request
      */
     public String deletePatient(String sId){
-        String resourceLogin = "/login/";
         String resourcePatient = "/v2/patient/";
-        Map<String, String> allCookies = RestAssured.given()
-                .header("Origin", "http://localhost.getheal.com")
-                .header("Content-Type", "application/json")
-                .body(loginPostParams())
-                .post(baseURLAPIv3 + resourceLogin)
-                .cookies();
         Response deleteResponse = RestAssured.given()
                 .header("Origin", "http://localhost.getheal.com")
                 .header("Content-Type", "application/json")
-                .cookies(allCookies)
+                .cookies(authCookies)
                 .delete(baseURLAPIv3 + resourcePatient + sId);
         return restUtils.getJsonValue(deleteResponse.asString(),"status");
     }
@@ -533,22 +544,15 @@ public class PatientAPI extends ApiBase {
      * @param patientDetails - Map of the details to be used to update
      */
     public void updatePatient(String sPatientID, HashMap<String, String> patientDetails){
-        String sessionId = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(sAccUsername, sAccPassword)
-                .get(baseURL + "/v3/patients")
-                .cookie("SESSION");
         String resource = "/v3/patients/" + sPatientID;
         RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
-                .cookie("SESSION", sessionId)
+                .cookie("SESSION", sSessionID)
                 .body(patientDetails)
                 .put(baseURL + resource);
-
     }
 
     public void removeInsurance(String patientFirstName){
@@ -580,12 +584,12 @@ public class PatientAPI extends ApiBase {
     public String insuranceEligibility(HashMap<String, String> patientDetails) { //Todo make this cleaner
         HashMap<String, String > map;
         String resource = "/v2/insurance-eligibility";
-        String sessionId = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(sAccUsername, sAccPassword)
-                .get(baseURL + "/v3/patients")
-                .cookie("SESSION");
+//        String sessionId = RestAssured.given()
+//                .auth()
+//                .preemptive()
+//                .basic(sAccUsername, sAccPassword)
+//                .get(baseURL + "/v3/patients")
+//                .cookie("SESSION");
         patientDetails.put("memberId","COST_ESTIMATES_025");
         patientDetails.put("insuranceName","aetna");
         patientDetails.replace("phone", "18182123842");
@@ -598,7 +602,7 @@ public class PatientAPI extends ApiBase {
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
-                .cookie("SESSION", sessionId)
+                .cookie("SESSION", sSessionID)
                 .body(patientDetails)
                 .post(baseURL+resource)
                 .asString();

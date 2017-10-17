@@ -300,7 +300,7 @@ public class TestBase
                       @Optional("macOS 10.12") String platform,
                       @Optional("latest") String version,
                       @Optional("chrome") String screenResolution,
-                      @Optional(".dev1.heal.com") String baseUrl,
+                      @Optional(".qa.heal.com") String baseUrl,
                       @Optional("dev") String env,
                       @Optional("qaheal") String username,
                       @Optional("e14bb2d7-155b-4775-8978-9365c5b22012") String accessKey,

@@ -1,5 +1,7 @@
 package com.heal.projects.patient.web.tests;
 
+import com.heal.framework.foundation.SysTools;
+import com.heal.framework.restAPI.PatientAPI;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
@@ -9,6 +11,8 @@ import com.heal.projects.patient.web.pages.LoginPage;
 import com.heal.projects.patient.web.pages.Menu;
 import com.heal.projects.patient.web.pages.ProfilePage;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -27,7 +31,22 @@ public class ProfileTest extends TestBase {
     String phoneNumber = "18182123842";
     String relationship = "Friend";
     String gender = "Female";
+    String sFnUpdated = "updated" + testData.sFirstname;
+    String sLnUpdated = "updated" + testData.sLastname;
+    String sEmailUpdated = "updated" + testData.sEmail;
 
+
+
+    @AfterClass(alwaysRun = true)
+    public void cleanup(){
+        try {
+            PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
+            patientAPI.deletePatient(patientAPI.getPatientIdByFirstname(testData.sFirstname));
+            patientAPI.deletePatient(patientAPI.getPatientIdByFirstname(sFnUpdated));
+        }catch (Exception e){
+            //do nothing
+        }
+    }
 
     @Test(groups = {"dev", "critical"})
     public void addInsuranceToExistingPatient() {
@@ -46,29 +65,13 @@ public class ProfileTest extends TestBase {
         loginPage.login();
         homePage.selectFromMenu(menu.oProfilesLnk);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        profilePage.oAddPatientbtn.click();
-        //manageProfilePage.oContinueButton.clickAndWait(menu.oLoadingBar, false);
-        profilePage.oFirstNameInput.sendKeys(firstName);
-        profilePage.oLastNameInput.sendKeys(lastaName);
-        profilePage.oEmailInput.sendKeys(email);
-        profilePage.oPhoneNmbInput.sendKeys(phoneNumber);
-        profilePage.oDateOfBirthInput.sendKeys(dob);
-        profilePage.oRelationshipInput.selectByVisibleTextAngular(relationship);
-        profilePage.oGenderInput.selectByVisibleTextAngular(gender);
+        profilePage.clickPatientByText("Vahan");
+        profilePage.oContinueButton.click();
+        profilePage.oMemberIdInput.sendKeys("COST_ESTIMATES_025");  //insurance ID
+        profilePage.oGroupIdInput.sendKeys("X0001004");  //group ID
         profilePage.oInsuranceProviderInput.selectByVisibleTextAngular(insuranceProvider);
-        profilePage.oMemberIdInput.jsSendKeys(insuranceID);  //insurance ID
-        profilePage.oGroupIdInput.jsSendKeys(insuranceGroup);  //group ID
         profilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-        if (validate.verifyMatches("Checking if the 'Choose profile' is displayed", profilePage.oSubtitle.getText(), "Patient details")) {
-            System.out.println("Successfully added REAL insurance.");
-        } else {
-            System.out.println("Could not add REAL insurance. Trying with TEST insurance...");
-            profilePage.oMemberIdInput.sendKeys("COST_ESTIMATES_025");  //insurance ID
-            profilePage.oGroupIdInput.sendKeys("X0001004");  //group ID
-            profilePage.oSaveAndContinueBtn.clickAndWait(menu.oLoadingBar, false);
-            validate.verifyMatches("Checking if the 'Choose profile' is displayed", profilePage.oSubtitle.getText(), "Choose profile");
-            System.out.println("Successfully added TEST insurance.");
-        }
+        assertMatches("Checking if the 'Choose profile' is displayed", profilePage.oSubtitle.getText(), "Choose profile");
     }
 
 
@@ -94,18 +97,11 @@ public class ProfileTest extends TestBase {
 
             assertEquals("Verify if added patient name is in patients profiles list", profilePage.getPatientByText(testData.sFirstname).getText(), testData.sFirstname);
         menu.selectFromMenu("Sign out");
-
-
-
     }
 
 
         @Test(groups = {"dev", "critical"})
     public void editProfile() {
-
-        String sFnUpdated = "updated" + testData.sFirstname;
-        String sLnUpdated = "updated" + testData.sLastname;
-        String sEmailUpdated = "updated" + testData.sEmail;
         String sPhoneUpdated = "1-541-967-0010";
         String sDateOfBirthUpdated = "01/01/1980";
         String sRelationshipUpdated = "Child";

@@ -4,7 +4,10 @@ import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Parameters;
+
+import java.util.List;
 
 /**
  * Created by mihai.muresan on 7/13/2017.
@@ -70,7 +73,13 @@ public class ProfilePage extends WebBase{
      */
     public void clickPatientByText(String sText)
     {
-        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=(//*[text()='"+sText+"'])[1]", oWebDriver );
+        CommonWebElement oPatient = new CommonWebElement( "oPatient", "xpath=//*[text()='"+sText+"']", oWebDriver );
+        List<WebElement> list = oWebDriver.findElements(oPatient.getBy());
+        if (list.size() > 1) {
+             oPatient = new CommonWebElement( "oPatient", "xpath=(//*[text()='"+sText+"'])[2]", oWebDriver );
+        }else
+             oPatient = new CommonWebElement( "oPatient", "xpath=(//*[text()='"+sText+"'])[1]", oWebDriver );
+
         oPatient.click();
     }
 
