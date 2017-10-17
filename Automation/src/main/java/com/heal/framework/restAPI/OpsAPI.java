@@ -76,7 +76,7 @@ public class OpsAPI extends ApiBase{
         long endDate = now + 60*60*24*1000;
 
         List<String> lVisits = new LinkedList<>();
-        String sQuery = "limit=100&search=" + sSearchQuery + "&status=" + sStatus.toUpperCase() + "&start_date=" + startDate + "&end_date="+ endDate;
+        String sQuery = "limit=100&search=" + sSearchQuery + "&" + this.NOT_FINISHED + "=" + sStatus.toUpperCase() + "&start_date=" + startDate + "&end_date="+ endDate;
         String sResourceAPI = "/visits/admin/query?" + sQuery;
 
         String response = RestAssured.given()

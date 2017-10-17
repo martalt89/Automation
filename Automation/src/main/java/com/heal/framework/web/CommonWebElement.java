@@ -386,6 +386,7 @@ public class CommonWebElement implements WebElement, Locatable {
         waitForElement();
         waitForVisible();
         clear();
+
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
             try {

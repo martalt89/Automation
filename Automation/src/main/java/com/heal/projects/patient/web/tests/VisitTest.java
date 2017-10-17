@@ -43,9 +43,11 @@ public class VisitTest extends TestBase {
         int failedRuns = 0;
         for (int i = 0; i < numberOfVisitsToBook; i++) {
             try {
+                TestData testData = new TestData(TestData.PATIENT_SHEET);
+                System.out.println(testData.sFirstname);
                 PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
 //                patientAPI.removeInsurance(patientWithoutInsurance);
-                patientAPI.addTestInsuranceToPatient(patientAPI.getPatientIdByFirstname(patientWithInsurance));
+                patientAPI.deletePatient(patientAPI.getPatientIdByFirstname(testData.sFirstname));
 
                 passedRuns++;
             } catch (Exception e) {
