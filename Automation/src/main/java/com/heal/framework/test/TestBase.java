@@ -2,6 +2,7 @@ package com.heal.framework.test;
 
 import com.heal.framework.exception.CommonException;
 import com.heal.framework.foundation.*;
+import com.heal.framework.restAPI.ApiBase;
 import com.heal.framework.validation.CommonValidate;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.CommonWebValidate;
@@ -300,8 +301,8 @@ public class TestBase
                       @Optional("macOS 10.12") String platform,
                       @Optional("latest") String version,
                       @Optional("chrome") String screenResolution,
-                      @Optional(".qa.heal.com") String baseUrl,
-                      @Optional("dev") String env,
+                      @Optional(".dev1.heal.com") String baseUrl,
+                      @Optional("qa") String env,
                       @Optional("qaheal") String username,
                       @Optional("e14bb2d7-155b-4775-8978-9365c5b22012") String accessKey,
                       @Optional("@ondemand.saucelabs.com:443/wd/hub") String saucelab_url,
@@ -319,6 +320,7 @@ public class TestBase
 
             this.environment = environment;
             WebBase.baseUrl = baseUrl;
+//            ApiBase.baseUrl = baseUrl;
             // Grid server url
             if (environment.equalsIgnoreCase("remote"))
             {

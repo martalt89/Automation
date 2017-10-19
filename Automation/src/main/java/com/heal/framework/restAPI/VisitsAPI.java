@@ -48,11 +48,7 @@ public class VisitsAPI extends ApiBase {
         jsonAsMap.put("timeSlotId", sTimeSlotID);
         jsonAsMap.put("symptoms", "IGNORE - Booked by automation test..");
         jsonAsMap.put("promoCode", null);
-        if (RunTestSuite.getExcelParams().get("ENV").toString().equalsIgnoreCase("dev")){
-            jsonAsMap.put("paymentId", "0001507157664118-a483b44ffff8a87-0001"); // todo: find out where to extract paymentId
-        } else {
-            jsonAsMap.put("paymentId", "0001501850382645-2f663b05b4c-0001"); // todo: find out where to extract paymentId
-        }
+        jsonAsMap.put("paymentId", sPaymentId);
         jsonAsMap.put("addressLongitude", longitude);
         jsonAsMap.put("addressLatitude", latitude);
         jsonAsMap.put("addressId", accountAPI.getAddressId(accountTestData.sAddress));

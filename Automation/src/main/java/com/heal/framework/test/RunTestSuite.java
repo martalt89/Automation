@@ -63,6 +63,8 @@ public class RunTestSuite {
         if (excelParams.get("ENV").toString().equalsIgnoreCase("qa")){
             excelParams.replace("baseUrl", ".qa.heal.com");
             excelParams.replace("implicitWait", "30");
+        }else if (excelParams.get("ENV").toString().equalsIgnoreCase("dev1")) {
+            excelParams.replace("baseUrl", ".dev1.heal.com");
         }else if (excelParams.get("ENV").toString().equalsIgnoreCase("dev")){
             excelParams.replace("baseUrl", "-dev.heal.com");
             int implicitWait = Integer.parseInt(excelParams.get("implicitWait").toString());
