@@ -34,7 +34,7 @@ public class AccountAPI extends ApiBase {
 
     public String sUsername = "";
     public String sPassword = "";
-    private String sUserId;
+    public String sUserId;
     
     /**
      * Constructor
@@ -79,7 +79,7 @@ public class AccountAPI extends ApiBase {
                 .body(jsonAsMap)
                 .log().all()
                 .post(baseURL + resourceAPI);
-        response.prettyPrint();
+
     }
 
     /**
@@ -95,7 +95,7 @@ public class AccountAPI extends ApiBase {
                 .basic(this.sUsername, this.sPassword)
                 .log().all()
                 .get(baseURL + resourceAPI);
-        getResponse.prettyPrint();
+
         String response = getResponse.asString();
 
         accountInfoMap.put("id", restUtils.getJsonValue(response, "id"));
@@ -126,7 +126,7 @@ public class AccountAPI extends ApiBase {
                 .body(jsonAsMap)
                 .log().all()
                 .put(baseURL + resourceAPI);
-        response.prettyPrint();
+
     }
 
     /**
@@ -170,7 +170,7 @@ public class AccountAPI extends ApiBase {
                 .body(jsonAsMap)
                 .log().all()
                 .put(baseURL + resourceAPI);
-        response.prettyPrint();
+
     }
 
     /**
@@ -205,7 +205,7 @@ public class AccountAPI extends ApiBase {
         JSONArray addresses = obj.getJSONArray("addresses");
         for (int i = 0; i < addresses.length(); i++) {
             JSONObject address = addresses.getJSONObject(i);
-            if (address.get("address").toString().equalsIgnoreCase(sAddress)) {
+            if (address.get("address").toString().toLowerCase().contains(sAddress.toLowerCase())) {
                 latitudeAddress = address.getDouble("latitudeAddress");
                 if (latitudeAddress!=0.0){
                     break;
@@ -222,7 +222,7 @@ public class AccountAPI extends ApiBase {
         JSONArray addresses = obj.getJSONArray("addresses");
         for (int i = 0; i < addresses.length(); i++) {
             JSONObject address = addresses.getJSONObject(i);
-            if (address.get("address").toString().equalsIgnoreCase(sAddress)) {
+            if (address.get("address").toString().toLowerCase().contains(sAddress.toLowerCase())) {
                 longitudeAddress = address.getDouble("longitudeAddress");
                 if (longitudeAddress!=0.0){
                     break;
@@ -267,8 +267,9 @@ public class AccountAPI extends ApiBase {
         JSONArray addresses = obj.getJSONArray("addresses");
         for (int i = 0; i < addresses.length(); i++) {
             JSONObject address = addresses.getJSONObject(i);
-            if (address.get("address").toString().equals(sAddress)) {
+            if (address.get("address").toString().toLowerCase().contains(sAddress.toLowerCase())) {
                 id = address.getString("id");
+                break;
             }
         }
         return id;

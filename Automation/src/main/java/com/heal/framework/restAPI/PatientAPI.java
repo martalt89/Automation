@@ -27,7 +27,8 @@ public class PatientAPI extends ApiBase {
     private String baseUrlPatient = "https://patient" + baseUrl + "/api";
     private String baseURLAPIv3 = "http://apiv3"+ baseUrl;
     private JSONObject allPatients;
-    private Map<String, String> authCookies;
+    private static Map<String, String> authCookies;
+
 
 
 
@@ -61,6 +62,7 @@ public class PatientAPI extends ApiBase {
     private String sPatientPhone;
     private String sPatientDateOfBirth;
     private String sPatientRelationship;
+    public JSONObject currentStatus;
 
     /**
      * Relationship ids - Used when making POST requests on /patients
@@ -94,7 +96,6 @@ public class PatientAPI extends ApiBase {
     private String sPatientId = "";
     private String sSessionID = "";
 
-    public JSONObject currentStatus;
 
 
     /**
@@ -107,7 +108,7 @@ public class PatientAPI extends ApiBase {
         this.sAccPassword = sAccPassword;
         setAuthCookies();
         setCurrentStatus();
-        sPaymentId = getPayemntId();
+        ApiBase.sPaymentId = getPayemntId();
 //        setAllPatients();
 //        setAllPatientList();
     }

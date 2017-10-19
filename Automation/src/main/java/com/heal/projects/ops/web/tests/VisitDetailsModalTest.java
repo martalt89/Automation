@@ -180,8 +180,6 @@ public class VisitDetailsModalTest extends TestBase  {
 
 //            assertEquals("verifying phone number is updated on editing for patient profile", visitDetailsModalPage.oPhoneNumberText.getText(), sPhoneNumber);
             assertEquals("verifying phone number is updated on editing for patient profile", visitDetailsModalPage.oPhoneNumberText.getText(), sPhoneNumber, 10);
-
-
     }
 
     @Test (groups = {"dev", "critical"})

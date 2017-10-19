@@ -1,6 +1,5 @@
 package com.heal.framework.restAPI;
 
-import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestData;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -15,14 +14,23 @@ import java.util.Map;
  *  Created by adrian.rosu on 07/08/2017.
  */
 public class VisitsAPI extends ApiBase {
-//    private String baseURL = "https://patient.qa.heal.com/api";
-    private String baseURL = "https://patient" + baseUrl + "/api";
+//    private String baseUrlPatient = "https://patient.qa.heal.com/api";
+
+//    private String baseUrlPatient = "https://patient" + baseUrl + "/api";
+    private String baseURLAPIv3 = "http://apiv3"+ baseUrl;
+    private String baseUrlPatient = "https://patient" + baseUrl + "/api";
     private TestData accountTestData = new TestData(TestData.ACCOUNT_SHEET);
     private RestUtils restUtils = new RestUtils();
+    private static Map<String, String> authCookies;
+
 
     private String sAccUsername;
     private String sAccPassword;
     private String sPatientId; //this can be set by using getPatientIdByEmail or getPatientIdByFnLn from PatientAPI
+    private String sSessionId;
+    public JSONObject currentStatus;
+
+
     /**
      * Constructor
      * @param sAccUsername (String) Account sEmail
@@ -31,19 +39,78 @@ public class VisitsAPI extends ApiBase {
     public VisitsAPI(String sAccUsername, String sAccPassword){
         this.sAccUsername = sAccUsername;
         this.sAccPassword = sAccPassword;
+        setAuthCookies();
+        setCurrentStatus();
     }
 
     public void setPatientId(String sPatientId){
         this.sPatientId = sPatientId;
     }
 
-    private Map createVisitPostParams(){
+    public void setCurrentStatus(){
+        String resource = "/v3/patient/current_status";
+        String response = RestAssured.given()
+                .header("Content-Type", "application/json")
+                .cookies(authCookies)
+                .get(baseUrlPatient + resource)
+                .asString();
+        this.currentStatus = new JSONObject(response);
+        if(restUtils.getJsonValue(response,"status").equalsIgnoreCase("OK")) {
+            this.currentStatus = new JSONObject(response);
+        } else {
+            throw new  IllegalArgumentException("Unable to get account info. Reason: " + restUtils.getJsonValue(response,"description") + " Status code: " + restUtils.getJsonValue(response,"status"));
+        }
+    }
+
+    public void setAuthCookies(){
+        String resourceLogin = "/login";
+        Response response = RestAssured.given()
+                .header("Content-Type", "application/json")
+                .body(loginPostParams())
+                .post(baseUrlApi + resourceLogin);
+        try {
+            if  (restUtils.getJsonValue(response.asString(), "status").equalsIgnoreCase("OK")){
+                this.authCookies = response.getCookies();
+                this.sSessionId = authCookies.get("SESSION");
+            } else {
+                throw new IllegalArgumentException("Unable to authenticate. Reason: " + restUtils.getJsonValue(response.asString(),"description") + " Status code: " + restUtils.getJsonValue(response.asString(),"status"));
+            }
+        } catch (JSONException e) {
+            throw e;
+        }
+    }
+
+    /**
+     * JSON parameters to be send on login call
+     * @return (Map) user and password credentials
+     */
+    private Map loginPostParams() {
+        Map<String, Object> jsonAsMap = new HashMap<>();
+        jsonAsMap.put("username", sAccUsername);
+        jsonAsMap.put("password", sAccPassword);
+        return jsonAsMap;
+    }
+
+    private Map createVisitPostParams() {
+        String mainPatientOfAccount = null;
+        JSONArray patients = this.currentStatus.getJSONObject("account").getJSONArray("patients");
+        for (int i = 0; i < patients.length(); i++) {
+            JSONObject patient = patients.getJSONObject(i);
+            if (patient.getBoolean("mainPatientOfAccount")) {
+                mainPatientOfAccount = patient.get("patientId").toString();
+                break;
+            }
+        }
+        return createVisitPostParams(mainPatientOfAccount);
+    }
+
+    private Map createVisitPostParams(String sPatientId){
         AccountAPI accountAPI = new AccountAPI(this.sAccUsername, this.sAccPassword);
         double longitude = accountAPI.getAddressLongitude(accountTestData.sAddress);
         double latitude = accountAPI.getAddressLatitude(accountTestData.sAddress);
         Map<String, Object> jsonAsMap = new HashMap<>();
         String sTimeSlotID = getTimeSlotID();
-        jsonAsMap.put("patientId", this.sPatientId);
+        jsonAsMap.put("patientId", sPatientId);
         jsonAsMap.put("serviceCode", "SICK_ADULT");
         jsonAsMap.put("timeSlotId", sTimeSlotID);
         jsonAsMap.put("symptoms", "IGNORE - Booked by automation test..");
@@ -87,7 +154,7 @@ public class VisitsAPI extends ApiBase {
                 .basic(sAccUsername, sAccPassword)
                 .params(params)
 //                .get("https://patient.qa.heal.com/api/patient/visit/timeSlots");
-                .get(baseURL + "/patient/visit/timeSlots");
+                .get(baseUrlPatient + "/patient/visit/timeSlots");
 
         String strResponse = response.asString();
 
@@ -111,12 +178,12 @@ public class VisitsAPI extends ApiBase {
      */
     public String createVisit(){
         String resourceAPI = "/v5/patient/visit";
-        String sessionId = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(sAccUsername, sAccPassword)
-                .get(baseURL + "/v2/patients")
-                .cookie("SESSION");
+//        String sessionId = RestAssured.given()
+//                .auth()
+//                .preemptive()
+//                .basic(sAccUsername, sAccPassword)
+//                .get(baseUrlPatient + "/v2/patients")
+//                .cookie("SESSION");
 
 
         String response = RestAssured.given()
@@ -124,9 +191,9 @@ public class VisitsAPI extends ApiBase {
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
-                .cookie("SESSION", sessionId)
+                .cookie("SESSION", sSessionId)
                 .body(createVisitPostParams())
-                .post(baseURL + resourceAPI)
+                .post(baseUrlPatient + resourceAPI)
                 .asString();
         try {
             return restUtils.getJsonValue(response, "visitCode");
@@ -140,21 +207,21 @@ public class VisitsAPI extends ApiBase {
     public String createVisit(String sPatientID){
         setPatientId(sPatientID);
         String resourceAPI = "/v4/patient/visit";
-        String sessionId = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(sAccUsername, sAccPassword)
-                .get(baseURL + "/v2/patients")
-                .cookie("SESSION");
+//        String sessionId = RestAssured.given()
+//                .auth()
+//                .preemptive()
+//                .basic(sAccUsername, sAccPassword)
+//                .get(baseUrlPatient + "/v2/patients")
+//                .cookie("SESSION");
 
         Response response = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
-                .cookie("SESSION", sessionId)
-                .body(createVisitPostParams())
-                .post(baseURL + resourceAPI);
+                .cookie("SESSION", sSessionId)
+                .body(createVisitPostParams(sPatientID))
+                .post(baseUrlPatient + resourceAPI);
         return restUtils.getJsonValue(response.asString(),"visitCode");
     }
 
@@ -165,21 +232,21 @@ public class VisitsAPI extends ApiBase {
         cancelParam.put("note", "Canceled by automation test (via API).");
 
         String resourceAPI = "/patient/visit/"+visitCode+"/cancel";
-        String sessionId = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(sAccUsername, sAccPassword)
-                .get(baseURL + "/v2/patients")
-                .cookie("SESSION");
+//        String sessionId = RestAssured.given()
+//                .auth()
+//                .preemptive()
+//                .basic(sAccUsername, sAccPassword)
+//                .get(baseUrlPatient + "/v2/patients")
+//                .cookie("SESSION");
 
         String response = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
-                .cookie("SESSION", sessionId)
+                .cookie("SESSION", sSessionId)
                 .body(cancelParam)
-                .post(baseURL + resourceAPI)
+                .post(baseUrlPatient + resourceAPI)
                 .asString();
         System.out.println(response);
         return response;
