@@ -7,28 +7,26 @@ import io.restassured.RestAssured;
 public class ApiBase {
 
 
-    public static String sPaymentId;
-    //    private String env = RunTestSuite.getExcelParams().get("ENV");
-    private static String env = TestBase.getParameters().get("ENV");
-    private static String sessionId;
-    protected static String baseUrl = null;
-    protected static String baseUrlApi = null;
+//    private String env = RunTestSuite.getExcelParams().get("ENV");
+    private String env = TestBase.getParameters().get("ENV");
+    private String sessionId;
+    protected String baseUrl;
+    protected String baseUrlApi;
+    public String sPaymentId;
 
     public String getSessionId() {
         return sessionId;
     }
 
     public ApiBase(){
-        if (baseUrl == null || baseUrlApi == null) {
-            if (env.equalsIgnoreCase("qa")) {
-                baseUrl = ".qa.heal.com";
-                baseUrlApi = "https://apiv3" + baseUrl;
-            } else if (env.equalsIgnoreCase("dev1")) {
-                baseUrl = ".dev1.heal.com";
-                baseUrlApi = "https://api" + baseUrl;
-            } else if (env.equalsIgnoreCase("dev")) {
-                baseUrl = "-dev.heal.com";
-            }
+        if (env.equalsIgnoreCase("qa")){
+            baseUrl = ".qa.heal.com";
+            baseUrlApi = "https://apiv3" + baseUrl;
+        }else if (env.equalsIgnoreCase("dev1")){
+            baseUrl = ".dev1.heal.com";
+            baseUrlApi = "https://api" + baseUrl;
+        }else if (env.equalsIgnoreCase("dev")){
+            baseUrl = "-dev.heal.com";
         }
     }
 

@@ -47,8 +47,6 @@ public class OpsAPI extends ApiBase{
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/x-www-form-urlencoded")
                 .get(baseURL + "/security_check2")
-//                .get(baseURL + "/api/login")
-//                .asString();
                 .cookie("SESSION");
     }
 
@@ -78,7 +76,7 @@ public class OpsAPI extends ApiBase{
         long endDate = now + 60*60*24*1000;
 
         List<String> lVisits = new LinkedList<>();
-        String sQuery = "limit=100&search=" + sSearchQuery + "&status=" + sStatus + "&start_date=" + startDate + "&end_date="+ endDate;
+        String sQuery = "limit=100&search=" + sSearchQuery + "&" + this.NOT_FINISHED + "=" + sStatus.toUpperCase() + "&start_date=" + startDate + "&end_date="+ endDate;
         String sResourceAPI = "/visits/admin/query?" + sQuery;
 
         String response = RestAssured.given()
@@ -94,9 +92,8 @@ public class OpsAPI extends ApiBase{
         JSONArray visits = obj.getJSONArray("results");
 
         for (int i = 0; i < visits.length(); i++) {
-            JSONObject visit = visits.getJSONObject(i);
-//            if (!(visit.get("status").toString().equalsIgnoreCase("FULLY_PAID")) || !(visit.get("status").toString().equalsIgnoreCase("REFUNDED")))
-                lVisits.add(visit.getString("visitCode"));
+            JSONObject patient = visits.getJSONObject(i);
+            lVisits.add(patient.getString("visitCode"));
         }
         return lVisits;
     }
