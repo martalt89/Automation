@@ -544,6 +544,12 @@ public class PatientAPI extends ApiBase {
      * @param patientDetails - Map of the details to be used to update
      */
     public void updatePatient(String sPatientID, HashMap<String, String> patientDetails){
+//        String sessionId = RestAssured.given()
+//                .auth()
+//                .preemptive()
+//                .basic(sAccUsername, sAccPassword)
+//                .get(baseURL + "/v3/patients")
+//                .cookie("SESSION");
         String resource = "/v3/patients/" + sPatientID;
         RestAssured.given()
                 .auth()
@@ -553,6 +559,7 @@ public class PatientAPI extends ApiBase {
                 .cookie("SESSION", sSessionID)
                 .body(patientDetails)
                 .put(baseURL + resource);
+
     }
 
     public void removeInsurance(String patientFirstName){
