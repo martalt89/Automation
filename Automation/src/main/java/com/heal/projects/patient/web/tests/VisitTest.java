@@ -64,9 +64,13 @@ public class VisitTest extends TestBase {
 
     @BeforeClass(alwaysRun = true)
     public void setup(){
-        PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
-        patientAPI.removeInsurance(patientWithoutInsurance);
-        patientAPI.addTestInsuranceToPatient(patientAPI.getPatientIdByFirstname(patientWithInsurance));
+        try {
+            PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
+            patientAPI.removeInsurance(patientWithoutInsurance);
+            patientAPI.addTestInsuranceToPatient(patientAPI.getPatientIdByFirstname(patientWithInsurance));
+        }catch (Exception e){
+            //do nothing
+        }
 
     }
 
