@@ -18,8 +18,6 @@ import java.util.Map;
 public class OpsAPI extends ApiBase{
 
     private String baseURL = "https://ops" + baseUrl;
-    private String sAccUsername;
-    private String sAccPassword;
     private String sSessionID;
     private Map<String, String> authCookies;
 
@@ -37,9 +35,9 @@ public class OpsAPI extends ApiBase{
      * @param sAccPassword (String) Account sPassword
      */
     public OpsAPI(String sAccUsername, String sAccPassword){
-        this.sAccUsername = sAccUsername;
-        this.sAccPassword = sAccPassword;
-        setsSessionID();
+        opsUsername = sAccUsername;
+        opsPassword = sAccPassword;
+        setOpsSessionId();
     }
 
     /**
@@ -48,27 +46,10 @@ public class OpsAPI extends ApiBase{
      */
     private Map loginPostParams() {
         Map<String, String> map = new HashMap<>();
-        map.put("username", sAccUsername);
-        map.put("password", sAccPassword);
+        map.put("username", opsUsername);
+        map.put("password", opsPassword);
         return map;
     }
-
-    public void setsSessionID(){
-        if (opsSessionId==null) {
-            opsSessionId = RestAssured.given()
-                    .auth()
-                    .preemptive()
-                    .basic(sAccUsername, sAccPassword)
-                    .contentType("application/x-www-form-urlencoded")
-                    .get(baseUrlApi + "/security_check2")
-                    .cookie("SESSION");
-        }
-    }
-
-//    public String getSessionID(String username, String password) {
-//        return this.sSessionID;
-//    }
-
 
     /**
      * Returns visit codes based on the search query and status.
@@ -97,11 +78,8 @@ public class OpsAPI extends ApiBase{
         String response = RestAssured.given()
                 .auth()
                 .preemptive()
-                .basic(sAccUsername, sAccPassword)
-//                .contentType("application/x-www-form-urlencoded")
-//                .cookie("SESSION", sSessionID)
+                .basic(opsUsername, opsPassword)
                 .cookie("SESSION", opsSessionId)
-//                .get(baseUrlApi + sResourceAPI)
                 .get(baseUrlOps + sResourceAPI)
                 .asString();
 
@@ -141,10 +119,10 @@ public class OpsAPI extends ApiBase{
             RestAssured.given()
                     .auth()
                     .preemptive()
-                    .basic(sAccUsername, sAccPassword)
+                    .basic(opsUsername, opsPassword)
                     .contentType("application/json")
-                    .cookie("SESSION", sSessionID)
+                    .cookie("SESSION", opsSessionId)
                     .body(cancelParam)
-                    .post(baseURL + sResourceAPI);
+                    .post(baseUrlOps + sResourceAPI);
         }
 }

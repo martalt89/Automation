@@ -31,7 +31,7 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
     public VisitsAPI(String sAccUsername, String sAccPassword){
         patientUsername = sAccUsername;
         patientPassword = sAccPassword;
-        setAuthCookies();
+        setAuthCookiesPatient();
         setCurrentStatus();
     }
 
@@ -43,7 +43,13 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
 
 
     private Map createVisitPostParams(){
+        PatientAPI patientAPI = new PatientAPI(patientUsername, patientPassword);
         AccountAPI accountAPI = new AccountAPI(patientUsername, patientPassword);
+
+        if (this.sPatientId==null) {
+            this.sPatientId = patientAPI.getPatientIdByEmail(patientUsername);
+        }
+
         double longitude = accountAPI.getAddressLongitude(accountTestData.sAddress);
         double latitude = accountAPI.getAddressLatitude(accountTestData.sAddress);
         Map<String, Object> jsonAsMap = new HashMap<>();
@@ -124,14 +130,6 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
      */
     public String createVisit(){
         String resourceAPI = "/v5/patient/visit";
-//        String sessionId = RestAssured.given()
-//                .auth()
-//                .preemptive()
-//                .basic(sAccUsername, sAccPassword)
-//                .get(baseUrlPatient + "/v2/patients")
-//                .cookie("SESSION");
-
-
         String response = RestAssured.given()
                 .auth()
                 .preemptive()
@@ -145,7 +143,6 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
             return restUtils.getJsonValue(response, "visitCode");
         } catch (Exception e){
             System.out.println("Unable to get the visit code from the response.");
-//            System.exit(1);
             return "";
         }
     }
@@ -153,12 +150,6 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
     public String createVisit(String sPatientID){
         setPatientId(sPatientID);
         String resourceAPI = "/v4/patient/visit";
-//        String sessionId = RestAssured.given()
-//                .auth()
-//                .preemptive()
-//                .basic(sAccUsername, sAccPassword)
-//                .get(baseUrlPatient + "/v2/patients")
-//                .cookie("SESSION");
 
         Response response = RestAssured.given()
                 .auth()
@@ -178,12 +169,6 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
         cancelParam.put("note", "Canceled by automation test (via API).");
 
         String resourceAPI = "/patient/visit/"+visitCode+"/cancel";
-//        String sessionId = RestAssured.given()
-//                .auth()
-//                .preemptive()
-//                .basic(sAccUsername, sAccPassword)
-//                .get(baseUrlPatient + "/v2/patients")
-//                .cookie("SESSION");
 
         String response = RestAssured.given()
                 .auth()
@@ -196,59 +181,6 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
                 .asString();
         System.out.println(response);
         return response;
-    }
-
-    /**
-     * login parameters to be send on login call
-     * @return (Map) user and password credentials
-     */
-    private Map loginPostParams() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("username", patientUsername);
-        map.put("password", patientPassword);
-        return map;
-    }
-
-    /**
-     * Set the authCookie and sSessionID variables
-     */
-    public void setAuthCookies(){
-        if (authCookiesPatient==null){
-            String resourceLogin = "/login";
-            Response response = RestAssured.given()
-                    .header("Content-Type", "application/json")
-                    .body(loginPostParams())
-                    .post(baseUrlApi + resourceLogin);
-            try {
-                if  (restUtils.getJsonValue(response.asString(), "status").equalsIgnoreCase("OK")){
-                    authCookiesPatient = response.getCookies();
-                    patientSessionId = authCookiesPatient.get("SESSION");
-                } else {
-                    throw new IllegalArgumentException("Unable to authenticate. Reason: " + restUtils.getJsonValue(response.asString(),"description") + " Status code: " + restUtils.getJsonValue(response.asString(),"status"));
-                }
-            } catch (JSONException e) {
-                throw e;
-            }
-        }
-    }
-
-    /**
-     * makes a call to current_status endpoint which will return all of the account information needed for further action. It will set the 'currentStatus' in ApiBase if it is null.
-     */
-    public void setCurrentStatus(){
-        if (currentStatus==null){
-            String resource = "/v3/patient/current_status";
-            String response = RestAssured.given()
-                    .header("Content-Type", "application/json")
-                    .cookies(authCookiesPatient)
-                    .get(baseUrlPatient + resource)
-                    .asString();
-            if(restUtils.getJsonValue(response,"status").equalsIgnoreCase("OK")) {
-                currentStatus = new JSONObject(response);
-            } else {
-                throw new  IllegalArgumentException("Unable to get account info. Reason: " + restUtils.getJsonValue(response,"description") + " Status code: " + restUtils.getJsonValue(response,"status"));
-            }
-        }
     }
 }
 

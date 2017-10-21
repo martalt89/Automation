@@ -24,7 +24,6 @@ public class AccountAPI extends ApiBase {
     private TestData addAccountInputData = new TestData(TestData.ACCOUNT_SHEET);
     private RestUtils restUtils = new RestUtils();
     private String baseURL = "https://patient" + baseUrl + "/api";
-//    private String baseURL = "https://patient.qa.heal.com/api";
     private static final String APIkey = "pk_test_DIamIvBnKXe5LdP5fl1iR0v8";
 
     /**
@@ -262,30 +261,21 @@ public class AccountAPI extends ApiBase {
 
     public String getAddressId(String sAddress){
         String id = null;
-        String response = accountGetRequest();
-        JSONObject obj = new JSONObject(response);
-        JSONArray addresses = obj.getJSONArray("addresses");
-        for (int i = 0; i < addresses.length(); i++) {
-            JSONObject address = addresses.getJSONObject(i);
-            if (address.get("address").toString().equals(sAddress)) {
-                id = address.getString("id");
+        if (currentStatus==null) {
+            String response = accountGetRequest();
+            JSONObject obj = new JSONObject(response);
+            JSONArray addresses = obj.getJSONArray("addresses");
+            for (int i = 0; i < addresses.length(); i++) {
+                JSONObject address = addresses.getJSONObject(i);
+                if (address.get("address").toString().equals(sAddress)) {
+                    id = address.getString("id");
+                }
             }
-        }
+        }else {
+            JSONArray addresses = currentStatus.getJSONObject("account").getJSONArray("addresses");
+            id = addresses.getJSONObject(0).get("addressId").toString();
+            }
         return id;
-    }
-
-    public String getAddressType(String sAddress){
-        String addressType = null;
-        String response = accountGetRequest();
-        JSONObject obj = new JSONObject(response);
-        JSONArray addresses = obj.getJSONArray("addresses");
-        for (int i = 0; i < addresses.length(); i++) {
-            JSONObject address = addresses.getJSONObject(i);
-            if (address.get("address").toString().equals(sAddress)) {
-                addressType = address.getString("addressType");
-            }
-        }
-        return addressType;
     }
 
     /**

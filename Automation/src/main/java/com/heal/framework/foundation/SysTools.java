@@ -234,64 +234,6 @@ public class SysTools
         return formatter.format(cal.getTime());
     }
 
-
-
-    public static String getMD5(String msg, String keyString, String algo) {
-        String digest = null;
-        try {
-            SecretKeySpec key = new SecretKeySpec((keyString).getBytes("UTF-8"), algo);
-            Mac mac = Mac.getInstance(algo);
-            mac.init(key);
-
-            byte[] bytes = mac.doFinal(msg.getBytes("ASCII"));
-
-            StringBuffer hash = new StringBuffer();
-            for (int i = 0; i < bytes.length; i++) {
-                String hex = Integer.toHexString(0xFF & bytes[i]);
-                if (hex.length() == 1) {
-                    hash.append('0');
-                }
-                hash.append(hex);
-            }
-            digest = hash.toString();
-        } catch (UnsupportedEncodingException e) {
-        } catch (InvalidKeyException e) {
-        } catch (NoSuchAlgorithmException e) {
-        }
-        return digest;
-    }
-
-    public static String HMAC(String values, String myKeyString){
-        String output = "";
-        try {
-
-            PBEKeySpec keySpec = new PBEKeySpec(myKeyString.toCharArray());
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
-            SecretKey key = skf.generateSecret(keySpec);
-
-            //I use "hmacMD5" here becuase when I use
-            //key.getAlgorithm() it returns nothing
-            Mac mac = Mac.getInstance("hmacMD5");
-            mac.init(key);
-
-
-            // Encode the string into bytes using utf-8 and digest it
-            byte[] utf8 = values.getBytes("utf8");
-            byte[] digest = mac.doFinal(utf8);
-
-            //convert the digest into a string
-            String digestB64 = new sun.misc.BASE64Encoder().encode(digest);
-            output += digestB64;
-
-        } catch (InvalidKeyException e) {
-        } catch (NoSuchAlgorithmException e) {
-        } catch (UnsupportedEncodingException e) {
-        } catch (InvalidKeySpecException e) {
-        }
-
-        return output;
-    }
-
     /**
      * This method will check weather the driver is remote safari driver.
      *

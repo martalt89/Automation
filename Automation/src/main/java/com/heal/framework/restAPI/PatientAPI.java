@@ -7,7 +7,6 @@ import java.lang.IllegalArgumentException;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -88,14 +87,8 @@ public class PatientAPI extends ApiBase {
     private static final String MALE = "0001433013870063-d279fc27ffff816b-0001";
     private static final String OTHER_GENDER = "0001433013870063-d279fc27ffff816b-0003";
 
-    //for constructors
-//    private String sAccUsername = "";
-//    private String sAccPassword = "";
     private String sPatientId = "";
     private String sSessionID = "";
-
-//    public JSONObject currentStatus;
-
 
     /**
      * Constructor
@@ -105,9 +98,8 @@ public class PatientAPI extends ApiBase {
     public PatientAPI(String sAccUsername, String patientPasswprd){
         patientUsername = sAccUsername;
         patientPassword = patientPasswprd;
-        setAuthCookies();
+        setAuthCookiesPatient();
         setCurrentStatus();
-
         sPaymentId = getPaymentId();
     }
 
@@ -133,27 +125,6 @@ public class PatientAPI extends ApiBase {
     }
 
     /**
-     * makes a call to current_status endpoint which will return all of the account information needed for further action. It will set the 'currentStatus' in ApiBase if it is null.
-     */
-    public void setCurrentStatus(){
-        if (currentStatus==null){
-        String resource = "/v3/patient/current_status";
-        String response = RestAssured.given()
-                .header("Content-Type", "application/json")
-                .cookies(authCookiesPatient)
-                .get(baseUrlPatient + resource)
-                .asString();
-        currentStatus = new JSONObject(response);
-            if(restUtils.getJsonValue(response,"status").equalsIgnoreCase("OK")) {
-                currentStatus = new JSONObject(response);
-            } else {
-                throw new  IllegalArgumentException("Unable to get account info. Reason: " + restUtils.getJsonValue(response,"description") + " Status code: " + restUtils.getJsonValue(response,"status"));
-            }
-        }
-    }
-
-
-    /**
      * Get the paymentid of default payment method for the account
      */
     public String getPaymentId() {
@@ -167,30 +138,6 @@ public class PatientAPI extends ApiBase {
             }
         }
         return null;
-    }
-
-    /**
-     * Set the authCookie and sSessionID variables
-     */
-
-    public void setAuthCookies(){
-        if (authCookiesPatient==null){
-        String resourceLogin = "/login";
-        Response response = RestAssured.given()
-                .header("Content-Type", "application/json")
-                .body(loginPostParams())
-                .post(baseUrlApi + resourceLogin);
-            try {
-                if  (restUtils.getJsonValue(response.asString(), "status").equalsIgnoreCase("OK")){
-                    authCookiesPatient = response.getCookies();
-                     sSessionID = authCookiesPatient.get("SESSION");
-                 } else {
-                     throw new IllegalArgumentException("Unable to authenticate. Reason: " + restUtils.getJsonValue(response.asString(),"description") + " Status code: " + restUtils.getJsonValue(response.asString(),"status"));
-                 }
-            } catch (JSONException e) {
-                throw e;
-            }
-        }
     }
 
     public String getsSessionID(){
@@ -433,18 +380,8 @@ public class PatientAPI extends ApiBase {
      * @return (String) patientId
      */
     public String getPatientIdByFnLn(String sFn, String sLn) {
-        //TODO - WIP
-        int numberOfPatient = 100;
-        String resource = "/v2/patients/" + "?limit="+numberOfPatient;
-        Response getResponse = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(patientUsername, patientPassword)
-                .get(baseUrlPatient +resource);
-        String response = getResponse.asString();
+        JSONArray patients = currentStatus.getJSONObject("account").getJSONArray("patients");
         String id = null;
-        JSONObject obj = new JSONObject(response);
-        JSONArray patients = obj.getJSONArray("results");
         for (int i = 0; i < patients.length(); i++) {
             JSONObject patient = patients.getJSONObject(i);
             if (patient.get("patientFirstName").toString().equals(sFn) && patient.get("patientLastName").toString().equals(sLn)) {
@@ -478,17 +415,9 @@ public class PatientAPI extends ApiBase {
      * @return (String) patientId
      */
     public String getPatientIdByFirstname(String sFirstName) {
-        int numberOfPatient = 100;
-        String resource = "/v2/patients/" + "?limit="+numberOfPatient;
-        String response = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(patientUsername, patientPassword)
-                .get(baseUrlPatient +resource)
-                .asString();
         String id = null;
-        JSONObject obj = new JSONObject(response);
-        JSONArray patients = obj.getJSONArray("results");
+        JSONArray patients = currentStatus.getJSONObject("account").getJSONArray("patients");
+
         for (int i = 0; i < patients.length(); i++) {
             JSONObject patient = patients.getJSONObject(i);
             if (patient.get("patientFirstName").toString().equals(sFirstName)) {
@@ -504,21 +433,12 @@ public class PatientAPI extends ApiBase {
      * @return (String) patientId
      */
     public String getPatientIdByEmail(String sEmail) {
-        //TODO - WIP
-        String resource = "/v2/account/";
-        Response getResponse = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(patientUsername, patientPassword)
-                .get(baseUrlPatient +resource);
-        String response = getResponse.asString();
         String id = null;
-        JSONObject obj = new JSONObject(response);
-        JSONArray patients = obj.getJSONArray("patients");
+        JSONArray patients = currentStatus.getJSONObject("account").getJSONArray("patients");
         for (int i = 0; i < patients.length(); i++) {
             JSONObject patient = patients.getJSONObject(i);
             if (patient.get("email").toString().equals(sEmail)) {
-                id = patient.getString("id");
+                id = patient.getString("patientId");
                 break;
             }
         }
@@ -639,12 +559,6 @@ public class PatientAPI extends ApiBase {
     public String insuranceEligibility(HashMap<String, String> patientDetails) { //Todo make this cleaner
         HashMap<String, String > map;
         String resource = "/v2/insurance-eligibility";
-//        String sessionId = RestAssured.given()
-//                .auth()
-//                .preemptive()
-//                .basic(patientUsername, patientPasswpod)
-//                .get(baseUrlPatient + "/v3/patients")
-//                .cookie("SESSION");
         patientDetails.put("memberId","COST_ESTIMATES_025");
         patientDetails.put("insuranceName","aetna");
         patientDetails.replace("phone", "18182123842");
