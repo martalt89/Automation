@@ -1,6 +1,7 @@
 package com.heal.framework.restAPI;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,6 +21,7 @@ public class OpsAPI extends ApiBase{
     private String sAccUsername;
     private String sAccPassword;
     private String sSessionID;
+    private Map<String, String> authCookies;
 
     public static final String COMPLETED = "COMPLETED";
     public static final String CANCELLED = "CANCELLED";
@@ -40,19 +42,32 @@ public class OpsAPI extends ApiBase{
         setsSessionID();
     }
 
-    public void setsSessionID(){
-        this.sSessionID = RestAssured.given()
-                .auth()
-                .preemptive()
-                .basic(sAccUsername, sAccPassword)
-                .contentType("application/x-www-form-urlencoded")
-                .get(baseURL + "/security_check2")
-                .cookie("SESSION");
+    /**
+     * JSON parameters to be send on login call
+     * @return (Map) user and password credentials
+     */
+    private Map loginPostParams() {
+        Map<String, String> map = new HashMap<>();
+        map.put("username", sAccUsername);
+        map.put("password", sAccPassword);
+        return map;
     }
 
-    public String getSessionID(String username, String password) {
-        return this.sSessionID;
+    public void setsSessionID(){
+        if (opsSessionId==null) {
+            opsSessionId = RestAssured.given()
+                    .auth()
+                    .preemptive()
+                    .basic(sAccUsername, sAccPassword)
+                    .contentType("application/x-www-form-urlencoded")
+                    .get(baseUrlApi + "/security_check2")
+                    .cookie("SESSION");
+        }
     }
+
+//    public String getSessionID(String username, String password) {
+//        return this.sSessionID;
+//    }
 
 
     /**
@@ -76,16 +91,18 @@ public class OpsAPI extends ApiBase{
         long endDate = now + 60*60*24*1000;
 
         List<String> lVisits = new LinkedList<>();
-        String sQuery = "limit=100&search=" + sSearchQuery + "&" + this.NOT_FINISHED + "=" + sStatus.toUpperCase() + "&start_date=" + startDate + "&end_date="+ endDate;
+        String sQuery = "limit=100&search=" + sSearchQuery + "&status=" + sStatus.toUpperCase() + "&start_date=" + startDate + "&end_date="+ endDate;
         String sResourceAPI = "/visits/admin/query?" + sQuery;
 
         String response = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
-                .contentType("application/json")
-                .cookie("SESSION", sSessionID)
-                .get(baseURL + sResourceAPI)
+//                .contentType("application/x-www-form-urlencoded")
+//                .cookie("SESSION", sSessionID)
+                .cookie("SESSION", opsSessionId)
+//                .get(baseUrlApi + sResourceAPI)
+                .get(baseUrlOps + sResourceAPI)
                 .asString();
 
         JSONObject obj = new JSONObject(response);

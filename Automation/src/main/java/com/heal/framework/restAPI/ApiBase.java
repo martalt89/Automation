@@ -1,37 +1,57 @@
 package com.heal.framework.restAPI;
 
-import com.heal.framework.test.RunTestSuite;
 import com.heal.framework.test.TestBase;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ApiBase {
 
-
-//    private String env = RunTestSuite.getExcelParams().get("ENV");
+    private RestUtils restUtils = new RestUtils();
     private String env = TestBase.getParameters().get("ENV");
-    private String sessionId;
+    public static String patientSessionId = null;
+    public static String opsSessionId = null;
     protected String baseUrl;
+    protected String baseUrlPatient;
+    protected String baseUrlOps;
     protected String baseUrlApi;
     public String sPaymentId;
+    public static JSONObject currentStatus = null;
+    public static Map<String, String> authCookiesPatient = null;
+    public static String patientUsername;
+    public static String patientPassword;
+    public static String opstUsername;
+    public static String opstPassword;
 
     public String getSessionId() {
-        return sessionId;
+        return patientSessionId;
     }
 
     public ApiBase(){
         if (env.equalsIgnoreCase("qa")){
             baseUrl = ".qa.heal.com";
             baseUrlApi = "https://apiv3" + baseUrl;
+            baseUrlOps = "https://ops" + baseUrl;
         }else if (env.equalsIgnoreCase("dev1")){
             baseUrl = ".dev1.heal.com";
             baseUrlApi = "https://api" + baseUrl;
         }else if (env.equalsIgnoreCase("dev")){
             baseUrl = "-dev.heal.com";
+            baseUrlApi = "https://api" + baseUrl;
         }
+        baseUrlPatient = "https://patient" + baseUrl + "/api";
+        baseUrlOps = "https://ops" + baseUrl;
     }
 
+    /**
+     * Set the authCookie and patientSessionId variables
+     */
     public void setSessionId(String username, String password) {
-        this.sessionId = getSessionID(username, password);
+        this.patientSessionId = getSessionID(username, password);
     }
 //
 //    public void setBaseUrl(){
