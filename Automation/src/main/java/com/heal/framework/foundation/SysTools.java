@@ -234,6 +234,14 @@ public class SysTools
         return formatter.format(cal.getTime());
     }
 
+    public static String healTimeMinBehind(int iMinutes){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+        formatter.setTimeZone(TimeZone.getTimeZone("PST"));
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, iMinutes);
+        return formatter.format(cal.getTime());
+    }
+
 
 
     public static String getMD5(String msg, String keyString, String algo) {

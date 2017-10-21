@@ -116,7 +116,7 @@ public class VisitsE2E extends TestBase  {
             ilogCounter++;
             menu.verifyToastMessage("Verify visit notes updated successfully", "The visit notes updated successfully!");
             assertEquals("Symptoms field update", visit.getFieldValue("Visit Notes"), visitNotes, 10);
-            visit.startVisit();
+            visit.startVisit(SysTools.healTimeMinBehind(-8));
             ilogCounter++;
             visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
             visit.checkVisitStatusWithRefresh("STARTED", 10);
@@ -139,7 +139,7 @@ public class VisitsE2E extends TestBase  {
             loginPage.waitForPageReady();
             loginPage.login();
             visit.switchToUrlWithVisitCode(VisitDetailsModalPage.URL + "#" + visit_id);
-            visit.endVisit();
+            visit.endVisit(SysTools.healTimeMinBehind(-5));
             menu.verifyToastTitle("Verifying toast message ", "OK:");
             visit.switchToUrlWithVisitCode(CreateVisitPage.URL + "#" + visit_id);
             visit.checkVisitStatusWithRefresh("FULLY_PAID", 10);

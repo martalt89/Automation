@@ -291,14 +291,15 @@ public class VisitDetailsModalPage extends WebBase{
         openStartVisitModal();
         SysTools.sleepFor(1);
         this.oStartTimeInput.sendKeys(sDateTime);
-        this.oStartVisitSubmitBtn.click();
+        this.oStartVisitSubmitBtn.jsClick();
     }
 
     public void startVisit(){
         openStartVisitModal();
         SysTools.sleepFor(1);
         this.oStartVisitSubmitBtn.click();
-        SysTools.sleepFor(3);
+//        SysTools.sleepFor(3);
+
     }
     //todo: also add methods for selecting date/time from the calendar
     /**
@@ -325,10 +326,10 @@ public class VisitDetailsModalPage extends WebBase{
     }
 
     public void endVisit(String sStartTime){
-        openStartVisitModal();
+        openEndVisitModal();
         SysTools.sleepFor(1);
         this.oStartTimeInput.sendKeys(sStartTime);
-        this.oStartVisitSubmitBtn.click();
+        this.oStartVisitSubmitBtn.jsClick();
     }
 
     //cancel visit methods
