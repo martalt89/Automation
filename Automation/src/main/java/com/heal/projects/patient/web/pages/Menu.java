@@ -18,11 +18,11 @@ public class Menu extends WebBase{
     ///////////////////
     public CommonWebElement oHomeLnk = new CommonWebElement("oHomeLnk", "xpath=//*[@ui-sref='main.body.home']",oWebDriver);
     public CommonWebElement oBookVisitLnk = new CommonWebElement("oBookVisitLnk", "xpath=//*[@ui-sref='main.body.bookVisit.emergency']",oWebDriver);
-    public CommonWebElement oVisitsLnk = new CommonWebElement("oVisitsLnk", "xpath=//*[@ui-sref='main.body.visits']",oWebDriver);
-    public CommonWebElement oProfilesLnk = new CommonWebElement("oProfilesLnk", "xpath=//*[@ui-sref='main.body.profiles.chooseProfile']",oWebDriver);
-    public CommonWebElement oPaymentsLnk = new CommonWebElement("oPaymentsLnk", "xpath=//*[@ui-sref='main.body.payments.listCards']",oWebDriver);
-    public CommonWebElement oSignOutLnk = new CommonWebElement("oSignOutLnk", "xpath=//*[@ui-sref='unauthenticate']",oWebDriver);
-    public CommonWebElement oMenuBtn = new CommonWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')]",oWebDriver);
+    public CommonWebElement oVisitsLnk = new CommonWebElement("oVisitsLnk", "xpath=//*[@data-tid='menu_visits'] | //*[@ui-sref='main.body.visits'] ",oWebDriver);
+    public CommonWebElement oProfilesLnk = new CommonWebElement("oProfilesLnk", "xpath=//*[@data-tid='menu_patients'] | //*[@ui-sref='main.body.profiles.chooseProfile']",oWebDriver);
+    public CommonWebElement oPaymentsLnk = new CommonWebElement("oPaymentsLnk", "xpath=//*[@data-tid='menu_payment'] | //*[@ui-sref='main.body.payments.listCards']",oWebDriver);
+    public CommonWebElement oSignOutLnk = new CommonWebElement("oSignOutLnk", "xpath=//*[@data-tid='menu_signOut'] | //*[@ui-sref='unauthenticate']",oWebDriver);
+    public CommonWebElement oMenuBtn = new CommonWebElement("oMenuBtn", "xpath=//button[contains(@class,'md-icon-button')] | //*[@data-tid='btn_menuOpen']",oWebDriver);
 //    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='md-accent']",oWebDriver);
 //    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='md-container md-mode-indeterminate']",oWebDriver);
 //    public CommonWebElement oLoadingBar = new CommonWebElement("oLoadingBar", "xpath=//*[@class='loading-screen layout-fill ng-scope layout-column']",oWebDriver);
@@ -81,7 +81,8 @@ public class Menu extends WebBase{
         //if the hamburger menu is visible perform javaScript click on the menu links
         //will not work on native pages apps
         if (oMenuBtn.isDisplayed()){
-            menuItem.jsClickAndWait(oLoadingBar, false);
+            oMenuBtn.click();
+            menuItem.clickAndWait(oLoadingBar, false);
             //menuItem.jsClick();
         }else {
             menuItem.clickAndWait(oLoadingBar, false);

@@ -23,8 +23,6 @@ import java.text.ParseException;
 public class VisitsE2E extends TestBase  {
 
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
-//        private VisitsAPI visitsAPI = new VisitsAPI(testDataAccount.sEmail, testDataAccount.sPassword);
-//        private VisitsAPI visitsAPI = new VisitsAPI("vahan+" + getParameters().get("ENV").toString() + "@heal.com", testDataAccount.sPassword);
         private VisitsAPI visitsAPI = new VisitsAPI("vahan+qa@heal.com", testDataAccount.sPassword);
         private OpsAPI opsAPI = new OpsAPI("vahan+oc@heal.com", "Heal4325");
         private String visit_id = visitsAPI.createVisit();

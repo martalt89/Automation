@@ -67,7 +67,6 @@ public class VisitTest extends TestBase {
         PatientAPI patientAPI = new PatientAPI("vahan+qa@heal.com", "Heal4325!");
         patientAPI.removeInsurance(patientWithoutInsurance);
         patientAPI.addTestInsuranceToPatient(patientAPI.getPatientIdByFirstname(patientWithInsurance));
-
     }
 
 

@@ -1,5 +1,6 @@
 package com.heal.projects.patient.web.pages;
 
+import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ public class PaymentsPage extends WebBase {
     ///////////////////
     // Page Elements //
     ///////////////////
+    public CommonWebElement oPageTitle = new CommonWebElement( "oPageTitle", "xpath=//*[@data-tid='txt_title']", oWebDriver );
     public CommonWebElement oPaymentsLabel = new CommonWebElement( "oPaymentsLabel", "xpath=//*[text()='Payments']", oWebDriver );
     public CommonWebElement oPaymentDetailLabel = new CommonWebElement( "oPaymentDetailLabel", "xpath=//*[text()='Payment details']", oWebDriver );
     public CommonWebElement oCardExpDate = new CommonWebElement( "oCardExpDate", "className=credit-card-expiry", oWebDriver );
@@ -31,6 +33,15 @@ public class PaymentsPage extends WebBase {
     public PaymentsPage(WebDriver oTargetDriver, String sUrl)
     {
         super(oTargetDriver, sUrl);
+    }
+
+    ////////////////
+    // Validation //
+    ////////////////
+    public void validateTitle(){
+        TestBase testBase = new TestBase();
+        String title = oPageTitle.getText();
+        testBase.assertEquals("Validate page title", title, "Manage payment methods");
     }
 
 }

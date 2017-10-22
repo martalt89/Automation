@@ -1,5 +1,6 @@
 package com.heal.projects.patient.web.pages;
 
+import com.heal.framework.test.TestBase;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
@@ -19,7 +20,7 @@ public class ProfilePage extends WebBase{
     // Page Elements //
     ///////////////////
 
-    public CommonWebElement oPageTitle = new CommonWebElement( "oPageTitle", "xpath=//*[contains(@class,'title')]", oWebDriver );
+    public CommonWebElement oPageTitle = new CommonWebElement( "oPageTitle", "xpath=//*[@data-tid='txt_title'] |//*[contains(@class,'title')]", oWebDriver );
     public CommonWebElement oPatientDetailsLabel = new CommonWebElement( "oPatientDetailsLabel", "xpath=//*[text()='Patient Details']", oWebDriver );
     public CommonWebElement oProfileImage = new CommonWebElement( "oProfileImage", "className=profile-image", oWebDriver );
     public CommonWebElement oPatientInfoLabel = new CommonWebElement( "oPatientInfoLabel", "xpath=//*[text()='Patient Info']", oWebDriver );
@@ -63,10 +64,18 @@ public class ProfilePage extends WebBase{
         super(oTargetDriver, sUrl);
     }
 
+    ////////////////
+    // Validation //
+    ////////////////
+    public void validateTitle(){
+        TestBase testBase = new TestBase();
+        String title = oPageTitle.getText();
+        testBase.assertEquals("Validate page title", title, "Manage Profiles");
+    }
+
     /////////////
     // Methods //
     /////////////
-
     /**
      * Clicks an element that has the provided text
      * @param sText Patient firstname

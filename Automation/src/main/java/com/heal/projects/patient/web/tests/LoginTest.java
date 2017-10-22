@@ -11,8 +11,6 @@ public class LoginTest extends TestBase {
 
 
     @Test (groups = {"smoke", "regression", "critical" })
-//    @Test (retryAnalyzer = RetryAnalyzer.class)
-//    @Parameters({ "url" })
     public void loginWithValidCredentials() throws Exception {
 
         CommonWebElement.setbMonitorMode(false);
@@ -25,18 +23,16 @@ public class LoginTest extends TestBase {
 
         loginPage.login();
 
-        homePage.oPageTitle.waitForElement();
+        homePage.oSelectLocation.waitForElement();
 
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), HomePage.URL);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Book a doctor in 4 easy steps:");
-
+        homePage.validateTitle();
         Menu menu = new Menu(dr);
 
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.waitForPageReady();
+        loginPage.validateTitle();
         assertEquals("Verifying page url ", loginPage.getCurrentUrl(), LoginPage.URL);
-
-
     }
 
     @Test (groups = { "regression"})
@@ -46,23 +42,25 @@ public class LoginTest extends TestBase {
 
         WebDriver dr = getDriver();
         LoginPage loginPage = new LoginPage(dr);
+        HomePage homePage = new HomePage(dr);
+        VisitsPage visitsPage = new VisitsPage(dr);
+        ProfilePage profilePage = new ProfilePage(dr);
+        PaymentsPage paymentsPage = new PaymentsPage(dr);
+        Menu menu = new Menu(dr);
         loginPage.goTo();
         loginPage.waitForPageLoad();
-        HomePage homePage = new HomePage(dr);
-        BookVisitPage bookVisitPage = new BookVisitPage(dr);
-        VisitsPage visitsPage = new VisitsPage(dr);
-        Menu menu = new Menu(dr);
 
         loginPage.login();
-        homePage.selectFromMenu(menu.oHomeLnk);
-        homePage.selectFromMenu(menu.oBookVisitLnk);
-        verifyMatches("Verifying Visits page title ", bookVisitPage.oPageTitle.getText(), "Book Visit");
 
+        homePage.oSelectLocation.waitForElement();
+        homePage.validateTitle();
         homePage.selectFromMenu(menu.oVisitsLnk);
-        verifyMatches("Verifying Visits page title ", visitsPage.oPageTitle.getText(), "Visits");
         homePage.selectFromMenu(menu.oProfilesLnk);
+        profilePage.validateTitle();
         homePage.selectFromMenu(menu.oPaymentsLnk);
+        paymentsPage.validateTitle();
         homePage.selectFromMenu(menu.oSignOutLnk);
+        loginPage.validateTitle();
 
     }
 }

@@ -1,7 +1,7 @@
 package com.heal.projects.patient.web.pages;
 
 import com.heal.framework.test.RunTestSuite;
-import com.heal.framework.test.TestData;
+import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
 
@@ -16,7 +16,9 @@ import java.util.Map;
  */
 
 public class LoginPage extends WebBase{
-    public static final String URL = "https://patient" + baseUrl + "/login";
+
+//    public static final String URL = "https://patient" + baseUrl + "/login";
+    public static final String URL = "http://localhost:3000/login";
     RunTestSuite runTestSuite = new RunTestSuite();
     public HashMap<String, String> testDataMap = runTestSuite.getExcelParams();
     private String password = "Heal4325!";
@@ -25,6 +27,7 @@ public class LoginPage extends WebBase{
     ///////////////////
     // Page Elements //
     ///////////////////
+    public CommonWebElement oPageTitle = new CommonWebElement( "oPageTitle", "xpath=//*[@data-tid='txt_title'] |//*[contains(@class,'title')]", oWebDriver );
     public CommonWebElement oUserNameInput = new CommonWebElement("oUserNameInput", "xpath=//input[@name='username' or @data-tid='inp_username']",oWebDriver);
     public CommonWebElement oPasswordInput = new CommonWebElement("oPasswordInput", "xpath=//input[@name='password' or @data-tid='inp_password']", oWebDriver);
     public CommonWebElement oLoginBtn = new CommonWebElement("oLoginBtn", "xpath=//*[@type='submit' or @data-tid='btn_login']", oWebDriver);
@@ -49,10 +52,15 @@ public class LoginPage extends WebBase{
         super();
     }
 
+    public void validateTitle(){
+        TestBase testBase = new TestBase();
+        String title = oPageTitle.getText();
+        testBase.assertEquals("Validate page title", title, "Sign In");
+    }
+
     /////////////
     // Methods //
     /////////////
-
     //Login with the default username and password
     public void login()
     {

@@ -320,7 +320,6 @@ public class TestBase
 
             this.environment = environment;
             WebBase.baseUrl = baseUrl;
-//            ApiBase.baseUrl = baseUrl;
             // Grid server url
             if (environment.equalsIgnoreCase("remote"))
             {
