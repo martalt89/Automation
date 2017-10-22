@@ -2,13 +2,36 @@ package com.heal.projects.patient.web.tests;
 
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
-import com.heal.framework.web.CommonWebValidate;
 import com.heal.projects.patient.web.pages.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 public class LoginTest extends TestBase {
 
+
+    /**
+     * This will run a test in loop for validation purposes
+     */
+    @Test
+    public void testLoop(){
+        int numberOfVisitsToBook = 20;
+        int passedRuns = 0;
+        int failedRuns = 0;
+        for (int i = 0; i < numberOfVisitsToBook; i++) {
+            try {
+                loginWithValidCredentials();
+                checkMenuLinksLoggedIn();
+                passedRuns++;
+            } catch (Exception e) {
+                failedRuns++;
+                e.printStackTrace();
+            }
+            System.out.println("Passed " + passedRuns);
+            System.out.println("Failed " + failedRuns);
+        }
+        System.out.println(passedRuns + " Passed Runs"); // display how many times the test passed on given visits booked
+        System.out.println(failedRuns + " Failed Runs"); // display how many times the test failed on given visits booked
+    }
 
     @Test (groups = {"smoke", "regression", "critical" })
     public void loginWithValidCredentials() throws Exception {
