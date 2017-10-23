@@ -140,6 +140,7 @@ private String baseUrlPatient = "https://patient" + baseUrl + "/api";
                 .post(baseUrlPatient + resourceAPI)
                 .asString();
         try {
+
             return restUtils.getJsonValue(response, "visitCode");
         } catch (Exception e){
             System.out.println("Unable to get the visit code from the response.");

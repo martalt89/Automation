@@ -14,7 +14,8 @@ import org.testng.annotations.Test;
 
 
 public class VisitDetailsModalTest extends TestBase  {
-        String username = "vahan+" + RunTestSuite.getExcelParams().get("ENV").toString() + "@heal.com";
+//        String username = "vahan+" + RunTestSuite.getExcelParams().get("ENV").toString() + "@heal.com";
+        String username = "vahan+qa@heal.com";
         String password = RunTestSuite.getExcelParams().get("PatientPassword");
 
         private TestData testDataAccount = new TestData(TestData.ACCOUNT_SHEET);
