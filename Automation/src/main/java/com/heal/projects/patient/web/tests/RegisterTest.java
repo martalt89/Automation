@@ -50,10 +50,11 @@ public class RegisterTest extends TestBase {
         registerPage.oPasswordInput.sendKeys(RegisterPage.sRegisterPassword);
         registerPage.oConfirmPasswordInput.sendKeys(RegisterPage.sRegisterConfirmPassword);
         registerPage.oPhoneNmbInput.sendKeys(RegisterPage.sRegisterPhoneNo);
-        registerPage.oZipcodeInput.sendKeys(RegisterPage.sRegisterZipCode);
         registerPage.oCreateAcctBtn.click();
-        assertEquals("Verifying page url ", homePage.getCurrentUrl(), RegisterPage.URL);
-        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Book Visit");
+        homePage.oSelectLocation.waitForElement();
+        homePage.validateTitle();
+//        assertEquals("Verifying page url ", homePage.getCurrentUrl(), RegisterPage.URL);
+//        verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
+//        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Book Visit");
     }
 }

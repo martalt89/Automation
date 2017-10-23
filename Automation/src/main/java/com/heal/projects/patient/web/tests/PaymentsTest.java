@@ -1,5 +1,6 @@
 package com.heal.projects.patient.web.tests;
 
+import com.heal.framework.foundation.SysTools;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
@@ -37,10 +38,11 @@ public class PaymentsTest extends TestBase {
         // Login on patient web app
         loginPage.login();
         // Select Payments from Menu
+        homePage.oSelectLocation.waitForElement();
         homePage.selectFromMenu(menu.oPaymentsLnk);
         if (paymentsPage.oEditPaymentBtn.exists())
             paymentsPage.oEditPaymentBtn.click();
-
+        SysTools.sleepFor(3);
         // Add card details from excel test data
         addCardPage.oCardNumberInput.sendKeys(addCardInputData.sCardNumber);
         addCardPage.oCardExpirationInput.sendKeys(sExpirationMonth + sExpirationYear);

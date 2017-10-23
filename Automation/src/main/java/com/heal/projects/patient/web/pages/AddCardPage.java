@@ -9,7 +9,9 @@ import org.testng.annotations.Parameters;
  * Created by mihai.muresan on 7/17/2017.
  */
 public class AddCardPage extends WebBase {
-    public static final String URL = "https://patient" + baseUrl + "/payments/add-card";
+//    public static final String URL = "https://patient" + baseUrl + "/payments/add-card";
+    public static final String URL = "http://localhost:3000/payments";
+
 
     ///////////////////
     // Page Elements //
@@ -18,10 +20,13 @@ public class AddCardPage extends WebBase {
 
     public CommonWebElement oPaymentsLabel = new CommonWebElement( "oPaymentsLabel", "xpath=//*[text()='Payments']", oWebDriver );
     public CommonWebElement oAddPaymentMethod = new CommonWebElement( "oAddPaymentMethod", "xpath=//*[text()='Add Payment Method']", oWebDriver );
-    public CommonWebElement oCardNumberInput = new CommonWebElement( "oCardNumberInput", "name=number", oWebDriver );
-    public CommonWebElement oCardExpirationInput = new CommonWebElement( "oCardNumberImput", "name=expiry", oWebDriver );
-    public CommonWebElement oCVCInput = new CommonWebElement( "oCVCInput", "name=cvc", oWebDriver );
-    public CommonWebElement oApplyCardBtn = new CommonWebElement("oApplyCardBtn", "xpath=//button[@type='submit']", oWebDriver);
+//    public CommonWebElement oCardNumberInput = new CommonWebElement( "oCardNumberInput", "xpath=//input[@name='cardnumber'] | //[@name='number']", oWebDriver );
+//    public CommonWebElement oCardExpirationInput = new CommonWebElement( "oCardNumberImput", "xpath=//input[@name='exp-date'] | //[@name='expiry']", oWebDriver );
+//    public CommonWebElement oCVCInput = new CommonWebElement( "oCVCInput", "xpath=//input[@name='cvc'] | //[@name='cvc']", oWebDriver );    public CommonWebElement oCardNumberInput = new CommonWebElement( "oCardNumberInput", "xpath=//input[@name='cardnumber'] | //[@name='number']", oWebDriver );
+    public CommonWebElement oCardNumberInput = new CommonWebElement( "oCardNumberInput", "xpath=//input[1]", oWebDriver );
+    public CommonWebElement oCardExpirationInput = new CommonWebElement( "oCardNumberImput", "xpath=//input[2]", oWebDriver );
+    public CommonWebElement oCVCInput = new CommonWebElement( "oCVCInput", "xpath=//input[3]", oWebDriver );
+    public CommonWebElement oApplyCardBtn = new CommonWebElement("oApplyCardBtn", "xpath=//*[@data-tid='btn_saveCard'] | //button[@type='submit']", oWebDriver);
     //Error messages
     public CommonWebElement oEnterCardNo = new CommonWebElement( "oEnterCardNo", "xpath=//*[@ng-messages='cardForm.number.$error']", oWebDriver );
     public CommonWebElement oInvalidCardNo = new CommonWebElement( "oInvalidCardNo", "xpath=//*[@ng-messages='cardForm.number']", oWebDriver );
