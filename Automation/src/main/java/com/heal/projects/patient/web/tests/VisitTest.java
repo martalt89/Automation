@@ -1,9 +1,11 @@
 package com.heal.projects.patient.web.tests;
 
+import com.heal.framework.test.TestData;
 import com.heal.projects.patient.web.pages.*;
 import com.heal.framework.foundation.SysTools;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.web.CommonWebElement;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
@@ -57,10 +59,8 @@ public class VisitTest extends TestBase {
         CommonWebElement.setbMonitorMode(false);
         LoginPage loginPage = new LoginPage(dr);
         HomePage homePage = new HomePage(dr);
-
         loginPage.goTo();
         loginPage.waitForPageLoad();
-
         loginPage.login();
         homePage.selectFromMenu("visits");
         homePage.cancelVisit(1);
@@ -110,7 +110,8 @@ public class VisitTest extends TestBase {
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
             whatToExpectPage.oGotItBtn.click();
-            System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+            getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//            System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
             menu.selectFromMenu(menu.oSignOutLnk);
             loginPage.oUserNameInput.waitForElement();
     }
@@ -156,7 +157,8 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
@@ -209,7 +211,8 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
@@ -262,7 +265,8 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
@@ -298,7 +302,7 @@ public class VisitTest extends TestBase {
 
         chooseProfilePage.selectProfileByName("Insurance");
         addressPage.selectFirstSavedAddress();
-        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        addressPage.oContinueBtn.jsClickAndWait(menu.oLoadingBar, false);
         visitDetailsPage.selectServiceForVisit("SICK_SERVICE");
         visitDetailsPage.setSymptoms(symptoms);
         visitDetailsPage.selectFirstAvailableTimeSlot();
@@ -316,9 +320,62 @@ public class VisitTest extends TestBase {
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
         whatToExpectPage.oGotItBtn.click();
-        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+//        System.out.println("The house call was booked successfully. House call code: " + SysTools.getVisitCodeFromURL(dr));
         menu.selectFromMenu(menu.oSignOutLnk);
         loginPage.oUserNameInput.waitForElement();
     }
+
+    @Test
+    public void bookVisitWithPromoCodeNoCreditCard(){
+        CommonWebElement.setbMonitorMode(false);
+        WebDriver dr = getDriver();
+//        CommonWebValidate validate = new CommonWebValidate(dr);
+        LoginPage loginPage = new LoginPage(dr);
+        loginPage.goTo();
+        loginPage.waitForPageLoad();
+        HomePage homePage = new HomePage(dr);
+        ChooseProfilePage chooseProfilePage = new ChooseProfilePage(dr);
+        BookVisitAddressPage addressPage = new BookVisitAddressPage(dr);
+        VisitDetailsPage visitDetailsPage = new VisitDetailsPage(dr);
+        SelectPaymentPage paymentPage = new SelectPaymentPage(dr);
+        BookVisitPage bookVisitPage = new BookVisitPage(dr);
+        WhatToExpectPage whatToExpectPage = new WhatToExpectPage(dr);
+        TestData testdata=new TestData(TestData.PATIENT_SHEET);
+        Menu menu = new Menu(dr);
+
+        loginPage.login(testdata.sNo_Credit_Card_Id,"Heal4325"); // Login on patient web app
+        homePage.selectFromMenu(menu.oBookVisitLnk); // Select Book Visit from Menu
+        bookVisitPage.oEmergencyNoBtn.clickAndWait(menu.oLoadingBar, false); // Select a non life-threatening medical emergency
+        chooseProfilePage.selectProfileByName("vahan");
+        addressPage.selectFirstSavedAddress();
+        addressPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.oSickOrInjuredText.clickAndWait(menu.oLoadingBar, false);
+        visitDetailsPage.setSymptoms(symptoms);
+        visitDetailsPage.selectFirstAvailableTimeSlot();
+        visitDetailsPage.oContinueBtn.clickAndWait(menu.oLoadingBar, false);
+
+        assertEquals("Verifying full price ", paymentPage.oPriceInfoText.getText(), sFullPrice);
+
+        paymentPage.oPromoCodeLink.click();
+        paymentPage.oPromoCodeInput.sendKeys("100PERCENT", Keys.TAB);
+        menu.oLoadingBar.waitForInvisible();
+
+        assertEquals("Verifying 100% promo price ", paymentPage.oPriceInfoText.getText(), sPromo100PercentOffPrice);
+
+        paymentPage.oCompleteBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.waitForElement();
+        assertEquals("Verifying 'Thank you' message text ", whatToExpectPage.oThankYouTitle.getText(), "Thank you for choosing Heal.");
+        assertEquals("Verifying 'what To Expect' text ", whatToExpectPage.oWhatToExpectTitle.getText(), "What to Expect");
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oNextBtn.clickAndWait(menu.oLoadingBar, false);
+        whatToExpectPage.oGotItBtn.click();
+        getExtentTest().log(LogStatus.INFO, SysTools.getVisitCodeFromURL(dr) + " visit booked");
+        menu.selectFromMenu(menu.oSignOutLnk);
+        loginPage.oUserNameInput.waitForElement();
+
+    }
+
 
 }

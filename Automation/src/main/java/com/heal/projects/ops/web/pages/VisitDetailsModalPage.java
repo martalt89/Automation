@@ -3,7 +3,12 @@ package com.heal.projects.ops.web.pages;
 import com.heal.framework.foundation.SysTools;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.WebBase;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import javax.xml.xpath.XPath;
+import java.util.List;
 
 public class VisitDetailsModalPage extends WebBase{
     public static final String URL = "https://ops"+ baseUrl +"/dashboard";
@@ -305,19 +310,22 @@ public class VisitDetailsModalPage extends WebBase{
      */
     public void openStartVisitModal(){
         this.oActionsBtn.click();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oActionsMenuStartVisit.click();
     }
 
     public void startVisit(String sDateTime){
         openStartVisitModal();
+        SysTools.sleepFor(1);
         this.oStartTimeInput.sendKeys(sDateTime);
         this.oStartVisitSubmitBtn.click();
     }
 
     public void startVisit(){
         openStartVisitModal();
+        SysTools.sleepFor(1);
         this.oStartVisitSubmitBtn.click();
+        SysTools.sleepFor(3);
     }
     //todo: also add methods for selecting date/time from the calendar
     /**
@@ -333,17 +341,19 @@ public class VisitDetailsModalPage extends WebBase{
     //end visit methods
     public void openEndVisitModal(){
         this.oActionsBtn.click();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oActionsMenuEndVisit.click();
     }
 
     public void endVisit(){
         openEndVisitModal();
+        SysTools.sleepFor(1);
         this.oStartVisitSubmitBtn.click();
     }
 
     public void endVisit(String sStartTime){
         openStartVisitModal();
+        SysTools.sleepFor(1);
         this.oStartTimeInput.sendKeys(sStartTime);
         this.oStartVisitSubmitBtn.click();
     }
@@ -390,7 +400,7 @@ public class VisitDetailsModalPage extends WebBase{
         }
         this.oChooseDoctorInput.waitForVisible();
         this.oChooseDoctorInput.select(sDoctorName,false);
-        this.oChooseMedicalAssistantInput.select(sMAName,false);
+        this.oChooseMedicalAssistantInput.select("MA " + sMAName,false);
     }
     public void chooseDoctor(String sDoctorName){
         openChangeProviderModal();
@@ -447,10 +457,20 @@ public class VisitDetailsModalPage extends WebBase{
         this.editGroupId(sGroupId);
         this.oSubmitBtn.click();
     }
+
+    /**
+     * Mehtod to add visit notes
+     * @param sNotesMessage ->takes string message for entering note details
+     */
+    public void addVisitNotes(String sNotesMessage){
+        this.oDetailsEditVisitNotesBtn.clickAndWait(this.oDetailsEditVisitNotesField,true);
+        this.oDetailsEditVisitNotesField.sendKeys("Ignore-Automation test running");
+        this.oDetailsEditVisitNotesCheckBtn.click();
+    }
     //refund methods
     public void openRefundVisitModal(){
         this.oActionsBtn.click();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oActionsRefundVisit.click();
     }
 
@@ -460,7 +480,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void selectTotalRefund(String sReason){
         this.openRefundVisitModal();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oTotalRefundCheckbox.click();
         this.oRefundReasonInput.sendKeys(sReason);
         this.oProcessRefundBtn.click();
@@ -469,7 +489,7 @@ public class VisitDetailsModalPage extends WebBase{
 
     public void selectPartialRefund(String sAmount, String sReason){
         this.openRefundVisitModal();
-        SysTools.sleepFor(1);
+        SysTools.sleepFor(1); //This will wait for a small animation to complete
         this.oPartialRefundCheckbox.click();
         this.oRefundAmountInput.sendKeys(sAmount);
         this.oRefundReasonInput.sendKeys(sReason);
@@ -482,6 +502,7 @@ public class VisitDetailsModalPage extends WebBase{
         oWebDriver.navigate().refresh();
         waitForPageReady(sUrlWithVisitCode);
     }
+
 
     public void checkVisitStatus(CommonWebElement status, int duration){
         int seconds = 0;
@@ -528,5 +549,12 @@ public class VisitDetailsModalPage extends WebBase{
     public CommonWebElement getChangeProviderToastMessage(String sVisitId, String sDoctorName) {
 
         return new CommonWebElement("oToastMessage", "xpath=//*[text()='Successfully changed the provider for Visit '"+sVisitId+"' to '"+sDoctorName+"', MD']",oWebDriver);
+    }
+
+    public int LogDetailsCount(){
+        //CommonWebElement oElement = new CommonWebElement("oElement","xpath=//*[@class='log-details']",oWebDriver);
+        By logDetailsList = By.xpath("//*[@class='log-details']");
+        List<WebElement> commonWebElementList= getWebDriver().findElements(logDetailsList);
+        return commonWebElementList.size();
     }
 }

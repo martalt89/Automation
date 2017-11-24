@@ -1,11 +1,13 @@
 package com.heal.projects.ops.web.tests;
 
 
+import com.heal.framework.foundation.SysTools;
 import com.heal.framework.restAPI.VisitsAPI;
 import com.heal.framework.test.TestBase;
 import com.heal.framework.test.TestData;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.projects.ops.web.pages.*;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
@@ -21,6 +23,7 @@ public class VisitDetailsModalTest extends TestBase  {
     @Test(groups = {"dev", "critical"})
     public void changeProviderNoTime() {
         String visit_id = visitsAPI.createVisit();
+        getExtentTest().log(LogStatus.INFO, visit_id + " visit booked");
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);
@@ -45,6 +48,7 @@ public class VisitDetailsModalTest extends TestBase  {
     @Test(groups = {"dev", "critical"} ,priority=1)
     public void cancelVisit() {
         String visit_id = visitsAPI.createVisit();
+        getExtentTest().log(LogStatus.INFO, visit_id + " visit booked");
         CommonWebElement.setbMonitorMode(false);
         WebDriver dr = getDriver();
         OpsLoginPage loginPage = new OpsLoginPage(dr);

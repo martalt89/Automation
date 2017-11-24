@@ -2,8 +2,10 @@ package com.heal.framework.test;
 
 import com.heal.framework.foundation.ExtentManager;
 import com.heal.framework.foundation.ExtentTestManager;
+import com.heal.framework.foundation.SysTools;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+import com.saucelabs.saucerest.SauceREST;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -13,11 +15,19 @@ import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by vahanmelikyan on 8/1/2017.
  */
 public class TestListener extends TestListenerAdapter {
+    Map testParams = RunTestSuite.getExcelParams();
+    Map<String, Object> testParamsSentToSauceLab = new HashMap<>();
+    String env = testParams.get("environment").toString();
+    String sauceUsername = testParams.get("USERNAME").toString();
+    String sauceAccessKey = testParams.get("ACCESS_KEY").toString();
+    SauceREST sauceREST = new SauceREST(sauceUsername, sauceAccessKey);
 
     Logger logger = LoggerFactory.getLogger(TestListener.class);
     Document oResultXML;
@@ -35,6 +45,13 @@ public class TestListener extends TestListenerAdapter {
         super.onTestStart(oResult);
         logger.info("[" + oResult.getName() + " Start]");
         ExtentTest test = oTestBase.getExtentTest();
+        if (env.equalsIgnoreCase("remote")){
+            String job_id = oTestBase.getSessionID();
+            String testName = oResult.getName();
+            testParamsSentToSauceLab.put("name", testName+" - "+testParams.get("ENV"));
+            testParamsSentToSauceLab.put("Custome stuff goes here", "something");
+            sauceREST.updateJobInfo(job_id, testParamsSentToSauceLab);
+        }
         if(test == null){
             test = ExtentTestManager.startTest(oResult.getName());
             oTestBase.setExtentTest(test);
@@ -50,6 +67,10 @@ public class TestListener extends TestListenerAdapter {
         test.log(LogStatus.FAIL, oResult.getThrowable());
         test.log(LogStatus.FAIL, "Exception Image", "Exception Screenshot: " + img);
         ExtentManager.getReporter().endTest(test);
+        if (env.equalsIgnoreCase("remote")){
+        String job_id = oTestBase.getSessionID();
+        sauceREST.jobFailed(job_id);
+        }
     }
 
     @Override
@@ -57,6 +78,10 @@ public class TestListener extends TestListenerAdapter {
     {
         ExtentTest test = oTestBase.getExtentTest();
         ExtentManager.getReporter().endTest(test);
+        if (env.equalsIgnoreCase("remote")){
+            String job_id = oTestBase.getSessionID();
+            sauceREST.jobPassed(job_id);
+        }
     }
 
     @Override
@@ -87,7 +112,6 @@ public class TestListener extends TestListenerAdapter {
     @Override
     public void onFinish(ITestContext oTestContext)
     {
-
 
     }
 

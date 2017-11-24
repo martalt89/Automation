@@ -38,7 +38,8 @@ public class PaymentsTest extends TestBase {
         loginPage.login();
         // Select Payments from Menu
         homePage.selectFromMenu(menu.oPaymentsLnk);
-        paymentsPage.oEditPaymentBtn.click();
+        if (paymentsPage.oEditPaymentBtn.exists())
+            paymentsPage.oEditPaymentBtn.click();
 
         // Add card details from excel test data
         addCardPage.oCardNumberInput.sendKeys(addCardInputData.sCardNumber);
@@ -50,5 +51,6 @@ public class PaymentsTest extends TestBase {
 
         // Validate the new card details
         assertEquals("Verifying card expiration date ", paymentsPage.oCardExpDate.getText(), sExpirationMonth + "/" + sExpirationYear);
+        menu.selectFromMenu(menu.oSignOutLnk);
     }
 }

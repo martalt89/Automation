@@ -44,6 +44,7 @@ public class TestData {
     public String sGroupId;
     public String sPhone;
     public String sState;
+    public String sNo_Credit_Card_Id;
 
 
     public static final String ACCOUNT_SHEET = "Account";
@@ -111,6 +112,7 @@ public class TestData {
                         sPhone = testDataFromExcel.get("Phone");
                         sState = testDataFromExcel.get("State");
 
+
                 }
 
                 if (sSheetName.equals(PATIENT_SHEET)) {
@@ -127,6 +129,7 @@ public class TestData {
                         sMemberId = testDataFromExcel.get("MemberId");
                         sGroupId = testDataFromExcel.get("GroupId");
                         sPhone = testDataFromExcel.get("Phone");
+                        sNo_Credit_Card_Id=testDataFromExcel.get("no_Credit_Card_Id");
 
                 }
 

@@ -1,18 +1,18 @@
 package com.heal.framework.test;
 
 import com.heal.framework.exception.CommonException;
-import com.heal.framework.foundation.ExtentManager;
-import com.heal.framework.foundation.ExtentTestManager;
-import com.heal.framework.foundation.SysTools;
+import com.heal.framework.foundation.*;
 import com.heal.framework.validation.CommonValidate;
 import com.heal.framework.web.CommonWebElement;
 import com.heal.framework.web.CommonWebValidate;
 import com.heal.framework.web.WebBase;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -54,10 +54,13 @@ public class TestBase
     private boolean bMaximizeBrowser = false;
     private static String browser;
     private static String releaseEnv = "";
+    private static Dimension screenDimentions = new Dimension(1400,1050);
 
     private static HashMap<String, String> parameters;
     private static ExtentReports extent;
+    private static String sessionID;
 
+    protected static final DBConnector connector = new DBConnector();
 
     /**
      * InheritableThreadLocal variables are needed when tests are ran in parallel.  They ensure threads do not share/contaminate each other's data.  
@@ -72,6 +75,7 @@ public class TestBase
     private static final InheritableThreadLocal oRemoteNode = new InheritableThreadLocal();
     private static final InheritableThreadLocal oException = new InheritableThreadLocal();
     private static final InheritableThreadLocal oExtentTest = new InheritableThreadLocal();
+    private static final InheritableThreadLocal oSessionID = new InheritableThreadLocal();
 
     ////////////////////////
     //  Constructors      //
@@ -147,10 +151,40 @@ public class TestBase
             throw getException();
     }
 
+    public String getSessionID(){
+        return (String)oSessionID.get();
+    }
+
+    public void setSessionID(String sessionID){
+        oSessionID.set(sessionID);
+    }
+
     public ExtentTest getExtentTest(){
+
         return (ExtentTest)oExtentTest.get();
     }
 
+    /**
+     * Retrieves AppiumDriver instance stored in InheritableThreadLocal variable or throws an exception if
+     * any thread exception is found.
+     *
+     * @return
+     * (AppiumDriver)
+     */
+    public AppiumDriver getMobileDriver()
+    {
+        if (getException() == null)
+            return (AppiumDriver)oCurrentDriver.get();
+        else
+            throw getException();
+    }
+
+    /**
+     * Stores ExtentTest instance in InheritableThreadLocal variable.
+     *
+     * @param test
+     *
+     */
     public void setExtentTest(ExtentTest test){
         oExtentTest.set(test);
     }
@@ -163,7 +197,6 @@ public class TestBase
      */
     public void setValidate(CommonValidate oV)
     {
-        oV.iVerificationsExecuted = 0;
         oValidate.set(oV);
     }
 
@@ -303,7 +336,6 @@ public class TestBase
             // Maximize browser
             if (maximizeBrowser.equalsIgnoreCase("true"))
                 bMaximizeBrowser = true;
-
             // Set time to wait for a page to load
             //iPageLoadTimeout = Integer.parseInt(oProp.getProperty("page_load_timeout", "90"));
 
@@ -362,13 +394,18 @@ public class TestBase
         {
             ExtentTest test = ExtentTestManager.startNewTest(oMethod.getName());
             setExtentTest(test);
+            HashMap<String, ArrayList<HashMap<String, String>>> responses = new HashMap<String, ArrayList<HashMap<String, String>>>();
+            DBResult.setResponses(responses);
 
-            WebDriver oDriver = null;
+            WebDriver oDriver;
 
-            if (environment.equalsIgnoreCase("remote"))
+            if (environment.equalsIgnoreCase("remote")) {
                 oDriver = StartRemoteWebDriver(parameters);
-            else
+            }
+            else {
                 oDriver = StartWebDriver(browser);
+                //oDriver.manage().window().setSize(screenDimentions);
+            }
 
             // Only supported for Firefox in current release.
             //oDriver.manage().timeouts().pageLoadTimeout(iPageLoadTimeout, java.util.concurrent.TimeUnit.SECONDS);
@@ -511,12 +548,13 @@ public class TestBase
                 case "ANDROID":
                     DesiredCapabilities capabilities =  DesiredCapabilities.android();
                     capabilities.setCapability("platformName", "Android");
-                    capabilities.setCapability("deviceName", "any");
-                    capabilities.setCapability("app", "/Users/vahanmelikyan/Downloads/app-patient-debug.apk");
+                    capabilities.setCapability("deviceName", "4100fb99e4c73231");
+//                    capabilities.setCapability("app", "/Users/vahanmelikyan/Downloads/app-patient-debug.apk");
+                    capabilities.setCapability("app", "/Users/jaypurohit/Downloads/app-patient-debug-340-4.0.0.20170907.apk");
                     capabilities.setCapability("appPackage", "com.getheal.patient.debug");
                     capabilities.setCapability("appActivity", "com.getheal.patient.activities.InitialActivity");
-                    capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
-                    return new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
+                    //capabilities.setCapability("avd","Nexus_5X"); //to open the emulator automatically, otherwise the emulator needs to be open
+                    return new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"),	capabilities);
                     /* return new org.openqa.selenium.chrome.ChromeDriver(); */
 
                 default:
@@ -547,6 +585,8 @@ public class TestBase
             oRemoteWebDriver =  new RemoteWebDriver(new URL(this.saucelab_url), oRequestCapability);
             Capabilities oTargetCapability = oRemoteWebDriver.getCapabilities();
             logger.trace("Target driver capabilities:  {}", oTargetCapability.toString());
+            sessionID = oRemoteWebDriver.getSessionId().toString();
+            setSessionID(oRemoteWebDriver.getSessionId().toString());
             return oRemoteWebDriver;
         }
         catch (Exception e)
@@ -559,7 +599,7 @@ public class TestBase
         String browserName = parameters.get("browserName");
         String platform = parameters.get("platform");
         DesiredCapabilities capabilities = null;
-        if(platform.equalsIgnoreCase("iphone") || platform.equalsIgnoreCase("android")){
+        if(platform.equalsIgnoreCase("ios") || platform.equalsIgnoreCase("android")){
             capabilities = platform.equalsIgnoreCase("iphone") ? DesiredCapabilities.iphone() : DesiredCapabilities.android();
             capabilities.setCapability("browserName", parameters.get("browserName"));
             capabilities.setCapability("appiumVersion", parameters.get("appiumVersion"));

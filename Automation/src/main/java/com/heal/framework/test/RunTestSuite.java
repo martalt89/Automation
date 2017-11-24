@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import com.heal.framework.foundation.HealCryptography;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
@@ -33,14 +34,22 @@ public class RunTestSuite {
 
     //Identifier for Arguments
     private static final String Run_File = "Run_File";
-
+    public static final String HealCryptography = "HealCryptography";
+    private static int threadCount = 0;
     private static List<String> ToRunTests = new ArrayList<String>();
-
+    private static HealCryptography cryptography;
     private static HashMap<String, String> excelParams;
 
     public static void main(String[] args) throws IOException {
 
         HashMap<String, String> argMap = Arguments.parseArguments(args);
+        if(!argMap.containsKey(HealCryptography)){
+            argMap.put(HealCryptography, "");
+        }
+        if(cryptography == null){
+            cryptography = new HealCryptography(argMap.get(HealCryptography));
+        }
+        argMap.remove(HealCryptography);
         logger.info("arguments list", argMap.toString());
         ////////////////////////////////////////
         //  Read test suite from excel file   //
@@ -48,12 +57,22 @@ public class RunTestSuite {
         File oExcel = new File(projDir + fileSeparator + "runs" + fileSeparator + argMap.get(Run_File));
 
         List<XmlSuite> oSuites = new ArrayList<XmlSuite>();
-
-        XmlSuite suite = readFromExcel(oExcel);
-
         excelParams = processParameters(oExcel);
         excelParams.putAll(argMap);
-        
+        threadCount = Integer.parseInt(excelParams.get("threadCount"));
+        if (excelParams.get("ENV").toString().equalsIgnoreCase("qa")){
+            excelParams.replace("baseUrl", ".qa.heal.com");
+            excelParams.replace("ImplicitWait", "30");
+        }else if (excelParams.get("ENV").toString().equalsIgnoreCase("dev")){
+            excelParams.replace("baseUrl", "-dev.heal.com");
+            excelParams.replace("ImplicitWait", "60");
+        } else {
+            System.out.println("The environment is not defined. Currently supported environments are 'QA' and 'DEV'");
+        }
+        System.out.println(excelParams.get("baseUrl").toString());
+        XmlSuite suite = readFromExcel(oExcel);
+
+
         suite.setParameters(excelParams);
         oSuites.add(suite);
         logger.info(suite.toXml());
@@ -83,7 +102,7 @@ public class RunTestSuite {
 
         XmlSuite oSuite = new XmlSuite();
         oSuite.setName(suiteName);
-        oSuite.setThreadCount(5);
+        oSuite.setThreadCount(threadCount);
         oSuite.setParallel(XmlSuite.ParallelMode.METHODS);
         oSuite.setVerbose(2);
         oSuite.setDataProviderThreadCount(1);
@@ -255,5 +274,8 @@ public class RunTestSuite {
     }
     public static List<String> getToRunTests(){
         return ToRunTests;
+    }
+    public static HealCryptography getCryptography(){
+        return cryptography;
     }
 }

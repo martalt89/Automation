@@ -44,7 +44,6 @@ public class RegisterTest extends TestBase {
         RegisterPage registerPage = new RegisterPage(dr);
         registerPage.goTo();
         registerPage.waitForPageLoad();
-
         registerPage.oFirstNameInput.sendKeys(RegisterPage.sRegisterFirstName);
         registerPage.oLastNameNameInput.sendKeys(RegisterPage.sRegisterLastName);
         registerPage.oEmailInput.sendKeys(RegisterPage.sRegisterUserEmail);
@@ -55,6 +54,6 @@ public class RegisterTest extends TestBase {
         registerPage.oCreateAcctBtn.click();
         assertEquals("Verifying page url ", homePage.getCurrentUrl(), RegisterPage.URL);
         verifyVisible("Check the profile avatar icon.", homePage.oAccountOwnerAvatar);
-        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Book a house call");
+        assertEquals("Verifying Visits page title ", homePage.oPageTitle.getText(), "Book Visit");
     }
 }

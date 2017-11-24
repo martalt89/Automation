@@ -84,7 +84,8 @@ public class VisitsAPI extends ApiBase {
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .params(params)
-                .get("https://patient.qa.heal.com/api/patient/visit/timeSlots");
+//                .get("https://patient.qa.heal.com/api/patient/visit/timeSlots");
+                .get(baseURL + "/patient/visit/timeSlots");
 
         String strResponse = response.asString();
         JSONObject obj = new JSONObject(strResponse);
@@ -106,7 +107,7 @@ public class VisitsAPI extends ApiBase {
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
-                .get("https://patient.qa.heal.com/api/v2/patients")
+                .get(baseURL + "/v2/patients")
                 .cookie("SESSION");
 
 
@@ -135,7 +136,7 @@ public class VisitsAPI extends ApiBase {
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
-                .get("https://patient.qa.heal.com/api/v2/patients")
+                .get(baseURL + "/v2/patients")
                 .cookie("SESSION");
 
         Response response = RestAssured.given()
@@ -151,23 +152,39 @@ public class VisitsAPI extends ApiBase {
 
     public String cancelVisit(String visitCode){
 
-        String resourceAPI = "/v4/patient/visit";
+        Map<String, String> cancelParam = new HashMap<>();
+        cancelParam.put("reasonId", "24");
+        cancelParam.put("note", "test");
+
+        String resourceAPI = "/patient/visit/"+visitCode+"/cancel";
         String sessionId = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
-                .get("https://patient.qa.heal.com/api/v2/patients")
+                .get(baseURL + "/v2/patients")
                 .cookie("SESSION");
 
-        Response response = RestAssured.given()
+//        Response response = RestAssured.given()
+//                .auth()
+//                .preemptive()
+//                .basic(sAccUsername, sAccPassword)
+//                .contentType("application/json")
+//                .cookie("SESSION", sessionId)
+//                .body(createVisitPostParams())
+//                .post(baseURL + resourceAPI);
+//        return restUtils.getJsonValue(response.asString(),"visitCode");
+
+        String response = RestAssured.given()
                 .auth()
                 .preemptive()
                 .basic(sAccUsername, sAccPassword)
                 .contentType("application/json")
                 .cookie("SESSION", sessionId)
-                .body(createVisitPostParams())
-                .post(baseURL + resourceAPI);
-        return restUtils.getJsonValue(response.asString(),"visitCode");
+                .body(cancelParam)
+                .post(baseURL + resourceAPI)
+                .asString();
+        System.out.println(response);
+        return response;
     }
 
 

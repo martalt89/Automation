@@ -76,7 +76,7 @@ public class VisitsTest extends TestBase{
 
         createVisit.oVisitSummaryMenu.jsClick();
         createVisit.oBookVisitBtn.click();
-        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
+//        menu.verifyToastMessage("Verify book visit success message",  "Successfully Created Visit");
 
     }
 
@@ -92,7 +92,7 @@ public class VisitsTest extends TestBase{
 
         loginPage.goTo();
         loginPage.waitForPageLoad();
-        loginPage.login("vahan+oc@heal.com","Heal4325");
+        loginPage.login();
 
         menu.selectFromMenu("visits");
 
@@ -132,7 +132,7 @@ public class VisitsTest extends TestBase{
 
         loginPage.goTo();
         loginPage.waitForPageLoad();
-        loginPage.login("vahan+oc@heal.com","Heal4325");
+        loginPage.login();
 
         menu.selectFromMenu("visits");
 

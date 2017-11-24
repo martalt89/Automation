@@ -380,6 +380,7 @@ public class CommonWebElement implements WebElement, Locatable {
     public void sendKeys(CharSequence... arg0) {
         waitForVisible();
         waitForEnabled();
+        // scrollForElement();
         oWebElement.clear();
         oWebElement.sendKeys(arg0);
         if (iThrottleValue != 0)
@@ -420,9 +421,10 @@ public class CommonWebElement implements WebElement, Locatable {
      *                false(will wait for the element to disappear after the click)
      */
     public void clickAndWait(CommonWebElement element, Boolean bAppear) {
+
         waitForEnabled();
         waitForVisible();
-        //System.out.println("Clicking on... " + oBy.toString());
+//        scrollForElement();
         oWebElement.click();
         if (iThrottleValue != 0) {
             try {
@@ -448,7 +450,7 @@ public class CommonWebElement implements WebElement, Locatable {
      *                false(will wait for the element to disappear after the click)
      */
     public void jsClickAndWait(CommonWebElement element, Boolean bAppear) {
-
+//        scrollForElement();
         waitForEnabled();
         //waitForVisible();
         oJavascriptExecutor.executeScript("arguments[0].click()", oWebElement);
@@ -598,9 +600,24 @@ public class CommonWebElement implements WebElement, Locatable {
      * Scroll upto the required element
      */
     public void scrollForElement() {
-        oJavascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight); return true");
+        waitForElement();
+        Point coordinates = oWebElement.getLocation();
+        int xcord = coordinates.getX();
+        int ycord = coordinates.getY();
+//        oJavascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight); return true");
+        oJavascriptExecutor.executeScript("window.scrollTo(" + xcord + ", " + ycord + "); return true");
     }
 
+    /**
+     * Scroll upto the required element
+     */
+    public void scrollForElementTest(CommonWebElement oWebElement) {
+        Point coordinates = oWebElement.getLocation();
+        int xcord = coordinates.getX();
+        int ycord = coordinates.getY();
+//        oJavascriptExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight); return true");
+        oJavascriptExecutor.executeScript("window.scrollTo(" + xcord + ", " + ycord + "); return true");
+    }
     /**
      * Scroll the browser so element is visible.
      */
